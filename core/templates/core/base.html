@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="h-100">
+{% load static %}
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Contato</title>
+  <link rel="icon" href=" static 'core/img/favicon.svg' " type="image/svg+xml">
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/bootstrap-icons.css' %}">
+</head>
+
+<body class="container my-5">
+
+  {% block content %}
+  {% endblock %}
+
+  <script src="{% static 'core/js/bootstrap.bundle.min.js' %}"></script>
+
+</body>
+
+</html>
