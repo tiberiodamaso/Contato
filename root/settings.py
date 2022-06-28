@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'usuarios.apps.UsuariosConfig',
     'core.apps.CoreConfig',
-    'guilherme_boff.apps.GuilhermeBoffConfig',
+    'guilherme_leal.apps.GuilhermeLealConfig',
 ]
 
 MIDDLEWARE = [
