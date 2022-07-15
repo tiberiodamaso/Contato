@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'usuarios.apps.UsuariosConfig',
     'core.apps.CoreConfig',
     'guilherme_leal.apps.GuilhermeLealConfig',
+    'nois_tricota.apps.NoisTricotaConfig',
 ]
 
 MIDDLEWARE = [
