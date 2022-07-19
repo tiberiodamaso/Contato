@@ -3,10 +3,10 @@ from django.contrib.auth.models import AbstractUser
 
 class Usuario(AbstractUser):
 
-    username = models.CharField(max_length=14, unique=True, verbose_name='Usuário')
+    username = models.CharField(max_length=20, unique=True, verbose_name='Username')
     first_name = models.CharField(max_length=20, verbose_name='Primeiro nome')
     last_name = models.CharField(max_length=20, verbose_name='Último nome')
-    email = models.EmailField(verbose_name='E-mail')
+    email = models.EmailField(verbose_name='E-mail', unique=True)
 
     REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
 

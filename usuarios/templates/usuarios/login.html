@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+<div class="row flex-column align-content-center py-4">
+  <div class="col-lg-4 text-center">
+    {% if next == '/nois-tricota/admin/' %}
+    <img src="{% static 'nois_tricota/nois-tricota.jpg' %}" alt="Foto do perfil" class="rounded-circle w-50"
+      style="border: 1px solid gray;">
+    {% endif %}
+  </div>
+</div>
+<form method="post" class="col-8 d-flex flex-column m-auto">
+  {% csrf_token %}
+  {{form.as_p}}
+  <button type="submit" class="btn btn-primary">Entrar</button>
+</form>
+
+{% endblock %}

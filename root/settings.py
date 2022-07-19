@@ -137,3 +137,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MESSAGES_TAGS = {
     messages.ERROR: 'danger'
 }
+
+LOGIN_URL= 'usuarios:login'
