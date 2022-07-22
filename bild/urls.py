@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import Administracao, Cartao
+from .views import Administracao, Dashboard, Cartao
 
 app_name = 'bild'
 
 urlpatterns = [
     path('', Administracao.as_view(), name='bild_admin'),
+    path('dashboard', Dashboard.as_view(), name='dashboard'),
     path('guilherme-leal/', Cartao.as_view(), name='guilherme_leal'),
     path('juliana-costa/', Cartao.as_view(), name='juliana_costa'),
     path('tiberio-mendonca/', Cartao.as_view(), name='tiberio_mendonca'),

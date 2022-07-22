@@ -140,3 +140,4 @@ MESSAGES_TAGS = {
 }
 
 LOGIN_URL= 'usuarios:login'
+LOGOUT_REDIRECT_URL = 'core:home'

@@ -11,6 +11,10 @@ class UsuarioLoginView(LoginView):
     form_class = UsuarioAuthenticationForm
 
 
+class UsuarioLogoutView(LogoutView):
+    template_name = 'core/home.html'
+
+
 # @login_required
 # def registrar_usuario(request):
 #     if request.method == 'POST':
