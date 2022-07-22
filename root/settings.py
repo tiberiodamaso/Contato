@@ -41,8 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'usuarios.apps.UsuariosConfig',
     'core.apps.CoreConfig',
-    'guilherme_leal.apps.GuilhermeLealConfig',
     'nois_tricota.apps.NoisTricotaConfig',
+    'cards.apps.CardsConfig',
+    'bild.apps.BildConfig',
 ]
 
 MIDDLEWARE = [

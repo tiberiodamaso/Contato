@@ -128,3 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .vscode/launch.json
+bild/.DS_Store
+bild/static/.DS_Store
+nois_tricota/.DS_Store

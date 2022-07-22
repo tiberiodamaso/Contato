@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+{% include 'core/mensagens.html' %}
+<div class="row flex-column align-content-center py-4">
+  <div class="col-lg-4 text-center">
+  </div>
+</div>
+<form method="post" class="col-8 d-flex flex-column m-auto">
+  {% csrf_token %}
+    {{form.email}}
+    <button type="submit" class="btn btn-primary">Criar conta</button>
+</form>
+
+{% endblock %}
