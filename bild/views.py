@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView, RedirectView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from cards.models import Card
-import re
+import re, request
 
 
 reg_b = re.compile(r"(android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\\.(browser|link)|vodafone|wap|windows ce|xda|xiino", re.I | re.M)
@@ -33,6 +33,11 @@ class Dashboard(TemplateView):
             v = reg_v.search(user_agent[0:4])
             if b or v:
                 return True
+
+    def get_data():
+        url = ''
+        response = request.get(url)
+        data = response.json()['data']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
