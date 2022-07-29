@@ -7,7 +7,9 @@ from google.analytics.data_v1beta.types import MetricType
 from google.analytics.data_v1beta.types import RunReportRequest
 from google.analytics.data_v1beta.types import Filter
 from google.analytics.data_v1beta.types import FilterExpression
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/Users/tiberio/Desktop/Projects/Contato/client_secrets.json'
+from django.conf import settings
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(settings.BASE_DIR, 'client_secrets.json')
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/Users/tiberio/Desktop/Projects/Contato/client_secrets.json'
 
 
 def run_report(property_id, pagina):
