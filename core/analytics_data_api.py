@@ -58,7 +58,6 @@ def run_report(property_id, pagina):
     for row in response.rows:
         print(row)
         print(row.dimension_values[0].value, row.metric_values[0].value)
-        print(row.dimension_values[1].value, row.metric_values[1].value)
 
 if __name__ == "__main__":
     run_report()

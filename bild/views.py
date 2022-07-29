@@ -78,7 +78,6 @@ class DashboardVendedor(TemplateView):
         context['novos_usuarios'] = data[1].value
         context['sessao_media'] = data[2].value
         context['rejeicao'] = data[3].value
-        print(context)
 
         return context
 
