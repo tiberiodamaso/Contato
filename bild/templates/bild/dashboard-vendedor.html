@@ -1,0 +1,119 @@
+{% extends 'core/admin.html' %}
+{% load static %}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container border-bottom py-3">
+    <img src="{% static 'bild/bild-logo.png' %}" alt="logotipo" />
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+      aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav fs-4 ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Início</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'bild:dashboard' %}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">Usuários</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--MOBILE-->
+{% if mobile %}
+<div class="d-flex justify-content-center">
+  <iframe width="100%" height="2850"
+    src="https://datastudio.google.com/embed/reporting/90dc4789-35e5-4eb8-886f-695bd2591690/page/S33B" frameborder="0"
+    style="border:0" allowfullscreen></iframe>
+</div>
+{% else %}
+<!--DESKTOP-->
+<div class="container">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2">Dashboard {{card.primeiro_nome}} {{card.ultimo_nome}}</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group me-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary">Compartilhar</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary">Exportar</button>
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-calendar align-text-bottom" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        This week
+      </button>
+    </div>
+  </div>
+
+  <div class="row align-items-md-stretch my-4">
+    <div class="col-md-4">
+      <div class="h-100 p-3 bg-light rounded-3">
+        <h5 class="pb-4">Aquisição</h5>
+        <div class="d-flex">
+          <div class="col-6 text-center">
+            <div
+              class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
+              <span class="fs-6">Usuários ativos</span>
+              <span class="fs-1">{{usuarios_ativos}}</span>
+            </div>
+          </div>
+          <div class="col-6 text-center">
+            <div
+              class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
+              <span class="fs-6">Novos usuários</span>
+              <span class="fs-1">{{novos_usuarios}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex">
+          <div class="col-6 text-center">
+            <div
+              class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
+              <span class="fs-6">Média de sessão</span>
+              <span class="fs-1">{{sessao_media|floatformat:2}}s</span>
+            </div>
+          </div>
+          <div class="col-6 text-center">
+            <div
+              class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
+              <span class="fs-6">Rejeição</span>
+              <span class="fs-1">{{rejeicao}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="h-100 p-3 bg-light rounded-3">
+        <h5>Engajamento</h5>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="h-100 p-3 bg-light rounded-3">
+        <h5>Retenção</h5>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="h-100 p-3 bg-light rounded-3">
+      <h5>Informações demográficas</h5>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

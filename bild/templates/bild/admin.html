@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav fs-4 ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="#">Início</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'bild:dashboard' %}">Dashboard</a>
@@ -35,7 +35,7 @@
       <img src="{{ cartao.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
       <h2 class="fw-normal">{{cartao.primeiro_nome}} {{cartao.ultimo_nome}}</h2>
       <p>Informações sobre a performance</p>
-      <p><a class="btn btn-warning" href="#">Relatório completo</a></p>
+      <p><a class="btn btn-warning" href="{% url 'bild:dashboard-vendedor' cartao.id %}">Relatório completo</a></p>
     </div>
     {% endfor %}
   </div>
