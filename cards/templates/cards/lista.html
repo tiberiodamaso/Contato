@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'core/dashboard-navbar.html'%}
+
+<div class="container-fluid">
+  <div class="row text-center p-3 justify-content-center">
+    {% for card in cards %}
+    <div class="col-lg-3 col-sm-5 col-12 mt-5 border border-2 rounded-2 mx-2">
+      <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
+      <h2 class="fw-normal">{{cartao.primeiro_nome}} {{cartao.ultimo_nome}}</h2>
+      <p>Informações sobre a performance</p>
+      <p><a class="btn btn-warning" href="{% url 'cards:detalhe' user.empresa.slug card.id %}">Relatório completo</a>
+      </p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

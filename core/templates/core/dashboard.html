@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'core/dashboard-navbar.html'%}
+
+<!--MOBILE-->
+{% if mobile %}
+<div class="d-flex justify-content-center">
+  <iframe width="100%" height="2850"
+    src="https://datastudio.google.com/embed/reporting/90dc4789-35e5-4eb8-886f-695bd2591690/page/S33B" frameborder="0"
+    style="border:0" allowfullscreen></iframe>
+</div>
+{% else %}
+<p>Dashboard Core</p>
+<!--DESKTOP-->
+<div class="d-flex justify-content-center">
+  <iframe width="100%" height="1250"
+    src="https://datastudio.google.com/embed/reporting/af0b4c9e-9e75-4413-8280-d44e024b64ae/page/S33B" frameborder="0"
+    style="border:0" allowfullscreen></iframe>
+</div>
+{% endif %}
+{% endblock %}

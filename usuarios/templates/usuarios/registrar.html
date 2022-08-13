@@ -2,14 +2,26 @@
 {% load static %}
 {% block content %}
 {% include 'core/mensagens.html' %}
-<div class="row flex-column align-content-center py-4">
-  <div class="col-lg-4 text-center">
-  </div>
-</div>
-<form method="post" class="col-8 d-flex flex-column m-auto">
+<form method="post" action="{% url 'usuarios:registrar' %}" class="col-4 d-flex flex-column m-auto">
   {% csrf_token %}
-    {{form.email}}
-    <button type="submit" class="btn btn-primary">Criar conta</button>
+
+  {% for field in form %}
+  <p>
+    {{ field.label_tag }}
+    {{ field }}
+    {% if field.help_text %}
+      <small style="color: grey">{{ field.help_text }}</small>
+    {% endif %}
+    {% for error in field.errors %}
+      <div class="alert alert-danger text-center alert-dismissible" role="alert">
+        {{error}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  </p>
+  {% endfor %}
+
+  <button type="submit" class="btn btn-primary">Criar conta</button>
 </form>
 
 {% endblock %}

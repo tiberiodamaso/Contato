@@ -1,8 +1,9 @@
 {% if messages %}
     {% for message in messages %}
     <div class="d-flex justify-content-center my-5" id="id_message">
-      <div class="alert alert-{{message.tags}} text-center col-5 fs-5" role="alert">
+      <div class="alert alert-{{message.tags}} text-center col-4 alert-dismissible" role="alert">
         {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     </div>
     {% endfor %}

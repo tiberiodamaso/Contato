@@ -1,32 +1,8 @@
-{% extends 'core/admin.html' %}
+{% extends 'core/base.html' %}
 {% load static %}
 {% block content %}
 
-<nav class="navbar navbar-expand-lg">
-  <div class="container border-bottom py-3">
-    <img src="{% static 'bild/bild-logo.png' %}" alt="logotipo" />
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
-      aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-      <ul class="navbar-nav fs-4 ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Início</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'bild:dashboard' %}">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link">Usuários</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+{% include 'core/dashboard-navbar.html'%}
 
 <!--MOBILE-->
 {% if mobile %}
@@ -39,7 +15,7 @@
 <!--DESKTOP-->
 <div class="container">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Dashboard {{card.primeiro_nome}} {{card.ultimo_nome}}</h1>
+    <h1 class="h2">{{card.primeiro_nome}} {{card.ultimo_nome}}</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group me-2">
         <button type="button" class="btn btn-sm btn-outline-secondary">Compartilhar</button>

@@ -3,7 +3,7 @@ from .models import Empresa, Card
 
 
 class EmpresaAdmin(admin.ModelAdmin):
-    list_display = ['id', 'nome', 'criada']
+    list_display = ['id', 'nome', 'slug', 'criada']
 
 
 class CardAdmin(admin.ModelAdmin):
