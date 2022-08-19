@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, TemplateView
 from core import analytics_data_api
-from .models import Card
+from .models import Empresa, Card
 
 reg_b = re.compile(r"(android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\\.(browser|link)|vodafone|wap|windows ce|xda|xiino", re.I | re.M)
 
@@ -22,6 +22,7 @@ class CardsListView(LoginRequiredMixin, ListView):
         ua = self.request.META['HTTP_USER_AGENT']
         queryset = Card.objects.filter(empresa__slug=empresa)
         context['cards'] = queryset
+        context['empresa'] = empresa
         return context
 
 class CardsDetailView(TemplateView):
@@ -45,14 +46,39 @@ class CardsDetailView(TemplateView):
         context = super().get_context_data(**kwargs)
         if self.process_request():
             context['mobile'] = True
+        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
         card = Card.objects.get(id=self.kwargs['pk'])
-        empresa = card.empresa.slug
-        pagina = f'/{str(card.empresa).lower()}/{str(card.primeiro_nome).lower()}-{str(card.ultimo_nome).lower()}/'
-        data = analytics_data_api.run_report(property_id=None, pagina=pagina)
-        context['card'] = card
-        context['usuarios_ativos'] = data[0].value
-        context['novos_usuarios'] = data[1].value
-        context['sessao_media'] = data[2].value
-        context['rejeicao'] = data[3].value
+        pagina = f'/{empresa.slug}/{str(card.primeiro_nome).lower()}-{str(card.ultimo_nome).lower()}/'
+        data_city = analytics_data_api.run_report_city(property_id=None, pagina=pagina)
+        data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
 
+        resultados = {}
+        origens = []
+        usuarios_por_origem = []
+        for row in data_session_origin.rows[0].dimension_values:
+            origens.append(row.value)
+            resultados['origens'] = origens
+        for row in data_session_origin.rows[0].metric_values:
+            usuarios_por_origem = [row.value]
+            resultados['usuarios_por_origem'] = usuarios_por_origem
+
+        context['card'] = card
+
+        # AQUISIÇÃO DE USUÁRIOS
+        context['total_de_usuarios'] = data_city.totals[0].metric_values[0].value
+        context['usuarios_ativos'] = data_city.totals[0].metric_values[1].value
+        context['novos_usuarios'] = data_city.totals[0].metric_values[2].value
+        context['tempo_de_interacao'] = data_city.totals[0].metric_values[3].value
+
+        # AQUISIÇÃO DE TRÁFEGO
+        context['sessoes'] = data_city.totals[0].metric_values[4].value
+        context['duracao_media_sessao'] = data_city.totals[0].metric_values[5].value
+        # context['sessoes_engajadas'] = data.totals[0].metric_values[6].value
+        context['visualizacoes'] = data_city.totals[0].metric_values[7].value
+        # context['visualizacoes_por_sessao'] = data.totals[0].metric_values[8].value
+        context['rejeicao'] = data_city.totals[0].metric_values[9].value
+        context['data'] = data_city
+
+        # ORIGEM DE TRÁFEGO
+        context['resultados'] = resultados
         return context

@@ -11,7 +11,7 @@
       <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
       <h2 class="fw-normal">{{cartao.primeiro_nome}} {{cartao.ultimo_nome}}</h2>
       <p>Informações sobre a performance</p>
-      <p><a class="btn btn-warning" href="{% url 'cards:detalhe' user.empresa.slug card.id %}">Relatório completo</a>
+      <p><a class="btn btn-warning" href="{% url 'cards:detalhe' empresa card.id %}">Relatório completo</a>
       </p>
     </div>
     {% endfor %}

@@ -136,7 +136,7 @@ AUTH_USER_MODEL = 'usuarios.Usuario'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MESSAGES_TAGS = {
+MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
