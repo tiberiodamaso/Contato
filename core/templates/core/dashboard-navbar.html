@@ -12,10 +12,10 @@
             <a class="nav-link" href="{% url 'core:home' %}">Início</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'core:dashboard' empresa %}">Dashboard</a>
+            <a class="nav-link" href="{% url 'core:dashboard' empresa.slug %}">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'cards:lista' empresa %}">Cartões</a>
+            <a class="nav-link" href="{% url 'cards:lista' empresa.slug %}">Cartões</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'usuarios:registrar' %}">Usuários</a>

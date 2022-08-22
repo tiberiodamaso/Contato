@@ -18,9 +18,9 @@ class CardsListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        empresa = self.kwargs['empresa']
+        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
         ua = self.request.META['HTTP_USER_AGENT']
-        queryset = Card.objects.filter(empresa__slug=empresa)
+        queryset = Card.objects.filter(empresa__slug=empresa.slug)
         context['cards'] = queryset
         context['empresa'] = empresa
         return context
@@ -63,6 +63,7 @@ class CardsDetailView(TemplateView):
             resultados['usuarios_por_origem'] = usuarios_por_origem
 
         context['card'] = card
+        context['empresa'] = empresa
 
         # AQUISIÇÃO DE USUÁRIOS
         context['total_de_usuarios'] = data_city.totals[0].metric_values[0].value
