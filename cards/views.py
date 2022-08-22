@@ -74,9 +74,9 @@ class CardsDetailView(TemplateView):
         context['sessoes'] = data_city.totals[0].metric_values[4].value
         context['duracao_media_sessao'] = data_city.totals[0].metric_values[5].value
         # context['sessoes_engajadas'] = data.totals[0].metric_values[6].value
-        context['visualizacoes'] = data_city.totals[0].metric_values[7].value
+        context['visualizacoes'] = data_city.totals[0].metric_values[6].value
         # context['visualizacoes_por_sessao'] = data.totals[0].metric_values[8].value
-        context['rejeicao'] = data_city.totals[0].metric_values[9].value
+        context['rejeicao'] = data_city.totals[0].metric_values[7].value
         context['data'] = data_city
 
         # ORIGEM DE TRÁFEGO

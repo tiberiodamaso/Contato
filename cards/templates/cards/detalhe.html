@@ -5,9 +5,9 @@
 {% include 'core/dashboard-navbar.html'%}
 
 <!--CHARTJS-->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {{resultados|json_script:'resultados'}}
-<canvas id="origens_das_sessoes"></canvas>
+
 
 <!--MOBILE-->
 {% if mobile %}
@@ -117,18 +117,7 @@
       <div class="h-100 p-3 bg-light rounded-3">
         <h5 class="pb-4">Origem do tráfego</h5>
         <div class="d-flex">
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Origens</span>
-              <span class="fs-1"></span>
-            </div>
-          </div>
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Usuários por origem</span>
-              <span class="fs-1"></span>
-            </div>
-          </div>
+          <canvas id="origens_das_sessoes"></canvas>
         </div>
       </div>
     </div>
@@ -140,29 +129,31 @@
       <h5>Informações demográficas</h5>
       <table class="table">
         <thead>
-          <th>Usuários ativos</th>
-          <th>Total usuários</th>
-          <th>Novos usuários</th>
-          <th>Sessões</th>
-          <th>Sessão Média</th>
-          <th>Sessões por usuário</th>
-          <th>Engajamento</th>
-          <th>Visualizações</th>
-          <th>Visualizações por sessão</th>
-          <th>Rejeição</th>
+          <tr>
+            <th></th>
+            <th>Total usuários</th>
+            <th>Usuários ativos</th>
+            <th>Novos usuários</th>
+            <th>Tempo de interação (s)</th>
+            <th>Sessões</th>
+            <th>Duração média da sessão (s)</th>
+            <th>Visualizações</th>
+            <th>Rejeição</th>
+          </tr>
         </thead>
         <tbody>
+          
           {% for row in data.rows %}
-
-          {% for dimension in row.dimension_values %}
-          <tr>{{dimension.value}}</tr>
+          <tr>
+            {% for dimension in row.dimension_values %}
+            <td>{{dimension.value}}</td>
+            {% endfor %}
+            {% for metric in row.metric_values%}
+            <td class="text-center">{{ metric.value|floatformat }}</td>
+            {% endfor %}
+          </tr>
           {% endfor %}
 
-          {% for metric in row.metric_values %}
-          <td>{{metric.value}}</td>
-          {% endfor %}
-
-          {% endfor %}
         </tbody>
       </table>
     </div>
@@ -177,39 +168,20 @@
     chartStatus.destroy();
   }
 
-  let chartData = {
-    labels: resultados.origens,
-    datasets: [
-      {
-        axis: 'y',
-        data: resultados.usuarios_por_origem,
-        backgroundColor: [
-          'rgba(86, 122, 177)',
-        ],
-        borderColor: [
-          'rgba(86, 122, 177)',
-        ],
-        borderWidth: 1
-      },
-    ]
+  const labels = resultados.origens;
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'Usuários',
+      data: resultados.usuarios_por_origem,
+      backgroundColor: ['rgba(255, 193, 7)'],
+      borderColor: ['rgba(255, 193, 7)'],
+      borderWidth: 1
+    }]
   }
-  let chartOptions = {
-    scales: {
-      xAxis: {
-        beginAtZero: true,
-        grid: {
-          display: false,
-        }
-      },
-      yAxis: {
-        beginAtZero: true,
-        ticks: {
-          min: 0,
-          max: 100,
-          stepSize: 10,
-        }
-      }
-    },
+  const config = {
+    type: 'bar',
+    data: data,
     plugins: {
       legend: {
         labels: {
@@ -222,11 +194,20 @@
     },
     options: {
       indexAxis: 'y',
+      scales: {
+        x: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 10
+          }
+        },
+      }
     }
   }
-  
-  let resultadosctx = document.getElementById('origens_das_sessoes').getContext('2d');
-  let resultadosChart = new Chart(resultadosctx, { type: 'bar', data: chartData, options: chartOptions });
+
+  const grafico = new Chart(document.getElementById('origens_das_sessoes'), config);
+  // let resultadosctx = document.getElementById('origens_das_sessoes').getContext('2d');
+  // let resultadosChart = new Chart(resultadosctx, { type: 'bar', data: chartData, options: chartOptions });
 </script>
 
 {% endif %}
