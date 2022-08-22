@@ -2,6 +2,7 @@ from django.views.generic import TemplateView, RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
+
 class Administracao(LoginRequiredMixin, TemplateView):
     template_name = 'nois_tricota/admin.html'
 
