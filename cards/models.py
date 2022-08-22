@@ -3,8 +3,13 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from usuarios.models import Usuario
 
+def get_image_path(instance, filename):
+    empresa = instance.empresa.slug
+    return os.path.join(empresa, filename)
+
 class Empresa(models.Model):
     nome = models.CharField(verbose_name='Nome', max_length=200)
+    logo = models.ImageField(verbose_name='Logotipo', upload_to='logos/', blank=True)
     criada = models.DateField(verbose_name='Criada', auto_now_add=True)
     atualizada = models.DateField(verbose_name='Atualizada', auto_now=True)
     slug = models.SlugField(verbose_name='Slug', unique=True, editable=False)
@@ -21,10 +26,6 @@ class Empresa(models.Model):
         self.slug = slugify(self.nome)
         super().save(*args, **kwargs)
 
-
-def get_image_path(instance, filename):
-    empresa = instance.empresa.slug
-    return os.path.join(empresa, filename)
 
 class Card(models.Model):
     empresa = models.ForeignKey(Empresa, verbose_name='Empresa', on_delete=models.CASCADE, related_name='cards')

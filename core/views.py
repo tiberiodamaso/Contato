@@ -1,5 +1,7 @@
 import re
 from django.views.generic import TemplateView
+from cards.models import Empresa, Card
+from . import analytics_data_api
 
 reg_b = re.compile(r"(android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\\.(browser|link)|vodafone|wap|windows ce|xda|xiino", re.I | re.M)
 
@@ -30,4 +32,39 @@ class DashboardView(TemplateView):
         context = super().get_context_data(**kwargs)
         if self.process_request():
             context['mobile'] = True
+        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
+        pagina = f'/{empresa.slug}/'
+        data_city = analytics_data_api.run_report_city(property_id=None, pagina=pagina)
+        data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
+
+        resultados = {}
+        origens = []
+        usuarios_por_origem = []
+        for row in data_session_origin.rows[0].dimension_values:
+            origens.append(row.value)
+            resultados['origens'] = origens
+        for row in data_session_origin.rows[0].metric_values:
+            usuarios_por_origem = [row.value]
+            resultados['usuarios_por_origem'] = usuarios_por_origem
+
+        # EMPRESA
+        context['empresa'] = empresa
+
+        # AQUISIÇÃO DE USUÁRIOS
+        context['total_de_usuarios'] = data_city.totals[0].metric_values[0].value
+        context['usuarios_ativos'] = data_city.totals[0].metric_values[1].value
+        context['novos_usuarios'] = data_city.totals[0].metric_values[2].value
+        context['tempo_de_interacao'] = data_city.totals[0].metric_values[3].value
+
+        # AQUISIÇÃO DE TRÁFEGO
+        context['sessoes'] = data_city.totals[0].metric_values[4].value
+        context['duracao_media_sessao'] = data_city.totals[0].metric_values[5].value
+        # context['sessoes_engajadas'] = data.totals[0].metric_values[6].value
+        context['visualizacoes'] = data_city.totals[0].metric_values[6].value
+        # context['visualizacoes_por_sessao'] = data.totals[0].metric_values[8].value
+        context['rejeicao'] = data_city.totals[0].metric_values[7].value
+        context['data'] = data_city
+
+        # ORIGEM DE TRÁFEGO
+        context['resultados'] = resultados
         return context
