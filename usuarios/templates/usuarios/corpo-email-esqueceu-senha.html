@@ -1,0 +1,2 @@
+Alguém solicitou uma recuperação de senha para o email {{ email }}. Clique no link abaixo para criar uma nova senha:
+{{ protocol}}://{{ domain }}{% url 'usuarios:esqueceu-senha-link' uidb64=uid token=token %}

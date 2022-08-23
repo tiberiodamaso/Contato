@@ -1,10 +1,13 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% block content %}
-{% include 'core/mensagens.html' %}
-<form method="post" action="{% url 'usuarios:registrar' %}" class="col-4 d-flex flex-column m-auto">
-  {% csrf_token %}
 
+{% include 'core/dashboard-navbar.html' %}
+{% include 'core/mensagens.html' %}
+
+<form method="post" action="{% url 'usuarios:registrar' %}" class="col-10 col-lg-6 py-5 d-flex flex-column m-auto">
+  {% csrf_token %}
+<p class="text-center display-5 mb-5">Registrar novo usuário</p>
 {% for field in form %}
   <p>
     {{ field.label_tag }}
