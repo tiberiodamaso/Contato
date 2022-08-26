@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Tibério Mendonça{% endblock %}
+{% block content %}
+
+<div class="row flex-column align-content-center">
+    <div class="col-lg-4 text-center">
+      <img src="{% static 'nois-tricota/tiberio-mendonca.png' %}" alt="Foto do perfil" class="rounded-circle w-50">
+
+      <h2 class="fw-normal py-3">Tibério Mendonça</h2>
+      <div>
+        <a href="{% static 'nois-tricota/tiberio-mendonca.vcf' %}" class="btn btn-primary">Adicionar na agenda</a>
+      </div>
+      <div class="d-flex justify-content-around py-4">
+        <a href="https://api.whatsapp.com/send?phone=5516996041422" target="_self"><i class="bi bi-whatsapp fs-1" style="color: #06e576;"></i></a>
+        <a href="https://www.instagram.com/oguilhermeleal/" target="_self"><i class="bi bi-instagram fs-1 text-danger"></i></a>
+        <a href="https://www.linkedin.com/in/oguilhermeleal/" target="_self"><i class="bi bi-linkedin fs-1" style="color: #0c66c2;"></i></a>
+        <a href="#"><i class="bi bi-envelope fs-1 text-warning"></i></a>
+        <a href="tel:+5516996041422"><i class="bi bi-telephone fs-1 text-black-50"></i></a>
+      </div>
+    </div><!-- /.col-lg-4 -->
+</div>
+
+  {% endblock %}

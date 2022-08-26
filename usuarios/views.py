@@ -52,7 +52,7 @@ class EsqueceuSenhaFormView(SuccessMessageMixin, PasswordResetView):
     template_name = 'usuarios/esqueceu-senha-form.html'
     form_class = EsqueceuSenhaForm
     email_template_name = 'usuarios/corpo-email-esqueceu-senha.html'
-    from_email = 'email@email.com'
+    from_email = 'tiberio.mendonca@meucontato.app.br'
     subject_template_name = "usuarios/assunto.txt"
     success_url = reverse_lazy('usuarios:login')
     success_message = 'Enviamos um e-mail com instruções para definir sua senha, se uma conta existe com o e-mail que você digitou você deve recebê-lo em breve.'

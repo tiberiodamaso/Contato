@@ -11,7 +11,6 @@ urlpatterns = [
     # resetar senha
     path('esqueceu-senha-form/', EsqueceuSenhaFormView.as_view(), name="esqueceu-senha-form"),
     path('esqueceu-senha-link/<uidb64>/<token>/', EsqueceuSenhaLink.as_view(), name="esqueceu-senha-link"),
-
     path(r'^ativar-conta/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         ativar_conta, name='ativar-conta'),
 ]
