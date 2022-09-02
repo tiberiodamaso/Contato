@@ -3,6 +3,8 @@
 {% block content %}
 
 {% include 'core/dashboard-navbar.html'%}
+<body class="container">
+  
 
 <!--CHARTJS-->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -205,5 +207,6 @@
   // let resultadosctx = document.getElementById('origens_das_sessoes').getContext('2d');
   // let resultadosChart = new Chart(resultadosctx, { type: 'bar', data: chartData, options: chartOptions });
 </script>
+</body>
 
 {% endblock %}

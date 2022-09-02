@@ -5,6 +5,7 @@
 {% include 'core/dashboard-navbar.html' %}
 {% include 'core/mensagens.html' %}
 
+<body class="container">
 <form method="post" action="{% url 'usuarios:registrar' %}" class="col-10 col-lg-6 py-5 d-flex flex-column m-auto">
   {% csrf_token %}
 <p class="text-center display-5 mb-5">Registrar novo usuário</p>
@@ -26,5 +27,5 @@
 
   <button type="submit" class="btn btn-primary">Criar conta</button>
 </form>
-
+</body>
 {% endblock %}

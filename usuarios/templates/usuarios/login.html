@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 {% include 'core/mensagens.html' %}
+<body class="container">
 <div class="min-vh-100 d-flex">
   <form method="post" class="col-8 col-md-6 col-lg-3 d-flex flex-column m-auto">
     {% csrf_token %}
@@ -25,4 +26,5 @@
     <a href="{% url 'usuarios:esqueceu-senha-form' %}" class="text-decoration-none text-center py-4">Esqueci a senha</a>
   </form>
 </div>
+</body>
 {% endblock %}

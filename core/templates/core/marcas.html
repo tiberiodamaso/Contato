@@ -1,0 +1,37 @@
+{% extends 'core/base.html'%}
+{% load static %}
+{% block content %}
+
+<body class="container bg-warning">
+  <!--TEXTO E BOTÃO-->
+  <div class="row d-flex justify-content-center text-center my-5">
+    <h2 class="text-gray">Confira nossos Pilotos Prontos.</h2>
+    <h3 class="text-gray">Se você ficou interessado e quer saber mais informações</h3>
+    <a href="{% url 'core:home' %}" target="_self" rel="dofollow" class="btn w-25 btn-secondary my-3"
+      data-ust_click_tag="Clicou no link Clique aqui">
+      Clique aqui
+    </a>
+  </div>
+
+  <!--CARDS-->
+  <div class="row d-flex justify-content-center text-center">
+    <div class="col-md-8 link-content ">
+      <main id="links" class="my-3">
+        <div class="row">
+          <div class="col-6 my-2">
+            <a href="{% url 'core:bild' %}" target="_blank" data-ust_click_tag="Clicou no link Bild">
+              <img src="{% static 'core/img/bild-logo.png' %}" class="img-fluid rounded" alt="Bild" loading="lazy">
+            </a>
+          </div>
+          <div class="col-6 my-2">
+            <a href="{% url 'core:perplan' %}" target="_blank" data-ust_click_tag="Clicou no link Copema">
+              <img src="{% static 'core/img/perplan-logo.png' %}" class="img-fluid rounded" alt="Copema" loading="lazy">
+            </a>
+          </div>
+        </div>
+      </main>
+     
+    </div>
+  </div>
+</body>
+{% endblock %}

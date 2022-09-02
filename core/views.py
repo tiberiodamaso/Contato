@@ -68,3 +68,14 @@ class DashboardView(TemplateView):
         # ORIGEM DE TRÁFEGO
         context['resultados'] = resultados
         return context
+
+class Marcas(TemplateView):
+    template_name = 'core/marcas.html'
+
+
+class Bild(TemplateView):
+    template_name = 'core/bild.html'
+
+
+class Perplan(TemplateView):
+    template_name = 'core/copema.html'
