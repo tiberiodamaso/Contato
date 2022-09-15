@@ -38,6 +38,7 @@ class Card(models.Model):
     telefone = models.CharField(verbose_name='Telefone', max_length=30, unique=True)
     criado = models.DateField(verbose_name='Criado', auto_now_add=True)
     atualizado = models.DateField(verbose_name='Atualizado', auto_now=True)
+    nome = models.CharField(verbose_name='Nome', max_length=200)
 
     class Meta:
         verbose_name = 'Cartão'
@@ -46,3 +47,6 @@ class Card(models.Model):
     def __str__(self):
         return self.primeiro_nome + self.ultimo_nome
 
+    def save(self, *args, **kwargs):
+        self.nome = f'{self.primeiro_nome.lower()}-{self.ultimo_nome.lower()}'
+        super().save(*args, **kwargs)

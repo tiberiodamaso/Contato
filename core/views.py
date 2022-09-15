@@ -33,7 +33,7 @@ class DashboardView(TemplateView):
         if self.process_request():
             context['mobile'] = True
         empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
-        pagina = f'/{empresa.slug}/'
+        pagina = f'/dashboard/{empresa.slug}/'
         data_city = analytics_data_api.run_report_city(property_id=None, pagina=pagina)
         data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
 
@@ -78,4 +78,4 @@ class Bild(TemplateView):
 
 
 class Perplan(TemplateView):
-    template_name = 'core/copema.html'
+    template_name = 'core/perplan.html'

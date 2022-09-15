@@ -47,8 +47,9 @@ class CardsDetailView(TemplateView):
         if self.process_request():
             context['mobile'] = True
         empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
-        card = Card.objects.get(id=self.kwargs['pk'])
-        pagina = f'/{empresa.slug}/{str(card.primeiro_nome).lower()}-{str(card.ultimo_nome).lower()}/'
+        card = Card.objects.get(nome=self.kwargs['nome'])
+        # pagina = f'/{empresa.slug}/{card.id}/'
+        pagina = f'/{empresa.slug}/{card.nome}/'
         data_city = analytics_data_api.run_report_city(property_id=None, pagina=pagina)
         data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
 
