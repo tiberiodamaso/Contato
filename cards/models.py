@@ -48,5 +48,5 @@ class Card(models.Model):
         return self.primeiro_nome + self.ultimo_nome
 
     def save(self, *args, **kwargs):
-        self.nome = f'{slugify(self.primeiro_nome.lower())}-{slugify(self.ultimo_nome.lower())}'
+        self.nome = slugify(self.primeiro_nome + '-' + self.ultimo_nome)
         super().save(*args, **kwargs)
