@@ -11,15 +11,24 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'core:home' %}">Início</a>
         </li>
+        {% if user.is_authenticated and user.is_staff %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'core:dashboard' empresa.slug %}">Dashboard</a>
+          <a class="nav-link" href="{% url 'core:dashboard' user.empresa_gerentes.first.slug %}">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'cards:lista' empresa.slug %}">Cartões</a>
+          <a class="nav-link" href="{% url 'usuarios:registrar' %}">Corretores</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'usuarios:registrar' %}">Usuários</a>
+          <a class="nav-link" href="{% url 'core:lista' user.empresa_gerentes.first.slug %}">Cards</a>
         </li>
+        {% elif user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'core:detalhe' user.empresa_vendedores.first.slug user.cards.first.slug %}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'core:editar' user.empresa_vendedores.first.slug user.cards.first.slug %}">Meu card</a>
+        </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>
         </li>

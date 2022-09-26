@@ -69,6 +69,7 @@ class DashboardView(TemplateView):
         context['resultados'] = resultados
         return context
 
+
 class Marcas(TemplateView):
     template_name = 'core/marcas.html'
 

@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from django import forms
 from .models import Usuario
+from django.template.defaultfilters import slugify
 
 
 class UsuarioAuthenticationForm(AuthenticationForm):
@@ -22,20 +23,19 @@ class UsuarioRegistrationForm(UserCreationForm):
         attrs={'class': 'form-control'}), help_text='Somente o primeiro nome do nome, mesmo que composto')
     last_name = forms.CharField(max_length=50, label='Último nome', widget=forms.TextInput(
         attrs={'class': 'form-control'}), help_text='Somente o último nome do sobrenome')
-    # empresa = forms.CharField(max_length=50, label='Empresa', widget=forms.TextInput(
-    #     attrs={'class': 'form-control'}), help_text='Empresa')
 
     class Meta:
         model = Usuario
-        fields = ('email', 'username', 'first_name', 'last_name')
+        # fields = ('email', 'username', 'first_name', 'last_name')
+        fields = ('email', 'first_name', 'last_name')
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
 
-        self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['username'].label = 'Nome de usuário'
-        self.fields['password1'].widget.attrs['class'] = 'form-control'
-        self.fields['password2'].widget.attrs['class'] = 'form-control'
+        # self.fields['username'].widget.attrs['class'] = 'form-control'
+        # self.fields['username'].label = 'Nome de usuário'
+        # self.fields['password1'].widget.attrs['class'] = 'form-control'
+        # self.fields['password2'].widget.attrs['class'] = 'form-control'
 
 
 class TrocaSenhaForm(PasswordChangeForm):

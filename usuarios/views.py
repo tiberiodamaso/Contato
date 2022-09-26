@@ -3,6 +3,7 @@ from django.views.generic import CreateView, TemplateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import PasswordChangeView, LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from .forms import UsuarioAuthenticationForm, UsuarioRegistrationForm, TrocaSenhaForm, EsqueceuSenhaForm, EsqueceuSenhaLinkForm
@@ -12,6 +13,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
+from django.template.defaultfilters import slugify
+from .models import Usuario
 
 
 class LoginView(LoginView):
@@ -19,9 +22,14 @@ class LoginView(LoginView):
     form_class = UsuarioAuthenticationForm
 
     def get_success_url(self):
-        url = self.get_redirect_url()
-        empresa = self.request.user.empresas.all().first().slug
-        return url or reverse('core:dashboard', kwargs={'empresa': empresa})
+        user  = self.request.user
+        if user.is_staff:
+            empresa = self.request.user.empresa_gerentes.first().slug 
+            return reverse('core:dashboard', kwargs={'empresa': empresa})
+        else:
+            empresa = self.request.user.empresa_vendedores.first().slug
+            slug = self.request.user.cards.first().slug
+            return reverse('core:editar', kwargs={'empresa': empresa, 'slug': slug})
 
 
 class LogoutView(LogoutView):
@@ -30,22 +38,35 @@ class LogoutView(LogoutView):
 
 class RegistrarView(SuccessMessageMixin, CreateView):
     template_name = 'usuarios/registrar.html'
-    success_url = '.'
+    success_url = reverse_lazy('usuarios:registrar')
     form_class = UsuarioRegistrationForm
-    success_message = "Usuário criado com sucesso"
+    success_message = "Corretor cadastrado com sucesso!"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        empresa = self.request.user.empresas.first()
+        empresa = self.request.user.empresa_gerentes.first()
         context['empresa'] = empresa
         return context
+
+    def post(self, request, *args, **kwargs):
+        empresa = self.request.user.empresa_gerentes.first()
+        email = self.request.POST['email']
+        first_name = self.request.POST['first_name']
+        last_name = self.request.POST['last_name']
+        username = f'{slugify(first_name)}.{slugify(last_name)}'
+        password1 = Usuario.objects.make_random_password()
+        password2 = password1
+        usuario = Usuario.objects.create(email=email, first_name=first_name, last_name=last_name, username=username, password=password1)
+        empresa.vendedores.add(usuario)
+        empresa.save()
+        return super().post(request, *args, **kwargs)
 
 
 class TrocarSenha(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
     form_class = TrocaSenhaForm
     template_name = 'usuarios/trocar-senha.html'
     success_url = reverse_lazy('core:home')
-    success_message = 'Senha alterada com sucesso'
+    success_message = 'Senha alterada com sucesso!'
 
 
 class EsqueceuSenhaFormView(SuccessMessageMixin, PasswordResetView):

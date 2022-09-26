@@ -16,15 +16,9 @@
         <li class="nav-item">
           <a class="nav-link">Ajuda</a>
         </li>
-        {% if user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'core:dashboard' user.empresas.all.first.slug %}">Dashboard</a>
-        </li>
-        {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'usuarios:login' %}">Minha conta</a>
         </li>
-        {% endif %}
         <li class="nav-item">
           <a class="nav-link btn btn-warning">Comprar</a>
         </li>

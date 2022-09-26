@@ -8,7 +8,6 @@ class Usuario(AbstractUser):
     first_name = models.CharField(max_length=20, verbose_name='Primeiro nome')
     last_name = models.CharField(max_length=20, verbose_name='Último nome')
     email = models.EmailField(verbose_name='E-mail', unique=True)
-    # empresa = models.ForeignKey(Empresa, verbose_name='Empresa', on_delete=models.CASCADE, related_name='usuarios')
 
     REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
 
