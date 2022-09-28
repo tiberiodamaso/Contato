@@ -15,7 +15,6 @@ def get_image_path(instance, filename):
 
 class Empresa(models.Model):
     nome = models.CharField(verbose_name='Nome', max_length=200)
-    # logo = models.ImageField(verbose_name='Logotipo', upload_to=get_image_path, blank=True)
     logotipo = models.FileField(verbose_name='Logotipo', upload_to=get_image_path, blank=True, validators=[validate_file_extension])
     criada = models.DateField(verbose_name='Criada', auto_now_add=True)
     atualizada = models.DateField(verbose_name='Atualizada', auto_now=True)
@@ -38,7 +37,6 @@ class Empresa(models.Model):
 
 class Card(models.Model):
     empresa = models.ForeignKey(Empresa, verbose_name='Empresa', on_delete=models.CASCADE, related_name='cards')
-    # img_perfil = models.ImageField(verbose_name='Foto perfil', upload_to=get_image_path, null=True, blank=True)
     img_perfil = models.FileField(verbose_name='Foto perfil', upload_to=get_image_path, blank=True, validators=[validate_file_extension])
     whatsapp = models.CharField(verbose_name='Whatsapp', max_length=30)
     facebook = models.URLField(verbose_name='Facebook', max_length=200)
