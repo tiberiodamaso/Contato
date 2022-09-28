@@ -25,11 +25,11 @@ class LoginView(LoginView):
         user  = self.request.user
         if user.is_staff:
             empresa = self.request.user.empresa_gerentes.first().slug 
-            return reverse('core:dashboard', kwargs={'empresa': empresa})
+            return reverse('core:dashboard-empresa', kwargs={'empresa': empresa})
         else:
             empresa = self.request.user.empresa_vendedores.first().slug
             slug = self.request.user.cards.first().slug
-            return reverse('core:editar', kwargs={'empresa': empresa, 'slug': slug})
+            return reverse('core:dashboard-card', kwargs={'empresa': empresa, 'slug': slug})
 
 
 class LogoutView(LogoutView):

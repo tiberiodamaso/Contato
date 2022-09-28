@@ -1,217 +1,171 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% block title %}{{card.usuario.first_name}} {{card.usuario.last_name}}{% endblock %}
 {% block content %}
 
-{% include 'core/menu-interno.html'%}
 <body class="container">
-  
-<!--CHARTJS-->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-{{resultados|json_script:'resultados'}}
 
-
-<!--MOBILE-->
-{% if mobile %}
-<div class="d-flex justify-content-center">
-  <iframe width="100%" height="2850"
-    src="https://datastudio.google.com/embed/reporting/90dc4789-35e5-4eb8-886f-695bd2591690/page/S33B" frameborder="0"
-    style="border:0" allowfullscreen></iframe>
-</div>
-{% else %}
-<!--DESKTOP-->
-<div class="container">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">{{card.primeiro_nome}} {{card.ultimo_nome}} nos últimos 30 dias</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-      <!-- <div class="btn-group me-2">
-        <button type="button" class="btn btn-sm btn-outline-secondary">Compartilhar</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary">Exportar</button>
-      </div>
-      <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="feather feather-calendar align-text-bottom" aria-hidden="true">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-          <line x1="16" y1="2" x2="16" y2="6"></line>
-          <line x1="8" y1="2" x2="8" y2="6"></line>
-          <line x1="3" y1="10" x2="21" y2="10"></line>
-        </svg>
-        Essa semana
-      </button> -->
-    </div>
-  </div>
-
-  <div class="row align-items-md-stretch my-4">
-
-    <!--AQUISIÇÃO DE USUÁRIOS-->
-    <div class="col-md-4">
-      <div class="h-100 p-3 bg-light rounded-3">
-        <h5 class="pb-4">Aquisição de usuários</h5>
-        <div class="d-flex">
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Total de usuários</span>
-              <span class="fs-1">{{total_de_usuarios}}</span>
-            </div>
-          </div>
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Usuários ativos</span>
-              <span class="fs-1">{{usuarios_ativos}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="d-flex">
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Novos usuários</span>
-              <span class="fs-1">{{novos_usuarios}}</span>
-            </div>
-          </div>
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Tempo de interação</span>
-              <span class="fs-1">{{tempo_de_interacao|floatformat:2}}s</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--AQUISIÇÃO DE TRÁFEGO-->
-    <div class="col-md-4">
-      <div class="h-100 p-3 bg-light rounded-3">
-        <h5 class="pb-4">Aquisição de tráfego</h5>
-        <div class="d-flex">
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Visualizações</span>
-              <span class="fs-1">{{visualizacoes}}</span>
-            </div>
-          </div>
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Sessões</span>
-              <span class="fs-1">{{sessoes}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="d-flex">
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Duração média da sessão</span>
-              <span class="fs-1">{{duracao_media_sessao|floatformat:2}}s</span>
-            </div>
-          </div>
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Rejeição</span>
-              <span class="fs-1">{{rejeicao|floatformat}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--ORIGEM DE TRÁFEGO-->
-    <div class="col-md-4">
-      <div class="h-100 p-3 bg-light rounded-3">
-        <h5 class="pb-4">Origem do tráfego</h5>
-        <div class="d-flex">
-          <canvas id="origens_das_sessoes"></canvas>
-        </div>
+  <!--EMPRESA-->
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="col-12 col-lg-8">
+      <div>
+        <a href="{{empresa.site}}">
+          <img src="{{empresa.logotipo.url}}" class="w-100" alt="" loading="lazy">
+        </a>
       </div>
     </div>
   </div>
 
-  <!--INFORMAÇÕES DEMOGRÁFICAS-->
-  <div class="col-md-12">
-    <div class="h-100 p-3 bg-light rounded-3">
-      <h5>Informações demográficas</h5>
-      <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Total usuários</th>
-            <th>Usuários ativos</th>
-            <th>Novos usuários</th>
-            <th>Tempo de interação (s)</th>
-            <th>Sessões</th>
-            <th>Duração média da sessão (s)</th>
-            <th>Visualizações</th>
-            <th>Rejeição</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          {% for row in data.rows %}
-          <tr>
-            {% for dimension in row.dimension_values %}
-            <td>{{dimension.value}}</td>
-            {% endfor %}
-            {% for metric in row.metric_values%}
-            <td class="text-center">{{ metric.value|floatformat }}</td>
-            {% endfor %}
-          </tr>
-          {% endfor %}
+  <!--VENDEDOR-->
+  <div class="row flex-column align-content-center my-5">
+    <div class="col-lg-8 col-12 text-center">
+      <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid" loading="lazy">
 
-        </tbody>
-      </table>
+      <h2 class="fw-normal pt-3">{{card.usuario.first_name}} {{card.usuario.last_name}}</h2>
+      <h3 class="lead pb-3">Corretor Bild</h3>
+      <div class="d-flex justify-content-center my-2 rounded" style="background-color: #FF914D;">
+        <a href="https://api.whatsapp.com/send?phone={{card.whatsapp}}" target="_self" class="btn fs-2 text-white w-100"><i
+            class="bi bi-whatsapp px-3"></i>Whatsapp</a>
+      </div>
+      <div class="d-flex justify-content-center my-2 rounded" style="background-color: #FF914D;">
+        <a href="{% static 'bild/guilherme-leal.vcf' %}" class="btn text-white fs-2 w-100"><i
+            class="bi bi-person-badge px-3"></i>Adicionar na agenda</a>
+      </div>
+      <div class="d-flex justify-content-around py-4">
+        <a href="https://api.whatsapp.com/send?phone={{card.whatsapp}}" target="_self"><i class="bi bi-whatsapp fs-1 text-black-50"></i></a>
+        <a href="{{card.instagram}}/" target="_self"><i
+            class="bi bi-instagram fs-1 text-black-50"></i></a>
+        <a href="{{card.facebook}}/" target="_self"><i
+            class="bi bi-facebook fs-1 text-black-50"></i></a>
+        <a href="{{card.linkedin}}/" target="_self"><i class="bi bi-linkedin fs-1 text-black-50"></i></a>
+        <a href="mailto:{{card.usuario.email}}"><i class="bi bi-envelope fs-1 text-black-50"></i></a>
+        <a href="tel:+55{{card.telefone}}"><i class="bi bi-telephone fs-1 text-black-50"></i></a>
+      </div>
+    </div><!-- /.col-lg-4 -->
+  </div>
+
+  <!--DESTAQUES DO MÊS-->
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="col-12 col-lg-8">
+      <h2 class="fs-1">Destaques do mês</h2>
+      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <a href="https://lp.bild.com.br/ribeirao_evero">
+              <img src="{% static 'bild/bild-destaque-2.jpg' %}" class="d-block w-100" alt="ribeirao_evero"
+                loading="lazy">
+            </a>
+          </div>
+          <div class="carousel-item">
+            <a
+              href="https://go.bild.com.br/sonance?utm_source=site&utm_medium=organico&utm_campaign=banner&utm_id=sonance">
+              <img src="{% static 'bild/bild-destaque-3.jpg' %}" class="d-block w-100" alt="sonance" loading="lazy">
+            </a>
+          </div>
+          <div class="carousel-item">
+            <a href="https://go.bild.com.br/sette">
+              <img src="{% static 'bild/bild-destaque-4.jpg' %}" class="d-block w-100" alt="sette" loading="lazy">
+            </a>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Próximo</span>
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-  let resultados = JSON.parse(document.querySelector("#resultados").textContent);
-  let chartStatus = Chart.getChart("origens_das_sessoes"); // <canvas> id
+  <!--LANÇAMENTOS-->
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="col-12 col-lg-8">
+      <h2 class="fs-1">Lançamentos</h2>
+      <div>
+        <a href="https://www.bild.com.br/imoveis/ribeirao-preto?step=lancamento">
+          <img src="{% static 'bild/bild-block-lancamentos.svg' %}" class="w-100" alt="">
+        </a>
+      </div>
+    </div>
+  </div>
 
-  if (chartStatus != undefined) {
-    chartStatus.destroy();
-  }
+  <!--OBRAS-->
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="col-12 col-lg-8">
+      <h2 class="fs-1">Obras</h2>
+      <div>
+        <a href="https://www.bild.com.br/imoveis/ribeirao-preto?step=em-obras">
+          <img src="{% static 'bild/bild-block-em-obras.min.svg' %}" class="w-100" alt="" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
 
-  const labels = resultados.origens;
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: 'Usuários',
-      data: resultados.usuarios_por_origem,
-      backgroundColor: ['rgba(255, 193, 7)'],
-      borderColor: ['rgba(255, 193, 7)'],
-      borderWidth: 1
-    }]
-  }
-  const config = {
-    type: 'bar',
-    data: data,
-    plugins: {
-      legend: {
-        labels: {
-          boxWidth: 5,
-          font: {
-            size: 20,
-          }
-        }
-      }
-    },
-    options: {
-      indexAxis: 'y',
-      scales: {
-        x: {
-          beginAtZero: true,
-          ticks: {
-            stepSize: 10
-          }
-        },
-      }
-    }
-  }
+  <!--PRONTOS PRA MORAR-->
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="col-12 col-lg-8">
+      <h2 class="fs-1">Prontos pra morar</h2>
+      <div>
+        <a href="https://www.bild.com.br/imoveis/ribeirao-preto?step=prontos-para-morar">
+          <img src="{% static 'bild/bild-block-prontos-pra-morar.svg' %}" class="w-100" alt="" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
 
-  const grafico = new Chart(document.getElementById('origens_das_sessoes'), config);
-  // let resultadosctx = document.getElementById('origens_das_sessoes').getContext('2d');
-  // let resultadosChart = new Chart(resultadosctx, { type: 'bar', data: chartData, options: chartOptions });
-</script>
+  <!--VÍDEOS-->
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="col-12 col-lg-8">
+      <h2 class="fs-1">Conheça mais</h2>
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/sLkYtswMT94" title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+  </div>
 
-{% endif %}
+  <!--AGENDE UMA VISITA-->
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="col-12 col-lg-8">
+      <h2 class="fs-1">Agende uma visita</h2>
+      <div>
+        <a href="https://api.whatsapp.com/send?phone={{card.whatsapp}}" target="_self">
+          <img src="{% static 'bild/bild-block-agende-uma-visita.svg' %}" class="w-100" alt="" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!--REDES SOCIAIS-->
+  <div class="d-flex justify-content-center pb-5">
+    <a href="https://api.whatsapp.com/send?phone={{card.whatsapp}}" target="_self" class="px-3"><i
+        class="bi bi-whatsapp fs-4 text-black-50"></i></a>
+    <a href="{{card.instagram}}" target="_self" class="px-3"><i
+        class="bi bi-instagram fs-4 text-black-50"></i></a>
+    <a href="{{card.facebook}}" target="_self" class="px-3"><i
+        class="bi bi-facebook fs-4 text-black-50"></i></a>
+    <a href="{{card.linkedin}}" target="_self" class="px-3"><i
+        class="bi bi-linkedin fs-4 text-black-50"></i></a>
+    <a href="mailto:{{card.usuario.email}}" class="px-3"><i class="bi bi-envelope fs-4 text-black-50"></i></a>
+    <a href="tel:+55{{card.telefone}}" class="px-3"><i class="bi bi-telephone fs-4 text-black-50"></i></a>
+  </div>
+
 </body>
 
 {% endblock %}

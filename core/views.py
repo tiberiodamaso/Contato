@@ -11,8 +11,8 @@ class HomeView(TemplateView):
     template_name = 'core/home.html'
 
 
-class DashboardView(TemplateView):
-    template_name = 'core/dashboard.html'
+class EmpresaDashboardView(TemplateView):
+    template_name = 'core/dashboard-empresa.html'
 
     def process_request(self):
         self.request.mobile = False

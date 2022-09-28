@@ -1,15 +1,16 @@
 from django.urls import path
-from .views import HomeView, DashboardView, Marcas, Bild, Perplan
-from cards.views import CardEditView, CardListView, CardDashboardView
+from .views import HomeView, EmpresaDashboardView, Marcas, Bild, Perplan
+from cards.views import CardEditView, CardListView, CardDashboardView, CardDetailView
 
 app_name = 'core'
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
-    path('<slug:empresa>/dashboard/', DashboardView.as_view(), name='dashboard'),
-    path('<slug:empresa>/dashboard/<slug:slug>/', CardDashboardView.as_view(), name='detalhe'),
+    path('<slug:empresa>/dashboard/', EmpresaDashboardView.as_view(), name='dashboard-empresa'),
+    path('<slug:empresa>/dashboard/<slug:slug>/', CardDashboardView.as_view(), name='dashboard-card'),
     path('<slug:empresa>/cards/', CardListView.as_view(), name='lista'),
     path('<slug:empresa>/card/editar/<slug:slug>/', CardEditView.as_view(), name='editar'),
+    path('<slug:empresa>/card/<slug:slug>/', CardDetailView.as_view(), name='detalhe'),
 
 
     path('marcas/', Marcas.as_view(), name='marcas'),

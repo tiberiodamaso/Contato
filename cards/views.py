@@ -2,7 +2,7 @@ import re
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import ListView, TemplateView, UpdateView
+from django.views.generic import ListView, TemplateView, UpdateView, DetailView
 from core import analytics_data_api
 from .models import Empresa, Card
 from .forms import CardEditForm
@@ -28,7 +28,7 @@ class CardListView(LoginRequiredMixin, ListView):
         return context
 
 class CardDashboardView(TemplateView):
-    template_name = 'cards/detalhe.html'
+    template_name = 'cards/dashboard-card.html'
 
     def process_request(self):
         self.request.mobile = False
@@ -97,5 +97,18 @@ class CardEditView(SuccessMessageMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         card = Card.objects.get(slug=self.kwargs['slug'])
         empresa = card.empresa
+        context['empresa'] = empresa
+        return context
+
+
+class CardDetailView(DetailView):
+    model = Card
+    template_name = 'cards/detalhe.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        card = Card.objects.get(slug=self.kwargs['slug'])
+        empresa = card.empresa
+        context['card'] = card
         context['empresa'] = empresa
         return context

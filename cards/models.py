@@ -2,19 +2,27 @@ import os
 from django.db import models
 from django.template.defaultfilters import slugify
 from usuarios.models import Usuario
+from django.conf import settings
+from .utils import validate_file_extension
 
 def get_image_path(instance, filename):
-    empresa = instance.empresa.slug
-    return os.path.join(empresa, filename)
+    print(instance)
+    if 'Empresa' in instance.__doc__:
+        instance = instance.slug
+    else:
+        instance = instance.empresa.slug
+    return os.path.join(instance, filename)
 
 class Empresa(models.Model):
     nome = models.CharField(verbose_name='Nome', max_length=200)
-    logo = models.ImageField(verbose_name='Logotipo', upload_to='logos/', blank=True)
+    # logo = models.ImageField(verbose_name='Logotipo', upload_to=get_image_path, blank=True)
+    logotipo = models.FileField(verbose_name='Logotipo', upload_to=get_image_path, blank=True, validators=[validate_file_extension])
     criada = models.DateField(verbose_name='Criada', auto_now_add=True)
     atualizada = models.DateField(verbose_name='Atualizada', auto_now=True)
     slug = models.SlugField(verbose_name='Slug', unique=True, editable=False)
     gerentes = models.ManyToManyField(Usuario, verbose_name='Gerentes', related_name='empresa_gerentes')
     vendedores = models.ManyToManyField(Usuario, verbose_name='Vendedores', related_name='empresa_vendedores')
+    site = models.URLField(verbose_name='Site')
 
     class Meta:
         verbose_name = 'Empresa'
@@ -30,10 +38,12 @@ class Empresa(models.Model):
 
 class Card(models.Model):
     empresa = models.ForeignKey(Empresa, verbose_name='Empresa', on_delete=models.CASCADE, related_name='cards')
-    img_perfil = models.ImageField(verbose_name='Foto perfil', default='', upload_to=get_image_path, null=True, blank=True)
+    # img_perfil = models.ImageField(verbose_name='Foto perfil', upload_to=get_image_path, null=True, blank=True)
+    img_perfil = models.FileField(verbose_name='Foto perfil', upload_to=get_image_path, blank=True, validators=[validate_file_extension])
     whatsapp = models.CharField(verbose_name='Whatsapp', max_length=30)
     facebook = models.URLField(verbose_name='Facebook', max_length=200)
     instagram = models.URLField(verbose_name='Instagram', max_length=200)
+    linkedin = models.URLField(verbose_name='Linkedin', max_length=200)
     telefone = models.CharField(verbose_name='Telefone', max_length=30, unique=True)
     criado = models.DateField(verbose_name='Criado', auto_now_add=True)
     atualizado = models.DateField(verbose_name='Atualizado', auto_now=True)
