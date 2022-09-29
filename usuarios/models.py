@@ -9,7 +9,8 @@ class Usuario(AbstractUser):
     last_name = models.CharField(max_length=20, verbose_name='Último nome')
     email = models.EmailField(verbose_name='E-mail', unique=True)
 
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name', 'last_name']
 
     class Meta:
         verbose_name = 'Usuário'

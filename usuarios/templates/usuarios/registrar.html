@@ -9,27 +9,21 @@
   <form method="post" action="{% url 'usuarios:registrar' %}" class="col-10 col-lg-6 py-5 d-flex flex-column m-auto">
     {% csrf_token %}
     <p class="text-center display-5 mb-5">Registrar novo corretor</p>
-    {% for error in field.errors %}
-    <div class="alert alert-danger text-center alert-dismissible" role="alert">
-      {{error}}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+    {% for field in form %}
+    <p>
+      {{ field.label_tag }}
+      {{ field }}
+      {% if field.help_text %}
+        <small style="color: grey">{{ field.help_text }}</small>
+      {% endif %}
+      {% for error in field.errors %}
+        <div class="alert alert-danger text-center alert-dismissible" role="alert">
+          {{error}}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </p>
     {% endfor %}
-    <div class="my-3">
-      {{form.email.label_tag}}
-      {{form.email}}
-      <small style="color: grey">{{form.email.help_text}}</small>
-    </div>
-    <div class="my-3">
-      {{form.first_name.label_tag}}
-      {{form.first_name}}
-      <small style="color: grey">{{form.first_name.help_text}}</small>
-    </div>
-    <div class="my-3">
-      {{form.last_name.label_tag}}
-      {{form.last_name}}
-      <small style="color: grey">{{form.last_name.help_text}}</small>
-    </div>
     <button type="submit" class="btn btn-primary">Criar conta</button>
   </form>
 </body>
@@ -38,18 +32,41 @@
 
 
 <!--FORM DO DJANGO UTILIZANDO TODOS OS CAMPOS DEFAULT-->
-{% for field in form }
+{% for field in form %}
 <p>
   {{ field.label_tag }}
   {{ field }}
-  {% if field.help_text }
+  {% if field.help_text %}
   <small style="color: grey">{{ field.help_text }}</small>
-  {% endif }
-  {% for error in field.errors }
+  {% endif %}
+  {% for error in field.errors %}
 <div class="alert alert-danger text-center alert-dismissible" role="alert">
   {{error}}
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
-{% endfor }
+{% endfor %}
 </p>
-{% endfor }
+{% endfor %}
+
+<!--FORM CUSTOMIZADO-->
+{% for error in field.errors %}
+<div class="alert alert-danger text-center alert-dismissible" role="alert">
+  {{error}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+<div class="my-3">
+  {{form.email.label_tag}}
+  {{form.email}}
+  <small style="color: grey">{{form.email.help_text}}</small>
+</div>
+<div class="my-3">
+  {{form.first_name.label_tag}}
+  {{form.first_name}}
+  <small style="color: grey">{{form.first_name.help_text}}</small>
+</div>
+<div class="my-3">
+  {{form.last_name.label_tag}}
+  {{form.last_name}}
+  <small style="color: grey">{{form.last_name.help_text}}</small>
+</div>

@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<body class="container d-flex flex-column h-100 justify-content-center align-items-center">
+  <form method="post" class="col-4">
+    {% csrf_token %}
+
+    {% include 'core/mensagens.html' %}
+
+    {% for field in form %}
+    <p>
+      {{ field.label_tag }}
+      {{ field }}
+      {% if field.help_text %}
+      <small style="color: grey">{{ field.help_text }}</small>
+      {% endif %}
+      {% for error in field.errors %}
+        <div class="alert alert-danger text-center alert-dismissible" role="alert">
+          {{error}}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </p>
+    {% endfor %}
+    <ul>
+      <li>Sua senha não pode ser similiar a alguma informação pessoal</li>
+      <li>Sua senha deve conter pelo menos 8 caracteres</li>
+      <li>Sua senha não pode ser uma senha muito comum</li>
+      <li>Sua senha não pode ser inteiramente numérica</li>
+    </ul>
+    <button type="submit" class="btn btn-primary w-100">Salvar</button>
+  </form>
+</body>
+{% endblock %}
