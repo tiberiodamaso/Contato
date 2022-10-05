@@ -1,5 +1,12 @@
-{% autoescape off %}
-Olá {{ usuario.username }},
-Por favor clique no link abaixo para ativar a sua conta,
-http://{{ dominio }}{% url 'usuarios:ativar-conta' uidb64=uid token=token %}
-{% endautoescape %}
+<html>
+
+<body>
+    <h2>Olá {{ usuario.username }},</h2>
+    <p>Por favor clique no link abaixo para ativar a sua conta,
+        http://{{ dominio }}{% url 'usuarios:ativar-conta' uid token %}</p>
+
+    <p>Use esse password para trocar a senha {{password}}</p>
+
+</body>
+
+</html>

@@ -11,5 +11,6 @@ class CardEditForm(forms.ModelForm):
             'whatsapp': forms.TextInput(attrs={'class': 'form-control'}),
             'facebook': forms.URLInput(attrs={'class': 'form-control'}),
             'instagram': forms.URLInput(attrs={'class': 'form-control'}),
+            'linkedin': forms.URLInput(attrs={'class': 'form-control'}),
             'telefone': forms.TextInput(attrs={'class': 'form-control'}),
         }

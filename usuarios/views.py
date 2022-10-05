@@ -17,6 +17,7 @@ from django.core.mail import EmailMessage
 from django.template.defaultfilters import slugify
 from .models import Usuario
 from django.shortcuts import redirect
+from cards.models import Card
 
 
 class LoginView(LoginView):
@@ -60,31 +61,42 @@ class RegistrarView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
         # Envia email para ativação da conta com o password
         current_site = get_current_site(self.request)
-        message = render_to_string('usuarios/email-ativacao.html', {
-            'usuario': novo_usuario, 'dominio': current_site.domain,
-            'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
-            'token': account_activation_token.make_token(novo_usuario),
-        })
+        subject = 'Ative a sua conta'
+        to = novo_usuario.email
+        context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
+                   'token': account_activation_token.make_token(novo_usuario), 'password': form.data['password1']}
+        body = render_to_string('usuarios/email-ativacao.html', context=context)
+        msg = EmailMessage(subject, body, to=[to])
+        msg.content_subtype = "html"  # Main content is now text/html
+        msg.send()
 
-        mail_subject = 'Ative a sua conta'
-        to_email = novo_usuario.email
-        email = EmailMessage(mail_subject, message, to=[to_email])
-        email.send()
         return super().form_valid(form)
 
 
 class TrocarSenha(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
     form_class = TrocaSenhaForm
     template_name = 'usuarios/trocar-senha.html'
-    success_url = reverse_lazy('core:home')
+    # success_url = reverse_lazy('core:editar')
     success_message = 'Senha alterada com sucesso!'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     usuario = self.request.user
+    #     slug = usuario.cards.first().slug
+    #     context['slug'] = slug
+    #     return context
+
+    def get_success_url(self):
+        usuario = self.request.user
+        empresa = usuario.empresa_vendedores.first().slug
+        slug = usuario.cards.first().slug
+        return reverse ('core:editar', kwargs={'empresa':empresa, 'slug':slug})
 
 
 class EsqueceuSenhaFormView(SuccessMessageMixin, PasswordResetView):
     template_name = 'usuarios/esqueceu-senha-form.html'
     form_class = EsqueceuSenhaForm
     email_template_name = 'usuarios/corpo-email-esqueceu-senha.html'
-    from_email = 'email@email.com'
     subject_template_name = "usuarios/assunto.txt"
     success_url = reverse_lazy('usuarios:login')
     success_message = 'Enviamos um e-mail com instruções para definir sua senha, se uma conta existe com o e-mail que você digitou você deve recebê-lo em breve.'
@@ -106,6 +118,13 @@ def ativar_conta(request, uidb64, token):
     if usuario is not None and account_activation_token.check_token(usuario, token):
         usuario.is_active = True
         usuario.save()
+
+        # Cria Card para o usuário que ativou a conta
+        empresa = usuario.empresa_vendedores.first()
+        card = Card.objects.create(empresa=empresa, whatsapp='16111111111', facebook='https://facebook.com/meunome',
+        instagram='https://instagram.com/meunome', linkedin='https://linkedin/in/meunome', telefone='16111111111',
+        usuario=usuario)
+
         auth_login(request, usuario)
         return redirect('usuarios:trocar-senha')
         # return HttpResponse('Obrigado por confirmar seu e-mail. Agora você pode fazer login.')

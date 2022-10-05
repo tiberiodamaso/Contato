@@ -12,7 +12,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 from pathlib import Path
+import environ
 from django.contrib.messages import constants as messages
+
+env = environ.Env()
+environ.Env.read_env()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -146,10 +150,21 @@ LOGOUT_REDIRECT_URL = 'core:home'
 
 GOOGLE_APPLICATION_CREDENTIALS = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_USE_TLS = False
-# EMAIL_USE_SSL = False
-# EMAIL_HOST = 'localhost'
-# EMAIL_HOST_USER = ''
-# EMAIL_HOST_PASSWORD = ''
-# EMAIL_PORT = 25
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_USE_SSL=os.environ.get('EMAIL_USE_SSL')
+# EMAIL_USE_TLS=os.environ.get('EMAIL_USE_TLS')
+# EMAIL_HOST=os.environ.get('EMAIL_HOST')
+# EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
+# EMAIL_PORT=os.environ.get('EMAIL_PORT')
+
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_USE_SSL=env('EMAIL_USE_SSL')
+EMAIL_USE_TLS=env('EMAIL_USE_TLS')
+EMAIL_HOST=env('EMAIL_HOST')
+EMAIL_HOST_USER=env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD=env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT=env('EMAIL_PORT')
+DEFAULT_FROM_EMAIL=env('DEFAULT_FROM_EMAIL')
+
