@@ -5,7 +5,7 @@ class CardEditForm(forms.ModelForm):
 
     class Meta:
         model = Card
-        exclude = ['empresa', 'usuario']
+        exclude = ['empresa', 'usuario', 'vcard']
         widgets = {
             'img_perfil': forms.FileInput(attrs={'class': 'form-control', 'label': 'Foto'}),
             'whatsapp': forms.TextInput(attrs={'class': 'form-control'}),

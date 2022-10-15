@@ -9,7 +9,7 @@ urlpatterns = [
     path('<slug:empresa>/dashboard/', EmpresaDashboardView.as_view(), name='dashboard-empresa'),
     path('<slug:empresa>/dashboard/<slug:slug>/', CardDashboardView.as_view(), name='dashboard-card'),
     path('<slug:empresa>/cards/', CardListView.as_view(), name='lista'),
-    path('<slug:empresa>/card/editar/<slug:slug>/', CardEditView.as_view(), name='editar'),
+    path('<slug:empresa>/card/<slug:slug>/editar/', CardEditView.as_view(), name='editar'),
     path('<slug:empresa>/card/<slug:slug>/', CardDetailView.as_view(), name='detalhe'),
 
 

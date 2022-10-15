@@ -65,7 +65,8 @@ class RegistrarView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         to = novo_usuario.email
         context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
                    'token': account_activation_token.make_token(novo_usuario), 'password': form.data['password1']}
-        body = render_to_string('usuarios/email-ativacao.html', context=context)
+        body = render_to_string(
+            'usuarios/email-ativacao.html', context=context)
         msg = EmailMessage(subject, body, to=[to])
         msg.content_subtype = "html"  # Main content is now text/html
         msg.send()
@@ -76,21 +77,13 @@ class RegistrarView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 class TrocarSenha(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
     form_class = TrocaSenhaForm
     template_name = 'usuarios/trocar-senha.html'
-    # success_url = reverse_lazy('core:editar')
     success_message = 'Senha alterada com sucesso!'
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     usuario = self.request.user
-    #     slug = usuario.cards.first().slug
-    #     context['slug'] = slug
-    #     return context
 
     def get_success_url(self):
         usuario = self.request.user
         empresa = usuario.empresa_vendedores.first().slug
         slug = usuario.cards.first().slug
-        return reverse ('core:editar', kwargs={'empresa':empresa, 'slug':slug})
+        return reverse('core:editar', kwargs={'empresa': empresa, 'slug': slug})
 
 
 class EsqueceuSenhaFormView(SuccessMessageMixin, PasswordResetView):
@@ -122,11 +115,10 @@ def ativar_conta(request, uidb64, token):
         # Cria Card para o usuário que ativou a conta
         empresa = usuario.empresa_vendedores.first()
         card = Card.objects.create(empresa=empresa, whatsapp='16111111111', facebook='https://facebook.com/meunome',
-        instagram='https://instagram.com/meunome', linkedin='https://linkedin/in/meunome', telefone='16111111111',
-        usuario=usuario)
+                                   instagram='https://instagram.com/meunome', linkedin='https://linkedin.com/in/meunome', telefone='16111111111',
+                                   usuario=usuario)
 
         auth_login(request, usuario)
         return redirect('usuarios:trocar-senha')
-        # return HttpResponse('Obrigado por confirmar seu e-mail. Agora você pode fazer login.')
     else:
         return HttpResponse('Link de ativação inválido!')

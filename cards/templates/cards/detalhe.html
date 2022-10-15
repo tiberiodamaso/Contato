@@ -19,18 +19,23 @@
   <!--VENDEDOR-->
   <div class="row flex-column align-content-center my-5">
     <div class="col-lg-8 col-12 text-center">
+      {% if card.img_perfil  %}
       <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid" loading="lazy">
-
+      {% else %}
+      <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+      {% endif %}
       <h2 class="fw-normal pt-3">{{card.usuario.first_name}} {{card.usuario.last_name}}</h2>
       <h3 class="lead pb-3">Corretor Bild</h3>
       <div class="d-flex justify-content-center my-2 rounded" style="background-color: #FF914D;">
         <a href="https://api.whatsapp.com/send?phone={{card.whatsapp}}" target="_self" class="btn fs-2 text-white w-100"><i
             class="bi bi-whatsapp px-3"></i>Whatsapp</a>
       </div>
+      {% if card.vcard %}
       <div class="d-flex justify-content-center my-2 rounded" style="background-color: #FF914D;">
-        <a href="{% static 'bild/guilherme-leal.vcf' %}" class="btn text-white fs-2 w-100"><i
+        <a href="{{ card.vcard.url }}" class="btn text-white fs-2 w-100"><i
             class="bi bi-person-badge px-3"></i>Adicionar na agenda</a>
       </div>
+      {% endif %}
       <div class="d-flex justify-content-around py-4">
         <a href="https://api.whatsapp.com/send?phone={{card.whatsapp}}" target="_self"><i class="bi bi-whatsapp fs-1 text-black-50"></i></a>
         <a href="{{card.instagram}}/" target="_self"><i
@@ -164,6 +169,12 @@
         class="bi bi-linkedin fs-4 text-black-50"></i></a>
     <a href="mailto:{{card.usuario.email}}" class="px-3"><i class="bi bi-envelope fs-4 text-black-50"></i></a>
     <a href="tel:+55{{card.telefone}}" class="px-3"><i class="bi bi-telephone fs-4 text-black-50"></i></a>
+  </div>
+
+  <!--QRCODE-->
+  <div class="d-flex justify-content-center pb-5">
+    <img src="{{ qr_code }}" alt="qrcode"/>
+    {{qr_code}}
   </div>
 
 </body>

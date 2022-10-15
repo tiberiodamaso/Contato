@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nome', models.CharField(max_length=200, verbose_name='Nome')),
-                ('logotipo', models.FileField(blank=True, upload_to=cards.models.get_image_path, validators=[cards.utils.validate_file_extension], verbose_name='Logotipo')),
+                ('logotipo', models.FileField(blank=True, upload_to=cards.models.get_path, validators=[cards.utils.validate_file_extension], verbose_name='Logotipo')),
                 ('criada', models.DateField(auto_now_add=True, verbose_name='Criada')),
                 ('atualizada', models.DateField(auto_now=True, verbose_name='Atualizada')),
                 ('slug', models.SlugField(editable=False, unique=True, verbose_name='Slug')),
@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
             name='Card',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('img_perfil', models.FileField(blank=True, upload_to=cards.models.get_image_path, validators=[cards.utils.validate_file_extension], verbose_name='Foto perfil')),
+                ('img_perfil', models.FileField(blank=True, upload_to=cards.models.get_path, validators=[cards.utils.validate_file_extension], verbose_name='Foto perfil')),
                 ('whatsapp', models.CharField(max_length=30, verbose_name='Whatsapp')),
                 ('facebook', models.URLField(verbose_name='Facebook')),
                 ('instagram', models.URLField(verbose_name='Instagram')),

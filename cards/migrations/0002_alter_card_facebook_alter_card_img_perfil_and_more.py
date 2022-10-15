@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='card',
             name='img_perfil',
-            field=models.FileField(blank=True, upload_to=cards.models.get_image_path, validators=[django.core.validators.FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])], verbose_name='Foto perfil'),
+            field=models.FileField(blank=True, upload_to=cards.models.get_path, validators=[django.core.validators.FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])], verbose_name='Foto perfil'),
         ),
         migrations.AlterField(
             model_name='card',
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='empresa',
             name='logotipo',
-            field=models.FileField(blank=True, upload_to=cards.models.get_image_path, validators=[django.core.validators.FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])], verbose_name='Logotipo'),
+            field=models.FileField(blank=True, upload_to=cards.models.get_path, validators=[django.core.validators.FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])], verbose_name='Logotipo'),
         ),
         migrations.AlterField(
             model_name='empresa',

@@ -1,11 +1,18 @@
-import re
+import re, os, qrcode, qrcode.image.svg
+from io import BytesIO
+from pathlib import Path
+from django.conf import settings
+from django.core.files import File
+from django.core.files.base import ContentFile
+from django.conf import settings
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView
 from core import analytics_data_api
-from .models import Empresa, Card
+from .models import Empresa, Card, get_path
 from .forms import CardEditForm
+from .utils import make_vcard
 
 reg_b = re.compile(r"(android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\\.(browser|link)|vodafone|wap|windows ce|xda|xiino", re.I | re.M)
 
@@ -93,12 +100,54 @@ class CardEditView(SuccessMessageMixin, UpdateView):
     success_url = '.'
     success_message = 'Perfil alterado com sucesso!'
 
+    def gera_qrcode(self, card, **kwargs):
+        host = self.request.get_host()
+        vcard_url = card.vcard.url
+        url = f'{host}{vcard_url}'
+        # factory = qrcode.image.svg.SvgImage
+        qr_code = qrcode.make(url, box_size=20)
+        path = get_path(card, f'{card.slug}-qrcode.png')
+
+        # stream = BytesIO()
+        qr_code.save(f'{settings.MEDIA_ROOT}/{path}')
+        # qr_code = stream.getvalue().decode('UTF-8')
+        return qr_code
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        usuario = self.request.user
         card = Card.objects.get(slug=self.kwargs['slug'])
+        qr_code = self.gera_qrcode(card)
         empresa = card.empresa
         context['empresa'] = empresa
+        context['qr_code'] = qr_code
         return context
+
+    def form_valid(self, form):
+        card = form.save(commit=False)
+        usuario = self.request.user
+        empresa = card.empresa
+        telefone = form.data['telefone']
+        whatsapp = form.data['whatsapp']
+        facebook = form.data['facebook']
+        instagram = form.data['instagram']
+        linkedin = form.data['linkedin']
+        vcard_content = make_vcard(usuario.first_name, usuario.last_name, empresa.nome,
+                                   telefone, whatsapp, facebook, instagram, linkedin, usuario.email)
+        vcard_name = f'{card.slug}.vcf'
+        if card.vcard:
+            try:
+                os.remove(card.vcard.path)
+                card.vcard.delete()
+                card.save()
+            except FileNotFoundError as err:
+                print(err)
+        content = '\n'.join([str(line) for line in vcard_content])
+        vcard_file = ContentFile(content)
+        card.vcard.save(vcard_name, vcard_file)
+
+        return super().form_valid(form)
 
 
 class CardDetailView(DetailView):
