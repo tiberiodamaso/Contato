@@ -19,16 +19,18 @@
   <!--VENDEDOR-->
   <div class="row flex-column align-content-center my-5">
     <div class="col-lg-8 col-12 text-center">
-      {% if card.img_perfil  %}
-      <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid" loading="lazy">
+      {% if card.img_perfil %}
+      <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid"
+        loading="lazy">
       {% else %}
-      <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+      <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
+        class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
       {% endif %}
       <h2 class="fw-normal pt-3">{{card.usuario.first_name}} {{card.usuario.last_name}}</h2>
-      <h3 class="lead pb-3">Corretor Bild</h3>
+      <!-- <h3 class="lead pb-3">Corretor Bild</h3> -->
       <div class="d-flex justify-content-center my-2 rounded" style="background-color: #FF914D;">
-        <a href="https://api.whatsapp.com/send?phone={{card.whatsapp}}" target="_self" class="btn fs-2 text-white w-100"><i
-            class="bi bi-whatsapp px-3"></i>Whatsapp</a>
+        <a href="https://api.whatsapp.com/send?phone={{card.whatsapp}}" target="_self"
+          class="btn fs-2 text-white w-100"><i class="bi bi-whatsapp px-3"></i>Whatsapp</a>
       </div>
       {% if card.vcard %}
       <div class="d-flex justify-content-center my-2 rounded" style="background-color: #FF914D;">
@@ -37,22 +39,31 @@
       </div>
       {% endif %}
       <div class="d-flex justify-content-around py-4">
-        <a href="https://api.whatsapp.com/send?phone={{card.whatsapp}}" target="_self"><i class="bi bi-whatsapp fs-1 text-black-50"></i></a>
-        <a href="{{card.instagram}}/" target="_self"><i
-            class="bi bi-instagram fs-1 text-black-50"></i></a>
-        <a href="{{card.facebook}}/" target="_self"><i
-            class="bi bi-facebook fs-1 text-black-50"></i></a>
+        <a href="https://api.whatsapp.com/send?phone={{card.whatsapp}}" target="_self"><i
+            class="bi bi-whatsapp fs-1 text-black-50"></i></a>
+        {% if card.instagram %}
+        <a href="{{card.instagram}}/" target="_self"><i class="bi bi-instagram fs-1 text-black-50"></i></a>
+        {% endif %}
+
+        {% if card.facebook %}
+        <a href="{{card.facebook}}/" target="_self"><i class="bi bi-facebook fs-1 text-black-50"></i></a>
+        {% endif %}
+
+        {% if card.linkedin %}
         <a href="{{card.linkedin}}/" target="_self"><i class="bi bi-linkedin fs-1 text-black-50"></i></a>
+        {% endif %}
+
         <a href="mailto:{{card.usuario.email}}"><i class="bi bi-envelope fs-1 text-black-50"></i></a>
         <a href="tel:+55{{card.telefone}}"><i class="bi bi-telephone fs-1 text-black-50"></i></a>
       </div>
     </div><!-- /.col-lg-4 -->
   </div>
 
-  <!--DESTAQUES DO MÊS-->
+  <!--SLIDES DESTAQUES DO MÊS-->
+  {% if card.slide1 or card.slide2 or card.slide3 %}
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
-      <h2 class="fs-1">Destaques do mês</h2>
+      <h2 class="fs-1">Zumm em destaque</h2>
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
@@ -63,23 +74,33 @@
             aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
+          {% if card.slide1 %}
           <div class="carousel-item active">
-            <a href="https://lp.bild.com.br/ribeirao_evero">
-              <img src="{% static 'bild/bild-destaque-2.jpg' %}" class="d-block w-100" alt="ribeirao_evero"
-                loading="lazy">
+            <a
+              href="https://mundozumm.com.br/amigos-20-anos-tudo-sobre-o-show-em-ribeirao-preto-que-marca-o-fim-da-turne/">
+              <img src="{{ card.slide1.url }}" class="d-block w-100" alt="ribeirao_evero" loading="lazy">
             </a>
           </div>
+          {% endif %}
+
+          {% if card.slide2 %}
           <div class="carousel-item">
             <a
-              href="https://go.bild.com.br/sonance?utm_source=site&utm_medium=organico&utm_campaign=banner&utm_id=sonance">
-              <img src="{% static 'bild/bild-destaque-3.jpg' %}" class="d-block w-100" alt="sonance" loading="lazy">
+              href="https://mundozumm.com.br/vacinas-contra-o-cancer-estarao-disponiveis-ate-2030-afirmam-pesquisadores/">
+              <img src="{{ card.slide2.url }}" class="d-block w-100" alt="sonance" loading="lazy">
             </a>
+
           </div>
+          {% endif %}
+
+          {% if card.slide3 %}
           <div class="carousel-item">
-            <a href="https://go.bild.com.br/sette">
-              <img src="{% static 'bild/bild-destaque-4.jpg' %}" class="d-block w-100" alt="sette" loading="lazy">
+            <a
+              href="https://mundozumm.com.br/iguatemi-ribeirao-preto-recebe-primeira-pop-up-store-da-birkenstock-no-interior-de-sao-paulo/">
+              <img src="{{ card.slide3.url }}" class="d-block w-100" alt="sette" loading="lazy">
             </a>
           </div>
+          {% endif %}
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
           data-bs-slide="prev">
@@ -94,33 +115,34 @@
       </div>
     </div>
   </div>
+  {% endif %}
 
-  <!--LANÇAMENTOS-->
+  <!--PARA SEU NEGÓCIO-->
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
-      <h2 class="fs-1">Lançamentos</h2>
+      <h2 class="fs-1">Para seu negócio</h2>
       <div>
-        <a href="https://www.bild.com.br/imoveis/ribeirao-preto?step=lancamento">
-          <img src="{% static 'bild/bild-block-lancamentos.svg' %}" class="w-100" alt="">
+        <a href="https://mundozumm.com.br/zfilms/">
+          <img src="https://mundozumm.com.br/wp-content/themes/mundozumm/images/midia2.jpg" class="w-100" alt="">
         </a>
       </div>
     </div>
   </div>
 
-  <!--OBRAS-->
+  <!--CONHEÇA NOSSOS PRODUTOS-->
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
-      <h2 class="fs-1">Obras</h2>
-      <div>
-        <a href="https://www.bild.com.br/imoveis/ribeirao-preto?step=em-obras">
-          <img src="{% static 'bild/bild-block-em-obras.min.svg' %}" class="w-100" alt="" loading="lazy">
+      <h2 class="fs-1">Conheça nossos produtos</h2>
+      <div style="background-color: #683568;">
+        <a href="https://mundozumm.com.br/zumm-experience/">
+          <img src="https://mundozumm.com.br/wp-content/themes/mundozumm/images/logo-zummexperience.svg" class="w-100" alt="" loading="lazy" />
         </a>
       </div>
     </div>
   </div>
 
-  <!--PRONTOS PRA MORAR-->
-  <div class="row d-flex justify-content-center mb-5">
+  <!--PARA SEU NEGÓCIO-->
+  <!-- <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
       <h2 class="fs-1">Prontos pra morar</h2>
       <div>
@@ -129,24 +151,23 @@
         </a>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <!--VÍDEOS-->
+  <!--ZUMCAST-->
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
-      <h2 class="fs-1">Conheça mais</h2>
+      <h2 class="fs-1">Zumm cast</h2>
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/sLkYtswMT94" title="YouTube video player"
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/thUrG9gWOpI" title="YouTube video player"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen></iframe>
       </div>
     </div>
   </div>
-  </div>
 
   <!--AGENDE UMA VISITA-->
-  <div class="row d-flex justify-content-center mb-5">
+  <!-- <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
       <h2 class="fs-1">Agende uma visita</h2>
       <div>
@@ -155,28 +176,25 @@
         </a>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!--REDES SOCIAIS-->
   <div class="d-flex justify-content-center pb-5">
     <a href="https://api.whatsapp.com/send?phone={{card.whatsapp}}" target="_self" class="px-3"><i
         class="bi bi-whatsapp fs-4 text-black-50"></i></a>
-    <a href="{{card.instagram}}" target="_self" class="px-3"><i
-        class="bi bi-instagram fs-4 text-black-50"></i></a>
-    <a href="{{card.facebook}}" target="_self" class="px-3"><i
-        class="bi bi-facebook fs-4 text-black-50"></i></a>
-    <a href="{{card.linkedin}}" target="_self" class="px-3"><i
-        class="bi bi-linkedin fs-4 text-black-50"></i></a>
+    <a href="{{card.instagram}}" target="_self" class="px-3"><i class="bi bi-instagram fs-4 text-black-50"></i></a>
+    <a href="{{card.facebook}}" target="_self" class="px-3"><i class="bi bi-facebook fs-4 text-black-50"></i></a>
+    <a href="{{card.linkedin}}" target="_self" class="px-3"><i class="bi bi-linkedin fs-4 text-black-50"></i></a>
     <a href="mailto:{{card.usuario.email}}" class="px-3"><i class="bi bi-envelope fs-4 text-black-50"></i></a>
     <a href="tel:+55{{card.telefone}}" class="px-3"><i class="bi bi-telephone fs-4 text-black-50"></i></a>
   </div>
 
   <!--QRCODE-->
+  {% if card.qr_code %}
   <div class="d-flex justify-content-center pb-5">
-    <img src="{{ qr_code }}" alt="qrcode"/>
-    {{qr_code}}
+    <img class="w-25" src="{{card.qr_code.url }}" alt="qrcode" />
   </div>
-
+  {% endif %}
 </body>
 
 {% endblock %}

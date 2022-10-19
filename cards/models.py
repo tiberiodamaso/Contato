@@ -59,6 +59,14 @@ class Card(models.Model):
                                URLValidator(schemes=['http', 'https'])])
     telefone = models.CharField(
         verbose_name='Telefone', max_length=30, unique=True)
+    qr_code = models.ImageField(verbose_name='QR Code', upload_to=get_path, blank=True,
+                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+    slide1 = models.ImageField(verbose_name='Slide 1', upload_to=get_path, blank=True,
+                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+    slide2 = models.ImageField(verbose_name='Slide 2', upload_to=get_path, blank=True,
+                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+    slide3 = models.ImageField(verbose_name='Slide 3', upload_to=get_path, blank=True,
+                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
     criado = models.DateField(verbose_name='Criado', auto_now_add=True)
     atualizado = models.DateField(verbose_name='Atualizado', auto_now=True)
     slug = models.SlugField(verbose_name='Slug',
@@ -72,7 +80,6 @@ class Card(models.Model):
 
     def __str__(self):
         return str(self.usuario)
-
 
     def save(self, *args, **kwargs):
         usuario = self.usuario.get_full_name()

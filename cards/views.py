@@ -104,24 +104,27 @@ class CardEditView(SuccessMessageMixin, UpdateView):
         host = self.request.get_host()
         vcard_url = card.vcard.url
         url = f'{host}{vcard_url}'
-        # factory = qrcode.image.svg.SvgImage
         qr_code = qrcode.make(url, box_size=20)
-        path = get_path(card, f'{card.slug}-qrcode.png')
-
-        # stream = BytesIO()
-        qr_code.save(f'{settings.MEDIA_ROOT}/{path}')
-        # qr_code = stream.getvalue().decode('UTF-8')
-        return qr_code
+        name = f'{card.slug}-qrcode.png'
+        blob = BytesIO()
+        if card.qr_code:
+            try:
+                os.remove(card.qr_code.path)
+                card.qr_code.delete()
+                card.save()
+            except FileNotFoundError as err:
+                print(err)
+        qr_code.save(blob)
+        card.qr_code.save(name, File(blob), save=False)
+        return card.qr_code
 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
         card = Card.objects.get(slug=self.kwargs['slug'])
-        qr_code = self.gera_qrcode(card)
         empresa = card.empresa
         context['empresa'] = empresa
-        context['qr_code'] = qr_code
         return context
 
     def form_valid(self, form):
@@ -137,6 +140,7 @@ class CardEditView(SuccessMessageMixin, UpdateView):
                                    telefone, whatsapp, facebook, instagram, linkedin, usuario.email)
         vcard_name = f'{card.slug}.vcf'
         if card.vcard:
+            qr_code = self.gera_qrcode(card)
             try:
                 os.remove(card.vcard.path)
                 card.vcard.delete()
@@ -146,6 +150,8 @@ class CardEditView(SuccessMessageMixin, UpdateView):
         content = '\n'.join([str(line) for line in vcard_content])
         vcard_file = ContentFile(content)
         card.vcard.save(vcard_name, vcard_file)
+        qr_code = self.gera_qrcode(card)
+        card.save()
 
         return super().form_valid(form)
 

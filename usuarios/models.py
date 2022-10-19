@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-# from cards.models import Empresa
 
 class Usuario(AbstractUser):
 
@@ -10,7 +9,7 @@ class Usuario(AbstractUser):
     email = models.EmailField(verbose_name='E-mail', unique=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
 
     class Meta:
         verbose_name = 'Usuário'

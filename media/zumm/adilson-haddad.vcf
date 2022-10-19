@@ -1,0 +1,16 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Mendonça;Tibério
+FN:Tibério Mendonça
+ORG:Zumm
+TEL;type=WORK;type=VOICE:16997700261
+item1.URL;type=pref:https://api.whatsapp.com/send?phone=5516997700261&text=oi
+item1.X-ABLabel:Whatsapp
+item2.URL;type=pref:https://www.instagram.com/didihaddad/
+item2.X-ABLabel:Instagram
+item3.URL;type=pref:
+item3.X-ABLabel:Facebook
+item4.URL;type=pref:http://linkedin.com/in/adilson-haddad-b1935518
+item4.X-ABLabel:Linkedin
+EMAIL;type=INTERNET;type=WORK:tiberio@gmail.com
+END:VCARD

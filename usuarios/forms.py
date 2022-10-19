@@ -26,7 +26,6 @@ class UsuarioRegistrationForm(UserCreationForm):
     class Meta:
         model = Usuario
         fields = ('email', 'username', 'first_name', 'last_name')
-        # fields = ('email', 'first_name', 'last_name')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
