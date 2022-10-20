@@ -13,7 +13,7 @@ urlpatterns = [
     path('<slug:empresa>/card/<slug:slug>/', CardDetailView.as_view(), name='detalhe'),
 
 
-    path('marcas/', Marcas.as_view(), name='marcas'),
-    path('marcas/bild/', Bild.as_view(), name='bild'),
-    path('marcas/perplan/', Perplan.as_view(), name='perplan'),
+    # path('marcas/', Marcas.as_view(), name='marcas'),
+    # path('marcas/bild/', Bild.as_view(), name='bild'),
+    # path('marcas/perplan/', Perplan.as_view(), name='perplan'),
 ] 

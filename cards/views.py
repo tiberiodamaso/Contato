@@ -6,6 +6,7 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from django.conf import settings
 from django.shortcuts import render
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView
@@ -97,8 +98,13 @@ class CardEditView(SuccessMessageMixin, UpdateView):
     model = Card
     form_class = CardEditForm
     template_name = 'cards/editar.html'
-    success_url = '.'
-    success_message = 'Perfil alterado com sucesso!'
+    # success_url = reverse_lazy('core:detalhe', kwargs={'empresa': card.empresa.slug, 'slug': card.slug})
+    success_message = 'Card atualizado com sucesso!'
+
+    def get_success_url(self, **kwargs):
+        card = Card.objects.get(slug=self.kwargs['slug'])
+        success_url = reverse_lazy('core:detalhe', kwargs={'empresa': card.empresa.slug, 'slug': card.slug})
+        return success_url
 
     def gera_qrcode(self, card, **kwargs):
         host = self.request.get_host()
@@ -126,6 +132,7 @@ class CardEditView(SuccessMessageMixin, UpdateView):
         empresa = card.empresa
         context['empresa'] = empresa
         return context
+
 
     def form_valid(self, form):
         card = form.save(commit=False)

@@ -57,16 +57,35 @@ class Card(models.Model):
                                 URLValidator(schemes=['http', 'https'])])
     linkedin = models.URLField(verbose_name='Linkedin', max_length=200, blank=True, validators=[
                                URLValidator(schemes=['http', 'https'])])
+    youtube = models.TextField(verbose_name='Youtube', max_length=1000, blank=True)
     telefone = models.CharField(
         verbose_name='Telefone', max_length=30, unique=True)
     qr_code = models.ImageField(verbose_name='QR Code', upload_to=get_path, blank=True,
                                 validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
     slide1 = models.ImageField(verbose_name='Slide 1', upload_to=get_path, blank=True,
                                 validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+    slide1_link = models.URLField(verbose_name='Slide 1 link', max_length=1000, blank=True, validators=[
+                               URLValidator(schemes=['http', 'https'])])
     slide2 = models.ImageField(verbose_name='Slide 2', upload_to=get_path, blank=True,
                                 validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+    slide2_link = models.URLField(verbose_name='Slide 2 link', max_length=1000, blank=True, validators=[
+                               URLValidator(schemes=['http', 'https'])])
     slide3 = models.ImageField(verbose_name='Slide 3', upload_to=get_path, blank=True,
                                 validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+    slide3_link = models.URLField(verbose_name='Slide 3 link', max_length=1000, blank=True, validators=[
+                               URLValidator(schemes=['http', 'https'])])
+    produtos = models.ImageField(verbose_name='Produtos', upload_to=get_path, blank=True,
+                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+    produtos_link = models.URLField(verbose_name='Produtos link', max_length=1000, blank=True, validators=[
+                               URLValidator(schemes=['http', 'https'])])
+    servicos = models.ImageField(verbose_name='Serviços', upload_to=get_path, blank=True,
+                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+    servicos_link = models.URLField(verbose_name='Serviços link', max_length=1000, blank=True, validators=[
+                               URLValidator(schemes=['http', 'https'])])
+    promocoes = models.ImageField(verbose_name='Promoção', upload_to=get_path, blank=True,
+                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+    promocoes_link = models.URLField(verbose_name='Promoção link', max_length=1000, blank=True, validators=[
+                               URLValidator(schemes=['http', 'https'])])
     criado = models.DateField(verbose_name='Criado', auto_now_add=True)
     atualizado = models.DateField(verbose_name='Atualizado', auto_now=True)
     slug = models.SlugField(verbose_name='Slug',
