@@ -26,13 +26,15 @@ class LoginView(LoginView):
 
     def get_success_url(self):
         user = self.request.user
-        if user.is_staff:
-            empresa = self.request.user.empresa_gerentes.first().slug
-            return reverse('core:dashboard-empresa', kwargs={'empresa': empresa})
-        else:
-            empresa = self.request.user.empresa_vendedores.first().slug
-            slug = self.request.user.cards.first().slug
-            return reverse('core:dashboard-card', kwargs={'empresa': empresa, 'slug': slug})
+        card = user.cards.first()
+        # if user.is_staff:
+        #     empresa = self.request.user.empresa_gerentes.first().slug
+        #     return reverse('core:dashboard-empresa', kwargs={'empresa': empresa})
+        # else:
+        #     empresa = self.request.user.empresa_vendedores.first().slug
+        #     slug = self.request.user.cards.first().slug
+        #     return reverse('core:dashboard-card', kwargs={'empresa': empresa, 'slug': slug})
+        return reverse('core:detalhe', kwargs={'empresa': card.empresa.slug, 'slug': card.slug})
 
 
 class LogoutView(LogoutView):
