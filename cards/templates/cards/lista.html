@@ -1,11 +1,14 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% block title %} Meu Contato {% endblock %}
 {% block content %}
+
 <body class="container">
   
-{% include 'core/menu-interno.html'%}
+<!-- {% include 'core/menu-interno.html'} -->
+{% include 'core/menu-geral.html'%}
 
-<div class="container-fluid">
+<!-- <div class="container-fluid"> -->
   <div class="row text-center p-3 justify-content-center">
     {% for card in cards %}
     <div class="col-lg-3 col-sm-5 col-12 mt-5 border border-2 rounded-2 mx-2">
@@ -15,13 +18,14 @@
       <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
       {% endif %}
       <h2 class="fw-normal">{{card.usuario.first_name}} {{card.usuario.last_name}}</h2>
-      <p>Informações sobre a performance</p>
-      <p><a class="btn btn-warning" href="{% url 'core:detalhe' empresa.slug card.slug %}">Relatório completo</a>
+      <!-- <p>Informações sobre a performance</p> -->
+      <p><a class="btn btn-warning" href="{% url 'core:detalhe' empresa.slug card.slug %}">Editar</a>
       </p>
     </div>
     {% endfor %}
   </div>
-</div>
+<!-- </div> -->
+
 </body>
 
 {% endblock %}

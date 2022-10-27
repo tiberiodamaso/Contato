@@ -94,7 +94,7 @@ class CardDashboardView(TemplateView):
         context['resultados'] = resultados
         return context
 
-class CardEditView(SuccessMessageMixin, UpdateView):
+class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Card
     form_class = CardEditForm
     template_name = 'cards/editar.html'
@@ -163,7 +163,7 @@ class CardEditView(SuccessMessageMixin, UpdateView):
         return super().form_valid(form)
 
 
-class CardDetailView(DetailView):
+class CardDetailView(LoginRequiredMixin, DetailView):
     model = Card
     template_name = 'cards/detalhe.html'
 
