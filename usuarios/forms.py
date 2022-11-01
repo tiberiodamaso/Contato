@@ -31,9 +31,9 @@ class UsuarioRegistrationForm(UserCreationForm):
         super().__init__(*args, **kwargs)
 
         self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['username'].label = 'Nome de usuário'
         self.fields['password1'].widget.attrs['class'] = 'form-control'
         self.fields['password2'].widget.attrs['class'] = 'form-control'
+        self.fields['username'].label = 'Nome de usuário'
 
     def save(self, commit=True):
         user = super().save(commit=False)

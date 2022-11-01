@@ -12,7 +12,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView
 from core import analytics_data_api
 from .models import Empresa, Card, get_path
-from .forms import CardEditForm
+from .forms import CardEditForm, EmpresaEditForm
 from .utils import make_vcard
 
 reg_b = re.compile(r"(android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\\.(browser|link)|vodafone|wap|windows ce|xda|xiino", re.I | re.M)
@@ -34,6 +34,7 @@ class CardListView(LoginRequiredMixin, ListView):
         context['cards'] = queryset
         context['empresa'] = empresa
         return context
+
 
 class CardDashboardView(TemplateView):
     template_name = 'cards/dashboard-card.html'
@@ -93,6 +94,7 @@ class CardDashboardView(TemplateView):
         # ORIGEM DE TRÁFEGO
         context['resultados'] = resultados
         return context
+
 
 class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Card
@@ -163,7 +165,7 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return super().form_valid(form)
 
 
-class CardDetailView(LoginRequiredMixin, DetailView):
+class CardDetailView(DetailView):
     model = Card
     template_name = 'cards/detalhe.html'
 
@@ -174,3 +176,104 @@ class CardDetailView(LoginRequiredMixin, DetailView):
         context['card'] = card
         context['empresa'] = empresa
         return context
+
+
+class EmpresaDashboardView(TemplateView):
+    template_name = 'card/dashboard-empresa.html'
+
+    def process_request(self):
+        self.request.mobile = False
+        if self.request.META['HTTP_USER_AGENT']:
+            user_agent = self.request.META['HTTP_USER_AGENT']
+            b = reg_b.search(user_agent)
+            v = reg_v.search(user_agent[0:4])
+            if b or v:
+                return True
+
+    # def get_data():
+    #     url = ''
+    #     response = request.get(url)
+    #     data = response.json()['data']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.process_request():
+            context['mobile'] = True
+        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
+        pagina = f'/dashboard/{empresa.slug}/'
+        data_city = analytics_data_api.run_report_city(property_id=None, pagina=pagina)
+        data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
+
+        resultados = {}
+        origens = []
+        usuarios_por_origem = []
+        for row in data_session_origin.rows[0].dimension_values:
+            origens.append(row.value)
+            resultados['origens'] = origens
+        for row in data_session_origin.rows[0].metric_values:
+            usuarios_por_origem = [row.value]
+            resultados['usuarios_por_origem'] = usuarios_por_origem
+
+        # EMPRESA
+        context['empresa'] = empresa
+
+        # AQUISIÇÃO DE USUÁRIOS
+        context['total_de_usuarios'] = data_city.totals[0].metric_values[0].value
+        context['usuarios_ativos'] = data_city.totals[0].metric_values[1].value
+        context['novos_usuarios'] = data_city.totals[0].metric_values[2].value
+        context['tempo_de_interacao'] = data_city.totals[0].metric_values[3].value
+
+        # AQUISIÇÃO DE TRÁFEGO
+        context['sessoes'] = data_city.totals[0].metric_values[4].value
+        context['duracao_media_sessao'] = data_city.totals[0].metric_values[5].value
+        # context['sessoes_engajadas'] = data.totals[0].metric_values[6].value
+        context['visualizacoes'] = data_city.totals[0].metric_values[6].value
+        # context['visualizacoes_por_sessao'] = data.totals[0].metric_values[8].value
+        context['rejeicao'] = data_city.totals[0].metric_values[7].value
+        context['data'] = data_city
+
+        # ORIGEM DE TRÁFEGO
+        context['resultados'] = resultados
+        return context
+
+
+class EmpresaEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Empresa
+    form_class = EmpresaEditForm
+    template_name = 'cards/editar-empresa.html'
+    success_message = 'Informações atualizados com sucesso!'
+
+    def get_success_url(self, **kwargs):
+        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
+        card = empresa.cards.first()
+        success_url = reverse_lazy('core:detalhe', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        return success_url
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        usuario = self.request.user
+        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
+        context['empresa'] = empresa
+        return context
+
+
+    # def form_valid(self, form):
+    #     empresa = form.save(commit=False)
+    #     usuario = self.request.user
+        
+    #     if card.vcard:
+    #         qr_code = self.gera_qrcode(card)
+    #         try:
+    #             os.remove(card.vcard.path)
+    #             card.vcard.delete()
+    #             card.save()
+    #         except FileNotFoundError as err:
+    #             print(err)
+    #     content = '\n'.join([str(line) for line in vcard_content])
+    #     vcard_file = ContentFile(content)
+    #     card.vcard.save(vcard_name, vcard_file)
+    #     qr_code = self.gera_qrcode(card)
+    #     card.save()
+
+    #     return super().form_valid(form)

@@ -11,65 +11,6 @@ class HomeView(TemplateView):
     template_name = 'core/home.html'
 
 
-class EmpresaDashboardView(TemplateView):
-    template_name = 'core/dashboard-empresa.html'
-
-    def process_request(self):
-        self.request.mobile = False
-        if self.request.META['HTTP_USER_AGENT']:
-            user_agent = self.request.META['HTTP_USER_AGENT']
-            b = reg_b.search(user_agent)
-            v = reg_v.search(user_agent[0:4])
-            if b or v:
-                return True
-
-    # def get_data():
-    #     url = ''
-    #     response = request.get(url)
-    #     data = response.json()['data']
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.process_request():
-            context['mobile'] = True
-        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
-        pagina = f'/dashboard/{empresa.slug}/'
-        data_city = analytics_data_api.run_report_city(property_id=None, pagina=pagina)
-        data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
-
-        resultados = {}
-        origens = []
-        usuarios_por_origem = []
-        for row in data_session_origin.rows[0].dimension_values:
-            origens.append(row.value)
-            resultados['origens'] = origens
-        for row in data_session_origin.rows[0].metric_values:
-            usuarios_por_origem = [row.value]
-            resultados['usuarios_por_origem'] = usuarios_por_origem
-
-        # EMPRESA
-        context['empresa'] = empresa
-
-        # AQUISIÇÃO DE USUÁRIOS
-        context['total_de_usuarios'] = data_city.totals[0].metric_values[0].value
-        context['usuarios_ativos'] = data_city.totals[0].metric_values[1].value
-        context['novos_usuarios'] = data_city.totals[0].metric_values[2].value
-        context['tempo_de_interacao'] = data_city.totals[0].metric_values[3].value
-
-        # AQUISIÇÃO DE TRÁFEGO
-        context['sessoes'] = data_city.totals[0].metric_values[4].value
-        context['duracao_media_sessao'] = data_city.totals[0].metric_values[5].value
-        # context['sessoes_engajadas'] = data.totals[0].metric_values[6].value
-        context['visualizacoes'] = data_city.totals[0].metric_values[6].value
-        # context['visualizacoes_por_sessao'] = data.totals[0].metric_values[8].value
-        context['rejeicao'] = data_city.totals[0].metric_values[7].value
-        context['data'] = data_city
-
-        # ORIGEM DE TRÁFEGO
-        context['resultados'] = resultados
-        return context
-
-
 class Marcas(TemplateView):
     template_name = 'core/marcas.html'
 

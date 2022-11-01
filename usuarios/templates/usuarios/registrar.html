@@ -2,13 +2,13 @@
 {% load static %}
 {% block content %}
 
-{% include 'core/menu-interno.html' %}
+{% include 'core/menu-geral.html' %}
 {% include 'core/mensagens.html' %}
 
 <body class="container">
   <form method="post" action="{% url 'usuarios:registrar' %}" class="col-10 col-lg-6 py-5 d-flex flex-column m-auto">
     {% csrf_token %}
-    <p class="text-center display-5 mb-5">Registrar novo corretor</p>
+    <p class="text-center display-5 mb-5">Criar novo card</p>
     {% for field in form %}
     <p>
       {{ field.label_tag }}
@@ -24,7 +24,7 @@
       {% endfor %}
     </p>
     {% endfor %}
-    <button type="submit" class="btn btn-primary">Criar conta</button>
+    <button type="submit" class="btn btn-warning">Criar card</button>
   </form>
 </body>
 {% endblock %}

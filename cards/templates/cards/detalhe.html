@@ -1,16 +1,25 @@
-{% extends 'core/base.html' %}
-{% load static %}
-{% block title %}{{card.usuario.first_name}} {{card.usuario.last_name}}{% endblock %}
+{% extends 'core/base.html' %} 
+{% load static %} 
+{% block title%} {{card.usuario.first_name}} {{card.usuario.last_name}} {% endblock %} 
 {% block content %}
 
 <body class="container">
+  {% if user.is_authenticated and user.is_staff %} 
+    {% include 'core/menu-geral.html' %} 
+  {% endif %}
 
   <!--EMPRESA-->
   <div class="row d-flex justify-content-center my-5">
     <div class="col-12 col-lg-8">
       <div>
         <a href="{{empresa.site}}">
-          <img src="{{empresa.logotipo.url}}" class="w-100" alt="" loading="lazy" style="height: 100px;">
+          <img
+            src="{{empresa.logotipo.url}}"
+            class="w-100"
+            alt=""
+            loading="lazy"
+            style="height: 100px"
+          />
         </a>
       </div>
     </div>
@@ -20,101 +29,129 @@
   <div class="row flex-column align-content-center my-5">
     <div class="col-lg-8 col-12 text-center">
       {% if card.img_perfil %}
-      <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid"
-        loading="lazy">
+      <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid" loading="lazy" />
       {% else %}
-      <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
-        class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+      <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy"/>
       {% endif %}
-      <h2 class="fw-bold py-3">{{card.usuario.first_name}} {{card.usuario.last_name}}</h2>
-      <!-- <h3 class="lead pb-3">Corretor Bild</h3> -->
-      <div class="d-flex justify-content-center my-2 rounded" style="background-color: #FF914D;">
-        <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self"
-          class="btn fs-4 text-white w-100">Whatsapp</a>
+      <h2 class="fw-bold pt-3 pb-2">
+        {{card.usuario.first_name}} {{card.usuario.last_name}}
+      </h2>
+      {% if card.cargo %}
+      <h3 class="lead pb-3">{{ card.cargo }}</h3>
+      {% endif %}
+      <div class="d-flex justify-content-center my-2 rounded bg-warning">
+        <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self" class="btn fs-4 w-100">Whatsapp</a>
       </div>
       {% if card.vcard %}
-      <div class="d-flex justify-content-center my-2 rounded" style="background-color: #FF914D;">
-        <a href="{{ card.vcard.url }}" class="btn text-white fs-4 w-100">Adicionar na agenda</a>
+      <div class="d-flex justify-content-center my-2 rounded bg-warning">
+        <a href="{{ card.vcard.url }}" class="btn fs-4 w-100">Adicionar na agenda</a>
       </div>
-      {% endif %}
-
+      {% endif %} 
+      
       {% if user.is_authenticated and user.is_staff %}
-      <div class="d-flex justify-content-center my-2 rounded" style="background-color: #FF914D;">
-        <a href="{% url 'core:editar' card.empresa.slug card.slug %}" class="btn text-white fs-4 w-100">Editar card</a>
+      <div class="d-flex justify-content-center my-2 rounded bg-warning">
+        <a href="{% url 'core:editar' card.empresa.slug card.slug %}" class="btn fs-4 w-100">Editar card</a>
       </div>
       {% endif %}
 
       <div class="d-flex justify-content-around py-4">
-        <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self"><i
-            class="bi bi-whatsapp fs-1 text-black-50"></i></a>
+        <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self"><i class="bi bi-whatsapp fs-1 text-black-50"></i></a>
         {% if card.instagram %}
         <a href="{{card.instagram}}" target="_self"><i class="bi bi-instagram fs-1 text-black-50"></i></a>
-        {% endif %}
-
+        {% endif %} 
+        
         {% if card.facebook %}
         <a href="{{card.facebook}}" target="_self"><i class="bi bi-facebook fs-1 text-black-50"></i></a>
-        {% endif %}
-
+        {% endif %} 
+        
         {% if card.linkedin %}
         <a href="{{card.linkedin}}" target="_self"><i class="bi bi-linkedin fs-1 text-black-50"></i></a>
         {% endif %}
 
         <a href="mailto:{{card.usuario.email}}"><i class="bi bi-envelope fs-1 text-black-50"></i></a>
         <a href="tel:+55{{card.telefone}}"><i class="bi bi-telephone fs-1 text-black-50"></i></a>
+
       </div>
-    </div><!-- /.col-lg-4 -->
+
+    </div>
+    <!-- /.col-lg-4 -->
   </div>
 
   <!--SLIDES-->
-  {% if card.slide1 or card.slide2 or card.slide3 %}
+  {% if empresa.slide1 or empresa.slide2 or empresa.slide3 %}
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
       <h2 class="fs-1">Destaques</h2>
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-            aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-            aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-            aria-label="Slide 3"></button>
+            aria-current="true"
+            aria-label="Slide 1"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="1"
+            aria-label="Slide 2"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="2"
+            aria-label="Slide 3"
+          ></button>
         </div>
         <div class="carousel-inner">
-          {% if card.slide1 and card.slide1_link %}
+          {% if empresa.slide1 and empresa.slide1_link %}
           <div class="carousel-item active">
-            <a
-              href="{{ card.slide1_link }}">
-              <img src="{{ card.slide1.url }}" class="d-block w-100" alt="ribeirao_evero" loading="lazy">
+            <a href="{{ empresa.slide1_link }}">
+              <img
+                src="{{ empresa.slide1.url }}"
+                class="d-block w-100"
+                alt="ribeirao_evero"
+                loading="lazy"
+              />
             </a>
           </div>
-          {% endif %}
-
-          {% if card.slide2 and card.slide2_link %}
+          {% endif %} {% if empresa.slide2 and empresa.slide2_link %}
           <div class="carousel-item">
-            <a
-              href="{{ card.slide2_link }}">
-              <img src="{{ card.slide2.url }}" class="d-block w-100" alt="sonance" loading="lazy">
+            <a href="{{ empresa.slide2_link }}">
+              <img
+                src="{{ empresa.slide2.url }}"
+                class="d-block w-100"
+                alt="sonance"
+                loading="lazy"
+              />
             </a>
-
           </div>
-          {% endif %}
-
-          {% if card.slide3 and card.slide3_link %}
+          {% endif %} {% if empresa.slide3 and empresa.slide3_link %}
           <div class="carousel-item">
-            <a
-              href="{{ card.slide3_link }}">
-              <img src="{{ card.slide3.url }}" class="d-block w-100" alt="sette" loading="lazy">
+            <a href="{{ empresa.slide3_link }}">
+              <img
+                src="{{ empresa.slide3.url }}"
+                class="d-block w-100"
+                alt="sette"
+                loading="lazy"
+              />
             </a>
           </div>
           {% endif %}
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-          data-bs-slide="prev">
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev"
+        >
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Anterior</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-          data-bs-slide="next">
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next"
+        >
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Próximo</span>
         </button>
@@ -124,28 +161,32 @@
   {% endif %}
 
   <!--PRODUTOS-->
-  {% if card.produtos and card.produtos_link %}
+  {% if empresa.produtos and empresa.produtos_link %}
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
       <h2 class="fs-1">Produtos</h2>
-      <div style="background-color: #683568;">
-        <a href="{{ card.produtos_link }}">
-          <img src="{{ card.produtos.url }}" class="w-100" alt="" loading="lazy" />
+      <div style="background-color: #683568">
+        <a href="{{ empresa.produtos_link }}">
+          <img
+            src="{{ empresa.produtos.url }}"
+            class="w-100"
+            alt=""
+            loading="lazy"
+          />
         </a>
       </div>
     </div>
   </div>
   {% endif %}
 
-
   <!--SERVIÇOS-->
-  {% if card.servicos and card.servicos_link %}
+  {% if empresa.servicos and empresa.servicos_link %}
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
       <h2 class="fs-1">Serviços</h2>
       <div>
-        <a href="{{ card.servicos_link }}">
-          <img src="{{ card.servicos.url }}" class="w-100" alt="">
+        <a href="{{ empresa.servicos_link }}">
+          <img src="{{ empresa.servicos.url }}" class="w-100" alt="" />
         </a>
       </div>
     </div>
@@ -153,29 +194,28 @@
   {% endif %}
 
   <!--PROMOÇÕES-->
-  {% if card.promocoes and card.promocoes_link %}
+  {% if empresa.promocoes and empresa.promocoes_link %}
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
       <h2 class="fs-1">Promoções</h2>
       <div>
-        <a href="{{ card.promocoes_link }}">
-          <img src="{{ card.promocoes.url }}" class="w-100" alt="">
+        <a href="{{ empresa.promocoes_link }}">
+          <img src="{{ empresa.promocoes.url }}" class="w-100" alt="" />
         </a>
       </div>
     </div>
   </div>
   {% endif %}
 
-  
-
-
   <!--VÍDEOS-->
-  {% if card.youtube %}
+  {% if empresa.youtube %}
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
       <h2 class="fs-1">Vídeos</h2>
-      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        {{ card.youtube|safe }}
+      <div
+        class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
+      >
+        {{ empresa.youtube|safe }}
       </div>
     </div>
   </div>
@@ -195,22 +235,32 @@
 
   <!--REDES SOCIAIS-->
   <div class="d-flex justify-content-center pb-5">
-    <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self" class="px-3"><i
-        class="bi bi-whatsapp fs-4 text-black-50"></i></a>
+    <a
+      href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}"
+      target="_self"
+      class="px-3"
+      ><i class="bi bi-whatsapp fs-4 text-black-50"></i
+    ></a>
     {% if card.instagram %}
-    <a href="{{card.instagram}}" target="_self" class="px-3"><i class="bi bi-instagram fs-4 text-black-50"></i></a>
-    {% endif %}
-    
-    {% if card.facebook %}
-    <a href="{{card.facebook}}" target="_self" class="px-3"><i class="bi bi-facebook fs-4 text-black-50"></i></a>
+    <a href="{{card.instagram}}" target="_self" class="px-3"
+      ><i class="bi bi-instagram fs-4 text-black-50"></i
+    ></a>
+    {% endif %} {% if card.facebook %}
+    <a href="{{card.facebook}}" target="_self" class="px-3"
+      ><i class="bi bi-facebook fs-4 text-black-50"></i
+    ></a>
+    {% endif %} {% if card.linkedin %}
+    <a href="{{card.linkedin}}" target="_self" class="px-3"
+      ><i class="bi bi-linkedin fs-4 text-black-50"></i
+    ></a>
     {% endif %}
 
-    {% if card.linkedin %}
-    <a href="{{card.linkedin}}" target="_self" class="px-3"><i class="bi bi-linkedin fs-4 text-black-50"></i></a>
-    {% endif %}
-
-    <a href="mailto:{{card.usuario.email}}" class="px-3"><i class="bi bi-envelope fs-4 text-black-50"></i></a>
-    <a href="tel:+55{{card.telefone}}" class="px-3"><i class="bi bi-telephone fs-4 text-black-50"></i></a>
+    <a href="mailto:{{card.usuario.email}}" class="px-3"
+      ><i class="bi bi-envelope fs-4 text-black-50"></i
+    ></a>
+    <a href="tel:+55{{card.telefone}}" class="px-3"
+      ><i class="bi bi-telephone fs-4 text-black-50"></i
+    ></a>
   </div>
 
   <!--QRCODE-->

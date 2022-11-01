@@ -4,7 +4,7 @@ from .models import Empresa, Card
 
 class EmpresaAdmin(admin.ModelAdmin):
     list_display = ['id', 'nome', 'slug', 'criada', 'get_gerentes', 'get_vendedores']
-
+    
     def get_gerentes(self, obj):
         return [gerente for gerente in obj.gerentes.all()]
 

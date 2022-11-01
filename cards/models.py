@@ -21,47 +21,13 @@ class Empresa(models.Model):
     nome = models.CharField(verbose_name='Nome', max_length=200)
     logotipo = models.FileField(verbose_name='Logotipo', upload_to=get_path, blank=True, validators=[
                                 FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-    criada = models.DateField(verbose_name='Criada', auto_now_add=True)
-    atualizada = models.DateField(verbose_name='Atualizada', auto_now=True)
     slug = models.SlugField(verbose_name='Slug', unique=True, editable=False)
     gerentes = models.ManyToManyField(
         Usuario, verbose_name='Gerentes', related_name='empresa_gerentes')
     vendedores = models.ManyToManyField(
-        Usuario, verbose_name='Vendedores', related_name='empresa_vendedores')
+        Usuario, verbose_name='Vendedores', related_name='empresa_vendedores', blank=True)
     site = models.URLField(verbose_name='Site', validators=[
                            URLValidator(schemes=['http', 'https'])])
-
-    class Meta:
-        verbose_name = 'Empresa'
-        verbose_name_plural = 'Empresas'
-
-    def __str__(self):
-        return self.nome
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.nome)
-        super().save(*args, **kwargs)
-
-
-class Card(models.Model):
-    empresa = models.ForeignKey(
-        Empresa, verbose_name='Empresa', on_delete=models.CASCADE, related_name='cards')
-    img_perfil = models.FileField(verbose_name='Foto perfil', upload_to=get_path, blank=True, validators=[
-                                  FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-    vcard = models.FileField(verbose_name='Vcard', upload_to=get_path, blank=True, validators=[
-                             FileExtensionValidator(allowed_extensions=['vcf'])])
-    whatsapp = models.CharField(verbose_name='Whatsapp', max_length=30)
-    facebook = models.URLField(verbose_name='Facebook', max_length=200, blank=True, validators=[
-                               URLValidator(schemes=['http', 'https'])])
-    instagram = models.URLField(verbose_name='Instagram', max_length=200, blank=True, validators=[
-                                URLValidator(schemes=['http', 'https'])])
-    linkedin = models.URLField(verbose_name='Linkedin', max_length=200, blank=True, validators=[
-                               URLValidator(schemes=['http', 'https'])])
-    youtube = models.TextField(verbose_name='Youtube', max_length=1000, blank=True)
-    telefone = models.CharField(
-        verbose_name='Telefone', max_length=30, unique=True)
-    qr_code = models.ImageField(verbose_name='QR Code', upload_to=get_path, blank=True,
-                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
     slide1 = models.ImageField(verbose_name='Slide 1', upload_to=get_path, blank=True,
                                 validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
     slide1_link = models.URLField(verbose_name='Slide 1 link', max_length=1000, blank=True, validators=[
@@ -86,6 +52,41 @@ class Card(models.Model):
                                 validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
     promocoes_link = models.URLField(verbose_name='Promoção link', max_length=1000, blank=True, validators=[
                                URLValidator(schemes=['http', 'https'])])
+    criada = models.DateField(verbose_name='Criada', auto_now_add=True)
+    atualizada = models.DateField(verbose_name='Atualizada', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Empresa'
+        verbose_name_plural = 'Empresas'
+
+    def __str__(self):
+        return self.nome
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.nome)
+        super().save(*args, **kwargs)
+
+
+class Card(models.Model):
+    empresa = models.ForeignKey(
+        Empresa, verbose_name='Empresa', on_delete=models.CASCADE, related_name='cards')
+    cargo = models.CharField(verbose_name='Cargo', max_length=30, blank=True)
+    img_perfil = models.FileField(verbose_name='Foto perfil', upload_to=get_path, blank=True, validators=[
+                                  FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+    vcard = models.FileField(verbose_name='Vcard', upload_to=get_path, blank=True, validators=[
+                             FileExtensionValidator(allowed_extensions=['vcf'])])
+    whatsapp = models.CharField(verbose_name='Whatsapp', max_length=30)
+    facebook = models.URLField(verbose_name='Facebook', max_length=200, blank=True, validators=[
+                               URLValidator(schemes=['http', 'https'])])
+    instagram = models.URLField(verbose_name='Instagram', max_length=200, blank=True, validators=[
+                                URLValidator(schemes=['http', 'https'])])
+    linkedin = models.URLField(verbose_name='Linkedin', max_length=200, blank=True, validators=[
+                               URLValidator(schemes=['http', 'https'])])
+    youtube = models.TextField(verbose_name='Youtube', max_length=1000, blank=True)
+    telefone = models.CharField(
+        verbose_name='Telefone', max_length=30, unique=True)
+    qr_code = models.ImageField(verbose_name='QR Code', upload_to=get_path, blank=True,
+                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
     criado = models.DateField(verbose_name='Criado', auto_now_add=True)
     atualizado = models.DateField(verbose_name='Atualizado', auto_now=True)
     slug = models.SlugField(verbose_name='Slug',
@@ -106,3 +107,4 @@ class Card(models.Model):
         last_name = self.usuario.last_name
         self.slug = slugify(usuario)
         super().save(*args, **kwargs)
+

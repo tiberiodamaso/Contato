@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+<!-- {% include 'core/menu-interno.html'} -->
+{% include 'core/menu-geral.html' %}
+
+<body class="container">
+  {% include 'core/mensagens.html' %}
+  <div class="d-flex flex-column align-items-center py-5">
+    {% if empresa.logotipo %}
+    <img src="{{empresa.logotipo.url}}" alt="logotipo" class="col col-lg-2 col-md-4 img-fluid my-3" loading="lazy">
+    {% else %}
+    <img src="{% static 'core/img/person.jpg' %}" alt="logotipo" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+    {% endif %}
+    <form action="{% url 'core:editar-empresa' empresa.slug empresa.id %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% for field in form %}
+      <p>
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.help_text %}
+        <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+      <div class="alert alert-danger text-center alert-dismissible" role="alert">
+        {{error}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+      </p>
+      {% endfor %}
+      <button type="submit" class="btn btn-warning w-100">Salvar</button>
+    </form>
+  </div>
+
+</body>
+
+{% endblock %}
