@@ -7,7 +7,8 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import auth, messages
 from django.contrib.auth import login as auth_login
 from django.urls import reverse, reverse_lazy
-from .forms import UsuarioAuthenticationForm, UsuarioRegistrationForm, TrocaSenhaForm, EsqueceuSenhaForm, EsqueceuSenhaLinkForm
+from django.http import HttpResponse
+from .forms import UsuarioAuthenticationForm, UsuarioRegistrationForm, TrocaSenhaForm, EsqueceuSenhaForm, EsqueceuSenhaLinkForm, UsuarioCriarForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -46,14 +47,15 @@ class RegistrarView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Usuario
     template_name = 'usuarios/registrar.html'
     success_url = reverse_lazy('usuarios:registrar')
-    form_class = UsuarioRegistrationForm
-    success_message = "Corretor cadastrado com sucesso! Um email foi enviado com instruções de acesso."
+    form_class = UsuarioCriarForm
+    # form_class = UsuarioRegistrationForm
+    success_message = "Usuário cadastrado com sucesso! Um email foi enviado com instruções de acesso."
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        empresa = self.request.user.empresa_gerentes.first()
-        context['empresa'] = empresa
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     empresa = self.request.user.empresa_gerentes.first()
+    #     context['empresa'] = empresa
+    #     return context
 
     def form_valid(self, form):
         """If the form is valid, save the associated model."""
@@ -67,7 +69,9 @@ class RegistrarView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         subject = 'Ative a sua conta'
         to = novo_usuario.email
         context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
-                   'token': account_activation_token.make_token(novo_usuario), 'password': form.data['password1']}
+                   'token': account_activation_token.make_token(novo_usuario)}
+        # context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
+        #            'token': account_activation_token.make_token(novo_usuario), 'password': form.data['password1']}
         body = render_to_string(
             'usuarios/email-ativacao.html', context=context)
         msg = EmailMessage(subject, body, to=[to])
@@ -116,12 +120,13 @@ def ativar_conta(request, uidb64, token):
         usuario.save()
 
         # Cria Card para o usuário que ativou a conta
-        empresa = usuario.empresa_vendedores.first()
-        card = Card.objects.create(empresa=empresa, whatsapp='16111111111', facebook='https://facebook.com/meunome',
-                                   instagram='https://instagram.com/meunome', linkedin='https://linkedin.com/in/meunome', telefone='16111111111',
-                                   usuario=usuario)
+        # empresa = usuario.empresa_vendedores.first()
+        # card = Card.objects.create(empresa=empresa, whatsapp='16111111111', facebook='https://facebook.com/meunome',
+                                #    instagram='https://instagram.com/meunome', linkedin='https://linkedin.com/in/meunome', telefone='16111111111',
+                                #    usuario=usuario)
 
-        auth_login(request, usuario)
-        return redirect('usuarios:trocar-senha')
+        # auth_login(request, usuario)
+        # return redirect('usuarios:trocar-senha')
+        return HttpResponse('Seu card foi ativado com sucesso!')
     else:
         return HttpResponse('Link de ativação inválido!')

@@ -8,7 +8,7 @@ def validate_file_extension(value):
         raise ValidationError('Tipo de imagem não suportado. Tente imagens do tipo JPG, JEPG, PNG ou SVG.')
 
 
-def make_vcard(first_name, last_name, empresa, fone, whatsapp, facebook, instagram, linkedin, email):
+def make_vcard(first_name, last_name, empresa, telefone, whatsapp, facebook, instagram, linkedin, email):
 
     
     return [
@@ -17,7 +17,7 @@ def make_vcard(first_name, last_name, empresa, fone, whatsapp, facebook, instagr
         f'N:{last_name};{first_name}',
         f'FN:{first_name} {last_name}',
         f'ORG:{empresa}',
-        f'TEL;type=WORK;type=VOICE:{fone}',
+        f'TEL;type=WORK;type=VOICE:{telefone}',
         f'item1.URL;type=pref:https://api.whatsapp.com/send?phone=55{whatsapp}&text=oi',
         f'item1.X-ABLabel:Whatsapp',
         f'item2.URL;type=pref:{instagram}',

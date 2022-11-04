@@ -82,7 +82,6 @@ class Card(models.Model):
                                 URLValidator(schemes=['http', 'https'])])
     linkedin = models.URLField(verbose_name='Linkedin', max_length=200, blank=True, validators=[
                                URLValidator(schemes=['http', 'https'])])
-    youtube = models.TextField(verbose_name='Youtube', max_length=1000, blank=True)
     telefone = models.CharField(
         verbose_name='Telefone', max_length=30, unique=True)
     qr_code = models.ImageField(verbose_name='QR Code', upload_to=get_path, blank=True,

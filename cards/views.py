@@ -9,11 +9,19 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import ListView, TemplateView, UpdateView, DetailView
+from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView
 from core import analytics_data_api
 from .models import Empresa, Card, get_path
+from usuarios.models import Usuario
 from .forms import CardEditForm, EmpresaEditForm
 from .utils import make_vcard
+from django.template.defaultfilters import slugify
+from usuarios.tokens import account_activation_token
+from django.core.mail import EmailMessage
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
 
 reg_b = re.compile(r"(android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\\.(browser|link)|vodafone|wap|windows ce|xda|xiino", re.I | re.M)
 
@@ -96,18 +104,20 @@ class CardDashboardView(TemplateView):
         return context
 
 
-class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Card
     form_class = CardEditForm
-    template_name = 'cards/editar.html'
-    # success_url = reverse_lazy('core:detalhe', kwargs={'empresa': card.empresa.slug, 'slug': card.slug})
-    success_message = 'Card atualizado com sucesso!'
+    template_name = 'cards/criar.html'
+    success_url = '.'
+    success_message = 'Card criado com sucesso. Solicite ao dono do card que ative-o clicando no link que ele recebeu por email'
 
-    def get_success_url(self, **kwargs):
-        card = Card.objects.get(slug=self.kwargs['slug'])
-        success_url = reverse_lazy('core:detalhe', kwargs={'empresa': card.empresa.slug, 'slug': card.slug})
-        return success_url
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        usuario = self.request.user
+        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
+        context['empresa'] = empresa
+        return context
+    
     def gera_qrcode(self, card, **kwargs):
         host = self.request.get_host()
         vcard_url = card.vcard.url
@@ -126,6 +136,104 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         card.qr_code.save(name, File(blob), save=False)
         return card.qr_code
 
+    def form_valid(self, form):
+
+        # CRIA NOVO USUÁRIO
+        usuario = self.request.user
+        empresa = usuario.cards.first().empresa
+        email = form.data['email']
+        first_name = form.data['first_name']
+        last_name = form.data['last_name']
+        username = f'{first_name.lower()}.{last_name.lower()}'
+        password = Usuario.objects.make_random_password()
+        novo_usuario = Usuario.objects.create(email=email, first_name=first_name, last_name=last_name, username=username,
+        is_active=False)
+        novo_usuario.set_password(password)
+        novo_usuario.save()
+
+        # ASSOCIA O NOVO USUÁRIO À EMPRESA
+        empresa.vendedores.add(novo_usuario)
+        empresa.save()
+
+        # CRIA NOVO CARD
+        card = form.save(commit=False)
+        card.empresa = empresa
+        card.usuario = novo_usuario
+        telefone = form.data['telefone']
+        whatsapp = form.data['whatsapp']
+        facebook = form.data['facebook']
+        instagram = form.data['instagram']
+        linkedin = form.data['linkedin']
+        cargo = form.data['cargo']
+        vcard_content = make_vcard(novo_usuario.first_name, novo_usuario.last_name, empresa.nome,
+                                    telefone, whatsapp, facebook, instagram, linkedin, novo_usuario.email)
+        
+        vcard_name = f'{slugify(novo_usuario.get_full_name())}.vcf'
+        if card.vcard:
+            qr_code = self.gera_qrcode(card)
+            try:
+                os.remove(card.vcard.path)
+                card.vcard.delete()
+                card.save()
+            except FileNotFoundError as err:
+                print(err)
+        content = '\n'.join([str(line) for line in vcard_content])
+        vcard_file = ContentFile(content)
+        card.vcard.save(vcard_name, vcard_file)
+        qr_code = self.gera_qrcode(card)
+        card.save()
+
+        
+
+        # ENVIA EMAIL PARA ATIVAÇÃO DA CONTA
+        current_site = get_current_site(self.request)
+        subject = 'Ative a sua conta'
+        to = novo_usuario.email
+        context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
+                   'token': account_activation_token.make_token(novo_usuario)}
+        # context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
+        #            'token': account_activation_token.make_token(novo_usuario), 'password': form.data['password1']}
+        body = render_to_string(
+            'usuarios/email-ativacao.html', context=context)
+        msg = EmailMessage(subject, body, to=[to])
+        msg.content_subtype = "html"  # Main content is now text/html
+        msg.send()
+
+        return super().form_valid(form)
+
+
+class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Card
+    form_class = CardEditForm
+    template_name = 'cards/editar.html'
+    # success_url = reverse_lazy('core:detalhe', kwargs={'empresa': card.empresa.slug, 'slug': card.slug})
+    success_message = 'Card atualizado com sucesso!'
+
+    # TODO criar uma função para remover a imagem de perfil, qr_code e vcf
+
+    def get_success_url(self, **kwargs):
+        card = Card.objects.get(slug=self.kwargs['slug'])
+        success_url = reverse_lazy('core:detalhe', kwargs={'empresa': card.empresa.slug, 'slug': card.slug})
+        return success_url
+
+    def gera_qrcode(self, card, **kwargs):
+        host = self.request.get_host()
+        vcard_url = card.vcard.url
+        url = f'{host}{vcard_url}'
+        qr_code = qrcode.make(url, box_size=20)
+        name = f'{card.slug}-qrcode.png'
+        blob = BytesIO()
+        # TODO arrumar a função gera_qr_code. Está apagando e gerando 2x
+        if card.qr_code:
+            try:
+                os.remove(card.qr_code.path)
+                card.qr_code.delete()
+                card.save()
+            except FileNotFoundError as err:
+                print(err)
+        qr_code.save(blob)
+        card.qr_code.save(name, File(blob), save=False)
+        return card.qr_code
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -134,7 +242,6 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         empresa = card.empresa
         context['empresa'] = empresa
         return context
-
 
     def form_valid(self, form):
         card = form.save(commit=False)
@@ -240,7 +347,7 @@ class EmpresaDashboardView(TemplateView):
 class EmpresaEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Empresa
     form_class = EmpresaEditForm
-    template_name = 'cards/editar-empresa.html'
+    template_name = 'cards/conteudo.html'
     success_message = 'Informações atualizados com sucesso!'
 
     def get_success_url(self, **kwargs):

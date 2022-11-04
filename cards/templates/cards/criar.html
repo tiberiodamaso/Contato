@@ -12,8 +12,22 @@
     {% else %}
     <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
     {% endif %}
-    <form action="{% url 'core:editar' empresa.slug card.slug %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+    <form action="{% url 'core:criar' empresa.slug %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
       {% csrf_token %}
+
+      <p>
+        <label for="id_email">Email:</label>
+        <input type="email" name="email" class="form-control" maxlength=50" id="id_email">
+      </p>
+      <p>
+        <label for="id_first_name">Primeiro nome:</label>
+        <input type="text" name="first_name" class="form-control" maxlength=50" id="id_first_name" placeholder="Somente o primeiro nome, mesmo se composto">
+      </p>
+      <p>
+        <label for="id_last_name">Último nome:</label>
+        <input type="text" name="last_name" class="form-control" maxlength=50" id="id_last_name" placeholder="Somente o último nome do sobrenome">
+      </p>
+
       {% for field in form %}
       <p>
         {{ field.label_tag }}

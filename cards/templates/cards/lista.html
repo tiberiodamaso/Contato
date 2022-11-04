@@ -6,27 +6,29 @@
 <body class="container">
   
 <!-- {% include 'core/menu-interno.html'} -->
-{% include 'core/menu-geral.html'%}
+{% include 'core/menu.html'%}
 
 <!-- <div class="container-fluid"> -->
   <div class="row text-center p-3 justify-content-center">
     {% for card in cards %}
-    <div class="col-lg-3 col-sm-5 col-12 mt-5 border border-2 rounded-2 mx-2">
-      {% if card.img_perfil %}
-      <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
-      {% else %}
-      <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
-      {% endif %}
-      <h2 class="fw-normal">{{card.usuario.first_name}} {{card.usuario.last_name}}</h2>
-      {% if card.cargo %}
-      <h4 class="lead">{{ card.cargo }}</h4>
-      {% endif %}
-      <!-- <p>Informações sobre a performance</p> -->
-      <div class="d-flex justify-content-center py-3 mx-2">
-        <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:detalhe' empresa.slug card.slug %}">Editar</a>
-        <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:dashboard-card' empresa.slug card.slug %}">Performance</a></p>
+    {% if card.usuario.is_active %}
+      <div class="col-lg-3 col-sm-5 col-12 mt-5 border border-2 rounded-2 mx-2">
+        {% if card.img_perfil %}
+        <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
+        {% else %}
+        <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
+        {% endif %}
+        <h2 class="fw-normal">{{card.usuario.first_name}} {{card.usuario.last_name}}</h2>
+        {% if card.cargo %}
+        <h4 class="lead">{{ card.cargo }}</h4>
+        {% endif %}
+        <!-- <p>Informações sobre a performance</p> -->
+        <div class="d-flex justify-content-center py-3 mx-2">
+          <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:editar' empresa.slug card.slug %}">Editar</a>
+          <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:dashboard-card' empresa.slug card.slug %}">Performance</a></p>
+        </div>
       </div>
-    </div>
+    {% endif %}
     {% endfor %}
   </div>
 <!-- </div> -->

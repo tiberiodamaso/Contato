@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import HomeView, Marcas, Bild, Perplan
-from cards.views import CardEditView, CardListView, CardDashboardView, CardDetailView, EmpresaDashboardView, EmpresaEditView
+from cards.views import CardEditView, CardListView, CardDashboardView, CardDetailView, CardCreateView, EmpresaDashboardView, EmpresaEditView
 
 app_name = 'core'
 
@@ -9,9 +9,10 @@ urlpatterns = [
     path('<slug:empresa>/dashboard/', EmpresaDashboardView.as_view(), name='dashboard-empresa'),
     path('<slug:empresa>/dashboard/<slug:slug>/', CardDashboardView.as_view(), name='dashboard-card'),
     path('<slug:empresa>/cards/', CardListView.as_view(), name='lista'),
+    path('<slug:empresa>/card/criar/', CardCreateView.as_view(), name='criar'),
     path('<slug:empresa>/card/<slug:slug>/editar/', CardEditView.as_view(), name='editar'),
     path('<slug:empresa>/card/<slug:slug>/', CardDetailView.as_view(), name='detalhe'),
-    path('<slug:empresa>/editar-empresa/<int:pk>/', EmpresaEditView.as_view(), name='editar-empresa'),
+    path('<slug:empresa>/card/conteudo/<int:pk>/', EmpresaEditView.as_view(), name='conteudo'),
 
 
     # path('marcas/', Marcas.as_view(), name='marcas'),

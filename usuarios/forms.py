@@ -14,6 +14,7 @@ class UsuarioAuthenticationForm(AuthenticationForm):
             attrs={'autocomplete': 'current-password', 'class': 'form-control'}),
     )
 
+
 class UsuarioRegistrationForm(UserCreationForm):
 
     email = forms.EmailField(widget=forms.EmailInput(
@@ -30,9 +31,9 @@ class UsuarioRegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['password1'].widget.attrs['class'] = 'form-control'
-        self.fields['password2'].widget.attrs['class'] = 'form-control'
+        self.fields['username'].widget.attrs['class'] = 'form-control invisible'
+        self.fields['password1'].widget.attrs['class'] = 'form-control invisible'
+        self.fields['password2'].widget.attrs['class'] = 'form-control invisible'
         self.fields['username'].label = 'Nome de usuário'
 
     def save(self, commit=True):
@@ -42,7 +43,6 @@ class UsuarioRegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
-
 
 
 class TrocaSenhaForm(PasswordChangeForm):
@@ -81,3 +81,26 @@ class EsqueceuSenhaLinkForm(SetPasswordForm):
         widget=forms.PasswordInput(
             attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
     )
+
+
+class UsuarioCriarForm(forms.ModelForm):
+
+    class Meta:
+        model = Usuario
+        fields = ['email', 'first_name', 'last_name']
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+    def save(self, commit=True):
+        usuario = super().save(commit=False)
+        usuario.username = f'{usuario.first_name.lower()}.{usuario.last_name.lower()}'
+        password1 = Usuario.objects.make_random_password()
+        password2 = password1
+        usuario.set_password(password1)
+        usuario.is_active = False
+        if commit:
+            usuario.save()
+        return usuario

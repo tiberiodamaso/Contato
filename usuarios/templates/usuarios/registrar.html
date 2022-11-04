@@ -2,14 +2,37 @@
 {% load static %}
 {% block content %}
 
-{% include 'core/menu-geral.html' %}
+{% include 'core/menu.html' %}
 {% include 'core/mensagens.html' %}
 
 <body class="container">
   <form method="post" action="{% url 'usuarios:registrar' %}" class="col-10 col-lg-6 py-5 d-flex flex-column m-auto">
     {% csrf_token %}
     <p class="text-center display-5 mb-5">Criar novo card</p>
-    {% for field in form %}
+    <p>{{ form.email.label_tag }}</p>
+    <p>{{ form.email }}</p>
+    {% if form.email.help_text %}
+        <small style="color: grey">{{ form.email.help_text }}</small>
+    {% endif %}
+
+    <p>{{ form.first_name.label_tag }}</p>
+    <p>{{ form.first_name }}</p>
+    {% if form.first_name.help_text %}
+        <small style="color: grey">{{ form.first_name.help_text }}</small>
+    {% endif %}
+    <p>{{ form.last_name.label_tag }}</p>
+    <p>{{ form.last_name }}</p>
+    {% if form.last_name.help_text %}
+        <small style="color: grey">{{ form.last_name.help_text }}</small>
+    {% endif %}
+    
+    <button type="submit" class="btn btn-warning">Criar card</button>
+  </form>
+</body>
+{% endblock %}
+
+<!--FORM ANTIGO-->
+{% for field in form %}
     <p>
       {{ field.label_tag }}
       {{ field }}
@@ -24,11 +47,6 @@
       {% endfor %}
     </p>
     {% endfor %}
-    <button type="submit" class="btn btn-warning">Criar card</button>
-  </form>
-</body>
-{% endblock %}
-
 
 
 <!--FORM DO DJANGO UTILIZANDO TODOS OS CAMPOS DEFAULT-->
