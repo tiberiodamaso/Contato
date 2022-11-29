@@ -2,26 +2,19 @@
 {% load static %}
 {% block content %}
 
-{% include 'core/menu.html'%}
+{% include 'core/menu-interno.html'%}
 <body class="container">
   
+
 <!--CHARTJS-->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {{resultados|json_script:'resultados'}}
 
 
-<!--MOBILE-->
-{% if mobile %}
-<div class="d-flex justify-content-center">
-  <iframe width="100%" height="2850"
-    src="https://datastudio.google.com/embed/reporting/90dc4789-35e5-4eb8-886f-695bd2591690/page/S33B" frameborder="0"
-    style="border:0" allowfullscreen></iframe>
-</div>
-{% else %}
-<!--DESKTOP-->
+<!--NOME E PERÍODO DE RELATÓRIO-->
 <div class="container">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">{{card.usuario.first_name}} {{card.usuario.last_name}} nos últimos 30 dias</h1>
+    <h1 class="h2">{{ empresa.nome }} nos últimos 30 dias</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
       <!-- <div class="btn-group me-2">
         <button type="button" class="btn btn-sm btn-outline-secondary">Compartilhar</button>
@@ -44,9 +37,9 @@
   <div class="row align-items-md-stretch my-4">
 
     <!--AQUISIÇÃO DE USUÁRIOS-->
-    <div class="col-md-4">
+    <div class="col-md-4 mb-3 mb-md-0 mb-lg-0">
       <div class="h-100 p-3 bg-light rounded-3">
-        <h5 class="pb-4">Aquisição de usuários</h5>
+        <h5 class="pb-4">Aquisição de usuários top 5</h5>
         <div class="d-flex">
           <div class="col-6 text-center">
             <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
@@ -79,9 +72,9 @@
     </div>
 
     <!--AQUISIÇÃO DE TRÁFEGO-->
-    <div class="col-md-4">
+    <div class="col-md-4 mb-3 mb-md-0 mb-lg-0">
       <div class="h-100 p-3 bg-light rounded-3">
-        <h5 class="pb-4">Aquisição de tráfego</h5>
+        <h5 class="pb-4">Aquisição de tráfego top 5</h5>
         <div class="d-flex">
           <div class="col-6 text-center">
             <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
@@ -114,7 +107,7 @@
     </div>
 
     <!--ORIGEM DE TRÁFEGO-->
-    <div class="col-md-4">
+    <div class="col-md-4 mb-md-0 mb-lg-0">
       <div class="h-100 p-3 bg-light rounded-3">
         <h5 class="pb-4">Origem do tráfego</h5>
         <div class="d-flex">
@@ -124,12 +117,15 @@
     </div>
   </div>
 
+  {% if mobile %}
+  # TODO
+  {% else %}
   <!--INFORMAÇÕES DEMOGRÁFICAS-->
   <div class="col-md-12">
     <div class="h-100 p-3 bg-light rounded-3">
       <h5>Informações demográficas</h5>
       <table class="table">
-        <thead>
+        <thead class="text-center">
           <tr>
             <th></th>
             <th>Total usuários</th>
@@ -159,6 +155,7 @@
       </table>
     </div>
   </div>
+  {% endif %}
 </div>
 
 <script>
@@ -210,8 +207,6 @@
   // let resultadosctx = document.getElementById('origens_das_sessoes').getContext('2d');
   // let resultadosChart = new Chart(resultadosctx, { type: 'bar', data: chartData, options: chartOptions });
 </script>
-
-{% endif %}
 </body>
 
 {% endblock %}

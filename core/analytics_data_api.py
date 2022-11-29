@@ -1,4 +1,5 @@
-import os, json
+import os
+import json
 from google.analytics.data_v1beta import BetaAnalyticsDataClient
 from google.analytics.data_v1beta.types import DateRange
 from google.analytics.data_v1beta.types import Dimension
@@ -8,7 +9,8 @@ from google.analytics.data_v1beta.types import RunReportRequest
 from google.analytics.data_v1beta.types import Filter
 from google.analytics.data_v1beta.types import FilterExpression
 from django.conf import settings
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(settings.BASE_DIR, 'client_secrets.json')
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(
+    settings.BASE_DIR, 'client_secrets.json')
 # os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/Users/tiberio/Desktop/Projects/Contato/client_secrets.json'
 
 
@@ -32,7 +34,7 @@ def run_report_city(property_id, pagina):
             # Dimension(name="screenResolution"),
             # Dimension(name="pagePath"),
             # Dimension(name="pageTitle"),
-            ],
+        ],
         metrics=[
             Metric(name="totalUsers"),
             Metric(name="activeUsers"),
@@ -44,7 +46,7 @@ def run_report_city(property_id, pagina):
             Metric(name="screenPageViews"),
             # Metric(name="screenPageViewsPerSession"),
             Metric(name="bounceRate"),
-            ],
+        ],
         date_ranges=[DateRange(start_date="30daysAgo", end_date="yesterday")],
         dimension_filter=FilterExpression(
             filter=Filter(
@@ -58,6 +60,7 @@ def run_report_city(property_id, pagina):
     )
     response = client.run_report(request)
     return response
+
 
 def run_report_session_origin(property_id, pagina):
     """Runs a simple report on a Google Analytics 4 property."""
@@ -79,10 +82,10 @@ def run_report_session_origin(property_id, pagina):
             # Dimension(name="screenResolution"),
             # Dimension(name="pagePath"),
             # Dimension(name="pageTitle"),
-            ],
+        ],
         metrics=[
             Metric(name="totalUsers")
-            ],
+        ],
         date_ranges=[DateRange(start_date="30daysAgo", end_date="yesterday")],
         dimension_filter=FilterExpression(
             filter=Filter(
@@ -107,6 +110,36 @@ def run_report_session_origin(property_id, pagina):
             print(f"Metric header name: {metricHeader.name} ({metric_type})")
 
     print_run_report_response(response_city)
+
+
+def run_report_page_path(property_id, pagina):
+    property_id = "323214127"
+    client = BetaAnalyticsDataClient()
+
+    request = RunReportRequest(
+        property=f"properties/{property_id}",
+        dimensions=[
+            Dimension(name="pagePath"),
+        ],
+        metrics=[
+            Metric(name="screenPageViews")
+        ],
+        date_ranges=[DateRange(start_date="30daysAgo", end_date="yesterday")],
+        dimension_filter=FilterExpression(
+            filter=Filter(
+                field_name="pagePath",
+                in_list_filter=Filter.InListFilter(
+                    values=pagina
+                ),
+            )
+        ),
+        metric_aggregations=[
+            "TOTAL"
+        ]
+    )
+    response = client.run_report(request)
+    return response
+
 
 if __name__ == "__main__":
     run_report()

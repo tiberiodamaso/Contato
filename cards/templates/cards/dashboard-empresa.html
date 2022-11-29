@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-{% include 'core/menu-interno.html'%}
+{% include 'core/menu.html'%}
 <body class="container">
   
 
@@ -14,7 +14,7 @@
 <!--NOME E PERÍODO DE RELATÓRIO-->
 <div class="container">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">{{empresa.nome}} nos últimos 30 dias</h1>
+    <h1 class="h2">{{ empresa.nome }} nos últimos 30 dias</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
       <!-- <div class="btn-group me-2">
         <button type="button" class="btn btn-sm btn-outline-secondary">Compartilhar</button>
@@ -36,142 +36,34 @@
 
   <div class="row align-items-md-stretch my-4">
 
-    <!--AQUISIÇÃO DE USUÁRIOS-->
-    <div class="col-md-4 mb-3 mb-md-0 mb-lg-0">
-      <div class="h-100 p-3 bg-light rounded-3">
-        <h5 class="pb-4">Aquisição de usuários</h5>
-        <div class="d-flex">
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Total de usuários</span>
-              <span class="fs-1">{{total_de_usuarios}}</span>
-            </div>
-          </div>
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Usuários ativos</span>
-              <span class="fs-1">{{usuarios_ativos}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="d-flex">
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Novos usuários</span>
-              <span class="fs-1">{{novos_usuarios}}</span>
-            </div>
-          </div>
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Tempo de interação</span>
-              <span class="fs-1">{{tempo_de_interacao|floatformat:2}}s</span>
-            </div>
+    <!--TOP 5 PAGE VIEWS-->
+    <div class="col-md-4">
+        <div class="h-100 p-3 bg-light rounded-3">
+          <h5 class="pb-4">Top 5 Visualizações</h5>
+          <div class="d-flex">
+            <canvas id="visualizacoes"></canvas>
           </div>
         </div>
       </div>
-    </div>
 
-    <!--AQUISIÇÃO DE TRÁFEGO-->
-    <div class="col-md-4 mb-3 mb-md-0 mb-lg-0">
-      <div class="h-100 p-3 bg-light rounded-3">
-        <h5 class="pb-4">Aquisição de tráfego</h5>
-        <div class="d-flex">
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Visualizações</span>
-              <span class="fs-1">{{visualizacoes}}</span>
-            </div>
-          </div>
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Sessões</span>
-              <span class="fs-1">{{sessoes}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="d-flex">
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Duração média da sessão</span>
-              <span class="fs-1">{{duracao_media_sessao|floatformat:2}}s</span>
-            </div>
-          </div>
-          <div class="col-6 text-center">
-            <div class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-              <span class="fs-6">Rejeição</span>
-              <span class="fs-1">{{rejeicao|floatformat}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--ORIGEM DE TRÁFEGO-->
-    <div class="col-md-4 mb-md-0 mb-lg-0">
-      <div class="h-100 p-3 bg-light rounded-3">
-        <h5 class="pb-4">Origem do tráfego</h5>
-        <div class="d-flex">
-          <canvas id="origens_das_sessoes"></canvas>
-        </div>
-      </div>
-    </div>
   </div>
 
-  {% if mobile %}
-  # TODO
-  {% else %}
-  <!--INFORMAÇÕES DEMOGRÁFICAS-->
-  <div class="col-md-12">
-    <div class="h-100 p-3 bg-light rounded-3">
-      <h5>Informações demográficas</h5>
-      <table class="table">
-        <thead class="text-center">
-          <tr>
-            <th></th>
-            <th>Total usuários</th>
-            <th>Usuários ativos</th>
-            <th>Novos usuários</th>
-            <th>Tempo de interação (s)</th>
-            <th>Sessões</th>
-            <th>Duração média da sessão (s)</th>
-            <th>Visualizações</th>
-            <th>Rejeição</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          {% for row in data.rows %}
-          <tr>
-            {% for dimension in row.dimension_values %}
-            <td>{{dimension.value}}</td>
-            {% endfor %}
-            {% for metric in row.metric_values%}
-            <td class="text-center">{{ metric.value|floatformat }}</td>
-            {% endfor %}
-          </tr>
-          {% endfor %}
-
-        </tbody>
-      </table>
-    </div>
-  </div>
-  {% endif %}
 </div>
 
 <script>
   let resultados = JSON.parse(document.querySelector("#resultados").textContent);
-  let chartStatus = Chart.getChart("origens_das_sessoes"); // <canvas> id
+  let chartStatus = Chart.getChart("visualizacoes"); // <canvas> id
 
   if (chartStatus != undefined) {
     chartStatus.destroy();
   }
 
-  const labels = resultados.origens;
+  const labels = resultados.cards;
   const data = {
     labels: labels,
     datasets: [{
-      label: 'Usuários',
-      data: resultados.usuarios_por_origem,
+      label: 'Cards',
+      data: resultados.visualizacoes,
       backgroundColor: ['rgba(255, 193, 7)'],
       borderColor: ['rgba(255, 193, 7)'],
       borderWidth: 1
@@ -203,7 +95,7 @@
     }
   }
 
-  const grafico = new Chart(document.getElementById('origens_das_sessoes'), config);
+  const grafico = new Chart(document.getElementById('visualizacoes'), config);
   // let resultadosctx = document.getElementById('origens_das_sessoes').getContext('2d');
   // let resultadosChart = new Chart(resultadosctx, { type: 'bar', data: chartData, options: chartOptions });
 </script>

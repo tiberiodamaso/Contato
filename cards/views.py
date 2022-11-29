@@ -67,7 +67,7 @@ class CardDashboardView(TemplateView):
             context['mobile'] = True
         empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
         card = Card.objects.get(slug=self.kwargs['slug'])
-        pagina = f'/{empresa.slug}/dashboard/{card.slug}/'
+        pagina = f'/{empresa.slug}/card/{card.slug}/'
         data_city = analytics_data_api.run_report_city(property_id=None, pagina=pagina)
         data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
 
@@ -286,7 +286,7 @@ class CardDetailView(DetailView):
 
 
 class EmpresaDashboardView(TemplateView):
-    template_name = 'card/dashboard-empresa.html'
+    template_name = 'cards/dashboard-empresa.html'
 
     def process_request(self):
         self.request.mobile = False
@@ -307,40 +307,55 @@ class EmpresaDashboardView(TemplateView):
         if self.process_request():
             context['mobile'] = True
         empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
-        pagina = f'/dashboard/{empresa.slug}/'
-        data_city = analytics_data_api.run_report_city(property_id=None, pagina=pagina)
-        data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
+        cards = Card.objects.filter(empresa=empresa)
+        paginas = [f'/{empresa.slug}/card/{card.slug}/' for card in cards]
+        # data_city = analytics_data_api.run_report_city(property_id=None, pagina=paginas)
+        # data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
+        data_page_path = analytics_data_api.run_report_page_path(property_id=None, pagina=paginas)
 
         resultados = {}
-        origens = []
-        usuarios_por_origem = []
-        for row in data_session_origin.rows[0].dimension_values:
-            origens.append(row.value)
-            resultados['origens'] = origens
-        for row in data_session_origin.rows[0].metric_values:
-            usuarios_por_origem = [row.value]
-            resultados['usuarios_por_origem'] = usuarios_por_origem
+        # origens = []
+        visualizacoes = []
+        cards_slugs = [card.slug for card in cards]
+        resultados['cards'] = cards_slugs
+        for i, row in enumerate(data_page_path.rows):
+            visualizacoes.append(data_page_path.rows[i].metric_values[0].value)
+        resultados['visualizacoes'] = visualizacoes
+        # for row in data_session_origin.rows[0].dimension_values:
+        #     origens.append(row.value)
+        #     resultados['origens'] = origens
+        # for row in data_session_origin.rows[0].metric_values:
+        #     usuarios_por_origem = [row.value]
+        #     resultados['usuarios_por_origem'] = usuarios_por_origem
+        # for row in data_page_path.rows:
+        #     pages.append(row.dimension_values)
+        #     visualizacoes.append(row.metric_values)
+        #     resultados['pages'] = pages
 
         # EMPRESA
         context['empresa'] = empresa
 
         # AQUISIÇÃO DE USUÁRIOS
-        context['total_de_usuarios'] = data_city.totals[0].metric_values[0].value
-        context['usuarios_ativos'] = data_city.totals[0].metric_values[1].value
-        context['novos_usuarios'] = data_city.totals[0].metric_values[2].value
-        context['tempo_de_interacao'] = data_city.totals[0].metric_values[3].value
+        # context['total_de_usuarios'] = data_city.totals[0].metric_values[0].value
+        # context['usuarios_ativos'] = data_city.totals[0].metric_values[1].value
+        # context['novos_usuarios'] = data_city.totals[0].metric_values[2].value
+        # context['tempo_de_interacao'] = data_city.totals[0].metric_values[3].value
 
         # AQUISIÇÃO DE TRÁFEGO
-        context['sessoes'] = data_city.totals[0].metric_values[4].value
-        context['duracao_media_sessao'] = data_city.totals[0].metric_values[5].value
+        # context['sessoes'] = data_city.totals[0].metric_values[4].value
+        # context['duracao_media_sessao'] = data_city.totals[0].metric_values[5].value
         # context['sessoes_engajadas'] = data.totals[0].metric_values[6].value
-        context['visualizacoes'] = data_city.totals[0].metric_values[6].value
+        # context['visualizacoes'] = data_city.totals[0].metric_values[6].value
         # context['visualizacoes_por_sessao'] = data.totals[0].metric_values[8].value
-        context['rejeicao'] = data_city.totals[0].metric_values[7].value
-        context['data'] = data_city
+        # context['rejeicao'] = data_city.totals[0].metric_values[7].value
+        # context['data'] = data_city
 
         # ORIGEM DE TRÁFEGO
         context['resultados'] = resultados
+
+        # VISUALIZAÇÕES
+        # context['pages'] = pages
+
         return context
 
 
