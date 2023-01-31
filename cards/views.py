@@ -75,12 +75,17 @@ class CardDashboardView(TemplateView):
         resultados = {}
         origens = []
         usuarios_por_origem = []
+        if not data_session_origin.rows or not data_city.rows:
+          context['resultados'] = None
+          return context
+          
         for row in data_session_origin.rows[0].dimension_values:
             origens.append(row.value)
             resultados['origens'] = origens
         for row in data_session_origin.rows[0].metric_values:
             usuarios_por_origem = [row.value]
             resultados['usuarios_por_origem'] = usuarios_por_origem
+
 
         context['card'] = card
         context['empresa'] = empresa
