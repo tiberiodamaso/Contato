@@ -28,7 +28,9 @@ class LoginView(LoginView):
     def get_success_url(self):
         user = self.request.user
         card = user.cards.first()
-        if user.is_staff:
+        if user.is_superuser:
+            return reverse('core:todos-cards')
+        elif user.is_staff:
         #     empresa = self.request.user.empresa_gerentes.first().slug
         #     return reverse('core:dashboard-empresa', kwargs={'empresa': empresa})
             return reverse('core:lista', kwargs={'empresa': card.empresa.slug})

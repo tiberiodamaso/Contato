@@ -3,20 +3,21 @@
 {% block content %}
 
 {% include 'core/menu.html'%}
+
 <body class="container">
-  
-
-<!--CHARTJS-->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-{{resultados|json_script:'resultados'}}
 
 
-<!--NOME E PERÍODO DE RELATÓRIO-->
-<div class="container">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">{{ empresa.nome }} nos últimos 30 dias</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-      <!-- <div class="btn-group me-2">
+  <!--CHARTJS-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  {{resultados|json_script:'resultados'}}
+
+
+  <!--NOME E PERÍODO DE RELATÓRIO-->
+  <div class="container">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+      <h1 class="h2">{{ empresa.nome }} nos últimos 30 dias</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <!-- <div class="btn-group me-2">
         <button type="button" class="btn btn-sm btn-outline-secondary">Compartilhar</button>
         <button type="button" class="btn btn-sm btn-outline-secondary">Exportar</button>
       </div>
@@ -31,13 +32,23 @@
         </svg>
         Essa semana
       </button> -->
+      </div>
     </div>
-  </div>
 
-  <div class="row align-items-md-stretch my-4">
+    <div class="row align-items-md-stretch my-4">
 
-    <!--TOP 5 PAGE VIEWS-->
-    <div class="col-md-4">
+      <!--TOP 5 PAGE VIEWS-->
+      <div class="col-md-4 mb-3">
+        <div class="h-100 p-3 bg-light rounded-3">
+          <h5 class="pb-4">Total de cards</h5>
+          <div class="d-flex justify-content-center" style="font-size: 3rem;">
+            <p>{{resultados.cards|length}}</p>
+          </div>
+        </div>
+      </div>
+
+      <!--TOP 5 PAGE VIEWS-->
+      <div class="col-md-4 mb-3">
         <div class="h-100 p-3 bg-light rounded-3">
           <h5 class="pb-4">Top 5 Visualizações</h5>
           <div class="d-flex">
@@ -46,59 +57,112 @@
         </div>
       </div>
 
+      <!--TOP 5 PAGE VIEWS-->
+      <div class="col-md-4 mb-3">
+        <div class="h-100 p-3 bg-light rounded-3">
+          <h5 class="pb-4">Top 5 Origem de tráfego</h5>
+          <div class="d-flex">
+            <canvas id="origem-de-trafego"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 
-</div>
+  <script>
+    let resultados = JSON.parse(document.querySelector("#resultados").textContent);
+    let chartVisualizacoes = Chart.getChart("visualizacoes"); // <canvas> id
+    let chartOrigens = Chart.getChart("origem-de-trafego"); // <canvas> id
 
-<script>
-  let resultados = JSON.parse(document.querySelector("#resultados").textContent);
-  let chartStatus = Chart.getChart("visualizacoes"); // <canvas> id
+    if (chartVisualizacoes != undefined) {
+      chartVisualizacoes.destroy();
+    }
+    if (chartOrigens != undefined) {
+      chartOrigens.destroy();
+    }
 
-  if (chartStatus != undefined) {
-    chartStatus.destroy();
-  }
-
-  const labels = resultados.cards;
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: 'Cards',
-      data: resultados.visualizacoes,
-      backgroundColor: ['rgba(255, 193, 7)'],
-      borderColor: ['rgba(255, 193, 7)'],
-      borderWidth: 1
-    }]
-  }
-  const config = {
-    type: 'bar',
-    data: data,
-    plugins: {
-      legend: {
-        labels: {
-          boxWidth: 5,
-          font: {
-            size: 20,
+    // GRÁFICO DE VISUALIZAÇÕES
+    const labelsVisualizacoes = resultados.cards;
+    const dataVisualizacoes = {
+      labels: labelsVisualizacoes,
+      datasets: [{
+        label: 'Cards',
+        data: resultados.visualizacoes,
+        backgroundColor: ['rgba(255, 193, 7)'],
+        borderColor: ['rgba(255, 193, 7)'],
+        borderWidth: 1
+      }]
+    }
+    const configVisualizacoes = {
+      type: 'bar',
+      data: dataVisualizacoes,
+      plugins: {
+        legend: {
+          labels: {
+            boxWidth: 5,
+            font: {
+              size: 20,
+            }
           }
         }
-      }
-    },
-    options: {
-      indexAxis: 'y',
-      scales: {
-        x: {
-          beginAtZero: true,
-          ticks: {
-            stepSize: 10
-          }
-        },
+      },
+      options: {
+        indexAxis: 'y',
+        scales: {
+          x: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          },
+        }
       }
     }
-  }
-
-  const grafico = new Chart(document.getElementById('visualizacoes'), config);
+    const graficoVisualizacoes = new Chart(document.getElementById('visualizacoes'), configVisualizacoes);
+    
+    // GRÁFICO DE ORIGENS
+    const labelsOrigens = resultados.origens;
+    const dataOrigens = {
+      labels: labelsOrigens,
+      datasets: [{
+        label: 'Origens',
+        data: resultados.origens_visualizacoes,
+        backgroundColor: ['rgba(255, 193, 7)'],
+        borderColor: ['rgba(255, 193, 7)'],
+        borderWidth: 1
+      }]
+    }
+    const configOrigens = {
+      type: 'bar',
+      data: dataOrigens,
+      plugins: {
+        legend: {
+          labels: {
+            boxWidth: 5,
+            font: {
+              size: 20,
+            }
+          }
+        }
+      },
+      options: {
+        indexAxis: 'y',
+        scales: {
+          x: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          },
+        }
+      }
+    }
+    const graficoOrigens = new Chart(document.getElementById('origem-de-trafego'), configOrigens);
   // let resultadosctx = document.getElementById('origens_das_sessoes').getContext('2d');
   // let resultadosChart = new Chart(resultadosctx, { type: 'bar', data: chartData, options: chartOptions });
-</script>
+  </script>
 </body>
 
 {% endblock %}

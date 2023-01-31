@@ -10,7 +10,7 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'core:home' %}">Início</a>
         </li>
-        
+
         {% if user.is_authenticated and user.is_staff %}
         {% if user.cards %}
         <li class="nav-item">

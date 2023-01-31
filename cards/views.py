@@ -22,6 +22,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
+from django.db.models import Count
 
 reg_b = re.compile(r"(android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\\.(browser|link)|vodafone|wap|windows ce|xda|xiino", re.I | re.M)
 
@@ -285,6 +286,21 @@ class CardDetailView(DetailView):
         return context
 
 
+class AllCardsListView(LoginRequiredMixin, ListView):
+    model = Card
+    template_name = 'cards/todos-cards.html'
+    context_object_name = 'cards'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ua = self.request.META['HTTP_USER_AGENT']
+        cards = Card.objects.all
+        cards_por_empresa = Empresa.objects.values('nome').annotate(num_cards=Count('cards'))
+        context['cards'] = cards
+        context['cards_por_empresa'] = cards_por_empresa
+        return context
+
+
 class EmpresaDashboardView(TemplateView):
     template_name = 'cards/dashboard-empresa.html'
 
@@ -312,15 +328,23 @@ class EmpresaDashboardView(TemplateView):
         # data_city = analytics_data_api.run_report_city(property_id=None, pagina=paginas)
         # data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
         data_page_path = analytics_data_api.run_report_page_path(property_id=None, pagina=paginas)
+        data_source_traffic = analytics_data_api.run_report_source_traffic(property_id=None, pagina=paginas)
 
         resultados = {}
         # origens = []
         visualizacoes = []
+        origens = []
+        origens_visualizacoes = []
         cards_slugs = [card.slug for card in cards]
         resultados['cards'] = cards_slugs
         for i, row in enumerate(data_page_path.rows):
             visualizacoes.append(data_page_path.rows[i].metric_values[0].value)
         resultados['visualizacoes'] = visualizacoes
+        for i, row in enumerate(data_source_traffic.rows):
+            origens.append(data_source_traffic.rows[i].dimension_values[1].value)
+            origens_visualizacoes.append(data_source_traffic.rows[i].metric_values[0].value)
+        resultados['origens'] = origens
+        resultados['origens_visualizacoes'] = origens_visualizacoes
         # for row in data_session_origin.rows[0].dimension_values:
         #     origens.append(row.value)
         #     resultados['origens'] = origens

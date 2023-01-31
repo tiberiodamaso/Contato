@@ -140,6 +140,36 @@ def run_report_page_path(property_id, pagina):
     response = client.run_report(request)
     return response
 
+def run_report_source_traffic(property_id, pagina):
+    property_id = "323214127"
+    client = BetaAnalyticsDataClient()
+
+    request = RunReportRequest(
+        property=f"properties/{property_id}",
+        dimensions=[
+            Dimension(name="pagePath"),
+            Dimension(name="sessionDefaultChannelGroup")
+        ],
+        metrics=[
+            Metric(name="screenPageViews")
+        ],
+        date_ranges=[DateRange(start_date="30daysAgo", end_date="yesterday")],
+        dimension_filter=FilterExpression(
+            filter=Filter(
+                field_name="pagePath",
+                # caseSensitive="false",
+                in_list_filter=Filter.InListFilter(
+                    values=pagina
+                ),
+            )
+        ),
+        metric_aggregations=[
+            "TOTAL"
+        ]
+    )
+    response = client.run_report(request)
+    return response
+
 
 if __name__ == "__main__":
     run_report()

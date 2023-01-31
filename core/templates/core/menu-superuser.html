@@ -1,0 +1,19 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg">
+  <div class="container border-bottom py-3">
+    <img class="mb-2" src="https://via.placeholder.com/200x50">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+      aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav fs-4 ms-auto mb-2 mb-lg-0">
+        {% if user.is_authenticated and user.is_superuser %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

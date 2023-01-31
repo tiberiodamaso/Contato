@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import HomeView, Marcas, Bild, Perplan
-from cards.views import CardEditView, CardListView, CardDashboardView, CardDetailView, CardCreateView, EmpresaDashboardView, EmpresaEditView
+from cards.views import CardEditView, CardListView, CardDashboardView, CardDetailView, AllCardsListView, CardCreateView, EmpresaDashboardView, EmpresaEditView
 
 app_name = 'core'
 
@@ -13,6 +13,7 @@ urlpatterns = [
     path('<slug:empresa>/card/<slug:slug>/editar/', CardEditView.as_view(), name='editar'),
     path('<slug:empresa>/card/<slug:slug>/', CardDetailView.as_view(), name='detalhe'),
     path('<slug:empresa>/card/conteudo/<int:pk>/', EmpresaEditView.as_view(), name='conteudo'),
+    path('all-cards/', AllCardsListView.as_view(), name='todos-cards'),
 
 
     # path('marcas/', Marcas.as_view(), name='marcas'),
