@@ -115,7 +115,7 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = CardEditForm
     template_name = 'cards/criar.html'
     success_url = '.'
-    success_message = 'Card criado com sucesso. Solicite ao dono do card que ative-o clicando no link que ele recebeu por email'
+    success_message = '%(teste) Card criado com sucesso. Solicite ao dono do card que ative-o clicando no link que ele recebeu por email'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -148,12 +148,16 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         usuario = self.request.user
         empresa = usuario.cards.first().empresa
         email = form.data['email']
+        if email in [usuario.email for usuario in Usuario.objects.all()] or not email:
+          # TODO Consertar essa mensagem. Está adicionando o erro ao campo de telefone porque o modelform não tem o campo email
+          form.add_error('telefone', 'Card com esse email já existe ou email inválido')
+          return super().form_invalid(form)
         first_name = form.data['first_name']
         last_name = form.data['last_name']
         username = f'{first_name.lower()}.{last_name.lower()}'
         password = Usuario.objects.make_random_password()
         novo_usuario = Usuario.objects.create(email=email, first_name=first_name, last_name=last_name, username=username,
-        is_active=False)
+          is_active=False)
         novo_usuario.set_password(password)
         novo_usuario.save()
 
