@@ -1,10 +1,10 @@
 BEGIN:VCARD
 VERSION:3.0
-N:Mendonça;Rafael
-FN:Rafael Mendonça
-ORG:Caseratto
-TEL;type=WORK;type=VOICE:628888877779999
-item1.URL;type=pref:https://api.whatsapp.com/send?phone=556244444444&text=oi
+N:Bonazone;Ayla
+FN:Ayla Bonazone
+ORG:Zumm
+TEL;type=WORK;type=VOICE:9999999999999
+item1.URL;type=pref:https://api.whatsapp.com/send?phone=55169810001658907654&text=oi
 item1.X-ABLabel:Whatsapp
 item2.URL;type=pref:https://instagram.com/meunome
 item2.X-ABLabel:Instagram
@@ -12,5 +12,5 @@ item3.URL;type=pref:https://facebook.com/meunome
 item3.X-ABLabel:Facebook
 item4.URL;type=pref:https://linkedin.com/nome
 item4.X-ABLabel:Linkedin
-EMAIL;type=INTERNET;type=WORK:rafael@gmail.com
+EMAIL;type=INTERNET;type=WORK:aylabonazone@icloud.com
 END:VCARD

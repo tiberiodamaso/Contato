@@ -1,4 +1,7 @@
-import re, os, qrcode, qrcode.image.svg
+import re
+import os
+import qrcode
+import qrcode.image.svg
 from io import BytesIO
 from pathlib import Path
 from django.conf import settings
@@ -69,23 +72,24 @@ class CardDashboardView(TemplateView):
         empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
         card = Card.objects.get(slug=self.kwargs['slug'])
         pagina = f'/{empresa.slug}/card/{card.slug}/'
-        data_city = analytics_data_api.run_report_city(property_id=None, pagina=pagina)
-        data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
+        data_city = analytics_data_api.run_report_city(
+            property_id=None, pagina=pagina)
+        data_session_origin = analytics_data_api.run_report_session_origin(
+            property_id=None, pagina=pagina)
 
         resultados = {}
         origens = []
         usuarios_por_origem = []
         if not data_session_origin.rows or not data_city.rows:
-          context['resultados'] = None
-          return context
-          
+            context['resultados'] = None
+            return context
+
         for row in data_session_origin.rows[0].dimension_values:
             origens.append(row.value)
             resultados['origens'] = origens
         for row in data_session_origin.rows[0].metric_values:
             usuarios_por_origem = [row.value]
             resultados['usuarios_por_origem'] = usuarios_por_origem
-
 
         context['card'] = card
         context['empresa'] = empresa
@@ -115,7 +119,7 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = CardEditForm
     template_name = 'cards/criar.html'
     success_url = '.'
-    success_message = '%(teste) Card criado com sucesso. Solicite ao dono do card que ative-o clicando no link que ele recebeu por email'
+    success_message = 'Card criado com sucesso. Solicite ao dono do card que ative-o clicando no link que ele recebeu por email'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -123,7 +127,7 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
         context['empresa'] = empresa
         return context
-    
+
     def gera_qrcode(self, card, **kwargs):
         host = self.request.get_host()
         vcard_url = card.vcard.url
@@ -149,15 +153,16 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         empresa = usuario.cards.first().empresa
         email = form.data['email']
         if email in [usuario.email for usuario in Usuario.objects.all()] or not email:
-          # TODO Consertar essa mensagem. Está adicionando o erro ao campo de telefone porque o modelform não tem o campo email
-          form.add_error('telefone', 'Card com esse email já existe ou email inválido')
-          return super().form_invalid(form)
+            # TODO Consertar essa mensagem. Está adicionando o erro ao campo de telefone porque o modelform não tem o campo email
+            form.add_error(
+                'telefone', 'Card com esse email já existe ou email inválido')
+            return super().form_invalid(form)
         first_name = form.data['first_name']
         last_name = form.data['last_name']
         username = f'{first_name.lower()}.{last_name.lower()}'
         password = Usuario.objects.make_random_password()
         novo_usuario = Usuario.objects.create(email=email, first_name=first_name, last_name=last_name, username=username,
-          is_active=False)
+                                              is_active=False)
         novo_usuario.set_password(password)
         novo_usuario.save()
 
@@ -176,8 +181,8 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         linkedin = form.data['linkedin']
         cargo = form.data['cargo']
         vcard_content = make_vcard(novo_usuario.first_name, novo_usuario.last_name, empresa.nome,
-                                    telefone, whatsapp, facebook, instagram, linkedin, novo_usuario.email)
-        
+                                   telefone, whatsapp, facebook, instagram, linkedin, novo_usuario.email)
+
         vcard_name = f'{slugify(novo_usuario.get_full_name())}.vcf'
         if card.vcard:
             qr_code = self.gera_qrcode(card)
@@ -192,8 +197,6 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         card.vcard.save(vcard_name, vcard_file)
         qr_code = self.gera_qrcode(card)
         card.save()
-
-        
 
         # ENVIA EMAIL PARA ATIVAÇÃO DA CONTA
         current_site = get_current_site(self.request)
@@ -223,7 +226,8 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_success_url(self, **kwargs):
         card = Card.objects.get(slug=self.kwargs['slug'])
-        success_url = reverse_lazy('core:detalhe', kwargs={'empresa': card.empresa.slug, 'slug': card.slug})
+        success_url = reverse_lazy('core:detalhe', kwargs={
+                                   'empresa': card.empresa.slug, 'slug': card.slug})
         return success_url
 
     def gera_qrcode(self, card, **kwargs):
@@ -304,7 +308,8 @@ class AllCardsListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         ua = self.request.META['HTTP_USER_AGENT']
         cards = Card.objects.all
-        cards_por_empresa = Empresa.objects.values('nome').annotate(num_cards=Count('cards'))
+        cards_por_empresa = Empresa.objects.values(
+            'nome').annotate(num_cards=Count('cards'))
         context['cards'] = cards
         context['cards_por_empresa'] = cards_por_empresa
         return context
@@ -336,8 +341,10 @@ class EmpresaDashboardView(TemplateView):
         paginas = [f'/{empresa.slug}/card/{card.slug}/' for card in cards]
         # data_city = analytics_data_api.run_report_city(property_id=None, pagina=paginas)
         # data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
-        data_page_path = analytics_data_api.run_report_page_path(property_id=None, pagina=paginas)
-        data_source_traffic = analytics_data_api.run_report_source_traffic(property_id=None, pagina=paginas)
+        data_page_path = analytics_data_api.run_report_page_path(
+            property_id=None, pagina=paginas)
+        data_source_traffic = analytics_data_api.run_report_source_traffic(
+            property_id=None, pagina=paginas)
 
         resultados = {}
         # origens = []
@@ -350,8 +357,10 @@ class EmpresaDashboardView(TemplateView):
             visualizacoes.append(data_page_path.rows[i].metric_values[0].value)
         resultados['visualizacoes'] = visualizacoes
         for i, row in enumerate(data_source_traffic.rows):
-            origens.append(data_source_traffic.rows[i].dimension_values[1].value)
-            origens_visualizacoes.append(data_source_traffic.rows[i].metric_values[0].value)
+            origens.append(
+                data_source_traffic.rows[i].dimension_values[1].value)
+            origens_visualizacoes.append(
+                data_source_traffic.rows[i].metric_values[0].value)
         resultados['origens'] = origens
         resultados['origens_visualizacoes'] = origens_visualizacoes
         # for row in data_session_origin.rows[0].dimension_values:
@@ -401,9 +410,9 @@ class EmpresaEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     def get_success_url(self, **kwargs):
         empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
         card = empresa.cards.first()
-        success_url = reverse_lazy('core:detalhe', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        success_url = reverse_lazy('core:detalhe', kwargs={
+                                   'empresa': empresa.slug, 'slug': card.slug})
         return success_url
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -412,11 +421,10 @@ class EmpresaEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         context['empresa'] = empresa
         return context
 
-
     # def form_valid(self, form):
     #     empresa = form.save(commit=False)
     #     usuario = self.request.user
-        
+
     #     if card.vcard:
     #         qr_code = self.gera_qrcode(card)
     #         try:

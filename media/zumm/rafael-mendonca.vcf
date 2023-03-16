@@ -1,0 +1,16 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Mendonça;Rafael
+FN:Rafael Mendonça
+ORG:Zumm
+TEL;type=WORK;type=VOICE:9999999999999
+item1.URL;type=pref:https://api.whatsapp.com/send?phone=55169810001658907654&text=oi
+item1.X-ABLabel:Whatsapp
+item2.URL;type=pref:
+item2.X-ABLabel:Instagram
+item3.URL;type=pref:
+item3.X-ABLabel:Facebook
+item4.URL;type=pref:
+item4.X-ABLabel:Linkedin
+EMAIL;type=INTERNET;type=WORK:juliano@gmail.com
+END:VCARD
