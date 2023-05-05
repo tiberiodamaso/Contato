@@ -237,7 +237,6 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         qr_code = qrcode.make(url, box_size=20)
         name = f'{card.slug}-qrcode.png'
         blob = BytesIO()
-        # TODO arrumar a função gera_qr_code. Está apagando e gerando 2x
         if card.qr_code:
             try:
                 os.remove(card.qr_code.path)
@@ -256,6 +255,17 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         empresa = card.empresa
         context['empresa'] = empresa
         return context
+
+    def post(self, request, *args, **kwargs):
+        # Obtenha o objeto que está sendo atualizado
+        self.object = self.get_object()
+
+        # Se o campo de imagem foi alterado, exclua o arquivo antigo
+        if 'img_perfil' in request.FILES and self.object.img_perfil:
+            os.remove(self.object.img_perfil.path)
+
+        # Salve o objeto atualizado
+        return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
         card = form.save(commit=False)
