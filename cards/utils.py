@@ -1,12 +1,11 @@
 from django.core.exceptions import ValidationError
-import os
+import os, re
 
 def validate_file_extension(value):
     ext = os.path.splitext(value.name)[1]  # [0] returns path & filename
     valid_extensions = ['.jpg', '.png', '.jpeg', '.svg'] # populate with the extensions that you allow / want
     if not ext.lower() in valid_extensions:
         raise ValidationError('Tipo de imagem não suportado. Tente imagens do tipo JPG, JEPG, PNG ou SVG.')
-
 
 def make_vcard(first_name, last_name, empresa, telefone, whatsapp, facebook, instagram, linkedin, email):
 
@@ -29,6 +28,46 @@ def make_vcard(first_name, last_name, empresa, telefone, whatsapp, facebook, ins
         f'EMAIL;type=INTERNET;type=WORK:{email}',
         'END:VCARD'
     ]
+
+def valida_cnpj(cnpj:str) -> bool:
+  """
+  Valida o CNPJ e dígitos verificadores.
+  :param cnpj: número cnpj que será validado
+  """
+
+  # Remover caracteres não numéricos
+  cnpj = re.sub(r'\D', '', cnpj)
+
+  # Verificar se o CNPJ possui 14 dígitos
+  if len(cnpj) != 14:
+      return False
+
+  # Verificar se todos os dígitos são iguais
+  if cnpj == cnpj[0] * 14:
+      return False
+
+  # Calcular o primeiro dígito verificador
+  soma = 0
+  peso = 5
+  for i in range(12):
+      soma += int(cnpj[i]) * peso
+      peso -= 1 if peso > 2 else -8
+  digito1 = str((11 - (soma % 11)) % 10)
+
+  # Calcular o segundo dígito verificador
+  soma = 0
+  peso = 6
+  for i in range(13):
+      soma += int(cnpj[i]) * peso
+      peso -= 1 if peso > 2 else -8
+  digito2 = str((11 - (soma % 11)) % 10)
+
+  # Verificar se os dígitos verificadores são válidos
+  if cnpj[-2:] != digito1 + digito2:
+      return False
+
+  return True
+
 
 
 # def write_vcard(f, vcard):

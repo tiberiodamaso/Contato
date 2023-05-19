@@ -1,109 +1,191 @@
-import os
+import os, uuid
 from pathlib import Path
 from django.db import models
 from django.core.validators import URLValidator, FileExtensionValidator
 from django.template.defaultfilters import slugify
 from usuarios.models import Usuario
 from django.conf import settings
-from .utils import validate_file_extension, make_vcard
+from .utils import validate_file_extension, make_vcard, valida_cnpj
 from django.core.files.base import ContentFile, File
 
 
 def get_path(instance, filename):
-    if 'Empresa' in instance.__doc__:
-        instance = instance.slug
-    else:
-        instance = instance.empresa.slug
-    return os.path.join(instance, filename)
+  instance = instance.user.id.hex
+  arquivo = slugify(os.path.splitext(filename)[0])
+  extensao = os.path.splitext(filename)[1]
+  filename = f'{arquivo}{extensao}'
+  return os.path.join(instance, filename)
+
+
+class Conteudo(models.Model):
+  site = models.URLField(verbose_name='Site', blank=True, null=True, validators=[URLValidator(schemes=['http', 'https'])])
+  promo1 = models.ImageField(verbose_name='Promo1', upload_to=get_path, blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  promo1_link = models.URLField(verbose_name='Promo1 link', max_length=1000, blank=True, null=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  promo2 = models.ImageField(verbose_name='Promo2', upload_to=get_path, blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  promo2_link = models.URLField(verbose_name='Promo2 link', max_length=1000, blank=True, null=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  promo3 = models.ImageField(verbose_name='Promo3', upload_to=get_path, blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  promo3_link = models.URLField(verbose_name='Promo3 link', max_length=1000, blank=True, null=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  servico1 = models.ImageField(verbose_name='servico1', upload_to=get_path, blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  servico1_link = models.URLField(verbose_name='servico1 link', max_length=1000, blank=True, null=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  servico2 = models.ImageField(verbose_name='servico2', upload_to=get_path, blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  servico2_link = models.URLField(verbose_name='servico2 link', max_length=1000, blank=True, null=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  servico3 = models.ImageField(verbose_name='servico3', upload_to=get_path, blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  servico3_link = models.URLField(verbose_name='servico3 link', max_length=1000, blank=True, null=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  produto1 = models.ImageField(verbose_name='produto1', upload_to=get_path, blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  produto1_link = models.URLField(verbose_name='produto1 link', max_length=1000, blank=True, null=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  produto2 = models.ImageField(verbose_name='produto2', upload_to=get_path, blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  produto2_link = models.URLField(verbose_name='produto2 link', max_length=1000, blank=True, null=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  produto3 = models.ImageField(verbose_name='produto3', upload_to=get_path, blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  produto3_link = models.URLField(verbose_name='produto3 link', max_length=1000, blank=True, null=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  portifolio1 = models.ImageField(verbose_name='portifolio1', upload_to=get_path, blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  portifolio1_link = models.URLField(verbose_name='portifolio1 link', max_length=1000, blank=True, null=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  portifolio2 = models.ImageField(verbose_name='portifolio2', upload_to=get_path, blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  portifolio2_link = models.URLField(verbose_name='portifolio2 link', max_length=1000, blank=True, null=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  portifolio3 = models.ImageField(verbose_name='portifolio3', upload_to=get_path, blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  portifolio3_link = models.URLField(verbose_name='portifolio3 link', max_length=1000, blank=True, null=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  
+  class Meta:
+        verbose_name = 'Conteúdo'
+        verbose_name_plural = 'Conteúdos'
+
+  def __str__(self):
+      return str(int(self.id))
+
+
+class Categoria(models.Model):
+  nome = models.CharField(verbose_name='Categoria', max_length=100)
+
+  class Meta:
+    verbose_name = 'Categoria'
+    verbose_name_plural = 'Categorias'
+
+  def __str__(self):
+    return self.nome
+
+
+class Subcategoria(models.Model):
+  nome = models.CharField(verbose_name='Subcategoria', max_length=100)
+  categoria = models.ForeignKey(Categoria, verbose_name='Categoria', on_delete=models.CASCADE)
+
+  class Meta:
+    verbose_name = 'Subcategoria'
+    verbose_name_plural = 'Subcategorias'
+
+  def __str__(self):
+    return self.nome
+
+
+class Estado(models.Model):
+  nome = models.CharField(verbose_name='Estado', max_length=100)
+  sigla = models.CharField(verbose_name='Sigla', max_length=2)
+
+  class Meta:
+    verbose_name = 'Estado'
+    verbose_name_plural = 'Estados'
+
+  def __str__(self):
+    return self.nome
+
+
+class Municipio(models.Model):
+  nome = models.CharField(verbose_name='Município', max_length=100)
+  estado = models.ForeignKey(Estado, verbose_name='Estado', on_delete=models.CASCADE)
+
+  class Meta:
+    verbose_name = 'Município'
+    verbose_name_plural = 'Municípios'
+
+  def __str__(self):
+    return self.nome
 
 
 class Empresa(models.Model):
-    nome = models.CharField(verbose_name='Nome', max_length=200)
-    logotipo = models.FileField(verbose_name='Logotipo', upload_to=get_path, blank=True, validators=[
-                                FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-    slug = models.SlugField(verbose_name='Slug', unique=True, editable=False)
-    gerentes = models.ManyToManyField(
-        Usuario, verbose_name='Gerentes', related_name='empresa_gerentes')
-    vendedores = models.ManyToManyField(
-        Usuario, verbose_name='Vendedores', related_name='empresa_vendedores', blank=True)
-    site = models.URLField(verbose_name='Site', validators=[
-                           URLValidator(schemes=['http', 'https'])])
-    slide1 = models.ImageField(verbose_name='Slide 1', upload_to=get_path, blank=True,
-                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-    slide1_link = models.URLField(verbose_name='Slide 1 link', max_length=1000, blank=True, validators=[
-                               URLValidator(schemes=['http', 'https'])])
-    slide2 = models.ImageField(verbose_name='Slide 2', upload_to=get_path, blank=True,
-                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-    slide2_link = models.URLField(verbose_name='Slide 2 link', max_length=1000, blank=True, validators=[
-                               URLValidator(schemes=['http', 'https'])])
-    slide3 = models.ImageField(verbose_name='Slide 3', upload_to=get_path, blank=True,
-                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-    slide3_link = models.URLField(verbose_name='Slide 3 link', max_length=1000, blank=True, validators=[
-                               URLValidator(schemes=['http', 'https'])])
-    produtos = models.ImageField(verbose_name='Produtos', upload_to=get_path, blank=True,
-                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-    produtos_link = models.URLField(verbose_name='Produtos link', max_length=1000, blank=True, validators=[
-                               URLValidator(schemes=['http', 'https'])])
-    servicos = models.ImageField(verbose_name='Serviços', upload_to=get_path, blank=True,
-                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-    servicos_link = models.URLField(verbose_name='Serviços link', max_length=1000, blank=True, validators=[
-                               URLValidator(schemes=['http', 'https'])])
-    promocoes = models.ImageField(verbose_name='Promoção', upload_to=get_path, blank=True,
-                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-    promocoes_link = models.URLField(verbose_name='Promoção link', max_length=1000, blank=True, validators=[
-                               URLValidator(schemes=['http', 'https'])])
-    criada = models.DateField(verbose_name='Criada', auto_now_add=True)
-    atualizada = models.DateField(verbose_name='Atualizada', auto_now=True)
+  nome = models.CharField(verbose_name='Nome', max_length=200)
+  cnpj = models.CharField(verbose_name='CNPJ', max_length=14, unique=True, validators=[valida_cnpj]  )
+  logotipo = models.FileField(verbose_name='Logotipo', upload_to=get_path, blank=True, null=True, validators=[
+                              FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  slug = models.SlugField(verbose_name='Slug', unique=True, editable=False)
+  colaboradores = models.ManyToManyField(Usuario, verbose_name='Colaboradores', related_name='empresa', blank=True)
+  criada = models.DateField(verbose_name='Criada', auto_now_add=True)
+  atualizada = models.DateField(verbose_name='Atualizada', auto_now=True)
 
-    class Meta:
-        verbose_name = 'Empresa'
-        verbose_name_plural = 'Empresas'
+  class Meta:
+    verbose_name = 'Empresa'
+    verbose_name_plural = 'Empresas'
 
-    def __str__(self):
-        return self.nome
+  def __str__(self):
+    return self.nome
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.nome)
-        super().save(*args, **kwargs)
+  def save(self, *args, **kwargs):
+    self.slug = slugify(f'{self.id}-{self.nome}')
+    super().save(*args, **kwargs)
 
 
 class Card(models.Model):
-    empresa = models.ForeignKey(
-        Empresa, verbose_name='Empresa', on_delete=models.CASCADE, related_name='cards')
-    cargo = models.CharField(verbose_name='Cargo', max_length=30, blank=True)
-    img_perfil = models.FileField(verbose_name='Foto perfil', upload_to=get_path, blank=True, validators=[
-                                  FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-    vcard = models.FileField(verbose_name='Vcard', upload_to=get_path, blank=True, validators=[
-                             FileExtensionValidator(allowed_extensions=['vcf'])])
-    whatsapp = models.CharField(verbose_name='Whatsapp', max_length=30)
-    facebook = models.URLField(verbose_name='Facebook', max_length=200, blank=True, validators=[
-                               URLValidator(schemes=['http', 'https'])])
-    instagram = models.URLField(verbose_name='Instagram', max_length=200, blank=True, validators=[
-                                URLValidator(schemes=['http', 'https'])])
-    linkedin = models.URLField(verbose_name='Linkedin', max_length=200, blank=True, validators=[
-                               URLValidator(schemes=['http', 'https'])])
-    telefone = models.CharField(
-        verbose_name='Telefone', max_length=30, unique=True)
-    qr_code = models.ImageField(verbose_name='QR Code', upload_to=get_path, blank=True,
-                                validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-    criado = models.DateField(verbose_name='Criado', auto_now_add=True)
-    atualizado = models.DateField(verbose_name='Atualizado', auto_now=True)
-    slug = models.SlugField(verbose_name='Slug',
-                            max_length=200, editable=False)
-    usuario = models.ForeignKey(
-        Usuario, verbose_name='Usuário', on_delete=models.CASCADE, related_name='cards')
+  vcard = models.FileField(verbose_name='Vcard', upload_to=get_path, blank=True, null=True, validators=[
+                            FileExtensionValidator(allowed_extensions=['vcf'])])
+  qr_code = models.ImageField(verbose_name='QR Code', upload_to=get_path, blank=True, null=True,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  facebook = models.URLField(verbose_name='Facebook', max_length=200, blank=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  instagram = models.URLField(verbose_name='Instagram', max_length=200, blank=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  linkedin = models.URLField(verbose_name='Linkedin', max_length=200, blank=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  youtube = models.URLField(verbose_name='Youtube', max_length=200, blank=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  tik_tok = models.URLField(verbose_name='Tik_tok', max_length=200, blank=True, validators=[
+                              URLValidator(schemes=['http', 'https'])])
+  nome_display = models.CharField(verbose_name='Nome display', max_length=50)
+  slug = models.SlugField(verbose_name='Slug', max_length=200, editable=False, unique=True)
+  cargo = models.CharField(verbose_name='Cargo', max_length=50)
+  telefone = models.CharField(verbose_name='Telefone', max_length=11, unique=True)
+  whatsapp = models.CharField(verbose_name='Whatsapp', max_length=11)
+  conteudo = models.ForeignKey(Conteudo, verbose_name='Conteúdo', on_delete=models.CASCADE, related_name='cards', blank=True, null=True)
+  categoria = models.ForeignKey(Categoria, verbose_name='Categoria', on_delete=models.CASCADE, related_name='cards')
+  subcategoria = models.ForeignKey(Subcategoria, verbose_name='Subcategoria', on_delete=models.CASCADE, related_name='cards')
+  estado = models.ForeignKey(Estado, verbose_name='Estado', on_delete=models.CASCADE, related_name='cards')
+  municipio = models.ForeignKey(Municipio, verbose_name='Município', on_delete=models.CASCADE, related_name='cards')
+  empresa = models.ForeignKey(Empresa, verbose_name='Empresa', on_delete=models.CASCADE, related_name='cards')
+  usuario = models.ForeignKey(Usuario, verbose_name='Usuário', on_delete=models.CASCADE, related_name='cards')
+  criado = models.DateField(verbose_name='Criado', auto_now_add=True)
+  atualizado = models.DateField(verbose_name='Atualizado', auto_now=True)
 
-    class Meta:
-        verbose_name = 'Card'
-        verbose_name_plural = 'Cards'
+  class Meta:
+    verbose_name = 'Card'
+    verbose_name_plural = 'Cards'
 
-    def __str__(self):
-        return str(self.usuario)
+  def __str__(self):
+    return str(self.usuario)
 
-    def save(self, *args, **kwargs):
-        usuario = self.usuario.get_full_name()
-        first_name = self.usuario.first_name
-        last_name = self.usuario.last_name
-        self.slug = slugify(usuario)
-        super().save(*args, **kwargs)
+  def save(self, *args, **kwargs):
+    usuario = self.usuario.get_full_name()
+    self.slug = slugify(f'{self.usuario.id}-{self.usuario}')
+    if not self.empresa:
+      self.empresa = slugify(self.usuario)
+    super().save(*args, **kwargs)
 
