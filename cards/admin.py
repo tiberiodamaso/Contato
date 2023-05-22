@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Conteudo, Categoria, Subcategoria, Estado, Municipio, Empresa, Card
+from .models import Conteudo, Categoria, Estado, Municipio, Empresa, Card
 
 
 class ConteudoAdmin(admin.ModelAdmin):
@@ -16,12 +16,6 @@ class CategoriaAdmin(admin.ModelAdmin):
   list_display = ['id', 'nome']
 
 
-class SubcategoriaAdmin(admin.ModelAdmin):
-  list_display = ['id', 'categoria', 'nome']
-
-  # def get_categoria(self, obj):
-  #   return obj.categoria.nome
-
 class EstadoAdmin(admin.ModelAdmin):
   list_display = ['id', 'sigla', 'nome']
 
@@ -31,10 +25,7 @@ class MunicipioAdmin(admin.ModelAdmin):
 
 
 class EmpresaAdmin(admin.ModelAdmin):
-    list_display = ['id', 'nome', 'cnpj', 'slug', 'criada', 'get_colaboradores']
-
-    def get_colaboradores(self, obj):
-      return ", ".join([colaborador.get_full_name() for colaborador in obj.colaboradores.all()])
+    list_display = ['id', 'nome', 'cnpj', 'slug', 'proprietario', 'criada']
 
     def save_model(self, request, obj, form, change):
       # Atribui o usuário logado ao atributo "user" do objeto
@@ -55,7 +46,6 @@ class CardAdmin(admin.ModelAdmin):
 
 admin.site.register(Conteudo, ConteudoAdmin)
 admin.site.register(Categoria, CategoriaAdmin)
-admin.site.register(Subcategoria, SubcategoriaAdmin)
 admin.site.register(Estado, EstadoAdmin)
 admin.site.register(Municipio, MunicipioAdmin)
 admin.site.register(Empresa, EmpresaAdmin)

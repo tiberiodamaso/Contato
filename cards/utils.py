@@ -7,7 +7,7 @@ def validate_file_extension(value):
     if not ext.lower() in valid_extensions:
         raise ValidationError('Tipo de imagem não suportado. Tente imagens do tipo JPG, JEPG, PNG ou SVG.')
 
-def make_vcard(first_name, last_name, empresa, telefone, whatsapp, facebook, instagram, linkedin, email):
+def make_vcf(first_name, last_name, empresa, telefone, whatsapp, facebook, instagram, linkedin, email):
 
     
     return [
@@ -70,10 +70,5 @@ def valida_cnpj(cnpj:str) -> bool:
 
 
 
-# def write_vcard(f, vcard):
-#     with open(f, 'w') as f:
-#         f.writelines([l + '\n' for l in vcard])
-#     print(f)
-#     return f
 
 

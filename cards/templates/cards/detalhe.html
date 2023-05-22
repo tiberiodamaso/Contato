@@ -42,9 +42,9 @@
       <div class="d-flex justify-content-center my-2 rounded bg-warning">
         <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self" class="btn fs-4 w-100">Whatsapp</a>
       </div>
-      {% if card.vcard %}
+      {% if card.vcf %}
       <div class="d-flex justify-content-center my-2 rounded bg-warning">
-        <a href="{{ card.vcard.url }}" class="btn fs-4 w-100">Adicionar na agenda</a>
+        <a href="{{ card.vcf.url }}" class="btn fs-4 w-100">Adicionar na agenda</a>
       </div>
       {% endif %} 
       

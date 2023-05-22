@@ -5,8 +5,9 @@ from django.core.validators import URLValidator, FileExtensionValidator
 from django.template.defaultfilters import slugify
 from usuarios.models import Usuario
 from django.conf import settings
-from .utils import validate_file_extension, make_vcard, valida_cnpj
+from .utils import validate_file_extension, make_vcf, valida_cnpj
 from django.core.files.base import ContentFile, File
+from django.utils.crypto import get_random_string
 
 
 def get_path(instance, filename):
@@ -87,18 +88,6 @@ class Categoria(models.Model):
     return self.nome
 
 
-class Subcategoria(models.Model):
-  nome = models.CharField(verbose_name='Subcategoria', max_length=100)
-  categoria = models.ForeignKey(Categoria, verbose_name='Categoria', on_delete=models.CASCADE)
-
-  class Meta:
-    verbose_name = 'Subcategoria'
-    verbose_name_plural = 'Subcategorias'
-
-  def __str__(self):
-    return self.nome
-
-
 class Estado(models.Model):
   nome = models.CharField(verbose_name='Estado', max_length=100)
   sigla = models.CharField(verbose_name='Sigla', max_length=2)
@@ -125,11 +114,11 @@ class Municipio(models.Model):
 
 class Empresa(models.Model):
   nome = models.CharField(verbose_name='Nome', max_length=200)
-  cnpj = models.CharField(verbose_name='CNPJ', max_length=14, unique=True, validators=[valida_cnpj]  )
+  cnpj = models.CharField(verbose_name='CNPJ', max_length=14, unique=True, validators=[valida_cnpj], blank=True )
   logotipo = models.FileField(verbose_name='Logotipo', upload_to=get_path, blank=True, null=True, validators=[
                               FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.PROTECT, related_name='empresas')
   slug = models.SlugField(verbose_name='Slug', unique=True, editable=False)
-  colaboradores = models.ManyToManyField(Usuario, verbose_name='Colaboradores', related_name='empresa', blank=True)
   criada = models.DateField(verbose_name='Criada', auto_now_add=True)
   atualizada = models.DateField(verbose_name='Atualizada', auto_now=True)
 
@@ -141,12 +130,12 @@ class Empresa(models.Model):
     return self.nome
 
   def save(self, *args, **kwargs):
-    self.slug = slugify(f'{self.id}-{self.nome}')
+    self.slug = slugify(f'{self.cnpj}-{self.nome}')
     super().save(*args, **kwargs)
 
 
 class Card(models.Model):
-  vcard = models.FileField(verbose_name='Vcard', upload_to=get_path, blank=True, null=True, validators=[
+  vcf = models.FileField(verbose_name='VCF', upload_to=get_path, blank=True, null=True, validators=[
                             FileExtensionValidator(allowed_extensions=['vcf'])])
   qr_code = models.ImageField(verbose_name='QR Code', upload_to=get_path, blank=True, null=True,
                               validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
@@ -162,12 +151,11 @@ class Card(models.Model):
                               URLValidator(schemes=['http', 'https'])])
   nome_display = models.CharField(verbose_name='Nome display', max_length=50)
   slug = models.SlugField(verbose_name='Slug', max_length=200, editable=False, unique=True)
-  cargo = models.CharField(verbose_name='Cargo', max_length=50)
+  cargo = models.CharField(verbose_name='Cargo', max_length=50, blank=True, null=True)
   telefone = models.CharField(verbose_name='Telefone', max_length=11, unique=True)
   whatsapp = models.CharField(verbose_name='Whatsapp', max_length=11)
   conteudo = models.ForeignKey(Conteudo, verbose_name='Conteúdo', on_delete=models.CASCADE, related_name='cards', blank=True, null=True)
   categoria = models.ForeignKey(Categoria, verbose_name='Categoria', on_delete=models.CASCADE, related_name='cards')
-  subcategoria = models.ForeignKey(Subcategoria, verbose_name='Subcategoria', on_delete=models.CASCADE, related_name='cards')
   estado = models.ForeignKey(Estado, verbose_name='Estado', on_delete=models.CASCADE, related_name='cards')
   municipio = models.ForeignKey(Municipio, verbose_name='Município', on_delete=models.CASCADE, related_name='cards')
   empresa = models.ForeignKey(Empresa, verbose_name='Empresa', on_delete=models.CASCADE, related_name='cards')
@@ -183,9 +171,15 @@ class Card(models.Model):
     return str(self.usuario)
 
   def save(self, *args, **kwargs):
-    usuario = self.usuario.get_full_name()
-    self.slug = slugify(f'{self.usuario.id}-{self.usuario}')
+    if not self.slug:
+      self.slug = slugify(self.usuario)
+      if Card.objects.filter(slug=self.slug):
+        # Se existir, gera um novo slug adicionando um sufixo aleatório
+        self.slug = f"{get_random_string(length=4)}-{self.slug}"
+
     if not self.empresa:
-      self.empresa = slugify(self.usuario)
+      self.empresa = Empresa.objects.create(
+        nome = slugify(self.usuario)
+      )
     super().save(*args, **kwargs)
 

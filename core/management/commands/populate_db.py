@@ -5,7 +5,7 @@ from django.contrib.auth.hashers import make_password
 from django.core.management.base import BaseCommand
 from cards.models import Estado, Municipio, Card, Empresa, Conteudo, Servico
 from usuarios.models import Perfil, Usuario
-from .utils import make_vcard
+from .utils import make_vcf
 
 # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'root.settings')
 # django.setup()
@@ -156,16 +156,16 @@ class Command(BaseCommand):
         empresa = Empresa.objects.first()
         usuario = Usuario.objects.first()
 
-        #Gera vcard
-        vcard_content = make_vcard(usuario.first_name, usuario.last_name, empresa.nome,
+        #Gera vcf
+        vcf_content = make_vcf(usuario.first_name, usuario.last_name, empresa.nome,
                                    telefone, whatsapp, facebook, instagram, linkedin, usuario.email)
-        vcard_name = 'card_teste.vcf'
+        vcf_name = 'card_teste.vcf'
 
         #Gera qr_code
         qr_code = self.gera_qrcode(card)
-        content = '\n'.join([str(line) for line in vcard_content])
-        vcard_file = ContentFile(content)
-        card.vcard.save(vcard_name, vcard_file)
+        content = '\n'.join([str(line) for line in vcf_content])
+        vcf_file = ContentFile(content)
+        card.vcf.save(vcf_name, vcf_file)
         qr_code = self.gera_qrcode(card)
         card.save()
 

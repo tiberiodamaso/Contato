@@ -17,7 +17,7 @@ from core import analytics_data_api
 from .models import Empresa, Card, get_path
 from usuarios.models import Usuario
 from .forms import CardEditForm, EmpresaEditForm
-from .utils import make_vcard
+from .utils import make_vcf
 from django.template.defaultfilters import slugify
 from usuarios.tokens import account_activation_token
 from django.core.mail import EmailMessage
@@ -130,8 +130,8 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def gera_qrcode(self, card, **kwargs):
         host = self.request.get_host()
-        vcard_url = card.vcard.url
-        url = f'{host}{vcard_url}'
+        vcf_url = card.vcf.url
+        url = f'{host}{vcf_url}'
         qr_code = qrcode.make(url, box_size=20)
         name = f'{card.slug}-qrcode.png'
         blob = BytesIO()
@@ -180,21 +180,21 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         instagram = form.data['instagram']
         linkedin = form.data['linkedin']
         cargo = form.data['cargo']
-        vcard_content = make_vcard(novo_usuario.first_name, novo_usuario.last_name, empresa.nome,
+        vcf_content = make_vcf(novo_usuario.first_name, novo_usuario.last_name, empresa.nome,
                                    telefone, whatsapp, facebook, instagram, linkedin, novo_usuario.email)
 
-        vcard_name = f'{slugify(novo_usuario.get_full_name())}.vcf'
-        if card.vcard:
+        vcf_name = f'{slugify(novo_usuario.get_full_name())}.vcf'
+        if card.vcf:
             qr_code = self.gera_qrcode(card)
             try:
-                os.remove(card.vcard.path)
-                card.vcard.delete()
+                os.remove(card.vcf.path)
+                card.vcf.delete()
                 card.save()
             except FileNotFoundError as err:
                 print(err)
-        content = '\n'.join([str(line) for line in vcard_content])
-        vcard_file = ContentFile(content)
-        card.vcard.save(vcard_name, vcard_file)
+        content = '\n'.join([str(line) for line in vcf_content])
+        vcf_file = ContentFile(content)
+        card.vcf.save(vcf_name, vcf_file)
         qr_code = self.gera_qrcode(card)
         card.save()
 
@@ -204,8 +204,6 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         to = novo_usuario.email
         context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
                    'token': account_activation_token.make_token(novo_usuario)}
-        # context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
-        #            'token': account_activation_token.make_token(novo_usuario), 'password': form.data['password1']}
         body = render_to_string(
             'usuarios/email-ativacao.html', context=context)
         msg = EmailMessage(subject, body, to=[to])
@@ -232,8 +230,8 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def gera_qrcode(self, card, **kwargs):
         host = self.request.get_host()
-        vcard_url = card.vcard.url
-        url = f'{host}{vcard_url}'
+        vcf_url = card.vcf.url
+        url = f'{host}{vcf_url}'
         qr_code = qrcode.make(url, box_size=20)
         name = f'{card.slug}-qrcode.png'
         blob = BytesIO()
@@ -276,20 +274,20 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         facebook = form.data['facebook']
         instagram = form.data['instagram']
         linkedin = form.data['linkedin']
-        vcard_content = make_vcard(usuario.first_name, usuario.last_name, empresa.nome,
+        vcf_content = make_vcf(usuario.first_name, usuario.last_name, empresa.nome,
                                    telefone, whatsapp, facebook, instagram, linkedin, usuario.email)
-        vcard_name = f'{card.slug}.vcf'
-        if card.vcard:
+        vcf_name = f'{card.slug}.vcf'
+        if card.vcf:
             qr_code = self.gera_qrcode(card)
             try:
-                os.remove(card.vcard.path)
-                card.vcard.delete()
+                os.remove(card.vcf.path)
+                card.vcf.delete()
                 card.save()
             except FileNotFoundError as err:
                 print(err)
-        content = '\n'.join([str(line) for line in vcard_content])
-        vcard_file = ContentFile(content)
-        card.vcard.save(vcard_name, vcard_file)
+        content = '\n'.join([str(line) for line in vcf_content])
+        vcf_file = ContentFile(content)
+        card.vcf.save(vcf_name, vcf_file)
         qr_code = self.gera_qrcode(card)
         card.save()
 
@@ -435,17 +433,17 @@ class EmpresaEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     #     empresa = form.save(commit=False)
     #     usuario = self.request.user
 
-    #     if card.vcard:
+    #     if card.vcf:
     #         qr_code = self.gera_qrcode(card)
     #         try:
-    #             os.remove(card.vcard.path)
-    #             card.vcard.delete()
+    #             os.remove(card.vcf.path)
+    #             card.vcf.delete()
     #             card.save()
     #         except FileNotFoundError as err:
     #             print(err)
-    #     content = '\n'.join([str(line) for line in vcard_content])
-    #     vcard_file = ContentFile(content)
-    #     card.vcard.save(vcard_name, vcard_file)
+    #     content = '\n'.join([str(line) for line in vcf_content])
+    #     vcf_file = ContentFile(content)
+    #     card.vcf.save(vcf_name, vcf_file)
     #     qr_code = self.gera_qrcode(card)
     #     card.save()
 
