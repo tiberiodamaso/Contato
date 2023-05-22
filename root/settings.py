@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'cards.apps.CardsConfig',
     'debug_toolbar',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -171,3 +172,12 @@ DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL',"")
 INTERNAL_IPS = [
   '127.0.0.1'
 ]
+
+# django-extensions graph models para criar PNG da modelagem
+# comando: python manage.py graph_models --arrow-shape normal -o models.png
+GRAPH_MODELS = {
+  'all_applications': False,
+  'group_models': True,
+  'app_labels': ["cards", "usuarios", "core"],
+  'exclude_models': ['AbstractUser', 'Permission', 'Group']
+}
