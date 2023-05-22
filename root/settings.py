@@ -148,7 +148,7 @@ LOGIN_URL = 'usuarios:login'
 # LOGIN_REDIRECT_URL = 'usuarios:dashboard'
 LOGOUT_REDIRECT_URL = 'core:home'
 
-GOOGLE_APPLICATION_CREDENTIALS = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+GOOGLE_APPLICATION_CREDENTIALS = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS',"")
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
@@ -161,12 +161,12 @@ GOOGLE_APPLICATION_CREDENTIALS = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS'
 
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_USE_SSL=env('EMAIL_USE_SSL')
-EMAIL_USE_TLS=env('EMAIL_USE_TLS')
-EMAIL_HOST=env('EMAIL_HOST')
-EMAIL_HOST_USER=env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD=env('EMAIL_HOST_PASSWORD')
-EMAIL_PORT=env('EMAIL_PORT')
-DEFAULT_FROM_EMAIL=env('DEFAULT_FROM_EMAIL')
+EMAIL_USE_TLS=os.environ.get('EMAIL_USE_TLS',"")
+EMAIL_HOST=os.environ.get('EMAIL_HOST',"")
+EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER',"")
+EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD',"")
+EMAIL_PORT=os.environ.get('EMAIL_PORT',"")
+DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL',"")
 
 INTERNAL_IPS = [
   '127.0.0.1'
