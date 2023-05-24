@@ -119,14 +119,7 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = CardEditForm
     template_name = 'cards/criar.html'
     success_url = '.'
-    success_message = 'Card criado com sucesso. Solicite ao dono do card que ative-o clicando no link que ele recebeu por email'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        usuario = self.request.user
-        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
-        context['empresa'] = empresa
-        return context
+    success_message = 'Card criado com sucesso.'
 
     def gera_qrcode(self, card, **kwargs):
         host = self.request.get_host()
@@ -148,67 +141,35 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
 
-        # CRIA NOVO USUÁRIO
-        usuario = self.request.user
-        empresa = usuario.cards.first().empresa
-        email = form.data['email']
-        if email in [usuario.email for usuario in Usuario.objects.all()] or not email:
-            # TODO Consertar essa mensagem. Está adicionando o erro ao campo de telefone porque o modelform não tem o campo email
-            form.add_error(
-                'telefone', 'Card com esse email já existe ou email inválido')
-            return super().form_invalid(form)
-        first_name = form.data['first_name']
-        last_name = form.data['last_name']
-        username = f'{first_name.lower()}.{last_name.lower()}'
-        password = Usuario.objects.make_random_password()
-        novo_usuario = Usuario.objects.create(email=email, first_name=first_name, last_name=last_name, username=username,
-                                              is_active=False)
-        novo_usuario.set_password(password)
-        novo_usuario.save()
-
-        # ASSOCIA O NOVO USUÁRIO À EMPRESA
-        empresa.vendedores.add(novo_usuario)
-        empresa.save()
+        # CRIA EMPRESA
+        if form.data['empresa']:
+          nome = form.data['empresa']
+          empresa = Empresa.objects.create(nome=nome)
+        else:
+          empresa = Empresa.objects.create(nome=slugify(f'{first_name}-{last-name}'))
 
         # CRIA NOVO CARD
+        usuario = self.request.user
         card = form.save(commit=False)
+        card.usuario = usuario
         card.empresa = empresa
-        card.usuario = novo_usuario
-        telefone = form.data['telefone']
-        whatsapp = form.data['whatsapp']
-        facebook = form.data['facebook']
-        instagram = form.data['instagram']
-        linkedin = form.data['linkedin']
-        cargo = form.data['cargo']
-        vcf_content = make_vcf(novo_usuario.first_name, novo_usuario.last_name, empresa.nome,
-                                   telefone, whatsapp, facebook, instagram, linkedin, novo_usuario.email)
+        telefone = form.cleaned_data['telefone']
+        whatsapp = form.cleaned_data['whatsapp']
+        facebook = form.cleaned_data['facebook']
+        instagram = form.cleaned_data['instagram']
+        linkedin = form.cleaned_data['linkedin']
+        youtube = form.cleaned_data['youtube']
+        tik_tok = form.cleaned_data['tik_tok']
+        cargo = form.cleaned_data['cargo']
+        vcf_content = make_vcf(usuario.first_name, usuario.last_name, empresa.nome,
+                               telefone, whatsapp, facebook, instagram, linkedin, usuario.email, youtube, tik_tok)
 
-        vcf_name = f'{slugify(novo_usuario.get_full_name())}.vcf'
-        if card.vcf:
-            qr_code = self.gera_qrcode(card)
-            try:
-                os.remove(card.vcf.path)
-                card.vcf.delete()
-                card.save()
-            except FileNotFoundError as err:
-                print(err)
+        vcf_name = f'{slugify(usuario.get_full_name())}.vcf'
         content = '\n'.join([str(line) for line in vcf_content])
         vcf_file = ContentFile(content)
         card.vcf.save(vcf_name, vcf_file)
         qr_code = self.gera_qrcode(card)
         card.save()
-
-        # ENVIA EMAIL PARA ATIVAÇÃO DA CONTA
-        current_site = get_current_site(self.request)
-        subject = 'Ative a sua conta'
-        to = novo_usuario.email
-        context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
-                   'token': account_activation_token.make_token(novo_usuario)}
-        body = render_to_string(
-            'usuarios/email-ativacao.html', context=context)
-        msg = EmailMessage(subject, body, to=[to])
-        msg.content_subtype = "html"  # Main content is now text/html
-        msg.send()
 
         return super().form_valid(form)
 
@@ -261,6 +222,15 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         # Se o campo de imagem foi alterado, exclua o arquivo antigo
         if 'img_perfil' in request.FILES and self.object.img_perfil:
             os.remove(self.object.img_perfil.path)
+
+        if card.vcf:
+            qr_code = self.gera_qrcode(card)
+            try:
+                os.remove(card.vcf.path)
+                card.vcf.delete()
+                card.save()
+            except FileNotFoundError as err:
+                print(err)
 
         # Salve o objeto atualizado
         return super().post(request, *args, **kwargs)
@@ -448,3 +418,99 @@ class EmpresaEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     #     card.save()
 
     #     return super().form_valid(form)
+
+
+class CardCreateViewEmpresa(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Card
+    form_class = CardEditForm
+    template_name = 'cards/criar.html'
+    success_url = '.'
+    success_message = 'Card criado com sucesso. Solicite ao dono do card que ative-o clicando no link que ele recebeu por email'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     usuario = self.request.user
+    #     empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
+    #     context['empresa'] = empresa
+    #     return context
+
+    def gera_qrcode(self, card, **kwargs):
+        host = self.request.get_host()
+        vcf_url = card.vcf.url
+        url = f'{host}{vcf_url}'
+        qr_code = qrcode.make(url, box_size=20)
+        name = f'{card.slug}-qrcode.png'
+        blob = BytesIO()
+        if card.qr_code:
+            try:
+                os.remove(card.qr_code.path)
+                card.qr_code.delete()
+                card.save()
+            except FileNotFoundError as err:
+                print(err)
+        qr_code.save(blob)
+        card.qr_code.save(name, File(blob), save=False)
+        return card.qr_code
+
+    def form_valid(self, form):
+
+        # CRIA NOVO USUÁRIO
+        usuario = self.request.user
+        email = form.data['email']
+        # if email in [usuario.email for usuario in Usuario.objects.all()] or not email:
+        #     # TODO Consertar essa mensagem. Está adicionando o erro ao campo de telefone porque o modelform não tem o campo email
+        #     form.add_error(
+        #         'telefone', 'Card com esse email já existe ou email inválido')
+        #     return super().form_invalid(form)
+        first_name = form.data['primeiro_nome']
+        last_name = form.data['ultimo_nome']
+        username = f'{first_name.lower()}.{last_name.lower()}'
+        password = Usuario.objects.make_random_password()
+        novo_usuario = Usuario.objects.create(email=email, first_name=first_name, last_name=last_name, username=username,
+                                              is_active=False)
+        novo_usuario.set_password(password)
+        novo_usuario.save()
+
+        # CRIA EMPRESA
+        if form.data['empresa']:
+          nome = form.data['empresa']
+          # cnpj = form.data['cnpj']
+          nova_empresa = Empresa.objects.create(nome=nome)
+        else:
+          nova_empresa = Empresa.objects.create(nome=slugify(f'{first_name}-{last-name}'))
+
+        # CRIA NOVO CARD
+        card = form.save(commit=False)
+        card.usuario = novo_usuario
+        card.empresa = nova_empresa
+        telefone = form.cleaned_data['telefone']
+        whatsapp = form.cleaned_data['whatsapp']
+        facebook = form.cleaned_data['facebook']
+        instagram = form.cleaned_data['instagram']
+        linkedin = form.cleaned_data['linkedin']
+        youtube = form.cleaned_data['youtube']
+        tik_tok = form.cleaned_data['tik_tok']
+        cargo = form.cleaned_data['cargo']
+        vcf_content = make_vcf(novo_usuario.first_name, novo_usuario.last_name, nova_empresa.nome,
+                                   telefone, whatsapp, facebook, instagram, linkedin, novo_usuario.email, youtube, tik_tok)
+
+        vcf_name = f'{slugify(novo_usuario.get_full_name())}.vcf'
+        content = '\n'.join([str(line) for line in vcf_content])
+        vcf_file = ContentFile(content)
+        card.vcf.save(vcf_name, vcf_file)
+        qr_code = self.gera_qrcode(card)
+        card.save()
+
+        # ENVIA EMAIL PARA ATIVAÇÃO DA CONTA
+        current_site = get_current_site(self.request)
+        subject = 'Ative a sua conta'
+        to = novo_usuario.email
+        context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
+                   'token': account_activation_token.make_token(novo_usuario)}
+        body = render_to_string(
+            'usuarios/email-ativacao.html', context=context)
+        msg = EmailMessage(subject, body, to=[to])
+        msg.content_subtype = "html"  # Main content is now text/html
+        msg.send()
+
+        return super().form_valid(form)

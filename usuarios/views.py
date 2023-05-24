@@ -8,7 +8,7 @@ from django.contrib import auth, messages
 from django.contrib.auth import login as auth_login
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
-from .forms import UsuarioAuthenticationForm, UsuarioRegistrationForm, TrocaSenhaForm, EsqueceuSenhaForm, EsqueceuSenhaLinkForm, UsuarioCriarForm
+from .forms import UsuarioAuthenticationForm, UsuarioRegistrationForm, TrocaSenhaForm, EsqueceuSenhaForm, EsqueceuSenhaLinkForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -28,43 +28,28 @@ class LoginView(LoginView):
     def get_success_url(self):
         user = self.request.user
         card = user.cards.first()
+        if card:
+          return reverse('core:detalhe', kwargs={'empresa': card.empresa.slug, 'slug': card.slug})
+        else:
+          return reverse('core:criar')
         if user.is_superuser:
             return reverse('core:todos-cards')
-        elif user.is_staff:
-        #     empresa = self.request.user.empresa_gerentes.first().slug
-        #     return reverse('core:dashboard-empresa', kwargs={'empresa': empresa})
-            return reverse('core:lista', kwargs={'empresa': card.empresa.slug})
-        else:
-        #     empresa = self.request.user.empresa_vendedores.first().slug
-        #     slug = self.request.user.cards.first().slug
-        #     return reverse('core:dashboard-card', kwargs={'empresa': empresa, 'slug': slug})
-            return reverse('core:detalhe', kwargs={'empresa': card.empresa.slug, 'slug': card.slug})
 
 
 class LogoutView(LogoutView):
     template_name = 'core/home.html'
 
 
-class RegistrarView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class RegistrarView(SuccessMessageMixin, CreateView):
     model = Usuario
     template_name = 'usuarios/registrar.html'
     success_url = reverse_lazy('usuarios:registrar')
-    form_class = UsuarioCriarForm
-    # form_class = UsuarioRegistrationForm
+    form_class = UsuarioRegistrationForm
     success_message = "Usuário cadastrado com sucesso! Um email foi enviado com instruções de acesso."
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     empresa = self.request.user.empresa_gerentes.first()
-    #     context['empresa'] = empresa
-    #     return context
 
     def form_valid(self, form):
-        """If the form is valid, save the associated model."""
         novo_usuario = form.save()
-        empresa = self.request.user.empresa_gerentes.first()
-        empresa.vendedores.add(novo_usuario)
-        empresa.save()
 
         # Envia email para ativação da conta com o password
         current_site = get_current_site(self.request)
@@ -72,8 +57,6 @@ class RegistrarView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         to = novo_usuario.email
         context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
                    'token': account_activation_token.make_token(novo_usuario)}
-        # context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
-        #            'token': account_activation_token.make_token(novo_usuario), 'password': form.data['password1']}
         body = render_to_string(
             'usuarios/email-ativacao.html', context=context)
         msg = EmailMessage(subject, body, to=[to])
@@ -120,15 +103,6 @@ def ativar_conta(request, uidb64, token):
     if usuario is not None and account_activation_token.check_token(usuario, token):
         usuario.is_active = True
         usuario.save()
-
-        # Cria Card para o usuário que ativou a conta
-        # empresa = usuario.empresa_vendedores.first()
-        # card = Card.objects.create(empresa=empresa, whatsapp='16111111111', facebook='https://facebook.com/meunome',
-                                #    instagram='https://instagram.com/meunome', linkedin='https://linkedin.com/in/meunome', telefone='16111111111',
-                                #    usuario=usuario)
-
-        # auth_login(request, usuario)
-        # return redirect('usuarios:trocar-senha')
         return HttpResponse('Seu card foi ativado com sucesso!')
     else:
         return HttpResponse('Link de ativação inválido!')

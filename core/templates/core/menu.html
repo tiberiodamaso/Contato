@@ -12,36 +12,24 @@
           <a class="nav-link active" aria-current="page" href="{% url 'core:home' %}">Início</a>
         </li>
 
-        {% if user.is_authenticated and user.is_staff %}
-        {% if user.cards %}
+        {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'core:dashboard-empresa' user.empresa_gerentes.first.slug %}">Dashboard</a>
+          <a class="nav-link" href="#">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'core:detalhe' user.cards.first.empresa.slug user.cards.first.slug %}">Meu card</a>
+          <a class="nav-link" href="#">Meu card</a>
         </li>
         <li>
-          <a class="nav-link" href="{% url 'core:lista' user.cards.first.empresa.slug %}">Cards</a>
-        </li>
-        {% endif %}
-        <li>
-          <a class="nav-link" href="{% url 'core:criar' user.cards.first.empresa.slug %}">Novo card</a>
+          <a class="nav-link" href="#">Cards</a>
         </li>
         <li>
-          <a class="nav-link" href="{% url 'core:conteudo' user.cards.first.empresa.slug user.cards.first.empresa.id %}">Conteúdo</a>
+          <a class="nav-link" href="#">Novo card</a>
+        </li>
+        <li>
+          <a class="nav-link" href="#">Conteúdo</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>
-        </li>
-        {% elif user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link" href="{ url 'core:dashboard-card' user.empresa_vendedores.first.slug user.cards.first.slug %}">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'core:detalhe' user.cards.first.empresa.slug user.cards.first.slug %}">Meu card</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{ url 'usuarios:logout %}">Sair</a>
         </li>
         {% else %}
         <li class="nav-item">
@@ -56,10 +44,8 @@
         <li class="nav-item">
           <a class="nav-link btn btn-warning">Comprar</a>
         </li>
-        
-        {% endif %}
-        
       </ul>
+      {% endif %}
     </div>
   </div>
 </nav>

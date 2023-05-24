@@ -11,7 +11,7 @@ from django.utils.crypto import get_random_string
 
 
 def get_path(instance, filename):
-  instance = instance.user.id.hex
+  instance = instance.usuario.id.hex
   arquivo = slugify(os.path.splitext(filename)[0])
   extensao = os.path.splitext(filename)[1]
   filename = f'{arquivo}{extensao}'
@@ -114,10 +114,10 @@ class Municipio(models.Model):
 
 class Empresa(models.Model):
   nome = models.CharField(verbose_name='Nome', max_length=200)
-  cnpj = models.CharField(verbose_name='CNPJ', max_length=14, unique=True, validators=[valida_cnpj], blank=True )
+  cnpj = models.CharField(verbose_name='CNPJ', max_length=14, unique=True, validators=[valida_cnpj], blank=True, null=True)
   logotipo = models.FileField(verbose_name='Logotipo', upload_to=get_path, blank=True, null=True, validators=[
                               FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-  proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.PROTECT, related_name='empresas')
+  # proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.PROTECT, related_name='empresas')
   slug = models.SlugField(verbose_name='Slug', unique=True, editable=False)
   criada = models.DateField(verbose_name='Criada', auto_now_add=True)
   atualizada = models.DateField(verbose_name='Atualizada', auto_now=True)
@@ -130,7 +130,7 @@ class Empresa(models.Model):
     return self.nome
 
   def save(self, *args, **kwargs):
-    self.slug = slugify(f'{self.cnpj}-{self.nome}')
+    self.slug = slugify(f'{self.nome}')
     super().save(*args, **kwargs)
 
 
@@ -139,6 +139,8 @@ class Card(models.Model):
                             FileExtensionValidator(allowed_extensions=['vcf'])])
   qr_code = models.ImageField(verbose_name='QR Code', upload_to=get_path, blank=True, null=True,
                               validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+  img_perfil = models.FileField(verbose_name='Foto perfil', upload_to=get_path, blank=True, null=True, validators=[
+                                  FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
   facebook = models.URLField(verbose_name='Facebook', max_length=200, blank=True, validators=[
                               URLValidator(schemes=['http', 'https'])])
   instagram = models.URLField(verbose_name='Instagram', max_length=200, blank=True, validators=[

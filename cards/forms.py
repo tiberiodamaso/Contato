@@ -5,7 +5,7 @@ class CardEditForm(forms.ModelForm):
 
     class Meta:
         model = Card
-        exclude = ['empresa', 'usuario', 'vcf', 'qr_code']
+        exclude = ['empresa', 'usuario', 'vcf', 'qr_code', 'conteudo']
         widgets = {
             'img_perfil': forms.FileInput(attrs={'class': 'form-control', 'label': 'Foto'}),
             'cargo': forms.TextInput(attrs={'class': 'form-control'}),
@@ -13,7 +13,13 @@ class CardEditForm(forms.ModelForm):
             'facebook': forms.URLInput(attrs={'class': 'form-control'}),
             'instagram': forms.URLInput(attrs={'class': 'form-control'}),
             'linkedin': forms.URLInput(attrs={'class': 'form-control'}),
-            'telefone': forms.TextInput(attrs={'class': 'form-control'})
+            'telefone': forms.TextInput(attrs={'class': 'form-control'}),
+            'youtube': forms.TextInput(attrs={'class': 'form-control'}),
+            'tik_tok': forms.TextInput(attrs={'class': 'form-control'}),
+            'nome_display': forms.TextInput(attrs={'class': 'form-control'}),
+            'categoria': forms.Select(attrs={'class': 'form-select'}),
+            'estado': forms.Select(attrs={'class': 'form-select'}),
+            'municipio': forms.Select(attrs={'class': 'form-select'}),
         }
 
 

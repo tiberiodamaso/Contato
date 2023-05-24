@@ -7,7 +7,7 @@ def validate_file_extension(value):
     if not ext.lower() in valid_extensions:
         raise ValidationError('Tipo de imagem não suportado. Tente imagens do tipo JPG, JEPG, PNG ou SVG.')
 
-def make_vcf(first_name, last_name, empresa, telefone, whatsapp, facebook, instagram, linkedin, email):
+def make_vcf(first_name, last_name, empresa, telefone, whatsapp, facebook, instagram, linkedin, email, youtube, tik_tok):
 
     
     return [
@@ -25,6 +25,10 @@ def make_vcf(first_name, last_name, empresa, telefone, whatsapp, facebook, insta
         f'item3.X-ABLabel:Facebook',
         f'item4.URL;type=pref:{linkedin}',
         f'item4.X-ABLabel:Linkedin',
+        f'item5.URL;type=pref:{youtube}',
+        f'item5.X-ABLabel:Youtube',
+        f'item6.URL;type=pref:{tik_tok}',
+        f'item6.X-ABLabel:Tik Tok',
         f'EMAIL;type=INTERNET;type=WORK:{email}',
         'END:VCARD'
     ]

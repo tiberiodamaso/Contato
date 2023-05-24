@@ -25,7 +25,7 @@ class MunicipioAdmin(admin.ModelAdmin):
 
 
 class EmpresaAdmin(admin.ModelAdmin):
-    list_display = ['id', 'nome', 'cnpj', 'slug', 'proprietario', 'criada']
+    list_display = ['id', 'nome', 'cnpj', 'slug', 'criada']
 
     def save_model(self, request, obj, form, change):
       # Atribui o usuário logado ao atributo "user" do objeto
@@ -39,7 +39,7 @@ class CardAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
       # Atribui o usuário logado ao atributo "user" do objeto
-      obj.user = request.user
+      obj.usuario = request.user
       # Salva o objeto
       obj.save()
 

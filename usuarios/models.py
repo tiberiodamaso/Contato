@@ -16,7 +16,7 @@ def get_path(instance, filename):
 class Usuario(AbstractUser):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    username = models.CharField(verbose_name='Username', max_length=20, unique=True)
+    username = models.CharField(verbose_name='Username', max_length=50)
     first_name = models.CharField(verbose_name='Primeiro nome', max_length=20)
     last_name = models.CharField(verbose_name='Último nome', max_length=20)
     email = models.EmailField(verbose_name='E-mail', unique=True)

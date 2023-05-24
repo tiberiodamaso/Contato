@@ -8,23 +8,33 @@
 <body class="container">
   <form method="post" action="{% url 'usuarios:registrar' %}" class="col-10 col-lg-6 py-5 d-flex flex-column m-auto">
     {% csrf_token %}
-    <p class="text-center display-5 mb-5">Criar novo card</p>
-    <p>{{ form.email.label_tag }}</p>
-    <p>{{ form.email }}</p>
-    {% if form.email.help_text %}
-        <small style="color: grey">{{ form.email.help_text }}</small>
-    {% endif %}
 
-    <p>{{ form.first_name.label_tag }}</p>
-    <p>{{ form.first_name }}</p>
-    {% if form.first_name.help_text %}
-        <small style="color: grey">{{ form.first_name.help_text }}</small>
-    {% endif %}
-    <p>{{ form.last_name.label_tag }}</p>
-    <p>{{ form.last_name }}</p>
-    {% if form.last_name.help_text %}
-        <small style="color: grey">{{ form.last_name.help_text }}</small>
-    {% endif %}
+    <p class="text-center display-5 mb-5">CRIAR MEU CARD</p>
+
+    <div class="mb-3">
+      <label for="id_email">Email:</label>
+      {{ form.email }}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_first_name">Primeiro nome:</label>
+    {{ form.first_name }}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_last_name">Último nome:</label>
+    {{ form.last_name }}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_password1">Senha:</label>
+    {{ form.password1 }}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_password2">Confirmação de senha:</label>
+    {{ form.password2 }}
+    </div>
     
     <button type="submit" class="btn btn-warning">Criar card</button>
   </form>

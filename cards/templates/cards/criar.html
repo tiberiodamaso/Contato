@@ -1,48 +1,118 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% block content %}
-<!-- {% include 'core/menu-interno.html'} -->
 {% include 'core/menu.html' %}
 
 <body class="container">
   {% include 'core/mensagens.html' %}
+
   <div class="d-flex flex-column align-items-center">
-    {% if card.img_perfil %}
-    <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
-    {% else %}
-    <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
-    {% endif %}
-    <form action="{% url 'core:criar' empresa.slug %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+
+    <div class="my-5">
+      <h4>Olá, vamos criar seu card</h4>
+    </div>
+
+    <!--IMAGEM DO PERFIL-->
+    <div class="text-center">
+      {% if card.img_perfil %}
+      <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3"
+        loading="lazy">
+      {% else %}
+      <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
+        class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+      {% endif %}
+    </div>
+
+    <!--FORMULÁRIO PARA CRIAR NOVO CARD-->
+    <form action="{% url 'core:criar' %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
       {% csrf_token %}
-
-      <p>
-        <label for="id_email">Email:</label>
-        <input type="email" name="email" class="form-control" maxlength="50" id="id_email">
-      </p>
-      <p>
-        <label for="id_first_name">Primeiro nome:</label>
-        <input type="text" name="first_name" class="form-control" maxlength="50" id="id_first_name" placeholder="Somente o primeiro nome, mesmo se composto">
-      </p>
-      <p>
-        <label for="id_last_name">Último nome:</label>
-        <input type="text" name="last_name" class="form-control" maxlength="50" id="id_last_name" placeholder="Somente o último nome do sobrenome">
-      </p>
-
-      {% for field in form %}
-      <p>
-        {{ field.label_tag }}
-        {{ field }}
-        {% if field.help_text %}
-        <small style="color: grey">{{ field.help_text }}</small>
-        {% endif %}
-        {% for error in field.errors %}
-      <div class="alert alert-danger text-center alert-dismissible" role="alert">
-        {{error}}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      
+      <div class="mb-3">
+        <label for="id_img_perfil">Foto:</label>
+        {{form.img_perfil}}
       </div>
-      {% endfor %}
-      </p>
-      {% endfor %}
+
+      <div class="mb-3">
+        <label for="id_nome_display">Nome no card:</label>
+        {{form.nome_display}}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_empresa">Empresa:</label>
+        <input type="text" name="empresa" class="form-control" maxlength="100" id="id_empresa">
+      </div>
+
+      <div class="mb-3">
+        <label for="id_cargo">Cargo:</label>
+        {{form.cargo}}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_categoria">Categoria:</label>
+        {{form.categoria}}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_estado">Estado:</label>
+        {{form.estado}}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_municipio">Município:</label>
+        {{form.municipio}}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_telefone">Telefone:</label>
+        {{form.telefone}}
+        {% if form.telefone.errors %}
+          {% for error in form.telefone.errors %}
+          <div class="alert alert-danger text-center alert-dismissible" role="alert">
+            {{error}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_whatsapp">Whatsapp:</label>
+        {{form.whatsapp}}
+        {% if form.whatsapp.errors %}
+          {% for error in form.whatsapp.errors %}
+          <div class="alert alert-danger text-center alert-dismissible" role="alert">
+            {{error}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_facebook">Facebook:</label>
+        {{form.facebook}}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_instagram">Instagram:</label>
+        {{form.instagram}}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_linkedin">LinkedIn:</label>
+        {{form.linkedin}}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_youtube">Youtube:</label>
+        {{form.youtube}}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_tik_tok">Tik Tok:</label>
+        {{form.tik_tok}}
+      </div>
+
       <button type="submit" class="btn btn-warning w-100">Salvar</button>
     </form>
   </div>
