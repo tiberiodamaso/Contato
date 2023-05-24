@@ -4,17 +4,18 @@
 {% block content %}
 
 <body class="container">
-  {% if user.is_authenticated and user.is_staff %} 
+  {% if user.is_authenticated %} 
     {% include 'core/menu.html' %} 
   {% endif %}
 
   <!--EMPRESA-->
+  {% if card.empresa.logotipo %}
   <div class="row d-flex justify-content-center my-5">
     <div class="col-12 col-lg-8">
       <div>
-        <a href="{{empresa.site}}">
+        <a href="#">
           <img
-            src="{{empresa.logotipo.url}}"
+            src="#"
             class="w-100"
             alt=""
             loading="lazy"
@@ -24,48 +25,78 @@
       </div>
     </div>
   </div>
+  {% endif %}
 
   <!--VENDEDOR-->
   <div class="row flex-column align-content-center my-5">
     <div class="col-lg-8 col-12 text-center">
+      <!--FOTO PERFIL-->
       {% if card.img_perfil %}
       <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid" loading="lazy" />
       {% else %}
       <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy"/>
       {% endif %}
+
+      <!--NOMDE O USUÁRIO-->
       <h2 class="fw-bold pt-3 pb-2">
         {{card.usuario.first_name}} {{card.usuario.last_name}}
       </h2>
+
+      <!--CARGO-->
       {% if card.cargo %}
       <h3 class="lead pb-3">{{ card.cargo }}</h3>
       {% endif %}
+
+      <!--BOTÃO DE WHATSAPP-->
       <div class="d-flex justify-content-center my-2 rounded bg-warning">
         <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self" class="btn fs-4 w-100">Whatsapp</a>
       </div>
+
+      <!--VCF-->
       {% if card.vcf %}
       <div class="d-flex justify-content-center my-2 rounded bg-warning">
         <a href="{{ card.vcf.url }}" class="btn fs-4 w-100">Adicionar na agenda</a>
       </div>
       {% endif %} 
       
-      {% if user.is_authenticated and user.is_staff %}
+      <!--BOTÃO DE EDITAR CARD-->
+      {% if user.is_authenticated %}
       <div class="d-flex justify-content-center my-2 rounded bg-warning">
         <a href="{% url 'core:editar' card.empresa.slug card.slug %}" class="btn fs-4 w-100">Editar card</a>
       </div>
       {% endif %}
 
+      <!--REDES SOCIAIS-->
       <div class="d-flex justify-content-around py-4">
-        <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self"><i class="bi bi-whatsapp fs-1 text-black-50"></i></a>
+
+        <!--WHATSAPP-->
+        <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self">
+          <i class="bi bi-whatsapp fs-1 text-black-50"></i>
+        </a>
+
+        <!--INSTAGRAM-->
         {% if card.instagram %}
         <a href="{{card.instagram}}" target="_self"><i class="bi bi-instagram fs-1 text-black-50"></i></a>
         {% endif %} 
         
+        <!--FACEBOOK-->
         {% if card.facebook %}
         <a href="{{card.facebook}}" target="_self"><i class="bi bi-facebook fs-1 text-black-50"></i></a>
         {% endif %} 
         
+        <!--LINKEDIN-->
         {% if card.linkedin %}
         <a href="{{card.linkedin}}" target="_self"><i class="bi bi-linkedin fs-1 text-black-50"></i></a>
+        {% endif %}
+
+        <!--YOUTUBE-->
+        {% if card.youtube %}
+        <a href="{{card.youtube}}" target="_self"><i class="bi bi-youtube fs-1 text-black-50"></i></a>
+        {% endif %}
+
+        <!--TIKTOK-->
+        {% if card.tik_tok %}
+        <a href="{{card.tik_tok}}" target="_self"><i class="bi bi-tiktok fs-1 text-black-50"></i></a>
         {% endif %}
 
         <a href="mailto:{{card.usuario.email}}"><i class="bi bi-envelope fs-1 text-black-50"></i></a>
@@ -74,14 +105,13 @@
       </div>
 
     </div>
-    <!-- /.col-lg-4 -->
   </div>
 
   <!--SLIDES-->
-  {% if empresa.slide1 or empresa.slide2 or empresa.slide3 %}
+  {% if card.conteudo.promo1 or card.conteudo.promo2 or card.conteudo.promo3 %}
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
-      <h2 class="fs-1">Destaques</h2>
+      <h2 class="fs-1">Promoções</h2>
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
@@ -102,33 +132,33 @@
           ></button>
         </div>
         <div class="carousel-inner">
-          {% if empresa.slide1 and empresa.slide1_link %}
+          {% if card.conteudo.promo1 and card.conteudo.promo1_link %}
           <div class="carousel-item active">
-            <a href="{{ empresa.slide1_link }}">
+            <a href="{{ card.conteudo.promo1_link }}">
               <img
-                src="{{ empresa.slide1.url }}"
+                src="{{ card.conteudo.promo1.url }}"
                 class="d-block w-100"
                 alt="ribeirao_evero"
                 loading="lazy"
               />
             </a>
           </div>
-          {% endif %} {% if empresa.slide2 and empresa.slide2_link %}
+          {% endif %} {% if card.conteudo.promo2 and card.conteudo.promo2_link %}
           <div class="carousel-item">
-            <a href="{{ empresa.slide2_link }}">
+            <a href="{{ card.conteudo.promo2_link }}">
               <img
-                src="{{ empresa.slide2.url }}"
+                src="{{ card.conteudo.promo2.url }}"
                 class="d-block w-100"
                 alt="sonance"
                 loading="lazy"
               />
             </a>
           </div>
-          {% endif %} {% if empresa.slide3 and empresa.slide3_link %}
+          {% endif %} {% if card.conteudo.promo3 and card.conteudo.promo3_link %}
           <div class="carousel-item">
-            <a href="{{ empresa.slide3_link }}">
+            <a href="{{ card.conteudo.promo3_link }}">
               <img
-                src="{{ empresa.slide3.url }}"
+                src="{{ card.conteudo.promo3.url }}"
                 class="d-block w-100"
                 alt="sette"
                 loading="lazy"
@@ -161,14 +191,14 @@
   {% endif %}
 
   <!--PRODUTOS-->
-  {% if empresa.produtos and empresa.produtos_link %}
+  {% if card.conteudo.produtos and card.conteudo.produtos_link %}
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
       <h2 class="fs-1">Produtos</h2>
       <div style="background-color: #683568">
-        <a href="{{ empresa.produtos_link }}">
+        <a href="{{ card.conteudo.produtos_link }}">
           <img
-            src="{{ empresa.produtos.url }}"
+            src="{{ card.conteudo.produtos.url }}"
             class="w-100"
             alt=""
             loading="lazy"
@@ -180,13 +210,13 @@
   {% endif %}
 
   <!--SERVIÇOS-->
-  {% if empresa.servicos and empresa.servicos_link %}
+  {% if card.conteudo.servicos and card.conteudo.servicos_link %}
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
       <h2 class="fs-1">Serviços</h2>
       <div>
-        <a href="{{ empresa.servicos_link }}">
-          <img src="{{ empresa.servicos.url }}" class="w-100" alt="" />
+        <a href="{{ card.conteudo.servicos_link }}">
+          <img src="{{ card.conteudo.servicos.url }}" class="w-100" alt="" />
         </a>
       </div>
     </div>
@@ -194,13 +224,13 @@
   {% endif %}
 
   <!--PROMOÇÕES-->
-  {% if empresa.promocoes and empresa.promocoes_link %}
+  {% if card.conteudo.promocoes and card.conteudo.promocoes_link %}
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
       <h2 class="fs-1">Promoções</h2>
       <div>
-        <a href="{{ empresa.promocoes_link }}">
-          <img src="{{ empresa.promocoes.url }}" class="w-100" alt="" />
+        <a href="{{ card.conteudo.promocoes_link }}">
+          <img src="{{ card.conteudo.promocoes.url }}" class="w-100" alt="" />
         </a>
       </div>
     </div>
@@ -208,30 +238,18 @@
   {% endif %}
 
   <!--VÍDEOS-->
-  {% if empresa.youtube %}
+  {% if card.conteudo.youtube %}
   <div class="row d-flex justify-content-center mb-5">
     <div class="col-12 col-lg-8">
       <h2 class="fs-1">Vídeos</h2>
       <div
         class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
       >
-        {{ empresa.youtube|safe }}
+        {{ card.conteudo.youtube|safe }}
       </div>
     </div>
   </div>
   {% endif %}
-
-  <!--AGENDE UMA VISITA-->
-  <!-- <div class="row d-flex justify-content-center mb-5">
-    <div class="col-12 col-lg-8">
-      <h2 class="fs-1">Agende uma visita</h2>
-      <div>
-        <a href="https://api.whatsapp.com/send?phone={{card.whatsapp}}" target="_self">
-          <img src="{% static 'bild/bild-block-agende-uma-visita.svg' %}" class="w-100" alt="" loading="lazy">
-        </a>
-      </div>
-    </div>
-  </div> -->
 
   <!--REDES SOCIAIS-->
   <div class="d-flex justify-content-center pb-5">

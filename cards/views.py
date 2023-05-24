@@ -161,6 +161,8 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         youtube = form.cleaned_data['youtube']
         tik_tok = form.cleaned_data['tik_tok']
         cargo = form.cleaned_data['cargo']
+
+        #CRIA VCF
         vcf_content = make_vcf(usuario.first_name, usuario.last_name, empresa.nome,
                                telefone, whatsapp, facebook, instagram, linkedin, usuario.email, youtube, tik_tok)
 
@@ -168,6 +170,8 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         content = '\n'.join([str(line) for line in vcf_content])
         vcf_file = ContentFile(content)
         card.vcf.save(vcf_name, vcf_file)
+
+        # CRIA QRCODE
         qr_code = self.gera_qrcode(card)
         card.save()
 
@@ -177,17 +181,9 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Card
     form_class = CardEditForm
+    success_url = '.'
     template_name = 'cards/editar.html'
-    # success_url = reverse_lazy('core:detalhe', kwargs={'empresa': card.empresa.slug, 'slug': card.slug})
     success_message = 'Card atualizado com sucesso!'
-
-    # TODO criar uma função para remover a imagem de perfil, qr_code e vcf
-
-    def get_success_url(self, **kwargs):
-        card = Card.objects.get(slug=self.kwargs['slug'])
-        success_url = reverse_lazy('core:detalhe', kwargs={
-                                   'empresa': card.empresa.slug, 'slug': card.slug})
-        return success_url
 
     def gera_qrcode(self, card, **kwargs):
         host = self.request.get_host()
@@ -196,13 +192,6 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         qr_code = qrcode.make(url, box_size=20)
         name = f'{card.slug}-qrcode.png'
         blob = BytesIO()
-        if card.qr_code:
-            try:
-                os.remove(card.qr_code.path)
-                card.qr_code.delete()
-                card.save()
-            except FileNotFoundError as err:
-                print(err)
         qr_code.save(blob)
         card.qr_code.save(name, File(blob), save=False)
         return card.qr_code
@@ -217,47 +206,61 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         # Obtenha o objeto que está sendo atualizado
-        self.object = self.get_object()
+        card = self.get_object()
 
-        # Se o campo de imagem foi alterado, exclua o arquivo antigo
-        if 'img_perfil' in request.FILES and self.object.img_perfil:
-            os.remove(self.object.img_perfil.path)
+        # APAGA ARQUIVOS ANTIGOS
+        if 'img_perfil' in request.FILES and card.img_perfil:
+          try:
+            os.remove(card.img_perfil.path)
+            card.img_perfil.delete()
+            card.save()
+          except FileNotFoundError as err:
+            print(err)
 
         if card.vcf:
-            qr_code = self.gera_qrcode(card)
-            try:
-                os.remove(card.vcf.path)
-                card.vcf.delete()
-                card.save()
-            except FileNotFoundError as err:
-                print(err)
+          try:
+            os.remove(card.vcf.path)
+            card.vcf.delete()
+            card.save()
+          except FileNotFoundError as err:
+            print(err)
 
-        # Salve o objeto atualizado
+        if card.qr_code:
+          try:
+            os.remove(card.qr_code.path)
+            card.qr_code.delete()
+            card.save()
+          except FileNotFoundError as err:
+            print(err)
+
         return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
-        card = form.save(commit=False)
         usuario = self.request.user
+        card = form.save(commit=False)
         empresa = card.empresa
-        telefone = form.data['telefone']
-        whatsapp = form.data['whatsapp']
-        facebook = form.data['facebook']
-        instagram = form.data['instagram']
-        linkedin = form.data['linkedin']
+        empresa.nome = form.data['empresa']
+        empresa.save()
+        card.usuario = usuario
+        telefone = form.cleaned_data['telefone']
+        whatsapp = form.cleaned_data['whatsapp']
+        facebook = form.cleaned_data['facebook']
+        instagram = form.cleaned_data['instagram']
+        linkedin = form.cleaned_data['linkedin']
+        youtube = form.cleaned_data['youtube']
+        tik_tok = form.cleaned_data['tik_tok']
+        cargo = form.cleaned_data['cargo']
+
+        #CRIA VCF
         vcf_content = make_vcf(usuario.first_name, usuario.last_name, empresa.nome,
-                                   telefone, whatsapp, facebook, instagram, linkedin, usuario.email)
-        vcf_name = f'{card.slug}.vcf'
-        if card.vcf:
-            qr_code = self.gera_qrcode(card)
-            try:
-                os.remove(card.vcf.path)
-                card.vcf.delete()
-                card.save()
-            except FileNotFoundError as err:
-                print(err)
+                               telefone, whatsapp, facebook, instagram, linkedin, usuario.email, youtube, tik_tok)
+
+        vcf_name = f'{slugify(usuario.get_full_name())}.vcf'
         content = '\n'.join([str(line) for line in vcf_content])
         vcf_file = ContentFile(content)
         card.vcf.save(vcf_name, vcf_file)
+
+        # CRIA QRCODE
         qr_code = self.gera_qrcode(card)
         card.save()
 

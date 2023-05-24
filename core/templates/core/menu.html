@@ -17,7 +17,7 @@
           <a class="nav-link" href="#">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Meu card</a>
+          <a class="nav-link" href="{% url 'core:detalhe' user.cards.first.empresa.slug user.cards.first.slug %}">Meu card</a>
         </li>
         <li>
           <a class="nav-link" href="#">Cards</a>
