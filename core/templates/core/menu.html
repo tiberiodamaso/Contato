@@ -20,13 +20,7 @@
           <a class="nav-link" href="{% url 'core:detalhe' user.cards.first.empresa.slug user.cards.first.slug %}">Meu card</a>
         </li>
         <li>
-          <a class="nav-link" href="#">Cards</a>
-        </li>
-        <li>
-          <a class="nav-link" href="#">Novo card</a>
-        </li>
-        <li>
-          <a class="nav-link" href="#">Conteúdo</a>
+          <a class="nav-link" href="{% url 'core:conteudo' user.cards.first.empresa.slug user.cards.first.slug %}">Conteúdo</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>

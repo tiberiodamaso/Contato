@@ -56,25 +56,25 @@ class Conteudo(models.Model):
                               validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
   produto3_link = models.URLField(verbose_name='produto3 link', max_length=1000, blank=True, null=True, validators=[
                               URLValidator(schemes=['http', 'https'])])
-  portifolio1 = models.ImageField(verbose_name='portifolio1', upload_to=get_path, blank=True, null=True,
+  portfolio1 = models.ImageField(verbose_name='portifolio1', upload_to=get_path, blank=True, null=True,
                               validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-  portifolio1_link = models.URLField(verbose_name='portifolio1 link', max_length=1000, blank=True, null=True, validators=[
+  portfolio1_link = models.URLField(verbose_name='portifolio1 link', max_length=1000, blank=True, null=True, validators=[
                               URLValidator(schemes=['http', 'https'])])
-  portifolio2 = models.ImageField(verbose_name='portifolio2', upload_to=get_path, blank=True, null=True,
+  portfolio2 = models.ImageField(verbose_name='portifolio2', upload_to=get_path, blank=True, null=True,
                               validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-  portifolio2_link = models.URLField(verbose_name='portifolio2 link', max_length=1000, blank=True, null=True, validators=[
+  portfolio2_link = models.URLField(verbose_name='portifolio2 link', max_length=1000, blank=True, null=True, validators=[
                               URLValidator(schemes=['http', 'https'])])
-  portifolio3 = models.ImageField(verbose_name='portifolio3', upload_to=get_path, blank=True, null=True,
+  portfolio3 = models.ImageField(verbose_name='portifolio3', upload_to=get_path, blank=True, null=True,
                               validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-  portifolio3_link = models.URLField(verbose_name='portifolio3 link', max_length=1000, blank=True, null=True, validators=[
+  portfolio3_link = models.URLField(verbose_name='portifolio3 link', max_length=1000, blank=True, null=True, validators=[
                               URLValidator(schemes=['http', 'https'])])
   
   class Meta:
-        verbose_name = 'Conteúdo'
-        verbose_name_plural = 'Conteúdos'
+    verbose_name = 'Conteúdo'
+    verbose_name_plural = 'Conteúdos'
 
   def __str__(self):
-      return str(int(self.id))
+    return str(int(self.id))
 
 
 class Categoria(models.Model):

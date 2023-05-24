@@ -14,9 +14,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView
 from core import analytics_data_api
-from .models import Empresa, Card, get_path
+from .models import Empresa, Card, Conteudo
 from usuarios.models import Usuario
-from .forms import CardEditForm, EmpresaEditForm
+from .forms import CardEditForm, ConteudoEditForm
 from .utils import make_vcf
 from django.template.defaultfilters import slugify
 from usuarios.tokens import account_activation_token
@@ -138,6 +138,14 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         qr_code.save(blob)
         card.qr_code.save(name, File(blob), save=False)
         return card.qr_code
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        usuario = self.request.user
+        card = Card.objects.get(slug=self.kwargs['slug'])
+        empresa = card.empresa
+        context['empresa'] = empresa
+        return context
 
     def form_valid(self, form):
 
@@ -280,7 +288,7 @@ class CardDetailView(DetailView):
         return context
 
 
-class AllCardsListView(LoginRequiredMixin, ListView):
+class TodosCardsListView(LoginRequiredMixin, ListView):
     model = Card
     template_name = 'cards/todos-cards.html'
     context_object_name = 'cards'
@@ -382,18 +390,19 @@ class EmpresaDashboardView(TemplateView):
         return context
 
 
-class EmpresaEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    model = Empresa
-    form_class = EmpresaEditForm
+class ConteudoCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Conteudo
+    form_class = ConteudoEditForm
+    success_url = '.'
     template_name = 'cards/conteudo.html'
     success_message = 'Informações atualizados com sucesso!'
 
-    def get_success_url(self, **kwargs):
-        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
-        card = empresa.cards.first()
-        success_url = reverse_lazy('core:detalhe', kwargs={
-                                   'empresa': empresa.slug, 'slug': card.slug})
-        return success_url
+    # def get_success_url(self, **kwargs):
+    #     empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
+    #     card = empresa.cards.first()
+    #     success_url = reverse_lazy('core:detalhe', kwargs={
+    #                                'empresa': empresa.slug, 'slug': card.slug})
+    #     return success_url
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -402,25 +411,14 @@ class EmpresaEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         context['empresa'] = empresa
         return context
 
-    # def form_valid(self, form):
-    #     empresa = form.save(commit=False)
-    #     usuario = self.request.user
-
-    #     if card.vcf:
-    #         qr_code = self.gera_qrcode(card)
-    #         try:
-    #             os.remove(card.vcf.path)
-    #             card.vcf.delete()
-    #             card.save()
-    #         except FileNotFoundError as err:
-    #             print(err)
-    #     content = '\n'.join([str(line) for line in vcf_content])
-    #     vcf_file = ContentFile(content)
-    #     card.vcf.save(vcf_name, vcf_file)
-    #     qr_code = self.gera_qrcode(card)
-    #     card.save()
-
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+      form.instance.usuario = self.request.user
+      conteudo = form.save()
+      usuario = self.request.user
+      card = usuario.cards.first()
+      card.conteudo = conteudo
+      card.save()
+      return super().form_valid(form)
 
 
 class CardCreateViewEmpresa(LoginRequiredMixin, SuccessMessageMixin, CreateView):
