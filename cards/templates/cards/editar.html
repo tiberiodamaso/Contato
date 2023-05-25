@@ -15,7 +15,7 @@
     {% endif %}
 
     <!--FORMULÁRIO DE EDIÇÃO DO CARD-->
-    <form action="{% url 'core:editar' card.empresa.slug card.slug %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+    <form action="{% url 'core:editar' card.slug_empresa card.slug %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="mb-3">
         <label for="id_img_perfil">Foto:</label>
@@ -29,7 +29,17 @@
 
       <div class="mb-3">
         <label for="id_empresa">Empresa:</label>
-        <input type="text" name="empresa" class="form-control" maxlength="100" id="id_empresa" value="{{empresa.nome}}">
+        {{form.empresa}}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_site">Site:</label>
+        {{form.site}}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_logotipo">Logotipo:</label>
+        {{form.logotipo}}
       </div>
 
       <div class="mb-3">

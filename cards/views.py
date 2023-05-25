@@ -1,6 +1,4 @@
-import re
-import os
-import qrcode
+import re, os, qrcode
 import qrcode.image.svg
 from io import BytesIO
 from pathlib import Path
@@ -14,7 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView
 from core import analytics_data_api
-from .models import Empresa, Card, Conteudo
+from .models import Card, Conteudo
 from usuarios.models import Usuario
 from .forms import CardEditForm, ConteudoEditForm
 from .utils import make_vcf
@@ -118,8 +116,12 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Card
     form_class = CardEditForm
     template_name = 'cards/criar.html'
-    success_url = '.'
     success_message = 'Card criado com sucesso.'
+
+    def get_success_url(self):
+        user = self.request.user
+        card = Card.objects.get(proprietario=user)
+        return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug })
 
     def gera_qrcode(self, card, **kwargs):
         host = self.request.get_host()
@@ -128,39 +130,16 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         qr_code = qrcode.make(url, box_size=20)
         name = f'{card.slug}-qrcode.png'
         blob = BytesIO()
-        if card.qr_code:
-            try:
-                os.remove(card.qr_code.path)
-                card.qr_code.delete()
-                card.save()
-            except FileNotFoundError as err:
-                print(err)
         qr_code.save(blob)
         card.qr_code.save(name, File(blob), save=False)
         return card.qr_code
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        usuario = self.request.user
-        card = Card.objects.get(slug=self.kwargs['slug'])
-        empresa = card.empresa
-        context['empresa'] = empresa
-        return context
-
     def form_valid(self, form):
-
-        # CRIA EMPRESA
-        if form.data['empresa']:
-          nome = form.data['empresa']
-          empresa = Empresa.objects.create(nome=nome)
-        else:
-          empresa = Empresa.objects.create(nome=slugify(f'{first_name}-{last-name}'))
-
-        # CRIA NOVO CARD
-        usuario = self.request.user
+        proprietario = self.request.user
         card = form.save(commit=False)
-        card.usuario = usuario
-        card.empresa = empresa
+        card.proprietario = proprietario
+        empresa = form.cleaned_data['empresa']
+        site = form.cleaned_data['site']
         telefone = form.cleaned_data['telefone']
         whatsapp = form.cleaned_data['whatsapp']
         facebook = form.cleaned_data['facebook']
@@ -171,10 +150,10 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         cargo = form.cleaned_data['cargo']
 
         #CRIA VCF
-        vcf_content = make_vcf(usuario.first_name, usuario.last_name, empresa.nome,
-                               telefone, whatsapp, facebook, instagram, linkedin, usuario.email, youtube, tik_tok)
+        vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
+                               telefone, whatsapp, facebook, instagram, linkedin, proprietario.email, youtube, tik_tok)
 
-        vcf_name = f'{slugify(usuario.get_full_name())}.vcf'
+        vcf_name = f'{slugify(proprietario.get_full_name())}.vcf'
         content = '\n'.join([str(line) for line in vcf_content])
         vcf_file = ContentFile(content)
         card.vcf.save(vcf_name, vcf_file)
@@ -193,6 +172,11 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'cards/editar.html'
     success_message = 'Card atualizado com sucesso!'
 
+    def get_success_url(self):
+        user = self.request.user
+        card = Card.objects.get(proprietario=user)
+        return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug })
+
     def gera_qrcode(self, card, **kwargs):
         host = self.request.get_host()
         vcf_url = card.vcf.url
@@ -204,14 +188,6 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         card.qr_code.save(name, File(blob), save=False)
         return card.qr_code
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        usuario = self.request.user
-        card = Card.objects.get(slug=self.kwargs['slug'])
-        empresa = card.empresa
-        context['empresa'] = empresa
-        return context
-
     def post(self, request, *args, **kwargs):
         # Obtenha o objeto que está sendo atualizado
         card = self.get_object()
@@ -221,6 +197,14 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
           try:
             os.remove(card.img_perfil.path)
             card.img_perfil.delete()
+            card.save()
+          except FileNotFoundError as err:
+            print(err)
+
+        if 'logotipo' in request.FILES and card.logotipo:
+          try:
+            os.remove(card.logotipo.path)
+            card.logotipo.delete()
             card.save()
           except FileNotFoundError as err:
             print(err)
@@ -244,12 +228,11 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
-        usuario = self.request.user
+        proprietario = self.request.user
         card = form.save(commit=False)
-        empresa = card.empresa
-        empresa.nome = form.data['empresa']
-        empresa.save()
-        card.usuario = usuario
+        card.proprietario = proprietario
+        empresa = form.cleaned_data['empresa']
+        site = form.cleaned_data['site']
         telefone = form.cleaned_data['telefone']
         whatsapp = form.cleaned_data['whatsapp']
         facebook = form.cleaned_data['facebook']
@@ -260,10 +243,10 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         cargo = form.cleaned_data['cargo']
 
         #CRIA VCF
-        vcf_content = make_vcf(usuario.first_name, usuario.last_name, empresa.nome,
-                               telefone, whatsapp, facebook, instagram, linkedin, usuario.email, youtube, tik_tok)
+        vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
+                               telefone, whatsapp, facebook, instagram, linkedin, proprietario.email, youtube, tik_tok)
 
-        vcf_name = f'{slugify(usuario.get_full_name())}.vcf'
+        vcf_name = f'{slugify(proprietario.get_full_name())}.vcf'
         content = '\n'.join([str(line) for line in vcf_content])
         vcf_file = ContentFile(content)
         card.vcf.save(vcf_name, vcf_file)
@@ -279,13 +262,13 @@ class CardDetailView(DetailView):
     model = Card
     template_name = 'cards/detalhe.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        card = Card.objects.get(slug=self.kwargs['slug'])
-        empresa = card.empresa
-        context['card'] = card
-        context['empresa'] = empresa
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     card = Card.objects.get(slug=self.kwargs['slug'])
+    #     empresa = card.empresa
+    #     context['card'] = card
+    #     context['empresa'] = empresa
+    #     return context
 
 
 class TodosCardsListView(LoginRequiredMixin, ListView):
