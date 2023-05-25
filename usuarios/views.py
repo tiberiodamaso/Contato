@@ -29,7 +29,7 @@ class LoginView(LoginView):
         user = self.request.user
         card = user.cards.first()
         if card:
-          return reverse('core:detalhe', kwargs={'empresa': card.empresa.slug, 'slug': card.slug})
+          return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
         else:
           return reverse('core:criar')
         if user.is_superuser:
@@ -43,7 +43,7 @@ class LogoutView(LogoutView):
 class RegistrarView(SuccessMessageMixin, CreateView):
     model = Usuario
     template_name = 'usuarios/registrar.html'
-    success_url = reverse_lazy('usuarios:registrar')
+    success_url = reverse_lazy('usuarios:login')
     form_class = UsuarioRegistrationForm
     success_message = "Usuário cadastrado com sucesso! Um email foi enviado com instruções de acesso."
 

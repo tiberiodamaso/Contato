@@ -1,17 +1,14 @@
 import os
-
 from django.core.validators import FileExtensionValidator, URLValidator
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils.crypto import get_random_string
-
 from usuarios.models import Usuario
-
 from .utils import make_vcf, valida_cnpj, validate_file_extension
 
 
 def get_path(instance, filename):
-    instance = instance.usuario.id.hex
+    instance = instance.proprietario.id.hex
     arquivo = slugify(os.path.splitext(filename)[0])
     extensao = os.path.splitext(filename)[1]
     filename = f'{arquivo}{extensao}'
@@ -53,30 +50,6 @@ class Municipio(models.Model):
         return self.nome
 
 
-# class Empresa(models.Model):
-#   nome = models.CharField(verbose_name='Nome', max_length=200)
-#   cnpj = models.CharField(verbose_name='CNPJ', max_length=14, unique=True, validators=[valida_cnpj], blank=True, null=True)
-#   cnae = models.CharField(verbose_name='CNAE', max_length=7)
-#   logotipo = models.FileField(verbose_name='Logotipo', upload_to=get_path, blank=True, null=True, validators=[
-#                               FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-#   # proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.PROTECT, related_name='empresas')
-#   slug = models.SlugField(verbose_name='Slug', unique=True, editable=False)
-#   # site = models.URLField(verbose_name='Site', blank=True, validators=[URLValidator(schemes=['http', 'https'])])
-#   criada = models.DateField(verbose_name='Criada', auto_now_add=True)
-#   atualizada = models.DateField(verbose_name='Atualizada', auto_now=True)
-
-#   class Meta:
-#     verbose_name = 'Empresa'
-#     verbose_name_plural = 'Empresas'
-
-#   def __str__(self):
-#     return self.nome
-
-#   def save(self, *args, **kwargs):
-#     self.slug = slugify(f'{self.nome}')
-#     super().save(*args, **kwargs)
-
-
 class Card(models.Model):
     # info do card
     vcf = models.FileField(
@@ -91,7 +64,8 @@ class Card(models.Model):
         upload_to=get_path,
         blank=True,
         null=True,
-        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
+        validators=[FileExtensionValidator(
+            allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
     )
     nome_display = models.CharField(verbose_name='Nome display', max_length=50)
     slug = models.SlugField(verbose_name='Slug', max_length=200, editable=False, unique=True)
@@ -100,39 +74,29 @@ class Card(models.Model):
         upload_to=get_path,
         blank=True,
         null=True,
-        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
+        validators=[FileExtensionValidator(
+            allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
     )
-    categoria = models.ForeignKey(
-        Categoria, verbose_name='Categoria', on_delete=models.CASCADE, related_name='cards'
-    )
+    categoria = models.ForeignKey(Categoria, verbose_name='Categoria', on_delete=models.CASCADE, related_name='cards')
 
     # dados de perfil do usuario proprietario do card
-    proprietario = models.ForeignKey(
-        Usuario, verbose_name='Proprietário', on_delete=models.CASCADE, related_name='cards'
-    )
+    proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.CASCADE, related_name='cards')
     cargo = models.CharField(verbose_name='Cargo', max_length=50, blank=True)
     telefone = models.CharField(verbose_name='Telefone', max_length=11, unique=True)
     whatsapp = models.CharField(verbose_name='Whatsapp', max_length=11)
-    estado = models.ForeignKey(
-        Estado, verbose_name='Estado', on_delete=models.CASCADE, related_name='cards'
-    )
-    municipio = models.ForeignKey(
-        Municipio, verbose_name='Município', on_delete=models.CASCADE, related_name='cards'
-    )
+    estado = models.ForeignKey(Estado, verbose_name='Estado', on_delete=models.CASCADE, related_name='cards')
+    municipio = models.ForeignKey(Municipio, verbose_name='Município', on_delete=models.CASCADE, related_name='cards')
     empresa = models.CharField(verbose_name='Empresa', max_length=200, blank=True)
     logotipo = models.FileField(
         verbose_name='Logotipo',
         upload_to=get_path,
         blank=True,
         null=True,
-        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
+        validators=[FileExtensionValidator(
+            allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
     )
-    slug_empresa = models.SlugField(
-        verbose_name='Slug da Empresa', max_length=200, editable=False, unique=True
-    )
-    site = models.URLField(
-        verbose_name='Site', blank=True, validators=[URLValidator(schemes=['http', 'https'])]
-    )
+    slug_empresa = models.SlugField(verbose_name='Slug da Empresa', max_length=200, editable=False, unique=True)
+    site = models.URLField(verbose_name='Site', blank=True, validators=[URLValidator(schemes=['http', 'https'])])
 
     # redes sociais do usuario proprietário do card
     facebook = models.URLField(
@@ -175,7 +139,7 @@ class Card(models.Model):
         verbose_name_plural = 'Cards'
 
     def __str__(self):
-        return str(self.usuario)
+        return str(self.proprietario)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -189,12 +153,15 @@ class Card(models.Model):
             if Card.objects.filter(slug_empresa=self.slug_empresa):
                 # Se existir, gera um novo slug adicionando um sufixo aleatório
                 self.slug_empresa = f'{get_random_string(length=4)}-{self.slug_empresa}'
+        else:
+            self.slug_empresa = slugify(self.empresa)
 
         super().save(*args, **kwargs)
 
 
 class TipoConteudo(models.Model):
-    tipo_conteudo = models.CharField(verbose_name='tipo_conteudo', max_length=100, blank=True)
+    tipo_conteudo = models.CharField(
+        verbose_name='tipo_conteudo', max_length=100, blank=True)
 
     class Meta:
         verbose_name = 'Tipo de conteúdo'
@@ -205,21 +172,20 @@ class TipoConteudo(models.Model):
 
 
 class Conteudo(models.Model):
-    card = models.ForeignKey(
-        Card, verbose_name='card', on_delete=models.CASCADE, related_name='conteudo'
-    )
+    card = models.ForeignKey(Card, verbose_name='card', on_delete=models.CASCADE, related_name='conteudos')
     conteudo_tipo = models.ForeignKey(
         TipoConteudo,
         verbose_name='conteudo_tipo',
         on_delete=models.CASCADE,
-        related_name='conteudo',
+        related_name='conteudos',
     )
     conteudo_img = models.ImageField(
         verbose_name='conteudo_img',
         upload_to=get_path,
         blank=True,
         null=True,
-        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
+        validators=[FileExtensionValidator(
+            allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
     )
     conteudo_link = models.URLField(
         verbose_name='conteudo_link',
@@ -228,3 +194,27 @@ class Conteudo(models.Model):
         null=True,
         validators=[URLValidator(schemes=['http', 'https'])],
     )
+
+
+# class Empresa(models.Model):
+#   nome = models.CharField(verbose_name='Nome', max_length=200)
+#   cnpj = models.CharField(verbose_name='CNPJ', max_length=14, unique=True, validators=[valida_cnpj], blank=True, null=True)
+#   cnae = models.CharField(verbose_name='CNAE', max_length=7)
+#   logotipo = models.FileField(verbose_name='Logotipo', upload_to=get_path, blank=True, null=True, validators=[
+#                               FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+#   # proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.PROTECT, related_name='empresas')
+#   slug = models.SlugField(verbose_name='Slug', unique=True, editable=False)
+#   # site = models.URLField(verbose_name='Site', blank=True, validators=[URLValidator(schemes=['http', 'https'])])
+#   criada = models.DateField(verbose_name='Criada', auto_now_add=True)
+#   atualizada = models.DateField(verbose_name='Atualizada', auto_now=True)
+
+#   class Meta:
+#     verbose_name = 'Empresa'
+#     verbose_name_plural = 'Empresas'
+
+#   def __str__(self):
+#     return self.nome
+
+#   def save(self, *args, **kwargs):
+#     self.slug = slugify(f'{self.nome}')
+#     super().save(*args, **kwargs)
