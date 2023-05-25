@@ -1,290 +1,292 @@
-{% extends 'core/base.html' %}
-{% load static %}
-{% block title%} {{card.usuario.first_name}} {{card.usuario.last_name}} {% endblock %}
+{% extends 'core/base.html' %} 
+{% load static %} 
+{% block title%} {{card.usuario.first_name}} {{card.usuario.last_name}} {% endblock %} 
 {% block content %}
 
 <body class="container">
-    {% if user.is_authenticated %}
-    {% include 'core/menu.html' %}
-    {% endif %}
+  {% if user.is_authenticated %} 
+    {% include 'core/menu.html' %} 
+  {% endif %}
 
-    <!--EMPRESA-->
-    {% if card.empresa.logotipo %}
-    <div class="row d-flex justify-content-center my-5">
-        <div class="col-12 col-lg-8">
-            <div>
-                <a href="#">
-                    <img src="#" class="w-100" alt="" loading="lazy" style="height: 100px" />
-                </a>
-            </div>
-        </div>
+  <!--EMPRESA-->
+  {% if card.empresa.logotipo %}
+  <div class="row d-flex justify-content-center my-5">
+    <div class="col-12 col-lg-8">
+      <div>
+        <a href="#">
+          <img
+            src="#"
+            class="w-100"
+            alt=""
+            loading="lazy"
+            style="height: 100px"
+          />
+        </a>
+      </div>
     </div>
-    {% endif %}
+  </div>
+  {% endif %}
 
-    <!--VENDEDOR-->
-    <div class="row flex-column align-content-center my-5">
-        <div class="col-lg-8 col-12 text-center">
-            <!--FOTO PERFIL-->
-            {% if card.img_perfil %}
-            <img src="{{card.img_perfil.url}}" alt="Foto do perfil"
-                class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid" loading="lazy" />
-            {% else %}
-            <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
-                class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy" />
-            {% endif %}
+  <!--VENDEDOR-->
+  <div class="row flex-column align-content-center my-5">
+    <div class="col-lg-8 col-12 text-center">
+      <!--FOTO PERFIL-->
+      {% if card.img_perfil %}
+      <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid" loading="lazy" />
+      {% else %}
+      <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy"/>
+      {% endif %}
 
-            <!--NOMDE O USUÁRIO-->
-            <h2 class="fw-bold pt-3 pb-2">
-                {{card.usuario.first_name}} {{card.usuario.last_name}}
-            </h2>
+      <!--NOMDE O USUÁRIO-->
+      <h2 class="fw-bold pt-3 pb-2">
+        {{card.usuario.first_name}} {{card.usuario.last_name}}
+      </h2>
 
-            <!--CARGO-->
-            {% if card.cargo %}
-            <h3 class="lead pb-3">{{ card.cargo }}</h3>
-            {% endif %}
+      <!--CARGO-->
+      {% if card.cargo %}
+      <h3 class="lead pb-3">{{ card.cargo }}</h3>
+      {% endif %}
 
-            <!--BOTÃO DE WHATSAPP-->
-            <div class="d-flex justify-content-center my-2 rounded bg-warning">
-                <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self"
-                    class="btn fs-4 w-100">Whatsapp</a>
-            </div>
+      <!--BOTÃO DE WHATSAPP-->
+      <div class="d-flex justify-content-center my-2 rounded bg-warning">
+        <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self" class="btn fs-4 w-100">Whatsapp</a>
+      </div>
 
-            <!--VCF-->
-            {% if card.vcf %}
-            <div class="d-flex justify-content-center my-2 rounded bg-warning">
-                <a href="{{ card.vcf.url }}" class="btn fs-4 w-100">Adicionar na agenda</a>
-            </div>
-            {% endif %}
+      <!--VCF-->
+      {% if card.vcf %}
+      <div class="d-flex justify-content-center my-2 rounded bg-warning">
+        <a href="{{ card.vcf.url }}" class="btn fs-4 w-100">Adicionar na agenda</a>
+      </div>
+      {% endif %} 
+      
+      <!--BOTÃO DE EDITAR CARD-->
+      {% if user.is_authenticated %}
+      <div class="d-flex justify-content-center my-2 rounded bg-warning">
+        <a href="{% url 'core:editar' card.empresa.slug card.slug %}" class="btn fs-4 w-100">Editar card</a>
+      </div>
+      {% endif %}
 
-            <!--BOTÃO DE EDITAR CARD-->
-            {% if user.is_authenticated %}
-            <div class="d-flex justify-content-center my-2 rounded bg-warning">
-                <a href="{% url 'core:editar' card.empresa.slug card.slug %}" class="btn fs-4 w-100">Editar card</a>
-            </div>
-            {% endif %}
+      <!--REDES SOCIAIS-->
+      <div class="d-flex justify-content-around py-4">
 
-            <!--REDES SOCIAIS-->
-            <div class="d-flex justify-content-around py-4">
+        <!--WHATSAPP-->
+        <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self">
+          <i class="bi bi-whatsapp fs-1 text-black-50"></i>
+        </a>
 
-                <!--WHATSAPP-->
-                <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self">
-                    <i class="bi bi-whatsapp fs-1 text-black-50"></i>
-                </a>
-
-                <!--INSTAGRAM-->
-                {% if card.instagram %}
-                <a href="{{card.instagram}}" target="_self"><i class="bi bi-instagram fs-1 text-black-50"></i></a>
-                {% endif %}
-
-                <!--FACEBOOK-->
-                {% if card.facebook %}
-                <a href="{{card.facebook}}" target="_self"><i class="bi bi-facebook fs-1 text-black-50"></i></a>
-                {% endif %}
-
-                <!--LINKEDIN-->
-                {% if card.linkedin %}
-                <a href="{{card.linkedin}}" target="_self"><i class="bi bi-linkedin fs-1 text-black-50"></i></a>
-                {% endif %}
-
-                <!--YOUTUBE-->
-                {% if card.youtube %}
-                <a href="{{card.youtube}}" target="_self"><i class="bi bi-youtube fs-1 text-black-50"></i></a>
-                {% endif %}
-
-                <!--TIKTOK-->
-                {% if card.tik_tok %}
-                <a href="{{card.tik_tok}}" target="_self"><i class="bi bi-tiktok fs-1 text-black-50"></i></a>
-                {% endif %}
-
-                <a href="mailto:{{card.usuario.email}}"><i class="bi bi-envelope fs-1 text-black-50"></i></a>
-                <a href="tel:+55{{card.telefone}}"><i class="bi bi-telephone fs-1 text-black-50"></i></a>
-
-            </div>
-
-        </div>
-    </div>
-
-    <!--SLIDES-->
-    {% if card.conteudo.promo1 or card.conteudo.promo2 or card.conteudo.promo3 %}
-    <div class="row d-flex justify-content-center mb-5">
-        <div class="col-12 col-lg-8">
-            <h2 class="fs-1">Promoções</h2>
-            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                        class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                    {% if card.conteudo.promo1 and card.conteudo.promo1_link %}
-                    <div class="carousel-item active">
-                        <a href="{{ card.conteudo.promo1_link }}">
-                            <img src="{{ card.conteudo.promo1.url }}" class="d-block w-100" alt="ribeirao_evero"
-                                loading="lazy" />
-                        </a>
-                    </div>
-                    {% endif %} {% if card.conteudo.promo2 and card.conteudo.promo2_link %}
-                    <div class="carousel-item">
-                        <a href="{{ card.conteudo.promo2_link }}">
-                            <img src="{{ card.conteudo.promo2.url }}" class="d-block w-100" alt="sonance"
-                                loading="lazy" />
-                        </a>
-                    </div>
-                    {% endif %} {% if card.conteudo.promo3 and card.conteudo.promo3_link %}
-                    <div class="carousel-item">
-                        <a href="{{ card.conteudo.promo3_link }}">
-                            <img src="{{ card.conteudo.promo3.url }}" class="d-block w-100" alt="sette"
-                                loading="lazy" />
-                        </a>
-                    </div>
-                    {% endif %}
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Anterior</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Próximo</span>
-                </button>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <!--PRODUTOS-->
-    {% if card.conteudo.produtos and card.conteudo.produtos_link %}
-    <div class="row d-flex justify-content-center mb-5">
-        <div class="col-12 col-lg-8">
-            <h2 class="fs-1">Produtos</h2>
-            <div style="background-color: #683568">
-                <a href="{{ card.conteudo.produtos_link }}">
-                    <img src="{{ card.conteudo.produtos.url }}" class="w-100" alt="" loading="lazy" />
-                </a>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <!--SERVIÇOS-->
-    {% if card.conteudo.servicos and card.conteudo.servicos_link %}
-    <div class="row d-flex justify-content-center mb-5">
-        <div class="col-12 col-lg-8">
-            <h2 class="fs-1">Serviços</h2>
-            <div>
-                <a href="{{ card.conteudo.servicos_link }}">
-                    <img src="{{ card.conteudo.servicos.url }}" class="w-100" alt="" />
-                </a>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <!--PROMOÇÕES-->
-    {% if card.conteudo.promocoes and card.conteudo.promocoes_link %}
-    <div class="row d-flex justify-content-center mb-5">
-        <div class="col-12 col-lg-8">
-            <h2 class="fs-1">Promoções</h2>
-            <div>
-                <a href="{{ card.conteudo.promocoes_link }}">
-                    <img src="{{ card.conteudo.promocoes.url }}" class="w-100" alt="" />
-                </a>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <!--VÍDEOS-->
-    {% if card.conteudo.youtube %}
-    <div class="row d-flex justify-content-center mb-5">
-        <div class="col-12 col-lg-8">
-            <h2 class="fs-1">Vídeos</h2>
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                {{ card.conteudo.youtube|safe }}
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <!--REDES SOCIAIS-->
-    <div class="d-flex justify-content-center pb-5">
-        <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self" class="px-3"><i
-                class="bi bi-whatsapp fs-4 text-black-50"></i></a>
+        <!--INSTAGRAM-->
         {% if card.instagram %}
-        <a href="{{card.instagram}}" target="_self" class="px-3"><i class="bi bi-instagram fs-4 text-black-50"></i></a>
-        {% endif %} {% if card.facebook %}
-        <a href="{{card.facebook}}" target="_self" class="px-3"><i class="bi bi-facebook fs-4 text-black-50"></i></a>
-        {% endif %} {% if card.linkedin %}
-        <a href="{{card.linkedin}}" target="_self" class="px-3"><i class="bi bi-linkedin fs-4 text-black-50"></i></a>
+        <a href="{{card.instagram}}" target="_self"><i class="bi bi-instagram fs-1 text-black-50"></i></a>
+        {% endif %} 
+        
+        <!--FACEBOOK-->
+        {% if card.facebook %}
+        <a href="{{card.facebook}}" target="_self"><i class="bi bi-facebook fs-1 text-black-50"></i></a>
+        {% endif %} 
+        
+        <!--LINKEDIN-->
+        {% if card.linkedin %}
+        <a href="{{card.linkedin}}" target="_self"><i class="bi bi-linkedin fs-1 text-black-50"></i></a>
         {% endif %}
 
-        <a href="mailto:{{card.usuario.email}}" class="px-3"><i class="bi bi-envelope fs-4 text-black-50"></i></a>
-        <a href="tel:+55{{card.telefone}}" class="px-3"><i class="bi bi-telephone fs-4 text-black-50"></i></a>
-    </div>
+        <!--YOUTUBE-->
+        {% if card.youtube %}
+        <a href="{{card.youtube}}" target="_self"><i class="bi bi-youtube fs-1 text-black-50"></i></a>
+        {% endif %}
 
-    <!--TESTE-->
-    <div class="row row-cols-2 row-cols-md-2 g-4">
-        <div class="col">
-            <div class="card border-0">
-                <img src="{{ card.conteudo.produto1.url }}" class="card-img" alt="...">
-                <div class="card-img-overlay">
-                    <div class="text-end">
-                        <a href="#" class="bg-body p-2 rounded-4">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                        </a>
-                    </div>
-                </div>
-              </div>
-        </div>
-        <div class="col">
-            <div class="card border-0">
-                <img src="{{ card.conteudo.produto2.url }}" class="card-img" alt="...">
-                <div class="card-img-overlay">
-                    <div class="text-end">
-                        <a href="#" class="bg-body p-2 rounded-4">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                        </a>
-                    </div>
-                </div>
-              </div>
-        </div>
-        <div class="col">
-            <div class="card border-0">
-                <img src="{{ card.conteudo.produto3.url }}" class="card-img" alt="...">
-                <div class="card-img-overlay">
-                    <div class="text-end">
-                        <a href="#" class="bg-body p-2 rounded-4">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                        </a>
-                    </div>
-                </div>
-              </div>
-        </div>
-        <div class="col">
-            <div class="card border-0">
-                <img src="{{ card.conteudo.produto2.url }}" class="card-img" alt="...">
-                <div class="card-img-overlay">
-                    <div class="text-end">
-                        <a href="#" class="bg-body p-2 rounded-4">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                        </a>
-                    </div>
-                </div>
-              </div>
-        </div>
-    </div>
+        <!--TIKTOK-->
+        {% if card.tik_tok %}
+        <a href="{{card.tik_tok}}" target="_self"><i class="bi bi-tiktok fs-1 text-black-50"></i></a>
+        {% endif %}
 
-    <!--QRCODE-->
-    {% if card.qr_code %}
-    <div class="d-flex justify-content-center pb-5">
-        <img class="w-25" src="{{card.qr_code.url }}" alt="qrcode" />
+        <a href="mailto:{{card.usuario.email}}"><i class="bi bi-envelope fs-1 text-black-50"></i></a>
+        <a href="tel:+55{{card.telefone}}"><i class="bi bi-telephone fs-1 text-black-50"></i></a>
+
+      </div>
+
     </div>
+  </div>
+
+  <!--SLIDES-->
+  {% if card.conteudo.promo1 or card.conteudo.promo2 or card.conteudo.promo3 %}
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="col-12 col-lg-8">
+      <h2 class="fs-1">Promoções</h2>
+      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+            aria-current="true"
+            aria-label="Slide 1"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="1"
+            aria-label="Slide 2"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="2"
+            aria-label="Slide 3"
+          ></button>
+        </div>
+        <div class="carousel-inner">
+          {% if card.conteudo.promo1 and card.conteudo.promo1_link %}
+          <div class="carousel-item active">
+            <a href="{{ card.conteudo.promo1_link }}">
+              <img
+                src="{{ card.conteudo.promo1.url }}"
+                class="d-block w-100"
+                alt="ribeirao_evero"
+                loading="lazy"
+              />
+            </a>
+          </div>
+          {% endif %} {% if card.conteudo.promo2 and card.conteudo.promo2_link %}
+          <div class="carousel-item">
+            <a href="{{ card.conteudo.promo2_link }}">
+              <img
+                src="{{ card.conteudo.promo2.url }}"
+                class="d-block w-100"
+                alt="sonance"
+                loading="lazy"
+              />
+            </a>
+          </div>
+          {% endif %} {% if card.conteudo.promo3 and card.conteudo.promo3_link %}
+          <div class="carousel-item">
+            <a href="{{ card.conteudo.promo3_link }}">
+              <img
+                src="{{ card.conteudo.promo3.url }}"
+                class="d-block w-100"
+                alt="sette"
+                loading="lazy"
+              />
+            </a>
+          </div>
+          {% endif %}
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Próximo</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!--PRODUTOS-->
+  {% if card.conteudo.produtos and card.conteudo.produtos_link %}
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="col-12 col-lg-8">
+      <h2 class="fs-1">Produtos</h2>
+      <div style="background-color: #683568">
+        <a href="{{ card.conteudo.produtos_link }}">
+          <img
+            src="{{ card.conteudo.produtos.url }}"
+            class="w-100"
+            alt=""
+            loading="lazy"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!--SERVIÇOS-->
+  {% if card.conteudo.servicos and card.conteudo.servicos_link %}
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="col-12 col-lg-8">
+      <h2 class="fs-1">Serviços</h2>
+      <div>
+        <a href="{{ card.conteudo.servicos_link }}">
+          <img src="{{ card.conteudo.servicos.url }}" class="w-100" alt="" />
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!--PROMOÇÕES-->
+  {% if card.conteudo.promocoes and card.conteudo.promocoes_link %}
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="col-12 col-lg-8">
+      <h2 class="fs-1">Promoções</h2>
+      <div>
+        <a href="{{ card.conteudo.promocoes_link }}">
+          <img src="{{ card.conteudo.promocoes.url }}" class="w-100" alt="" />
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!--VÍDEOS-->
+  {% if card.conteudo.youtube %}
+  <div class="row d-flex justify-content-center mb-5">
+    <div class="col-12 col-lg-8">
+      <h2 class="fs-1">Vídeos</h2>
+      <div
+        class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
+      >
+        {{ card.conteudo.youtube|safe }}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!--REDES SOCIAIS-->
+  <div class="d-flex justify-content-center pb-5">
+    <a
+      href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}"
+      target="_self"
+      class="px-3"
+      ><i class="bi bi-whatsapp fs-4 text-black-50"></i
+    ></a>
+    {% if card.instagram %}
+    <a href="{{card.instagram}}" target="_self" class="px-3"
+      ><i class="bi bi-instagram fs-4 text-black-50"></i
+    ></a>
+    {% endif %} {% if card.facebook %}
+    <a href="{{card.facebook}}" target="_self" class="px-3"
+      ><i class="bi bi-facebook fs-4 text-black-50"></i
+    ></a>
+    {% endif %} {% if card.linkedin %}
+    <a href="{{card.linkedin}}" target="_self" class="px-3"
+      ><i class="bi bi-linkedin fs-4 text-black-50"></i
+    ></a>
     {% endif %}
+
+    <a href="mailto:{{card.usuario.email}}" class="px-3"
+      ><i class="bi bi-envelope fs-4 text-black-50"></i
+    ></a>
+    <a href="tel:+55{{card.telefone}}" class="px-3"
+      ><i class="bi bi-telephone fs-4 text-black-50"></i
+    ></a>
+  </div>
+
+  <!--QRCODE-->
+  {% if card.qr_code %}
+  <div class="d-flex justify-content-center pb-5">
+    <img class="w-25" src="{{card.qr_code.url }}" alt="qrcode" />
+  </div>
+  {% endif %}
 </body>
 
 {% endblock %}
