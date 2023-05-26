@@ -9,9 +9,9 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 
-from cards.models import Card, Categoria, Estado, Municipio, TipoConteudo
+from cards.models import Card, Categoria, Conteudo, Estado, Municipio, TipoConteudo
 from cards.utils import make_vcf
-from usuarios.models import Perfil, Usuario
+from usuarios.models import Usuario
 
 # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'root.settings')
 # django.setup()
@@ -135,13 +135,24 @@ class Command(BaseCommand):
         print('\n Tabela Tipo Conteudo populada com sucesso!')
 
     # CRIA CONTEUDO
-    # def _create_conteudo(self):
-    #     site = 'https://siteteste.com.br'
-    #     Conteudo.objects.get_or_create(
-    #         defaults={
-    #             'site': site,
-    #         }
-    #     )
+    def _create_conteudo(self):
+        tipo1 = TipoConteudo.objects.first()
+        tipo2 = TipoConteudo.objects.last()
+        conteudo = Conteudo(
+            card=Card.objects.first(),
+            conteudo_tipo=tipo1,
+            conteudo_link='https://www.google.com',
+        )
+        conteudo.save()
+        print(f'\nCriou conteudo do tipo: {tipo1}')
+
+        conteudo2 = Conteudo(
+            card=Card.objects.first(),
+            conteudo_tipo=tipo2,
+            conteudo_link='https://www.outlook.com',
+        )
+        conteudo2.save()
+        print(f'\nCriou conteudo do tipo: {tipo2}')
 
     # CRIA EMPRESA
     # def _create_empresa(self):
@@ -238,6 +249,7 @@ class Command(BaseCommand):
         if input('\nDo you want to populate tables? (y/n): ') == str.lower('y'):
             self._populate_basic_tables()
             self._create_card()
+            self._create_conteudo()
 
             print('\npopulate db success!!')
         else:
