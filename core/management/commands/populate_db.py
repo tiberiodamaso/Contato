@@ -1,10 +1,15 @@
 # import django
 import csv
+from io import BytesIO
 
+import qrcode
+import qrcode.image.svg
 from django.contrib.auth.hashers import make_password
+from django.core.files import File
+from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 
-from cards.models import Categoria, Estado, Municipio
+from cards.models import Card, Categoria, Estado, Municipio
 from cards.utils import make_vcf
 from usuarios.models import Perfil, Usuario
 
@@ -142,50 +147,91 @@ class Command(BaseCommand):
     #     empresa.save(commit=False)
     #     empresa.colaboradores.add(colaboradores)
 
+    # CRIA QRCODE
+    def gera_qrcode(self, card):
+        host = 'http://127.0.0.1'
+        vcf_url = card.vcf.url
+        url = f'{host}{vcf_url}'
+        qr_code = qrcode.make(url, box_size=20)
+        name = f'{card.slug}-qrcode.png'
+        blob = BytesIO()
+        qr_code.save(blob)
+        card.qr_code.save(name, File(blob), save=False)
+        return None
+
     # CRIA CARD
-    # def _create_card(self):
-    #     nome_display = 'Teste'
-    #     cargo = 'gerente'
-    #     telefone = '16981000167'
-    #     whatsapp = '16981000167'
-    #     facebook = 'https://facebook.com/teste'
-    #     instagram = 'https://instagram.com/teste'
-    #     linkedin = 'https://linkedin.com/teste'
-    #     conteudo = Conteudo.objects.first()
-    #     categoria = Categoria.objects.first()
-    #     subcategoria = Subcategoria.objects.first()
-    #     estado = Estado.objects.first()
-    #     municipio = Municipio.objects.first()
-    #     empresa = Empresa.objects.first()
-    #     usuario = Usuario.objects.first()
+    def _create_card(self):
+        usuario = Usuario.objects.first()
+        print(usuario)
+        # verifica se existe card para esse usuario
+        if len(Card.objects.filter(proprietario=usuario)) > 0:
+            print(f'\nO usuário {usuario.first_name} já possui card.')
+            return None
 
-    #     #Gera vcf
-    #     vcf_content = make_vcf(usuario.first_name, usuario.last_name, empresa.nome,
-    #                                telefone, whatsapp, facebook, instagram, linkedin, usuario.email)
-    #     vcf_name = 'card_teste.vcf'
+        print('\nInicia criação de um card')
 
-    #     #Gera qr_code
-    #     qr_code = self.gera_qrcode(card)
-    #     content = '\n'.join([str(line) for line in vcf_content])
-    #     vcf_file = ContentFile(content)
-    #     card.vcf.save(vcf_name, vcf_file)
-    #     qr_code = self.gera_qrcode(card)
-    #     card.save()
+        # gera um card vazio
+        card = Card()
 
-    #     Card.objects.get_or_create(
-    #         defaults={
-    #             'tipo_cnd': tipo_cnd,
-    #             'observacoes': observacoes,
-    #             'status': status,
-    #             'contribuinte': contribuinte,
-    #             'responsavel': responsavel,
-    #         }
-    #     )
+        # Campos Básicos
+        # vcf - abaixo
+        # qr_code - abaixo
+        card.nome_display = 'Nome Display Populate'
+        card.img_perfil = File('models.jpg') if File('models.jpg') else None
+        card.categoria = Categoria.objects.first()
+
+        card.proprietario = Usuario.objects.first()
+        card.cargo = 'gerente'
+        card.telefone = '16981000167'
+        card.whatsapp = '16981000167'
+        card.estado = Estado.objects.first()
+        card.municipio = Municipio.objects.first()
+        card.empresa = 'Nome Empresa Populate'
+        card.logotipo = File('models.jpg') if File('models.jpg') else None
+        card.site = 'https://www.google.com'
+
+        card.facebook = 'https://facebook.com/teste'
+        card.instagram = 'https://instagram.com/teste'
+        card.linkedin = 'https://linkedin.com/teste'
+        card.youtube = 'https://youtube.com/teste'
+        card.tik_tok = 'https://tiktok.com/teste'
+
+        # salva card parcial
+        card.save()
+        print('\nSalva card parcial')
+
+        # Gera vcf
+        print('\nVai criar vcf')
+        vcf_content = make_vcf(
+            usuario.first_name,
+            usuario.last_name,
+            card.empresa,
+            card.telefone,
+            card.whatsapp,
+            card.facebook,
+            card.instagram,
+            card.linkedin,
+            usuario.email,
+            card.youtube,
+            card.tik_tok,
+        )
+        vcf_name = 'card_teste.vcf'
+        content = '\n'.join([str(line) for line in vcf_content])
+        vcf_file = ContentFile(content)
+        card.vcf.save(vcf_name, vcf_file)
+        print('\nVcf criado com sucesso')
+
+        # Gera qr_code
+        print('\nVai criar qr_code')
+        self.gera_qrcode(card)
+        print('\nQr_code criado com sucesso')
+        card.save()
+        print('\nCard salvo com sucesso')
 
     def handle(self, *args, **options):
         if input('\nDo you want to populate tables? (y/n): ') == str.lower('y'):
             self._populate_basic_tables()
-            # self._create_card()
+            self._create_card()
 
             print('\npopulate db success!!')
         else:
