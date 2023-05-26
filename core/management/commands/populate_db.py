@@ -9,7 +9,7 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 
-from cards.models import Card, Categoria, Estado, Municipio
+from cards.models import Card, Categoria, Estado, Municipio, TipoConteudo
 from cards.utils import make_vcf
 from usuarios.models import Perfil, Usuario
 
@@ -28,9 +28,11 @@ CATEGORIAS = [
     'Artesão',
 ]
 
-SUBCATEGORIAS = [
-    (1, 'Ortodontista'),
-    (2, 'Livros sensoriais'),
+TIPOS_CONTEUDOS = [
+    'servico',
+    'produto',
+    'promoção',
+    'portifolio',
 ]
 
 
@@ -120,12 +122,17 @@ class Command(BaseCommand):
 
         # MUNICIPIOS
         Municipio.objects.bulk_create(self.cria_lista_obj_municipio())
-        print('\nTabela Estados populada com sucesso!')
+        print('\nTabela Municípios populada com sucesso!')
 
         # CATEGORIA
-        for i, categoria in enumerate(CATEGORIAS):
+        for categoria in CATEGORIAS:
             Categoria.objects.get_or_create(nome=categoria)
         print('\nTabela Categoria populada com sucesso!')
+
+        # TIPO CONTEUDO
+        for tipo_conteudo in TIPOS_CONTEUDOS:
+            TipoConteudo.objects.get_or_create(tipo_conteudo=tipo_conteudo)
+        print('\n Tabela Tipo Conteudo populada com sucesso!')
 
     # CRIA CONTEUDO
     # def _create_conteudo(self):
@@ -162,10 +169,9 @@ class Command(BaseCommand):
     # CRIA CARD
     def _create_card(self):
         usuario = Usuario.objects.first()
-        print(usuario)
         # verifica se existe card para esse usuario
         if len(Card.objects.filter(proprietario=usuario)) > 0:
-            print(f'\nO usuário {usuario.first_name} já possui card.')
+            print(f'\nO usuário {str(usuario)} já possui card. Não será criado nenhum card.')
             return None
 
         print('\nInicia criação de um card')
