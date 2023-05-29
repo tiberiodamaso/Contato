@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView
 from core import analytics_data_api
-from .models import Card, Conteudo
+from .models import Card, Conteudo, Estado, Municipio
 from usuarios.models import Usuario
 from .forms import CardEditForm, ConteudoEditForm
 from .utils import make_vcf
@@ -122,6 +122,13 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def get_success_url(self, card):
         return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug })
+    
+    def get_context_data(self):
+       context = super().get_context_data()
+       estados = Estado.objects.all()
+       context['estados'] = estados
+       context['municipios'] = Municipio.objects.filter(estado=estados.first())
+       return context
 
     def gera_qrcode(self, card, **kwargs):
         host = self.request.get_host()
