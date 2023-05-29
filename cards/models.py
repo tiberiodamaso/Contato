@@ -5,6 +5,7 @@ from django.template.defaultfilters import slugify
 from django.utils.crypto import get_random_string
 from usuarios.models import Usuario
 from .utils import make_vcf, valida_cnpj, validate_file_extension
+from PIL import Image
 
 
 def get_path(instance, filename):
@@ -155,6 +156,18 @@ class Card(models.Model):
                 self.slug_empresa = f'{get_random_string(length=4)}-{self.slug_empresa}'
         else:
             self.slug_empresa = slugify(self.empresa)
+
+        # if self.img_perfil:
+        #     desired_size = 300
+        #     img_perfil = Image.open(self.img_perfil.path)
+        #     img_perfil.thumbnail((desired_size, desired_size))
+        #     img_perfil.save(self.img_perfil.path)
+
+        # if self.logotipo:
+        #     desired_size = 300
+        #     logotipo = Image.open(self.logotipo.path)
+        #     logotipo.thumbnail((desired_size, desired_size))
+        #     logotipo.save(self.logotipo.path)
 
         super().save(*args, **kwargs)
 
