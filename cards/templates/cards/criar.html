@@ -64,12 +64,21 @@
 
       <div class="mb-3">
         <label for="id_estado">Estado:</label>
-        {{form.estado}}
+        <select name="estado" class="form-select" id="id_estado"
+          hx-get="{% url 'core:get-municipios'%}" hx-trigger="change" hx-target="#id_municipio">
+          {% for estado in estados %}
+            <option value="{{estado.id}}">{{estado.nome}}</option>
+          {% endfor %}
+        </select>
       </div>
 
       <div class="mb-3">
         <label for="id_municipio">Município:</label>
-        {{form.municipio}}
+        <select name="municipio" class="form-select" id="id_municipio">
+          {% for municipio in municipios %}
+            <option value="{{municipio.id}}">{{municipio.nome}}</option>
+          {% endfor %}
+        </select>
       </div>
 
       <div class="mb-3">
