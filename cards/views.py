@@ -386,8 +386,8 @@ class ConteudoCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
-        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
-        context['empresa'] = empresa
+        card = usuario.cards.first()
+        context['card'] = card
         return context
 
     def form_valid(self, form):

@@ -45,7 +45,7 @@ class CardAdmin(admin.ModelAdmin):
 
 
 class TipoConteudoAdmin(admin.ModelAdmin):
-    list_display = ['id', 'tipo_conteudo']
+    list_display = ['id', 'nome']
 
 
 class ConteudoAdmin(admin.ModelAdmin):
