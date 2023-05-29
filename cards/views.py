@@ -24,6 +24,8 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.db.models import Count
+from django.http import HttpResponseRedirect
+
 
 reg_b = re.compile(r"(android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\\.(browser|link)|vodafone|wap|windows ce|xda|xiino", re.I | re.M)
 
@@ -118,9 +120,7 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'cards/criar.html'
     success_message = 'Card criado com sucesso.'
 
-    def get_success_url(self):
-        user = self.request.user
-        card = Card.objects.get(proprietario=user)
+    def get_success_url(self, card):
         return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug })
 
     def gera_qrcode(self, card, **kwargs):
@@ -132,14 +132,12 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         blob = BytesIO()
         qr_code.save(blob)
         card.qr_code.save(name, File(blob), save=False)
-        return card.qr_code
 
     def form_valid(self, form):
         proprietario = self.request.user
         card = form.save(commit=False)
         card.proprietario = proprietario
         empresa = form.cleaned_data['empresa']
-        site = form.cleaned_data['site']
         telefone = form.cleaned_data['telefone']
         whatsapp = form.cleaned_data['whatsapp']
         facebook = form.cleaned_data['facebook']
@@ -147,7 +145,6 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         linkedin = form.cleaned_data['linkedin']
         youtube = form.cleaned_data['youtube']
         tik_tok = form.cleaned_data['tik_tok']
-        cargo = form.cleaned_data['cargo']
 
         #CRIA VCF
         vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
@@ -159,10 +156,10 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         card.vcf.save(vcf_name, vcf_file)
 
         # CRIA QRCODE
-        qr_code = self.gera_qrcode(card)
+        self.gera_qrcode(card)
         card.save()
 
-        return super().form_valid(form)
+        return HttpResponseRedirect(self.get_success_url(card))
 
 
 class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
