@@ -262,14 +262,6 @@ class CardDetailView(DetailView):
     model = Card
     template_name = 'cards/detalhe.html'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     card = Card.objects.get(slug=self.kwargs['slug'])
-    #     empresa = card.empresa
-    #     context['card'] = card
-    #     context['empresa'] = empresa
-    #     return context
-
 
 class TodosCardsListView(LoginRequiredMixin, ListView):
     model = Card

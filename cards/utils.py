@@ -1,5 +1,6 @@
-from django.core.exceptions import ValidationError
 import os, re
+from PIL import Image
+from django.core.exceptions import ValidationError
 
 def validate_file_extension(value):
     ext = os.path.splitext(value.name)[1]  # [0] returns path & filename
@@ -72,7 +73,13 @@ def valida_cnpj(cnpj:str) -> bool:
 
   return True
 
+def resize_image(image_file, size):
+        image = Image.open(image_file)
 
+        # Redimensionar a imagem mantendo a proporção original
+        image.thumbnail((size, size))
+
+        return image
 
 
 
