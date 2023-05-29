@@ -17,7 +17,7 @@ from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 from django.template.defaultfilters import slugify
 from .models import Usuario
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from cards.models import Card
 
 
@@ -73,18 +73,18 @@ class TrocarSenha(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
 
     def get_success_url(self):
         usuario = self.request.user
-        empresa = usuario.empresa_vendedores.first().slug
-        slug = usuario.cards.first().slug
-        return reverse('core:editar', kwargs={'empresa': empresa, 'slug': slug})
+        card = Card.objects.filter(proprietario=usuario)
+        return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
 
 
 class EsqueceuSenhaFormView(SuccessMessageMixin, PasswordResetView):
     template_name = 'usuarios/esqueceu-senha-form.html'
     form_class = EsqueceuSenhaForm
     email_template_name = 'usuarios/corpo-email-esqueceu-senha.html'
+    html_email_template_name = 'usuarios/corpo-email-esqueceu-senha.html'
     subject_template_name = "usuarios/assunto.txt"
     success_url = reverse_lazy('usuarios:login')
-    success_message = 'Enviamos um e-mail com instruções para definir sua senha, se uma conta existe com o e-mail que você digitou você deve recebê-lo em breve.'
+    success_message = 'Enviamos um e-mail com instruções para redefinir sua senha, se uma conta existe com o e-mail que você digitou você deve recebê-lo em breve.'
 
 
 class EsqueceuSenhaLink(SuccessMessageMixin, PasswordResetConfirmView):
@@ -103,6 +103,8 @@ def ativar_conta(request, uidb64, token):
     if usuario is not None and account_activation_token.check_token(usuario, token):
         usuario.is_active = True
         usuario.save()
-        return HttpResponse('Seu card foi ativado com sucesso!')
+        # return HttpResponse('Seu card foi ativado com sucesso!')
+        return render(request, 'usuarios/sucesso-ativacao.html')
     else:
-        return HttpResponse('Link de ativação inválido!')
+        return render(request, 'usuarios/falha-ativacao.html')
+
