@@ -173,16 +173,15 @@ class Card(models.Model):
 
 
 class TipoConteudo(models.Model):
-    tipo_conteudo = models.CharField(
-        verbose_name='tipo_conteudo', max_length=100, blank=True)
+    nome = models.CharField(
+        verbose_name='Nome', max_length=100, blank=True)
 
     class Meta:
         verbose_name = 'Tipo de conteúdo'
         verbose_name_plural = 'Tipos de conteúdo'
 
     def __str__(self):
-        return str(int(self.id))
-
+        return self.nome
 
 class Conteudo(models.Model):
     card = models.ForeignKey(Card, verbose_name='card', on_delete=models.CASCADE, related_name='conteudos')

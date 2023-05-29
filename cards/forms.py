@@ -1,5 +1,5 @@
 from django import forms
-from .models import Card, Conteudo
+from .models import Card, Conteudo, TipoConteudo
 
 class CardEditForm(forms.ModelForm):
 
@@ -28,35 +28,13 @@ class CardEditForm(forms.ModelForm):
 
 class ConteudoEditForm(forms.ModelForm):
 
+    conteudo_tipo = forms.ModelChoiceField(queryset=TipoConteudo.objects.all(), widget=forms.Select(attrs={'class': 'form-select'}))
+
     class Meta:
         model = Conteudo
-        fields = '__all__'
+        exclude = ['card']
         widgets = {
-            'site': forms.URLInput(attrs={'class': 'form-control'}),
-            'youtube': forms.Textarea(attrs={'class': 'form-control'}),
-            'telefone': forms.TextInput(attrs={'class': 'form-control'}),
-            'promo1': forms.FileInput(attrs={'class': 'form-control'}),
-            'promo1_link': forms.URLInput(attrs={'class': 'form-control'}),
-            'promo2': forms.FileInput(attrs={'class': 'form-control'}),
-            'promo2_link': forms.URLInput(attrs={'class': 'form-control'}),
-            'promo3': forms.FileInput(attrs={'class': 'form-control'}),
-            'promo3_link': forms.URLInput(attrs={'class': 'form-control'}),
-            'produto1': forms.FileInput(attrs={'class': 'form-control'}),
-            'produto1_link': forms.URLInput(attrs={'class': 'form-control'}),
-            'produto2': forms.FileInput(attrs={'class': 'form-control'}),
-            'produto2_link': forms.URLInput(attrs={'class': 'form-control'}),
-            'produto3': forms.FileInput(attrs={'class': 'form-control'}),
-            'produto3_link': forms.URLInput(attrs={'class': 'form-control'}),
-            'servico1': forms.FileInput(attrs={'class': 'form-control'}),
-            'servico1_link': forms.URLInput(attrs={'class': 'form-control'}),
-            'servico2': forms.FileInput(attrs={'class': 'form-control'}),
-            'servico2_link': forms.URLInput(attrs={'class': 'form-control'}),
-            'servico3': forms.FileInput(attrs={'class': 'form-control'}),
-            'servico3_link': forms.URLInput(attrs={'class': 'form-control'}),
-            'portfolio1': forms.FileInput(attrs={'class': 'form-control'}),
-            'portfolio1_link': forms.URLInput(attrs={'class': 'form-control'}),
-            'portfolio2': forms.FileInput(attrs={'class': 'form-control'}),
-            'portfolio2_link': forms.URLInput(attrs={'class': 'form-control'}),
-            'portfolio3': forms.FileInput(attrs={'class': 'form-control'}),
-            'portfolio3_link': forms.URLInput(attrs={'class': 'form-control'}),
+            # 'conteudo_tipo': forms.Select(attrs={'class': 'form-select'}),
+            'conteudo_img': forms.FileInput(attrs={'class': 'form-control'}),
+            'conteudo_link': forms.URLInput(attrs={'class': 'form-control'}),
         }
