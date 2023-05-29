@@ -1,0 +1,5571 @@
+municipio;uf;uf_code;name
+1100015;11;RO;Alta Floresta d'Oeste
+1100023;11;RO;Ariquemes
+1100031;11;RO;Cabixi
+1100049;11;RO;Cacoal
+1100056;11;RO;Cerejeiras
+1100064;11;RO;Colorado do Oeste
+1100072;11;RO;Corumbiara
+1100080;11;RO;Costa Marques
+1100098;11;RO;Espigão d'Oeste
+1100106;11;RO;Guajará-Mirim
+1100114;11;RO;Jaru
+1100122;11;RO;Ji-Paraná
+1100130;11;RO;Machadinho d'Oeste
+1100148;11;RO;Nova Brasilândia d'Oeste
+1100155;11;RO;Ouro Preto do Oeste
+1100189;11;RO;Pimenta Bueno
+1100205;11;RO;Porto Velho
+1100254;11;RO;Presidente Médici
+1100262;11;RO;Rio Crespo
+1100288;11;RO;Rolim de Moura
+1100296;11;RO;Santa Luzia d'Oeste
+1100304;11;RO;Vilhena
+1100320;11;RO;São Miguel do Guaporé
+1100338;11;RO;Nova Mamoré
+1100346;11;RO;Alvorada d'Oeste
+1100379;11;RO;Alto Alegre dos Parecis
+1100403;11;RO;Alto Paraíso
+1100452;11;RO;Buritis
+1100502;11;RO;Novo Horizonte do Oeste
+1100601;11;RO;Cacaulândia
+1100700;11;RO;Campo Novo de Rondônia
+1100809;11;RO;Candeias do Jamari
+1100908;11;RO;Castanheiras
+1100924;11;RO;Chupinguaia
+1100940;11;RO;Cujubim
+1101005;11;RO;Governador Jorge Teixeira
+1101104;11;RO;Itapuã do Oeste
+1101203;11;RO;Ministro Andreazza
+1101302;11;RO;Mirante da Serra
+1101401;11;RO;Monte Negro
+1101435;11;RO;Nova União
+1101450;11;RO;Parecis
+1101468;11;RO;Pimenteiras do Oeste
+1101476;11;RO;Primavera de Rondônia
+1101484;11;RO;São Felipe d'Oeste
+1101492;11;RO;São Francisco do Guaporé
+1101500;11;RO;Seringueiras
+1101559;11;RO;Teixeirópolis
+1101609;11;RO;Theobroma
+1101708;11;RO;Urupá
+1101757;11;RO;Vale do Anari
+1101807;11;RO;Vale do Paraíso
+1200013;12;AC;Acrelândia
+1200054;12;AC;Assis Brasil
+1200104;12;AC;Brasiléia
+1200138;12;AC;Bujari
+1200179;12;AC;Capixaba
+1200203;12;AC;Cruzeiro do Sul
+1200252;12;AC;Epitaciolândia
+1200302;12;AC;Feijó
+1200328;12;AC;Jordão
+1200336;12;AC;Mâncio Lima
+1200344;12;AC;Manoel Urbano
+1200351;12;AC;Marechal Thaumaturgo
+1200385;12;AC;Plácido de Castro
+1200393;12;AC;Porto Walter
+1200401;12;AC;Rio Branco
+1200427;12;AC;Rodrigues Alves
+1200435;12;AC;Santa Rosa do Purus
+1200450;12;AC;Senador Guiomard
+1200500;12;AC;Sena Madureira
+1200609;12;AC;Tarauacá
+1200708;12;AC;Xapuri
+1200807;12;AC;Porto Acre
+1300029;13;AM;Alvarães
+1300060;13;AM;Amaturá
+1300086;13;AM;Anamã
+1300102;13;AM;Anori
+1300144;13;AM;Apuí
+1300201;13;AM;Atalaia do Norte
+1300300;13;AM;Autazes
+1300409;13;AM;Barcelos
+1300508;13;AM;Barreirinha
+1300607;13;AM;Benjamin Constant
+1300631;13;AM;Beruri
+1300680;13;AM;Boa Vista do Ramos
+1300706;13;AM;Boca do Acre
+1300805;13;AM;Borba
+1300839;13;AM;Caapiranga
+1300904;13;AM;Canutama
+1301001;13;AM;Carauari
+1301100;13;AM;Careiro
+1301159;13;AM;Careiro da Várzea
+1301209;13;AM;Coari
+1301308;13;AM;Codajás
+1301407;13;AM;Eirunepé
+1301506;13;AM;Envira
+1301605;13;AM;Fonte Boa
+1301654;13;AM;Guajará
+1301704;13;AM;Humaitá
+1301803;13;AM;Ipixuna
+1301852;13;AM;Iranduba
+1301902;13;AM;Itacoatiara
+1301951;13;AM;Itamarati
+1302009;13;AM;Itapiranga
+1302108;13;AM;Japurá
+1302207;13;AM;Juruá
+1302306;13;AM;Jutaí
+1302405;13;AM;Lábrea
+1302504;13;AM;Manacapuru
+1302553;13;AM;Manaquiri
+1302603;13;AM;Manaus
+1302702;13;AM;Manicoré
+1302801;13;AM;Maraã
+1302900;13;AM;Maués
+1303007;13;AM;Nhamundá
+1303106;13;AM;Nova Olinda do Norte
+1303205;13;AM;Novo Airão
+1303304;13;AM;Novo Aripuanã
+1303403;13;AM;Parintins
+1303502;13;AM;Pauini
+1303536;13;AM;Presidente Figueiredo
+1303569;13;AM;Rio Preto da Eva
+1303601;13;AM;Santa Isabel do Rio Negro
+1303700;13;AM;Santo Antônio do Içá
+1303809;13;AM;São Gabriel da Cachoeira
+1303908;13;AM;São Paulo de Olivença
+1303957;13;AM;São Sebastião do Uatumã
+1304005;13;AM;Silves
+1304062;13;AM;Tabatinga
+1304104;13;AM;Tapauá
+1304203;13;AM;Tefé
+1304237;13;AM;Tonantins
+1304260;13;AM;Uarini
+1304302;13;AM;Urucará
+1304401;13;AM;Urucurituba
+1400027;14;RR;Amajari
+1400050;14;RR;Alto Alegre
+1400100;14;RR;Boa Vista
+1400159;14;RR;Bonfim
+1400175;14;RR;Cantá
+1400209;14;RR;Caracaraí
+1400233;14;RR;Caroebe
+1400282;14;RR;Iracema
+1400308;14;RR;Mucajaí
+1400407;14;RR;Normandia
+1400456;14;RR;Pacaraima
+1400472;14;RR;Rorainópolis
+1400506;14;RR;São João da Baliza
+1400605;14;RR;São Luiz
+1400704;14;RR;Uiramutã
+1500107;15;PA;Abaetetuba
+1500131;15;PA;Abel Figueiredo
+1500206;15;PA;Acará
+1500305;15;PA;Afuá
+1500347;15;PA;Água Azul do Norte
+1500404;15;PA;Alenquer
+1500503;15;PA;Almeirim
+1500602;15;PA;Altamira
+1500701;15;PA;Anajás
+1500800;15;PA;Ananindeua
+1500859;15;PA;Anapu
+1500909;15;PA;Augusto Corrêa
+1500958;15;PA;Aurora do Pará
+1501006;15;PA;Aveiro
+1501105;15;PA;Bagre
+1501204;15;PA;Baião
+1501253;15;PA;Bannach
+1501303;15;PA;Barcarena
+1501402;15;PA;Belém
+1501451;15;PA;Belterra
+1501501;15;PA;Benevides
+1501576;15;PA;Bom Jesus do Tocantins
+1501600;15;PA;Bonito
+1501709;15;PA;Bragança
+1501725;15;PA;Brasil Novo
+1501758;15;PA;Brejo Grande do Araguaia
+1501782;15;PA;Breu Branco
+1501808;15;PA;Breves
+1501907;15;PA;Bujaru
+1501956;15;PA;Cachoeira do Piriá
+1502004;15;PA;Cachoeira do Arari
+1502103;15;PA;Cametá
+1502152;15;PA;Canaã dos Carajás
+1502202;15;PA;Capanema
+1502301;15;PA;Capitão Poço
+1502400;15;PA;Castanhal
+1502509;15;PA;Chaves
+1502608;15;PA;Colares
+1502707;15;PA;Conceição do Araguaia
+1502756;15;PA;Concórdia do Pará
+1502764;15;PA;Cumaru do Norte
+1502772;15;PA;Curionópolis
+1502806;15;PA;Curralinho
+1502855;15;PA;Curuá
+1502905;15;PA;Curuçá
+1502939;15;PA;Dom Eliseu
+1502954;15;PA;Eldorado do Carajás
+1503002;15;PA;Faro
+1503044;15;PA;Floresta do Araguaia
+1503077;15;PA;Garrafão do Norte
+1503093;15;PA;Goianésia do Pará
+1503101;15;PA;Gurupá
+1503200;15;PA;Igarapé-Açu
+1503309;15;PA;Igarapé-Miri
+1503408;15;PA;Inhangapi
+1503457;15;PA;Ipixuna do Pará
+1503507;15;PA;Irituia
+1503606;15;PA;Itaituba
+1503705;15;PA;Itupiranga
+1503754;15;PA;Jacareacanga
+1503804;15;PA;Jacundá
+1503903;15;PA;Juruti
+1504000;15;PA;Limoeiro do Ajuru
+1504059;15;PA;Mãe do Rio
+1504109;15;PA;Magalhães Barata
+1504208;15;PA;Marabá
+1504307;15;PA;Maracanã
+1504406;15;PA;Marapanim
+1504422;15;PA;Marituba
+1504455;15;PA;Medicilândia
+1504505;15;PA;Melgaço
+1504604;15;PA;Mocajuba
+1504703;15;PA;Moju
+1504752;15;PA;Mojuí dos Campos
+1504802;15;PA;Monte Alegre
+1504901;15;PA;Muaná
+1504950;15;PA;Nova Esperança do Piriá
+1504976;15;PA;Nova Ipixuna
+1505007;15;PA;Nova Timboteua
+1505031;15;PA;Novo Progresso
+1505064;15;PA;Novo Repartimento
+1505106;15;PA;Óbidos
+1505205;15;PA;Oeiras do Pará
+1505304;15;PA;Oriximiná
+1505403;15;PA;Ourém
+1505437;15;PA;Ourilândia do Norte
+1505486;15;PA;Pacajá
+1505494;15;PA;Palestina do Pará
+1505502;15;PA;Paragominas
+1505536;15;PA;Parauapebas
+1505551;15;PA;Pau d'Arco
+1505601;15;PA;Peixe-Boi
+1505635;15;PA;Piçarra
+1505650;15;PA;Placas
+1505700;15;PA;Ponta de Pedras
+1505809;15;PA;Portel
+1505908;15;PA;Porto de Moz
+1506005;15;PA;Prainha
+1506104;15;PA;Primavera
+1506112;15;PA;Quatipuru
+1506138;15;PA;Redenção
+1506161;15;PA;Rio Maria
+1506187;15;PA;Rondon do Pará
+1506195;15;PA;Rurópolis
+1506203;15;PA;Salinópolis
+1506302;15;PA;Salvaterra
+1506351;15;PA;Santa Bárbara do Pará
+1506401;15;PA;Santa Cruz do Arari
+1506500;15;PA;Santa Izabel do Pará
+1506559;15;PA;Santa Luzia do Pará
+1506583;15;PA;Santa Maria das Barreiras
+1506609;15;PA;Santa Maria do Pará
+1506708;15;PA;Santana do Araguaia
+1506807;15;PA;Santarém
+1506906;15;PA;Santarém Novo
+1507003;15;PA;Santo Antônio do Tauá
+1507102;15;PA;São Caetano de Odivelas
+1507151;15;PA;São Domingos do Araguaia
+1507201;15;PA;São Domingos do Capim
+1507300;15;PA;São Félix do Xingu
+1507409;15;PA;São Francisco do Pará
+1507458;15;PA;São Geraldo do Araguaia
+1507466;15;PA;São João da Ponta
+1507474;15;PA;São João de Pirabas
+1507508;15;PA;São João do Araguaia
+1507607;15;PA;São Miguel do Guamá
+1507706;15;PA;São Sebastião da Boa Vista
+1507755;15;PA;Sapucaia
+1507805;15;PA;Senador José Porfírio
+1507904;15;PA;Soure
+1507953;15;PA;Tailândia
+1507961;15;PA;Terra Alta
+1507979;15;PA;Terra Santa
+1508001;15;PA;Tomé-Açu
+1508035;15;PA;Tracuateua
+1508050;15;PA;Trairão
+1508084;15;PA;Tucumã
+1508100;15;PA;Tucuruí
+1508126;15;PA;Ulianópolis
+1508159;15;PA;Uruará
+1508209;15;PA;Vigia
+1508308;15;PA;Viseu
+1508357;15;PA;Vitória do Xingu
+1508407;15;PA;Xinguara
+1600055;16;AP;Serra do Navio
+1600105;16;AP;Amapá
+1600154;16;AP;Pedra Branca do Amapari
+1600204;16;AP;Calçoene
+1600212;16;AP;Cutias
+1600238;16;AP;Ferreira Gomes
+1600253;16;AP;Itaubal
+1600279;16;AP;Laranjal do Jari
+1600303;16;AP;Macapá
+1600402;16;AP;Mazagão
+1600501;16;AP;Oiapoque
+1600535;16;AP;Porto Grande
+1600550;16;AP;Pracuúba
+1600600;16;AP;Santana
+1600709;16;AP;Tartarugalzinho
+1600808;16;AP;Vitória do Jari
+1700251;17;TO;Abreulândia
+1700301;17;TO;Aguiarnópolis
+1700350;17;TO;Aliança do Tocantins
+1700400;17;TO;Almas
+1700707;17;TO;Alvorada
+1701002;17;TO;Ananás
+1701051;17;TO;Angico
+1701101;17;TO;Aparecida do Rio Negro
+1701309;17;TO;Aragominas
+1701903;17;TO;Araguacema
+1702000;17;TO;Araguaçu
+1702109;17;TO;Araguaína
+1702158;17;TO;Araguanã
+1702208;17;TO;Araguatins
+1702307;17;TO;Arapoema
+1702406;17;TO;Arraias
+1702554;17;TO;Augustinópolis
+1702703;17;TO;Aurora do Tocantins
+1702901;17;TO;Axixá do Tocantins
+1703008;17;TO;Babaçulândia
+1703057;17;TO;Bandeirantes do Tocantins
+1703073;17;TO;Barra do Ouro
+1703107;17;TO;Barrolândia
+1703206;17;TO;Bernardo Sayão
+1703305;17;TO;Bom Jesus do Tocantins
+1703602;17;TO;Brasilândia do Tocantins
+1703701;17;TO;Brejinho de Nazaré
+1703800;17;TO;Buriti do Tocantins
+1703826;17;TO;Cachoeirinha
+1703842;17;TO;Campos Lindos
+1703867;17;TO;Cariri do Tocantins
+1703883;17;TO;Carmolândia
+1703891;17;TO;Carrasco Bonito
+1703909;17;TO;Caseara
+1704105;17;TO;Centenário
+1704600;17;TO;Chapada de Areia
+1705102;17;TO;Chapada da Natividade
+1705508;17;TO;Colinas do Tocantins
+1705557;17;TO;Combinado
+1705607;17;TO;Conceição do Tocantins
+1706001;17;TO;Couto Magalhães
+1706100;17;TO;Cristalândia
+1706258;17;TO;Crixás do Tocantins
+1706506;17;TO;Darcinópolis
+1707009;17;TO;Dianópolis
+1707108;17;TO;Divinópolis do Tocantins
+1707207;17;TO;Dois Irmãos do Tocantins
+1707306;17;TO;Dueré
+1707405;17;TO;Esperantina
+1707553;17;TO;Fátima
+1707652;17;TO;Figueirópolis
+1707702;17;TO;Filadélfia
+1708205;17;TO;Formoso do Araguaia
+1708254;17;TO;Fortaleza do Tabocão
+1708304;17;TO;Goianorte
+1709005;17;TO;Goiatins
+1709302;17;TO;Guaraí
+1709500;17;TO;Gurupi
+1709807;17;TO;Ipueiras
+1710508;17;TO;Itacajá
+1710706;17;TO;Itaguatins
+1710904;17;TO;Itapiratins
+1711100;17;TO;Itaporã do Tocantins
+1711506;17;TO;Jaú do Tocantins
+1711803;17;TO;Juarina
+1711902;17;TO;Lagoa da Confusão
+1711951;17;TO;Lagoa do Tocantins
+1712009;17;TO;Lajeado
+1712157;17;TO;Lavandeira
+1712405;17;TO;Lizarda
+1712454;17;TO;Luzinópolis
+1712504;17;TO;Marianópolis do Tocantins
+1712702;17;TO;Mateiros
+1712801;17;TO;Maurilândia do Tocantins
+1713205;17;TO;Miracema do Tocantins
+1713304;17;TO;Miranorte
+1713601;17;TO;Monte do Carmo
+1713700;17;TO;Monte Santo do Tocantins
+1713809;17;TO;Palmeiras do Tocantins
+1713957;17;TO;Muricilândia
+1714203;17;TO;Natividade
+1714302;17;TO;Nazaré
+1714880;17;TO;Nova Olinda
+1715002;17;TO;Nova Rosalândia
+1715101;17;TO;Novo Acordo
+1715150;17;TO;Novo Alegre
+1715259;17;TO;Novo Jardim
+1715507;17;TO;Oliveira de Fátima
+1715705;17;TO;Palmeirante
+1715754;17;TO;Palmeirópolis
+1716109;17;TO;Paraíso do Tocantins
+1716208;17;TO;Paranã
+1716307;17;TO;Pau d'Arco
+1716505;17;TO;Pedro Afonso
+1716604;17;TO;Peixe
+1716653;17;TO;Pequizeiro
+1716703;17;TO;Colméia
+1717008;17;TO;Pindorama do Tocantins
+1717206;17;TO;Piraquê
+1717503;17;TO;Pium
+1717800;17;TO;Ponte Alta do Bom Jesus
+1717909;17;TO;Ponte Alta do Tocantins
+1718006;17;TO;Porto Alegre do Tocantins
+1718204;17;TO;Porto Nacional
+1718303;17;TO;Praia Norte
+1718402;17;TO;Presidente Kennedy
+1718451;17;TO;Pugmil
+1718501;17;TO;Recursolândia
+1718550;17;TO;Riachinho
+1718659;17;TO;Rio da Conceição
+1718709;17;TO;Rio dos Bois
+1718758;17;TO;Rio Sono
+1718808;17;TO;Sampaio
+1718840;17;TO;Sandolândia
+1718865;17;TO;Santa Fé do Araguaia
+1718881;17;TO;Santa Maria do Tocantins
+1718899;17;TO;Santa Rita do Tocantins
+1718907;17;TO;Santa Rosa do Tocantins
+1719004;17;TO;Santa Tereza do Tocantins
+1720002;17;TO;Santa Terezinha do Tocantins
+1720101;17;TO;São Bento do Tocantins
+1720150;17;TO;São Félix do Tocantins
+1720200;17;TO;São Miguel do Tocantins
+1720259;17;TO;São Salvador do Tocantins
+1720309;17;TO;São Sebastião do Tocantins
+1720499;17;TO;São Valério
+1720655;17;TO;Silvanópolis
+1720804;17;TO;Sítio Novo do Tocantins
+1720853;17;TO;Sucupira
+1720903;17;TO;Taguatinga
+1720937;17;TO;Taipas do Tocantins
+1720978;17;TO;Talismã
+1721000;17;TO;Palmas
+1721109;17;TO;Tocantínia
+1721208;17;TO;Tocantinópolis
+1721257;17;TO;Tupirama
+1721307;17;TO;Tupiratins
+1722081;17;TO;Wanderlândia
+1722107;17;TO;Xambioá
+2100055;21;MA;Açailândia
+2100105;21;MA;Afonso Cunha
+2100154;21;MA;Água Doce do Maranhão
+2100204;21;MA;Alcântara
+2100303;21;MA;Aldeias Altas
+2100402;21;MA;Altamira do Maranhão
+2100436;21;MA;Alto Alegre do Maranhão
+2100477;21;MA;Alto Alegre do Pindaré
+2100501;21;MA;Alto Parnaíba
+2100550;21;MA;Amapá do Maranhão
+2100600;21;MA;Amarante do Maranhão
+2100709;21;MA;Anajatuba
+2100808;21;MA;Anapurus
+2100832;21;MA;Apicum-Açu
+2100873;21;MA;Araguanã
+2100907;21;MA;Araioses
+2100956;21;MA;Arame
+2101004;21;MA;Arari
+2101103;21;MA;Axixá
+2101202;21;MA;Bacabal
+2101251;21;MA;Bacabeira
+2101301;21;MA;Bacuri
+2101350;21;MA;Bacurituba
+2101400;21;MA;Balsas
+2101509;21;MA;Barão de Grajaú
+2101608;21;MA;Barra do Corda
+2101707;21;MA;Barreirinhas
+2101731;21;MA;Belágua
+2101772;21;MA;Bela Vista do Maranhão
+2101806;21;MA;Benedito Leite
+2101905;21;MA;Bequimão
+2101939;21;MA;Bernardo do Mearim
+2101970;21;MA;Boa Vista do Gurupi
+2102002;21;MA;Bom Jardim
+2102036;21;MA;Bom Jesus das Selvas
+2102077;21;MA;Bom Lugar
+2102101;21;MA;Brejo
+2102150;21;MA;Brejo de Areia
+2102200;21;MA;Buriti
+2102309;21;MA;Buriti Bravo
+2102325;21;MA;Buriticupu
+2102358;21;MA;Buritirana
+2102374;21;MA;Cachoeira Grande
+2102408;21;MA;Cajapió
+2102507;21;MA;Cajari
+2102556;21;MA;Campestre do Maranhão
+2102606;21;MA;Cândido Mendes
+2102705;21;MA;Cantanhede
+2102754;21;MA;Capinzal do Norte
+2102804;21;MA;Carolina
+2102903;21;MA;Carutapera
+2103000;21;MA;Caxias
+2103109;21;MA;Cedral
+2103125;21;MA;Central do Maranhão
+2103158;21;MA;Centro do Guilherme
+2103174;21;MA;Centro Novo do Maranhão
+2103208;21;MA;Chapadinha
+2103257;21;MA;Cidelândia
+2103307;21;MA;Codó
+2103406;21;MA;Coelho Neto
+2103505;21;MA;Colinas
+2103554;21;MA;Conceição do Lago-Açu
+2103604;21;MA;Coroatá
+2103703;21;MA;Cururupu
+2103752;21;MA;Davinópolis
+2103802;21;MA;Dom Pedro
+2103901;21;MA;Duque Bacelar
+2104008;21;MA;Esperantinópolis
+2104057;21;MA;Estreito
+2104073;21;MA;Feira Nova do Maranhão
+2104081;21;MA;Fernando Falcão
+2104099;21;MA;Formosa da Serra Negra
+2104107;21;MA;Fortaleza dos Nogueiras
+2104206;21;MA;Fortuna
+2104305;21;MA;Godofredo Viana
+2104404;21;MA;Gonçalves Dias
+2104503;21;MA;Governador Archer
+2104552;21;MA;Governador Edison Lobão
+2104602;21;MA;Governador Eugênio Barros
+2104628;21;MA;Governador Luiz Rocha
+2104651;21;MA;Governador Newton Bello
+2104677;21;MA;Governador Nunes Freire
+2104701;21;MA;Graça Aranha
+2104800;21;MA;Grajaú
+2104909;21;MA;Guimarães
+2105005;21;MA;Humberto de Campos
+2105104;21;MA;Icatu
+2105153;21;MA;Igarapé do Meio
+2105203;21;MA;Igarapé Grande
+2105302;21;MA;Imperatriz
+2105351;21;MA;Itaipava do Grajaú
+2105401;21;MA;Itapecuru Mirim
+2105427;21;MA;Itinga do Maranhão
+2105450;21;MA;Jatobá
+2105476;21;MA;Jenipapo dos Vieiras
+2105500;21;MA;João Lisboa
+2105609;21;MA;Joselândia
+2105658;21;MA;Junco do Maranhão
+2105708;21;MA;Lago da Pedra
+2105807;21;MA;Lago do Junco
+2105906;21;MA;Lago Verde
+2105922;21;MA;Lagoa do Mato
+2105948;21;MA;Lago dos Rodrigues
+2105963;21;MA;Lagoa Grande do Maranhão
+2105989;21;MA;Lajeado Novo
+2106003;21;MA;Lima Campos
+2106102;21;MA;Loreto
+2106201;21;MA;Luís Domingues
+2106300;21;MA;Magalhães de Almeida
+2106326;21;MA;Maracaçumé
+2106359;21;MA;Marajá do Sena
+2106375;21;MA;Maranhãozinho
+2106409;21;MA;Mata Roma
+2106508;21;MA;Matinha
+2106607;21;MA;Matões
+2106631;21;MA;Matões do Norte
+2106672;21;MA;Milagres do Maranhão
+2106706;21;MA;Mirador
+2106755;21;MA;Miranda do Norte
+2106805;21;MA;Mirinzal
+2106904;21;MA;Monção
+2107001;21;MA;Montes Altos
+2107100;21;MA;Morros
+2107209;21;MA;Nina Rodrigues
+2107258;21;MA;Nova Colinas
+2107308;21;MA;Nova Iorque
+2107357;21;MA;Nova Olinda do Maranhão
+2107407;21;MA;Olho d'Água das Cunhãs
+2107456;21;MA;Olinda Nova do Maranhão
+2107506;21;MA;Paço do Lumiar
+2107605;21;MA;Palmeirândia
+2107704;21;MA;Paraibano
+2107803;21;MA;Parnarama
+2107902;21;MA;Passagem Franca
+2108009;21;MA;Pastos Bons
+2108058;21;MA;Paulino Neves
+2108108;21;MA;Paulo Ramos
+2108207;21;MA;Pedreiras
+2108256;21;MA;Pedro do Rosário
+2108306;21;MA;Penalva
+2108405;21;MA;Peri Mirim
+2108454;21;MA;Peritoró
+2108504;21;MA;Pindaré-Mirim
+2108603;21;MA;Pinheiro
+2108702;21;MA;Pio XII
+2108801;21;MA;Pirapemas
+2108900;21;MA;Poção de Pedras
+2109007;21;MA;Porto Franco
+2109056;21;MA;Porto Rico do Maranhão
+2109106;21;MA;Presidente Dutra
+2109205;21;MA;Presidente Juscelino
+2109239;21;MA;Presidente Médici
+2109270;21;MA;Presidente Sarney
+2109304;21;MA;Presidente Vargas
+2109403;21;MA;Primeira Cruz
+2109452;21;MA;Raposa
+2109502;21;MA;Riachão
+2109551;21;MA;Ribamar Fiquene
+2109601;21;MA;Rosário
+2109700;21;MA;Sambaíba
+2109759;21;MA;Santa Filomena do Maranhão
+2109809;21;MA;Santa Helena
+2109908;21;MA;Santa Inês
+2110005;21;MA;Santa Luzia
+2110039;21;MA;Santa Luzia do Paruá
+2110104;21;MA;Santa Quitéria do Maranhão
+2110203;21;MA;Santa Rita
+2110237;21;MA;Santana do Maranhão
+2110278;21;MA;Santo Amaro do Maranhão
+2110302;21;MA;Santo Antônio dos Lopes
+2110401;21;MA;São Benedito do Rio Preto
+2110500;21;MA;São Bento
+2110609;21;MA;São Bernardo
+2110658;21;MA;São Domingos do Azeitão
+2110708;21;MA;São Domingos do Maranhão
+2110807;21;MA;São Félix de Balsas
+2110856;21;MA;São Francisco do Brejão
+2110906;21;MA;São Francisco do Maranhão
+2111003;21;MA;São João Batista
+2111029;21;MA;São João do Carú
+2111052;21;MA;São João do Paraíso
+2111078;21;MA;São João do Soter
+2111102;21;MA;São João dos Patos
+2111201;21;MA;São José de Ribamar
+2111250;21;MA;São José dos Basílios
+2111300;21;MA;São Luís
+2111409;21;MA;São Luís Gonzaga do Maranhão
+2111508;21;MA;São Mateus do Maranhão
+2111532;21;MA;São Pedro da Água Branca
+2111573;21;MA;São Pedro dos Crentes
+2111607;21;MA;São Raimundo das Mangabeiras
+2111631;21;MA;São Raimundo do Doca Bezerra
+2111672;21;MA;São Roberto
+2111706;21;MA;São Vicente Ferrer
+2111722;21;MA;Satubinha
+2111748;21;MA;Senador Alexandre Costa
+2111763;21;MA;Senador La Rocque
+2111789;21;MA;Serrano do Maranhão
+2111805;21;MA;Sítio Novo
+2111904;21;MA;Sucupira do Norte
+2111953;21;MA;Sucupira do Riachão
+2112001;21;MA;Tasso Fragoso
+2112100;21;MA;Timbiras
+2112209;21;MA;Timon
+2112233;21;MA;Trizidela do Vale
+2112274;21;MA;Tufilândia
+2112308;21;MA;Tuntum
+2112407;21;MA;Turiaçu
+2112456;21;MA;Turilândia
+2112506;21;MA;Tutóia
+2112605;21;MA;Urbano Santos
+2112704;21;MA;Vargem Grande
+2112803;21;MA;Viana
+2112852;21;MA;Vila Nova dos Martírios
+2112902;21;MA;Vitória do Mearim
+2113009;21;MA;Vitorino Freire
+2114007;21;MA;Zé Doca
+2200053;22;PI;Acauã
+2200103;22;PI;Agricolândia
+2200202;22;PI;Água Branca
+2200251;22;PI;Alagoinha do Piauí
+2200277;22;PI;Alegrete do Piauí
+2200301;22;PI;Alto Longá
+2200400;22;PI;Altos
+2200459;22;PI;Alvorada do Gurguéia
+2200509;22;PI;Amarante
+2200608;22;PI;Angical do Piauí
+2200707;22;PI;Anísio de Abreu
+2200806;22;PI;Antônio Almeida
+2200905;22;PI;Aroazes
+2200954;22;PI;Aroeiras do Itaim
+2201002;22;PI;Arraial
+2201051;22;PI;Assunção do Piauí
+2201101;22;PI;Avelino Lopes
+2201150;22;PI;Baixa Grande do Ribeiro
+2201176;22;PI;Barra d'Alcântara
+2201200;22;PI;Barras
+2201309;22;PI;Barreiras do Piauí
+2201408;22;PI;Barro Duro
+2201507;22;PI;Batalha
+2201556;22;PI;Bela Vista do Piauí
+2201572;22;PI;Belém do Piauí
+2201606;22;PI;Beneditinos
+2201705;22;PI;Bertolínia
+2201739;22;PI;Betânia do Piauí
+2201770;22;PI;Boa Hora
+2201804;22;PI;Bocaina
+2201903;22;PI;Bom Jesus
+2201919;22;PI;Bom Princípio do Piauí
+2201929;22;PI;Bonfim do Piauí
+2201945;22;PI;Boqueirão do Piauí
+2201960;22;PI;Brasileira
+2201988;22;PI;Brejo do Piauí
+2202000;22;PI;Buriti dos Lopes
+2202026;22;PI;Buriti dos Montes
+2202059;22;PI;Cabeceiras do Piauí
+2202075;22;PI;Cajazeiras do Piauí
+2202083;22;PI;Cajueiro da Praia
+2202091;22;PI;Caldeirão Grande do Piauí
+2202109;22;PI;Campinas do Piauí
+2202117;22;PI;Campo Alegre do Fidalgo
+2202133;22;PI;Campo Grande do Piauí
+2202174;22;PI;Campo Largo do Piauí
+2202208;22;PI;Campo Maior
+2202251;22;PI;Canavieira
+2202307;22;PI;Canto do Buriti
+2202406;22;PI;Capitão de Campos
+2202455;22;PI;Capitão Gervásio Oliveira
+2202505;22;PI;Caracol
+2202539;22;PI;Caraúbas do Piauí
+2202554;22;PI;Caridade do Piauí
+2202604;22;PI;Castelo do Piauí
+2202653;22;PI;Caxingó
+2202703;22;PI;Cocal
+2202711;22;PI;Cocal de Telha
+2202729;22;PI;Cocal dos Alves
+2202737;22;PI;Coivaras
+2202752;22;PI;Colônia do Gurguéia
+2202778;22;PI;Colônia do Piauí
+2202802;22;PI;Conceição do Canindé
+2202851;22;PI;Coronel José Dias
+2202901;22;PI;Corrente
+2203008;22;PI;Cristalândia do Piauí
+2203107;22;PI;Cristino Castro
+2203206;22;PI;Curimatá
+2203230;22;PI;Currais
+2203255;22;PI;Curralinhos
+2203271;22;PI;Curral Novo do Piauí
+2203305;22;PI;Demerval Lobão
+2203354;22;PI;Dirceu Arcoverde
+2203404;22;PI;Dom Expedito Lopes
+2203420;22;PI;Domingos Mourão
+2203453;22;PI;Dom Inocêncio
+2203503;22;PI;Elesbão Veloso
+2203602;22;PI;Eliseu Martins
+2203701;22;PI;Esperantina
+2203750;22;PI;Fartura do Piauí
+2203800;22;PI;Flores do Piauí
+2203859;22;PI;Floresta do Piauí
+2203909;22;PI;Floriano
+2204006;22;PI;Francinópolis
+2204105;22;PI;Francisco Ayres
+2204154;22;PI;Francisco Macedo
+2204204;22;PI;Francisco Santos
+2204303;22;PI;Fronteiras
+2204352;22;PI;Geminiano
+2204402;22;PI;Gilbués
+2204501;22;PI;Guadalupe
+2204550;22;PI;Guaribas
+2204600;22;PI;Hugo Napoleão
+2204659;22;PI;Ilha Grande
+2204709;22;PI;Inhuma
+2204808;22;PI;Ipiranga do Piauí
+2204907;22;PI;Isaías Coelho
+2205003;22;PI;Itainópolis
+2205102;22;PI;Itaueira
+2205151;22;PI;Jacobina do Piauí
+2205201;22;PI;Jaicós
+2205250;22;PI;Jardim do Mulato
+2205276;22;PI;Jatobá do Piauí
+2205300;22;PI;Jerumenha
+2205359;22;PI;João Costa
+2205409;22;PI;Joaquim Pires
+2205458;22;PI;Joca Marques
+2205508;22;PI;José de Freitas
+2205516;22;PI;Juazeiro do Piauí
+2205524;22;PI;Júlio Borges
+2205532;22;PI;Jurema
+2205540;22;PI;Lagoinha do Piauí
+2205557;22;PI;Lagoa Alegre
+2205565;22;PI;Lagoa do Barro do Piauí
+2205573;22;PI;Lagoa de São Francisco
+2205581;22;PI;Lagoa do Piauí
+2205599;22;PI;Lagoa do Sítio
+2205607;22;PI;Landri Sales
+2205706;22;PI;Luís Correia
+2205805;22;PI;Luzilândia
+2205854;22;PI;Madeiro
+2205904;22;PI;Manoel Emídio
+2205953;22;PI;Marcolândia
+2206001;22;PI;Marcos Parente
+2206050;22;PI;Massapê do Piauí
+2206100;22;PI;Matias Olímpio
+2206209;22;PI;Miguel Alves
+2206308;22;PI;Miguel Leão
+2206357;22;PI;Milton Brandão
+2206407;22;PI;Monsenhor Gil
+2206506;22;PI;Monsenhor Hipólito
+2206605;22;PI;Monte Alegre do Piauí
+2206654;22;PI;Morro Cabeça no Tempo
+2206670;22;PI;Morro do Chapéu do Piauí
+2206696;22;PI;Murici dos Portelas
+2206704;22;PI;Nazaré do Piauí
+2206720;22;PI;Nazária
+2206753;22;PI;Nossa Senhora de Nazaré
+2206803;22;PI;Nossa Senhora dos Remédios
+2206902;22;PI;Novo Oriente do Piauí
+2206951;22;PI;Novo Santo Antônio
+2207009;22;PI;Oeiras
+2207108;22;PI;Olho d'Água do Piauí
+2207207;22;PI;Padre Marcos
+2207306;22;PI;Paes Landim
+2207355;22;PI;Pajeú do Piauí
+2207405;22;PI;Palmeira do Piauí
+2207504;22;PI;Palmeirais
+2207553;22;PI;Paquetá
+2207603;22;PI;Parnaguá
+2207702;22;PI;Parnaíba
+2207751;22;PI;Passagem Franca do Piauí
+2207777;22;PI;Patos do Piauí
+2207793;22;PI;Pau d'Arco do Piauí
+2207801;22;PI;Paulistana
+2207850;22;PI;Pavussu
+2207900;22;PI;Pedro II
+2207934;22;PI;Pedro Laurentino
+2207959;22;PI;Nova Santa Rita
+2208007;22;PI;Picos
+2208106;22;PI;Pimenteiras
+2208205;22;PI;Pio IX
+2208304;22;PI;Piracuruca
+2208403;22;PI;Piripiri
+2208502;22;PI;Porto
+2208551;22;PI;Porto Alegre do Piauí
+2208601;22;PI;Prata do Piauí
+2208650;22;PI;Queimada Nova
+2208700;22;PI;Redenção do Gurguéia
+2208809;22;PI;Regeneração
+2208858;22;PI;Riacho Frio
+2208874;22;PI;Ribeira do Piauí
+2208908;22;PI;Ribeiro Gonçalves
+2209005;22;PI;Rio Grande do Piauí
+2209104;22;PI;Santa Cruz do Piauí
+2209153;22;PI;Santa Cruz dos Milagres
+2209203;22;PI;Santa Filomena
+2209302;22;PI;Santa Luz
+2209351;22;PI;Santana do Piauí
+2209377;22;PI;Santa Rosa do Piauí
+2209401;22;PI;Santo Antônio de Lisboa
+2209450;22;PI;Santo Antônio dos Milagres
+2209500;22;PI;Santo Inácio do Piauí
+2209559;22;PI;São Braz do Piauí
+2209609;22;PI;São Félix do Piauí
+2209658;22;PI;São Francisco de Assis do Piauí
+2209708;22;PI;São Francisco do Piauí
+2209757;22;PI;São Gonçalo do Gurguéia
+2209807;22;PI;São Gonçalo do Piauí
+2209856;22;PI;São João da Canabrava
+2209872;22;PI;São João da Fronteira
+2209906;22;PI;São João da Serra
+2209955;22;PI;São João da Varjota
+2209971;22;PI;São João do Arraial
+2210003;22;PI;São João do Piauí
+2210052;22;PI;São José do Divino
+2210102;22;PI;São José do Peixe
+2210201;22;PI;São José do Piauí
+2210300;22;PI;São Julião
+2210359;22;PI;São Lourenço do Piauí
+2210375;22;PI;São Luis do Piauí
+2210383;22;PI;São Miguel da Baixa Grande
+2210391;22;PI;São Miguel do Fidalgo
+2210409;22;PI;São Miguel do Tapuio
+2210508;22;PI;São Pedro do Piauí
+2210607;22;PI;São Raimundo Nonato
+2210623;22;PI;Sebastião Barros
+2210631;22;PI;Sebastião Leal
+2210656;22;PI;Sigefredo Pacheco
+2210706;22;PI;Simões
+2210805;22;PI;Simplício Mendes
+2210904;22;PI;Socorro do Piauí
+2210938;22;PI;Sussuapara
+2210953;22;PI;Tamboril do Piauí
+2210979;22;PI;Tanque do Piauí
+2211001;22;PI;Teresina
+2211100;22;PI;União
+2211209;22;PI;Uruçuí
+2211308;22;PI;Valença do Piauí
+2211357;22;PI;Várzea Branca
+2211407;22;PI;Várzea Grande
+2211506;22;PI;Vera Mendes
+2211605;22;PI;Vila Nova do Piauí
+2211704;22;PI;Wall Ferraz
+2300101;23;CE;Abaiara
+2300150;23;CE;Acarape
+2300200;23;CE;Acaraú
+2300309;23;CE;Acopiara
+2300408;23;CE;Aiuaba
+2300507;23;CE;Alcântaras
+2300606;23;CE;Altaneira
+2300705;23;CE;Alto Santo
+2300754;23;CE;Amontada
+2300804;23;CE;Antonina do Norte
+2300903;23;CE;Apuiarés
+2301000;23;CE;Aquiraz
+2301109;23;CE;Aracati
+2301208;23;CE;Aracoiaba
+2301257;23;CE;Ararendá
+2301307;23;CE;Araripe
+2301406;23;CE;Aratuba
+2301505;23;CE;Arneiroz
+2301604;23;CE;Assaré
+2301703;23;CE;Aurora
+2301802;23;CE;Baixio
+2301851;23;CE;Banabuiú
+2301901;23;CE;Barbalha
+2301950;23;CE;Barreira
+2302008;23;CE;Barro
+2302057;23;CE;Barroquinha
+2302107;23;CE;Baturité
+2302206;23;CE;Beberibe
+2302305;23;CE;Bela Cruz
+2302404;23;CE;Boa Viagem
+2302503;23;CE;Brejo Santo
+2302602;23;CE;Camocim
+2302701;23;CE;Campos Sales
+2302800;23;CE;Canindé
+2302909;23;CE;Capistrano
+2303006;23;CE;Caridade
+2303105;23;CE;Cariré
+2303204;23;CE;Caririaçu
+2303303;23;CE;Cariús
+2303402;23;CE;Carnaubal
+2303501;23;CE;Cascavel
+2303600;23;CE;Catarina
+2303659;23;CE;Catunda
+2303709;23;CE;Caucaia
+2303808;23;CE;Cedro
+2303907;23;CE;Chaval
+2303931;23;CE;Choró
+2303956;23;CE;Chorozinho
+2304004;23;CE;Coreaú
+2304103;23;CE;Crateús
+2304202;23;CE;Crato
+2304236;23;CE;Croatá
+2304251;23;CE;Cruz
+2304269;23;CE;Deputado Irapuan Pinheiro
+2304277;23;CE;Ererê
+2304285;23;CE;Eusébio
+2304301;23;CE;Farias Brito
+2304350;23;CE;Forquilha
+2304400;23;CE;Fortaleza
+2304459;23;CE;Fortim
+2304509;23;CE;Frecheirinha
+2304608;23;CE;General Sampaio
+2304657;23;CE;Graça
+2304707;23;CE;Granja
+2304806;23;CE;Granjeiro
+2304905;23;CE;Groaíras
+2304954;23;CE;Guaiúba
+2305001;23;CE;Guaraciaba do Norte
+2305100;23;CE;Guaramiranga
+2305209;23;CE;Hidrolândia
+2305233;23;CE;Horizonte
+2305266;23;CE;Ibaretama
+2305308;23;CE;Ibiapina
+2305332;23;CE;Ibicuitinga
+2305357;23;CE;Icapuí
+2305407;23;CE;Icó
+2305506;23;CE;Iguatu
+2305605;23;CE;Independência
+2305654;23;CE;Ipaporanga
+2305704;23;CE;Ipaumirim
+2305803;23;CE;Ipu
+2305902;23;CE;Ipueiras
+2306009;23;CE;Iracema
+2306108;23;CE;Irauçuba
+2306207;23;CE;Itaiçaba
+2306256;23;CE;Itaitinga
+2306306;23;CE;Itapajé
+2306405;23;CE;Itapipoca
+2306504;23;CE;Itapiúna
+2306553;23;CE;Itarema
+2306603;23;CE;Itatira
+2306702;23;CE;Jaguaretama
+2306801;23;CE;Jaguaribara
+2306900;23;CE;Jaguaribe
+2307007;23;CE;Jaguaruana
+2307106;23;CE;Jardim
+2307205;23;CE;Jati
+2307254;23;CE;Jijoca de Jericoacoara
+2307304;23;CE;Juazeiro do Norte
+2307403;23;CE;Jucás
+2307502;23;CE;Lavras da Mangabeira
+2307601;23;CE;Limoeiro do Norte
+2307635;23;CE;Madalena
+2307650;23;CE;Maracanaú
+2307700;23;CE;Maranguape
+2307809;23;CE;Marco
+2307908;23;CE;Martinópole
+2308005;23;CE;Massapê
+2308104;23;CE;Mauriti
+2308203;23;CE;Meruoca
+2308302;23;CE;Milagres
+2308351;23;CE;Milhã
+2308377;23;CE;Miraíma
+2308401;23;CE;Missão Velha
+2308500;23;CE;Mombaça
+2308609;23;CE;Monsenhor Tabosa
+2308708;23;CE;Morada Nova
+2308807;23;CE;Moraújo
+2308906;23;CE;Morrinhos
+2309003;23;CE;Mucambo
+2309102;23;CE;Mulungu
+2309201;23;CE;Nova Olinda
+2309300;23;CE;Nova Russas
+2309409;23;CE;Novo Oriente
+2309458;23;CE;Ocara
+2309508;23;CE;Orós
+2309607;23;CE;Pacajus
+2309706;23;CE;Pacatuba
+2309805;23;CE;Pacoti
+2309904;23;CE;Pacujá
+2310001;23;CE;Palhano
+2310100;23;CE;Palmácia
+2310209;23;CE;Paracuru
+2310258;23;CE;Paraipaba
+2310308;23;CE;Parambu
+2310407;23;CE;Paramoti
+2310506;23;CE;Pedra Branca
+2310605;23;CE;Penaforte
+2310704;23;CE;Pentecoste
+2310803;23;CE;Pereiro
+2310852;23;CE;Pindoretama
+2310902;23;CE;Piquet Carneiro
+2310951;23;CE;Pires Ferreira
+2311009;23;CE;Poranga
+2311108;23;CE;Porteiras
+2311207;23;CE;Potengi
+2311231;23;CE;Potiretama
+2311264;23;CE;Quiterianópolis
+2311306;23;CE;Quixadá
+2311355;23;CE;Quixelô
+2311405;23;CE;Quixeramobim
+2311504;23;CE;Quixeré
+2311603;23;CE;Redenção
+2311702;23;CE;Reriutaba
+2311801;23;CE;Russas
+2311900;23;CE;Saboeiro
+2311959;23;CE;Salitre
+2312007;23;CE;Santana do Acaraú
+2312106;23;CE;Santana do Cariri
+2312205;23;CE;Santa Quitéria
+2312304;23;CE;São Benedito
+2312403;23;CE;São Gonçalo do Amarante
+2312502;23;CE;São João do Jaguaribe
+2312601;23;CE;São Luís do Curu
+2312700;23;CE;Senador Pompeu
+2312809;23;CE;Senador Sá
+2312908;23;CE;Sobral
+2313005;23;CE;Solonópole
+2313104;23;CE;Tabuleiro do Norte
+2313203;23;CE;Tamboril
+2313252;23;CE;Tarrafas
+2313302;23;CE;Tauá
+2313351;23;CE;Tejuçuoca
+2313401;23;CE;Tianguá
+2313500;23;CE;Trairi
+2313559;23;CE;Tururu
+2313609;23;CE;Ubajara
+2313708;23;CE;Umari
+2313757;23;CE;Umirim
+2313807;23;CE;Uruburetama
+2313906;23;CE;Uruoca
+2313955;23;CE;Varjota
+2314003;23;CE;Várzea Alegre
+2314102;23;CE;Viçosa do Ceará
+2400109;24;RN;Acari
+2400208;24;RN;Açu
+2400307;24;RN;Afonso Bezerra
+2400406;24;RN;Água Nova
+2400505;24;RN;Alexandria
+2400604;24;RN;Almino Afonso
+2400703;24;RN;Alto do Rodrigues
+2400802;24;RN;Angicos
+2400901;24;RN;Antônio Martins
+2401008;24;RN;Apodi
+2401107;24;RN;Areia Branca
+2401206;24;RN;Arez
+2401305;24;RN;Campo Grande
+2401404;24;RN;Baía Formosa
+2401453;24;RN;Baraúna
+2401503;24;RN;Barcelona
+2401602;24;RN;Bento Fernandes
+2401651;24;RN;Bodó
+2401701;24;RN;Bom Jesus
+2401800;24;RN;Brejinho
+2401859;24;RN;Caiçara do Norte
+2401909;24;RN;Caiçara do Rio do Vento
+2402006;24;RN;Caicó
+2402105;24;RN;Campo Redondo
+2402204;24;RN;Canguaretama
+2402303;24;RN;Caraúbas
+2402402;24;RN;Carnaúba dos Dantas
+2402501;24;RN;Carnaubais
+2402600;24;RN;Ceará-Mirim
+2402709;24;RN;Cerro Corá
+2402808;24;RN;Coronel Ezequiel
+2402907;24;RN;Coronel João Pessoa
+2403004;24;RN;Cruzeta
+2403103;24;RN;Currais Novos
+2403202;24;RN;Doutor Severiano
+2403251;24;RN;Parnamirim
+2403301;24;RN;Encanto
+2403400;24;RN;Equador
+2403509;24;RN;Espírito Santo
+2403608;24;RN;Extremoz
+2403707;24;RN;Felipe Guerra
+2403756;24;RN;Fernando Pedroza
+2403806;24;RN;Florânia
+2403905;24;RN;Francisco Dantas
+2404002;24;RN;Frutuoso Gomes
+2404101;24;RN;Galinhos
+2404200;24;RN;Goianinha
+2404309;24;RN;Governador Dix-Sept Rosado
+2404408;24;RN;Grossos
+2404507;24;RN;Guamaré
+2404606;24;RN;Ielmo Marinho
+2404705;24;RN;Ipanguaçu
+2404804;24;RN;Ipueira
+2404853;24;RN;Itajá
+2404903;24;RN;Itaú
+2405009;24;RN;Jaçanã
+2405108;24;RN;Jandaíra
+2405207;24;RN;Janduís
+2405306;24;RN;Boa Saúde
+2405405;24;RN;Japi
+2405504;24;RN;Jardim de Angicos
+2405603;24;RN;Jardim de Piranhas
+2405702;24;RN;Jardim do Seridó
+2405801;24;RN;João Câmara
+2405900;24;RN;João Dias
+2406007;24;RN;José da Penha
+2406106;24;RN;Jucurutu
+2406155;24;RN;Jundiá
+2406205;24;RN;Lagoa d'Anta
+2406304;24;RN;Lagoa de Pedras
+2406403;24;RN;Lagoa de Velhos
+2406502;24;RN;Lagoa Nova
+2406601;24;RN;Lagoa Salgada
+2406700;24;RN;Lajes
+2406809;24;RN;Lajes Pintadas
+2406908;24;RN;Lucrécia
+2407005;24;RN;Luís Gomes
+2407104;24;RN;Macaíba
+2407203;24;RN;Macau
+2407252;24;RN;Major Sales
+2407302;24;RN;Marcelino Vieira
+2407401;24;RN;Martins
+2407500;24;RN;Maxaranguape
+2407609;24;RN;Messias Targino
+2407708;24;RN;Montanhas
+2407807;24;RN;Monte Alegre
+2407906;24;RN;Monte das Gameleiras
+2408003;24;RN;Mossoró
+2408102;24;RN;Natal
+2408201;24;RN;Nísia Floresta
+2408300;24;RN;Nova Cruz
+2408409;24;RN;Olho-d'Água do Borges
+2408508;24;RN;Ouro Branco
+2408607;24;RN;Paraná
+2408706;24;RN;Paraú
+2408805;24;RN;Parazinho
+2408904;24;RN;Parelhas
+2408953;24;RN;Rio do Fogo
+2409100;24;RN;Passa e Fica
+2409209;24;RN;Passagem
+2409308;24;RN;Patu
+2409332;24;RN;Santa Maria
+2409407;24;RN;Pau dos Ferros
+2409506;24;RN;Pedra Grande
+2409605;24;RN;Pedra Preta
+2409704;24;RN;Pedro Avelino
+2409803;24;RN;Pedro Velho
+2409902;24;RN;Pendências
+2410009;24;RN;Pilões
+2410108;24;RN;Poço Branco
+2410207;24;RN;Portalegre
+2410256;24;RN;Porto do Mangue
+2410306;24;RN;Serra Caiada
+2410405;24;RN;Pureza
+2410504;24;RN;Rafael Fernandes
+2410603;24;RN;Rafael Godeiro
+2410702;24;RN;Riacho da Cruz
+2410801;24;RN;Riacho de Santana
+2410900;24;RN;Riachuelo
+2411007;24;RN;Rodolfo Fernandes
+2411056;24;RN;Tibau
+2411106;24;RN;Ruy Barbosa
+2411205;24;RN;Santa Cruz
+2411403;24;RN;Santana do Matos
+2411429;24;RN;Santana do Seridó
+2411502;24;RN;Santo Antônio
+2411601;24;RN;São Bento do Norte
+2411700;24;RN;São Bento do Trairí
+2411809;24;RN;São Fernando
+2411908;24;RN;São Francisco do Oeste
+2412005;24;RN;São Gonçalo do Amarante
+2412104;24;RN;São João do Sabugi
+2412203;24;RN;São José de Mipibu
+2412302;24;RN;São José do Campestre
+2412401;24;RN;São José do Seridó
+2412500;24;RN;São Miguel
+2412559;24;RN;São Miguel do Gostoso
+2412609;24;RN;São Paulo do Potengi
+2412708;24;RN;São Pedro
+2412807;24;RN;São Rafael
+2412906;24;RN;São Tomé
+2413003;24;RN;São Vicente
+2413102;24;RN;Senador Elói de Souza
+2413201;24;RN;Senador Georgino Avelino
+2413300;24;RN;Serra de São Bento
+2413359;24;RN;Serra do Mel
+2413409;24;RN;Serra Negra do Norte
+2413508;24;RN;Serrinha
+2413557;24;RN;Serrinha dos Pintos
+2413607;24;RN;Severiano Melo
+2413706;24;RN;Sítio Novo
+2413805;24;RN;Taboleiro Grande
+2413904;24;RN;Taipu
+2414001;24;RN;Tangará
+2414100;24;RN;Tenente Ananias
+2414159;24;RN;Tenente Laurentino Cruz
+2414209;24;RN;Tibau do Sul
+2414308;24;RN;Timbaúba dos Batistas
+2414407;24;RN;Touros
+2414456;24;RN;Triunfo Potiguar
+2414506;24;RN;Umarizal
+2414605;24;RN;Upanema
+2414704;24;RN;Várzea
+2414753;24;RN;Venha-Ver
+2414803;24;RN;Vera Cruz
+2414902;24;RN;Viçosa
+2415008;24;RN;Vila Flor
+2500106;25;PB;Água Branca
+2500205;25;PB;Aguiar
+2500304;25;PB;Alagoa Grande
+2500403;25;PB;Alagoa Nova
+2500502;25;PB;Alagoinha
+2500536;25;PB;Alcantil
+2500577;25;PB;Algodão de Jandaíra
+2500601;25;PB;Alhandra
+2500700;25;PB;São João do Rio do Peixe
+2500734;25;PB;Amparo
+2500775;25;PB;Aparecida
+2500809;25;PB;Araçagi
+2500908;25;PB;Arara
+2501005;25;PB;Araruna
+2501104;25;PB;Areia
+2501153;25;PB;Areia de Baraúnas
+2501203;25;PB;Areial
+2501302;25;PB;Aroeiras
+2501351;25;PB;Assunção
+2501401;25;PB;Baía da Traição
+2501500;25;PB;Bananeiras
+2501534;25;PB;Baraúna
+2501575;25;PB;Barra de Santana
+2501609;25;PB;Barra de Santa Rosa
+2501708;25;PB;Barra de São Miguel
+2501807;25;PB;Bayeux
+2501906;25;PB;Belém
+2502003;25;PB;Belém do Brejo do Cruz
+2502052;25;PB;Bernardino Batista
+2502102;25;PB;Boa Ventura
+2502151;25;PB;Boa Vista
+2502201;25;PB;Bom Jesus
+2502300;25;PB;Bom Sucesso
+2502409;25;PB;Bonito de Santa Fé
+2502508;25;PB;Boqueirão
+2502607;25;PB;Igaracy
+2502706;25;PB;Borborema
+2502805;25;PB;Brejo do Cruz
+2502904;25;PB;Brejo dos Santos
+2503001;25;PB;Caaporã
+2503100;25;PB;Cabaceiras
+2503209;25;PB;Cabedelo
+2503308;25;PB;Cachoeira dos Índios
+2503407;25;PB;Cacimba de Areia
+2503506;25;PB;Cacimba de Dentro
+2503555;25;PB;Cacimbas
+2503605;25;PB;Caiçara
+2503704;25;PB;Cajazeiras
+2503753;25;PB;Cajazeirinhas
+2503803;25;PB;Caldas Brandão
+2503902;25;PB;Camalaú
+2504009;25;PB;Campina Grande
+2504033;25;PB;Capim
+2504074;25;PB;Caraúbas
+2504108;25;PB;Carrapateira
+2504157;25;PB;Casserengue
+2504207;25;PB;Catingueira
+2504306;25;PB;Catolé do Rocha
+2504355;25;PB;Caturité
+2504405;25;PB;Conceição
+2504504;25;PB;Condado
+2504603;25;PB;Conde
+2504702;25;PB;Congo
+2504801;25;PB;Coremas
+2504850;25;PB;Coxixola
+2504900;25;PB;Cruz do Espírito Santo
+2505006;25;PB;Cubati
+2505105;25;PB;Cuité
+2505204;25;PB;Cuitegi
+2505238;25;PB;Cuité de Mamanguape
+2505279;25;PB;Curral de Cima
+2505303;25;PB;Curral Velho
+2505352;25;PB;Damião
+2505402;25;PB;Desterro
+2505501;25;PB;Vista Serrana
+2505600;25;PB;Diamante
+2505709;25;PB;Dona Inês
+2505808;25;PB;Duas Estradas
+2505907;25;PB;Emas
+2506004;25;PB;Esperança
+2506103;25;PB;Fagundes
+2506202;25;PB;Frei Martinho
+2506251;25;PB;Gado Bravo
+2506301;25;PB;Guarabira
+2506400;25;PB;Gurinhém
+2506509;25;PB;Gurjão
+2506608;25;PB;Ibiara
+2506707;25;PB;Imaculada
+2506806;25;PB;Ingá
+2506905;25;PB;Itabaiana
+2507002;25;PB;Itaporanga
+2507101;25;PB;Itapororoca
+2507200;25;PB;Itatuba
+2507309;25;PB;Jacaraú
+2507408;25;PB;Jericó
+2507507;25;PB;João Pessoa
+2507606;25;PB;Juarez Távora
+2507705;25;PB;Juazeirinho
+2507804;25;PB;Junco do Seridó
+2507903;25;PB;Juripiranga
+2508000;25;PB;Juru
+2508109;25;PB;Lagoa
+2508208;25;PB;Lagoa de Dentro
+2508307;25;PB;Lagoa Seca
+2508406;25;PB;Lastro
+2508505;25;PB;Livramento
+2508554;25;PB;Logradouro
+2508604;25;PB;Lucena
+2508703;25;PB;Mãe d'Água
+2508802;25;PB;Malta
+2508901;25;PB;Mamanguape
+2509008;25;PB;Manaíra
+2509057;25;PB;Marcação
+2509107;25;PB;Mari
+2509156;25;PB;Marizópolis
+2509206;25;PB;Massaranduba
+2509305;25;PB;Mataraca
+2509339;25;PB;Matinhas
+2509370;25;PB;Mato Grosso
+2509396;25;PB;Matureia
+2509404;25;PB;Mogeiro
+2509503;25;PB;Montadas
+2509602;25;PB;Monte Horebe
+2509701;25;PB;Monteiro
+2509800;25;PB;Mulungu
+2509909;25;PB;Natuba
+2510006;25;PB;Nazarezinho
+2510105;25;PB;Nova Floresta
+2510204;25;PB;Nova Olinda
+2510303;25;PB;Nova Palmeira
+2510402;25;PB;Olho d'Água
+2510501;25;PB;Olivedos
+2510600;25;PB;Ouro Velho
+2510659;25;PB;Parari
+2510709;25;PB;Passagem
+2510808;25;PB;Patos
+2510907;25;PB;Paulista
+2511004;25;PB;Pedra Branca
+2511103;25;PB;Pedra Lavrada
+2511202;25;PB;Pedras de Fogo
+2511301;25;PB;Piancó
+2511400;25;PB;Picuí
+2511509;25;PB;Pilar
+2511608;25;PB;Pilões
+2511707;25;PB;Pilõezinhos
+2511806;25;PB;Pirpirituba
+2511905;25;PB;Pitimbu
+2512002;25;PB;Pocinhos
+2512036;25;PB;Poço Dantas
+2512077;25;PB;Poço de José de Moura
+2512101;25;PB;Pombal
+2512200;25;PB;Prata
+2512309;25;PB;Princesa Isabel
+2512408;25;PB;Puxinanã
+2512507;25;PB;Queimadas
+2512606;25;PB;Quixabá
+2512705;25;PB;Remígio
+2512721;25;PB;Pedro Régis
+2512747;25;PB;Riachão
+2512754;25;PB;Riachão do Bacamarte
+2512762;25;PB;Riachão do Poço
+2512788;25;PB;Riacho de Santo Antônio
+2512804;25;PB;Riacho dos Cavalos
+2512903;25;PB;Rio Tinto
+2513000;25;PB;Salgadinho
+2513109;25;PB;Salgado de São Félix
+2513158;25;PB;Santa Cecília
+2513208;25;PB;Santa Cruz
+2513307;25;PB;Santa Helena
+2513356;25;PB;Santa Inês
+2513406;25;PB;Santa Luzia
+2513505;25;PB;Santana de Mangueira
+2513604;25;PB;Santana dos Garrotes
+2513653;25;PB;Joca Claudino
+2513703;25;PB;Santa Rita
+2513802;25;PB;Santa Teresinha
+2513851;25;PB;Santo André
+2513901;25;PB;São Bento
+2513927;25;PB;São Bentinho
+2513943;25;PB;São Domingos do Cariri
+2513968;25;PB;São Domingos
+2513984;25;PB;São Francisco
+2514008;25;PB;São João do Cariri
+2514107;25;PB;São João do Tigre
+2514206;25;PB;São José da Lagoa Tapada
+2514305;25;PB;São José de Caiana
+2514404;25;PB;São José de Espinharas
+2514453;25;PB;São José dos Ramos
+2514503;25;PB;São José de Piranhas
+2514552;25;PB;São José de Princesa
+2514602;25;PB;São José do Bonfim
+2514651;25;PB;São José do Brejo do Cruz
+2514701;25;PB;São José do Sabugi
+2514800;25;PB;São José dos Cordeiros
+2514909;25;PB;São Mamede
+2515005;25;PB;São Miguel de Taipu
+2515104;25;PB;São Sebastião de Lagoa de Roça
+2515203;25;PB;São Sebastião do Umbuzeiro
+2515302;25;PB;Sapé
+2515401;25;PB;São Vicente do Seridó
+2515500;25;PB;Serra Branca
+2515609;25;PB;Serra da Raiz
+2515708;25;PB;Serra Grande
+2515807;25;PB;Serra Redonda
+2515906;25;PB;Serraria
+2515930;25;PB;Sertãozinho
+2515971;25;PB;Sobrado
+2516003;25;PB;Solânea
+2516102;25;PB;Soledade
+2516151;25;PB;Sossêgo
+2516201;25;PB;Sousa
+2516300;25;PB;Sumé
+2516409;25;PB;Tacima
+2516508;25;PB;Taperoá
+2516607;25;PB;Tavares
+2516706;25;PB;Teixeira
+2516755;25;PB;Tenório
+2516805;25;PB;Triunfo
+2516904;25;PB;Uiraúna
+2517001;25;PB;Umbuzeiro
+2517100;25;PB;Várzea
+2517209;25;PB;Vieirópolis
+2517407;25;PB;Zabelê
+2600054;26;PE;Abreu e Lima
+2600104;26;PE;Afogados da Ingazeira
+2600203;26;PE;Afrânio
+2600302;26;PE;Agrestina
+2600401;26;PE;Água Preta
+2600500;26;PE;Águas Belas
+2600609;26;PE;Alagoinha
+2600708;26;PE;Aliança
+2600807;26;PE;Altinho
+2600906;26;PE;Amaraji
+2601003;26;PE;Angelim
+2601052;26;PE;Araçoiaba
+2601102;26;PE;Araripina
+2601201;26;PE;Arcoverde
+2601300;26;PE;Barra de Guabiraba
+2601409;26;PE;Barreiros
+2601508;26;PE;Belém de Maria
+2601607;26;PE;Belém do São Francisco
+2601706;26;PE;Belo Jardim
+2601805;26;PE;Betânia
+2601904;26;PE;Bezerros
+2602001;26;PE;Bodocó
+2602100;26;PE;Bom Conselho
+2602209;26;PE;Bom Jardim
+2602308;26;PE;Bonito
+2602407;26;PE;Brejão
+2602506;26;PE;Brejinho
+2602605;26;PE;Brejo da Madre de Deus
+2602704;26;PE;Buenos Aires
+2602803;26;PE;Buíque
+2602902;26;PE;Cabo de Santo Agostinho
+2603009;26;PE;Cabrobó
+2603108;26;PE;Cachoeirinha
+2603207;26;PE;Caetés
+2603306;26;PE;Calçado
+2603405;26;PE;Calumbi
+2603454;26;PE;Camaragibe
+2603504;26;PE;Camocim de São Félix
+2603603;26;PE;Camutanga
+2603702;26;PE;Canhotinho
+2603801;26;PE;Capoeiras
+2603900;26;PE;Carnaíba
+2603926;26;PE;Carnaubeira da Penha
+2604007;26;PE;Carpina
+2604106;26;PE;Caruaru
+2604155;26;PE;Casinhas
+2604205;26;PE;Catende
+2604304;26;PE;Cedro
+2604403;26;PE;Chã de Alegria
+2604502;26;PE;Chã Grande
+2604601;26;PE;Condado
+2604700;26;PE;Correntes
+2604809;26;PE;Cortês
+2604908;26;PE;Cumaru
+2605004;26;PE;Cupira
+2605103;26;PE;Custódia
+2605152;26;PE;Dormentes
+2605202;26;PE;Escada
+2605301;26;PE;Exu
+2605400;26;PE;Feira Nova
+2605459;26;PE;Fernando de Noronha
+2605509;26;PE;Ferreiros
+2605608;26;PE;Flores
+2605707;26;PE;Floresta
+2605806;26;PE;Frei Miguelinho
+2605905;26;PE;Gameleira
+2606002;26;PE;Garanhuns
+2606101;26;PE;Glória do Goitá
+2606200;26;PE;Goiana
+2606309;26;PE;Granito
+2606408;26;PE;Gravatá
+2606507;26;PE;Iati
+2606606;26;PE;Ibimirim
+2606705;26;PE;Ibirajuba
+2606804;26;PE;Igarassu
+2606903;26;PE;Iguaracy
+2607000;26;PE;Inajá
+2607109;26;PE;Ingazeira
+2607208;26;PE;Ipojuca
+2607307;26;PE;Ipubi
+2607406;26;PE;Itacuruba
+2607505;26;PE;Itaíba
+2607604;26;PE;Ilha de Itamaracá
+2607653;26;PE;Itambé
+2607703;26;PE;Itapetim
+2607752;26;PE;Itapissuma
+2607802;26;PE;Itaquitinga
+2607901;26;PE;Jaboatão dos Guararapes
+2607950;26;PE;Jaqueira
+2608008;26;PE;Jataúba
+2608057;26;PE;Jatobá
+2608107;26;PE;João Alfredo
+2608206;26;PE;Joaquim Nabuco
+2608255;26;PE;Jucati
+2608305;26;PE;Jupi
+2608404;26;PE;Jurema
+2608453;26;PE;Lagoa do Carro
+2608503;26;PE;Lagoa de Itaenga
+2608602;26;PE;Lagoa do Ouro
+2608701;26;PE;Lagoa dos Gatos
+2608750;26;PE;Lagoa Grande
+2608800;26;PE;Lajedo
+2608909;26;PE;Limoeiro
+2609006;26;PE;Macaparana
+2609105;26;PE;Machados
+2609154;26;PE;Manari
+2609204;26;PE;Maraial
+2609303;26;PE;Mirandiba
+2609402;26;PE;Moreno
+2609501;26;PE;Nazaré da Mata
+2609600;26;PE;Olinda
+2609709;26;PE;Orobó
+2609808;26;PE;Orocó
+2609907;26;PE;Ouricuri
+2610004;26;PE;Palmares
+2610103;26;PE;Palmeirina
+2610202;26;PE;Panelas
+2610301;26;PE;Paranatama
+2610400;26;PE;Parnamirim
+2610509;26;PE;Passira
+2610608;26;PE;Paudalho
+2610707;26;PE;Paulista
+2610806;26;PE;Pedra
+2610905;26;PE;Pesqueira
+2611002;26;PE;Petrolândia
+2611101;26;PE;Petrolina
+2611200;26;PE;Poção
+2611309;26;PE;Pombos
+2611408;26;PE;Primavera
+2611507;26;PE;Quipapá
+2611533;26;PE;Quixaba
+2611606;26;PE;Recife
+2611705;26;PE;Riacho das Almas
+2611804;26;PE;Ribeirão
+2611903;26;PE;Rio Formoso
+2612000;26;PE;Sairé
+2612109;26;PE;Salgadinho
+2612208;26;PE;Salgueiro
+2612307;26;PE;Saloá
+2612406;26;PE;Sanharó
+2612455;26;PE;Santa Cruz
+2612471;26;PE;Santa Cruz da Baixa Verde
+2612505;26;PE;Santa Cruz do Capibaribe
+2612554;26;PE;Santa Filomena
+2612604;26;PE;Santa Maria da Boa Vista
+2612703;26;PE;Santa Maria do Cambucá
+2612802;26;PE;Santa Terezinha
+2612901;26;PE;São Benedito do Sul
+2613008;26;PE;São Bento do Una
+2613107;26;PE;São Caetano
+2613206;26;PE;São João
+2613305;26;PE;São Joaquim do Monte
+2613404;26;PE;São José da Coroa Grande
+2613503;26;PE;São José do Belmonte
+2613602;26;PE;São José do Egito
+2613701;26;PE;São Lourenço da Mata
+2613800;26;PE;São Vicente Ferrer
+2613909;26;PE;Serra Talhada
+2614006;26;PE;Serrita
+2614105;26;PE;Sertânia
+2614204;26;PE;Sirinhaém
+2614303;26;PE;Moreilândia
+2614402;26;PE;Solidão
+2614501;26;PE;Surubim
+2614600;26;PE;Tabira
+2614709;26;PE;Tacaimbó
+2614808;26;PE;Tacaratu
+2614857;26;PE;Tamandaré
+2615003;26;PE;Taquaritinga do Norte
+2615102;26;PE;Terezinha
+2615201;26;PE;Terra Nova
+2615300;26;PE;Timbaúba
+2615409;26;PE;Toritama
+2615508;26;PE;Tracunhaém
+2615607;26;PE;Trindade
+2615706;26;PE;Triunfo
+2615805;26;PE;Tupanatinga
+2615904;26;PE;Tuparetama
+2616001;26;PE;Venturosa
+2616100;26;PE;Verdejante
+2616183;26;PE;Vertente do Lério
+2616209;26;PE;Vertentes
+2616308;26;PE;Vicência
+2616407;26;PE;Vitória de Santo Antão
+2616506;26;PE;Xexéu
+2700102;27;AL;Água Branca
+2700201;27;AL;Anadia
+2700300;27;AL;Arapiraca
+2700409;27;AL;Atalaia
+2700508;27;AL;Barra de Santo Antônio
+2700607;27;AL;Barra de São Miguel
+2700706;27;AL;Batalha
+2700805;27;AL;Belém
+2700904;27;AL;Belo Monte
+2701001;27;AL;Boca da Mata
+2701100;27;AL;Branquinha
+2701209;27;AL;Cacimbinhas
+2701308;27;AL;Cajueiro
+2701357;27;AL;Campestre
+2701407;27;AL;Campo Alegre
+2701506;27;AL;Campo Grande
+2701605;27;AL;Canapi
+2701704;27;AL;Capela
+2701803;27;AL;Carneiros
+2701902;27;AL;Chã Preta
+2702009;27;AL;Coité do Nóia
+2702108;27;AL;Colônia Leopoldina
+2702207;27;AL;Coqueiro Seco
+2702306;27;AL;Coruripe
+2702355;27;AL;Craíbas
+2702405;27;AL;Delmiro Gouveia
+2702504;27;AL;Dois Riachos
+2702553;27;AL;Estrela de Alagoas
+2702603;27;AL;Feira Grande
+2702702;27;AL;Feliz Deserto
+2702801;27;AL;Flexeiras
+2702900;27;AL;Girau do Ponciano
+2703007;27;AL;Ibateguara
+2703106;27;AL;Igaci
+2703205;27;AL;Igreja Nova
+2703304;27;AL;Inhapi
+2703403;27;AL;Jacaré dos Homens
+2703502;27;AL;Jacuípe
+2703601;27;AL;Japaratinga
+2703700;27;AL;Jaramataia
+2703759;27;AL;Jequiá da Praia
+2703809;27;AL;Joaquim Gomes
+2703908;27;AL;Jundiá
+2704005;27;AL;Junqueiro
+2704104;27;AL;Lagoa da Canoa
+2704203;27;AL;Limoeiro de Anadia
+2704302;27;AL;Maceió
+2704401;27;AL;Major Isidoro
+2704500;27;AL;Maragogi
+2704609;27;AL;Maravilha
+2704708;27;AL;Marechal Deodoro
+2704807;27;AL;Maribondo
+2704906;27;AL;Mar Vermelho
+2705002;27;AL;Mata Grande
+2705101;27;AL;Matriz de Camaragibe
+2705200;27;AL;Messias
+2705309;27;AL;Minador do Negrão
+2705408;27;AL;Monteirópolis
+2705507;27;AL;Murici
+2705606;27;AL;Novo Lino
+2705705;27;AL;Olho d'Água das Flores
+2705804;27;AL;Olho d'Água do Casado
+2705903;27;AL;Olho d'Água Grande
+2706000;27;AL;Olivença
+2706109;27;AL;Ouro Branco
+2706208;27;AL;Palestina
+2706307;27;AL;Palmeira dos Índios
+2706406;27;AL;Pão de Açúcar
+2706422;27;AL;Pariconha
+2706448;27;AL;Paripueira
+2706505;27;AL;Passo de Camaragibe
+2706604;27;AL;Paulo Jacinto
+2706703;27;AL;Penedo
+2706802;27;AL;Piaçabuçu
+2706901;27;AL;Pilar
+2707008;27;AL;Pindoba
+2707107;27;AL;Piranhas
+2707206;27;AL;Poço das Trincheiras
+2707305;27;AL;Porto Calvo
+2707404;27;AL;Porto de Pedras
+2707503;27;AL;Porto Real do Colégio
+2707602;27;AL;Quebrangulo
+2707701;27;AL;Rio Largo
+2707800;27;AL;Roteiro
+2707909;27;AL;Santa Luzia do Norte
+2708006;27;AL;Santana do Ipanema
+2708105;27;AL;Santana do Mundaú
+2708204;27;AL;São Brás
+2708303;27;AL;São José da Laje
+2708402;27;AL;São José da Tapera
+2708501;27;AL;São Luís do Quitunde
+2708600;27;AL;São Miguel dos Campos
+2708709;27;AL;São Miguel dos Milagres
+2708808;27;AL;São Sebastião
+2708907;27;AL;Satuba
+2708956;27;AL;Senador Rui Palmeira
+2709004;27;AL;Tanque d'Arca
+2709103;27;AL;Taquarana
+2709152;27;AL;Teotônio Vilela
+2709202;27;AL;Traipu
+2709301;27;AL;União dos Palmares
+2709400;27;AL;Viçosa
+2800100;28;SE;Amparo de São Francisco
+2800209;28;SE;Aquidabã
+2800308;28;SE;Aracaju
+2800407;28;SE;Arauá
+2800506;28;SE;Areia Branca
+2800605;28;SE;Barra dos Coqueiros
+2800670;28;SE;Boquim
+2800704;28;SE;Brejo Grande
+2801009;28;SE;Campo do Brito
+2801108;28;SE;Canhoba
+2801207;28;SE;Canindé de São Francisco
+2801306;28;SE;Capela
+2801405;28;SE;Carira
+2801504;28;SE;Carmópolis
+2801603;28;SE;Cedro de São João
+2801702;28;SE;Cristinápolis
+2801900;28;SE;Cumbe
+2802007;28;SE;Divina Pastora
+2802106;28;SE;Estância
+2802205;28;SE;Feira Nova
+2802304;28;SE;Frei Paulo
+2802403;28;SE;Gararu
+2802502;28;SE;General Maynard
+2802601;28;SE;Gracho Cardoso
+2802700;28;SE;Ilha das Flores
+2802809;28;SE;Indiaroba
+2802908;28;SE;Itabaiana
+2803005;28;SE;Itabaianinha
+2803104;28;SE;Itabi
+2803203;28;SE;Itaporanga d'Ajuda
+2803302;28;SE;Japaratuba
+2803401;28;SE;Japoatã
+2803500;28;SE;Lagarto
+2803609;28;SE;Laranjeiras
+2803708;28;SE;Macambira
+2803807;28;SE;Malhada dos Bois
+2803906;28;SE;Malhador
+2804003;28;SE;Maruim
+2804102;28;SE;Moita Bonita
+2804201;28;SE;Monte Alegre de Sergipe
+2804300;28;SE;Muribeca
+2804409;28;SE;Neópolis
+2804458;28;SE;Nossa Senhora Aparecida
+2804508;28;SE;Nossa Senhora da Glória
+2804607;28;SE;Nossa Senhora das Dores
+2804706;28;SE;Nossa Senhora de Lourdes
+2804805;28;SE;Nossa Senhora do Socorro
+2804904;28;SE;Pacatuba
+2805000;28;SE;Pedra Mole
+2805109;28;SE;Pedrinhas
+2805208;28;SE;Pinhão
+2805307;28;SE;Pirambu
+2805406;28;SE;Poço Redondo
+2805505;28;SE;Poço Verde
+2805604;28;SE;Porto da Folha
+2805703;28;SE;Propriá
+2805802;28;SE;Riachão do Dantas
+2805901;28;SE;Riachuelo
+2806008;28;SE;Ribeirópolis
+2806107;28;SE;Rosário do Catete
+2806206;28;SE;Salgado
+2806305;28;SE;Santa Luzia do Itanhy
+2806404;28;SE;Santana do São Francisco
+2806503;28;SE;Santa Rosa de Lima
+2806602;28;SE;Santo Amaro das Brotas
+2806701;28;SE;São Cristóvão
+2806800;28;SE;São Domingos
+2806909;28;SE;São Francisco
+2807006;28;SE;São Miguel do Aleixo
+2807105;28;SE;Simão Dias
+2807204;28;SE;Siriri
+2807303;28;SE;Telha
+2807402;28;SE;Tobias Barreto
+2807501;28;SE;Tomar do Geru
+2807600;28;SE;Umbaúba
+2900108;29;BA;Abaíra
+2900207;29;BA;Abaré
+2900306;29;BA;Acajutiba
+2900355;29;BA;Adustina
+2900405;29;BA;Água Fria
+2900504;29;BA;Érico Cardoso
+2900603;29;BA;Aiquara
+2900702;29;BA;Alagoinhas
+2900801;29;BA;Alcobaça
+2900900;29;BA;Almadina
+2901007;29;BA;Amargosa
+2901106;29;BA;Amélia Rodrigues
+2901155;29;BA;América Dourada
+2901205;29;BA;Anagé
+2901304;29;BA;Andaraí
+2901353;29;BA;Andorinha
+2901403;29;BA;Angical
+2901502;29;BA;Anguera
+2901601;29;BA;Antas
+2901700;29;BA;Antônio Cardoso
+2901809;29;BA;Antônio Gonçalves
+2901908;29;BA;Aporá
+2901957;29;BA;Apuarema
+2902005;29;BA;Aracatu
+2902054;29;BA;Araçás
+2902104;29;BA;Araci
+2902203;29;BA;Aramari
+2902252;29;BA;Arataca
+2902302;29;BA;Aratuípe
+2902401;29;BA;Aurelino Leal
+2902500;29;BA;Baianópolis
+2902609;29;BA;Baixa Grande
+2902658;29;BA;Banzaê
+2902708;29;BA;Barra
+2902807;29;BA;Barra da Estiva
+2902906;29;BA;Barra do Choça
+2903003;29;BA;Barra do Mendes
+2903102;29;BA;Barra do Rocha
+2903201;29;BA;Barreiras
+2903235;29;BA;Barro Alto
+2903276;29;BA;Barrocas
+2903300;29;BA;Barro Preto
+2903409;29;BA;Belmonte
+2903508;29;BA;Belo Campo
+2903607;29;BA;Biritinga
+2903706;29;BA;Boa Nova
+2903805;29;BA;Boa Vista do Tupim
+2903904;29;BA;Bom Jesus da Lapa
+2903953;29;BA;Bom Jesus da Serra
+2904001;29;BA;Boninal
+2904050;29;BA;Bonito
+2904100;29;BA;Boquira
+2904209;29;BA;Botuporã
+2904308;29;BA;Brejões
+2904407;29;BA;Brejolândia
+2904506;29;BA;Brotas de Macaúbas
+2904605;29;BA;Brumado
+2904704;29;BA;Buerarema
+2904753;29;BA;Buritirama
+2904803;29;BA;Caatiba
+2904852;29;BA;Cabaceiras do Paraguaçu
+2904902;29;BA;Cachoeira
+2905008;29;BA;Caculé
+2905107;29;BA;Caém
+2905156;29;BA;Caetanos
+2905206;29;BA;Caetité
+2905305;29;BA;Cafarnaum
+2905404;29;BA;Cairu
+2905503;29;BA;Caldeirão Grande
+2905602;29;BA;Camacan
+2905701;29;BA;Camaçari
+2905800;29;BA;Camamu
+2905909;29;BA;Campo Alegre de Lourdes
+2906006;29;BA;Campo Formoso
+2906105;29;BA;Canápolis
+2906204;29;BA;Canarana
+2906303;29;BA;Canavieiras
+2906402;29;BA;Candeal
+2906501;29;BA;Candeias
+2906600;29;BA;Candiba
+2906709;29;BA;Cândido Sales
+2906808;29;BA;Cansanção
+2906824;29;BA;Canudos
+2906857;29;BA;Capela do Alto Alegre
+2906873;29;BA;Capim Grosso
+2906899;29;BA;Caraíbas
+2906907;29;BA;Caravelas
+2907004;29;BA;Cardeal da Silva
+2907103;29;BA;Carinhanha
+2907202;29;BA;Casa Nova
+2907301;29;BA;Castro Alves
+2907400;29;BA;Catolândia
+2907509;29;BA;Catu
+2907558;29;BA;Caturama
+2907608;29;BA;Central
+2907707;29;BA;Chorrochó
+2907806;29;BA;Cícero Dantas
+2907905;29;BA;Cipó
+2908002;29;BA;Coaraci
+2908101;29;BA;Cocos
+2908200;29;BA;Conceição da Feira
+2908309;29;BA;Conceição do Almeida
+2908408;29;BA;Conceição do Coité
+2908507;29;BA;Conceição do Jacuípe
+2908606;29;BA;Conde
+2908705;29;BA;Condeúba
+2908804;29;BA;Contendas do Sincorá
+2908903;29;BA;Coração de Maria
+2909000;29;BA;Cordeiros
+2909109;29;BA;Coribe
+2909208;29;BA;Coronel João Sá
+2909307;29;BA;Correntina
+2909406;29;BA;Cotegipe
+2909505;29;BA;Cravolândia
+2909604;29;BA;Crisópolis
+2909703;29;BA;Cristópolis
+2909802;29;BA;Cruz das Almas
+2909901;29;BA;Curaçá
+2910008;29;BA;Dário Meira
+2910057;29;BA;Dias d'Ávila
+2910107;29;BA;Dom Basílio
+2910206;29;BA;Dom Macedo Costa
+2910305;29;BA;Elísio Medrado
+2910404;29;BA;Encruzilhada
+2910503;29;BA;Entre Rios
+2910602;29;BA;Esplanada
+2910701;29;BA;Euclides da Cunha
+2910727;29;BA;Eunápolis
+2910750;29;BA;Fátima
+2910776;29;BA;Feira da Mata
+2910800;29;BA;Feira de Santana
+2910859;29;BA;Filadélfia
+2910909;29;BA;Firmino Alves
+2911006;29;BA;Floresta Azul
+2911105;29;BA;Formosa do Rio Preto
+2911204;29;BA;Gandu
+2911253;29;BA;Gavião
+2911303;29;BA;Gentio do Ouro
+2911402;29;BA;Glória
+2911501;29;BA;Gongogi
+2911600;29;BA;Governador Mangabeira
+2911659;29;BA;Guajeru
+2911709;29;BA;Guanambi
+2911808;29;BA;Guaratinga
+2911857;29;BA;Heliópolis
+2911907;29;BA;Iaçu
+2912004;29;BA;Ibiassucê
+2912103;29;BA;Ibicaraí
+2912202;29;BA;Ibicoara
+2912301;29;BA;Ibicuí
+2912400;29;BA;Ibipeba
+2912509;29;BA;Ibipitanga
+2912608;29;BA;Ibiquera
+2912707;29;BA;Ibirapitanga
+2912806;29;BA;Ibirapuã
+2912905;29;BA;Ibirataia
+2913002;29;BA;Ibitiara
+2913101;29;BA;Ibititá
+2913200;29;BA;Ibotirama
+2913309;29;BA;Ichu
+2913408;29;BA;Igaporã
+2913457;29;BA;Igrapiúna
+2913507;29;BA;Iguaí
+2913606;29;BA;Ilhéus
+2913705;29;BA;Inhambupe
+2913804;29;BA;Ipecaetá
+2913903;29;BA;Ipiaú
+2914000;29;BA;Ipirá
+2914109;29;BA;Ipupiara
+2914208;29;BA;Irajuba
+2914307;29;BA;Iramaia
+2914406;29;BA;Iraquara
+2914505;29;BA;Irará
+2914604;29;BA;Irecê
+2914653;29;BA;Itabela
+2914703;29;BA;Itaberaba
+2914802;29;BA;Itabuna
+2914901;29;BA;Itacaré
+2915007;29;BA;Itaetê
+2915106;29;BA;Itagi
+2915205;29;BA;Itagibá
+2915304;29;BA;Itagimirim
+2915353;29;BA;Itaguaçu da Bahia
+2915403;29;BA;Itaju do Colônia
+2915502;29;BA;Itajuípe
+2915601;29;BA;Itamaraju
+2915700;29;BA;Itamari
+2915809;29;BA;Itambé
+2915908;29;BA;Itanagra
+2916005;29;BA;Itanhém
+2916104;29;BA;Itaparica
+2916203;29;BA;Itapé
+2916302;29;BA;Itapebi
+2916401;29;BA;Itapetinga
+2916500;29;BA;Itapicuru
+2916609;29;BA;Itapitanga
+2916708;29;BA;Itaquara
+2916807;29;BA;Itarantim
+2916856;29;BA;Itatim
+2916906;29;BA;Itiruçu
+2917003;29;BA;Itiúba
+2917102;29;BA;Itororó
+2917201;29;BA;Ituaçu
+2917300;29;BA;Ituberá
+2917334;29;BA;Iuiú
+2917359;29;BA;Jaborandi
+2917409;29;BA;Jacaraci
+2917508;29;BA;Jacobina
+2917607;29;BA;Jaguaquara
+2917706;29;BA;Jaguarari
+2917805;29;BA;Jaguaripe
+2917904;29;BA;Jandaíra
+2918001;29;BA;Jequié
+2918100;29;BA;Jeremoabo
+2918209;29;BA;Jiquiriçá
+2918308;29;BA;Jitaúna
+2918357;29;BA;João Dourado
+2918407;29;BA;Juazeiro
+2918456;29;BA;Jucuruçu
+2918506;29;BA;Jussara
+2918555;29;BA;Jussari
+2918605;29;BA;Jussiape
+2918704;29;BA;Lafaiete Coutinho
+2918753;29;BA;Lagoa Real
+2918803;29;BA;Laje
+2918902;29;BA;Lajedão
+2919009;29;BA;Lajedinho
+2919058;29;BA;Lajedo do Tabocal
+2919108;29;BA;Lamarão
+2919157;29;BA;Lapão
+2919207;29;BA;Lauro de Freitas
+2919306;29;BA;Lençóis
+2919405;29;BA;Licínio de Almeida
+2919504;29;BA;Livramento de Nossa Senhora
+2919553;29;BA;Luís Eduardo Magalhães
+2919603;29;BA;Macajuba
+2919702;29;BA;Macarani
+2919801;29;BA;Macaúbas
+2919900;29;BA;Macururé
+2919926;29;BA;Madre de Deus
+2919959;29;BA;Maetinga
+2920007;29;BA;Maiquinique
+2920106;29;BA;Mairi
+2920205;29;BA;Malhada
+2920304;29;BA;Malhada de Pedras
+2920403;29;BA;Manoel Vitorino
+2920452;29;BA;Mansidão
+2920502;29;BA;Maracás
+2920601;29;BA;Maragogipe
+2920700;29;BA;Maraú
+2920809;29;BA;Marcionílio Souza
+2920908;29;BA;Mascote
+2921005;29;BA;Mata de São João
+2921054;29;BA;Matina
+2921104;29;BA;Medeiros Neto
+2921203;29;BA;Miguel Calmon
+2921302;29;BA;Milagres
+2921401;29;BA;Mirangaba
+2921450;29;BA;Mirante
+2921500;29;BA;Monte Santo
+2921609;29;BA;Morpará
+2921708;29;BA;Morro do Chapéu
+2921807;29;BA;Mortugaba
+2921906;29;BA;Mucugê
+2922003;29;BA;Mucuri
+2922052;29;BA;Mulungu do Morro
+2922102;29;BA;Mundo Novo
+2922201;29;BA;Muniz Ferreira
+2922250;29;BA;Muquém do São Francisco
+2922300;29;BA;Muritiba
+2922409;29;BA;Mutuípe
+2922508;29;BA;Nazaré
+2922607;29;BA;Nilo Peçanha
+2922656;29;BA;Nordestina
+2922706;29;BA;Nova Canaã
+2922730;29;BA;Nova Fátima
+2922755;29;BA;Nova Ibiá
+2922805;29;BA;Nova Itarana
+2922854;29;BA;Nova Redenção
+2922904;29;BA;Nova Soure
+2923001;29;BA;Nova Viçosa
+2923035;29;BA;Novo Horizonte
+2923050;29;BA;Novo Triunfo
+2923100;29;BA;Olindina
+2923209;29;BA;Oliveira dos Brejinhos
+2923308;29;BA;Ouriçangas
+2923357;29;BA;Ourolândia
+2923407;29;BA;Palmas de Monte Alto
+2923506;29;BA;Palmeiras
+2923605;29;BA;Paramirim
+2923704;29;BA;Paratinga
+2923803;29;BA;Paripiranga
+2923902;29;BA;Pau Brasil
+2924009;29;BA;Paulo Afonso
+2924058;29;BA;Pé de Serra
+2924108;29;BA;Pedrão
+2924207;29;BA;Pedro Alexandre
+2924306;29;BA;Piatã
+2924405;29;BA;Pilão Arcado
+2924504;29;BA;Pindaí
+2924603;29;BA;Pindobaçu
+2924652;29;BA;Pintadas
+2924678;29;BA;Piraí do Norte
+2924702;29;BA;Piripá
+2924801;29;BA;Piritiba
+2924900;29;BA;Planaltino
+2925006;29;BA;Planalto
+2925105;29;BA;Poções
+2925204;29;BA;Pojuca
+2925253;29;BA;Ponto Novo
+2925303;29;BA;Porto Seguro
+2925402;29;BA;Potiraguá
+2925501;29;BA;Prado
+2925600;29;BA;Presidente Dutra
+2925709;29;BA;Presidente Jânio Quadros
+2925758;29;BA;Presidente Tancredo Neves
+2925808;29;BA;Queimadas
+2925907;29;BA;Quijingue
+2925931;29;BA;Quixabeira
+2925956;29;BA;Rafael Jambeiro
+2926004;29;BA;Remanso
+2926103;29;BA;Retirolândia
+2926202;29;BA;Riachão das Neves
+2926301;29;BA;Riachão do Jacuípe
+2926400;29;BA;Riacho de Santana
+2926509;29;BA;Ribeira do Amparo
+2926608;29;BA;Ribeira do Pombal
+2926657;29;BA;Ribeirão do Largo
+2926707;29;BA;Rio de Contas
+2926806;29;BA;Rio do Antônio
+2926905;29;BA;Rio do Pires
+2927002;29;BA;Rio Real
+2927101;29;BA;Rodelas
+2927200;29;BA;Ruy Barbosa
+2927309;29;BA;Salinas da Margarida
+2927408;29;BA;Salvador
+2927507;29;BA;Santa Bárbara
+2927606;29;BA;Santa Brígida
+2927705;29;BA;Santa Cruz Cabrália
+2927804;29;BA;Santa Cruz da Vitória
+2927903;29;BA;Santa Inês
+2928000;29;BA;Santaluz
+2928059;29;BA;Santa Luzia
+2928109;29;BA;Santa Maria da Vitória
+2928208;29;BA;Santana
+2928307;29;BA;Santanópolis
+2928406;29;BA;Santa Rita de Cássia
+2928505;29;BA;Santa Teresinha
+2928604;29;BA;Santo Amaro
+2928703;29;BA;Santo Antônio de Jesus
+2928802;29;BA;Santo Estêvão
+2928901;29;BA;São Desidério
+2928950;29;BA;São Domingos
+2929008;29;BA;São Félix
+2929057;29;BA;São Félix do Coribe
+2929107;29;BA;São Felipe
+2929206;29;BA;São Francisco do Conde
+2929255;29;BA;São Gabriel
+2929305;29;BA;São Gonçalo dos Campos
+2929354;29;BA;São José da Vitória
+2929370;29;BA;São José do Jacuípe
+2929404;29;BA;São Miguel das Matas
+2929503;29;BA;São Sebastião do Passé
+2929602;29;BA;Sapeaçu
+2929701;29;BA;Sátiro Dias
+2929750;29;BA;Saubara
+2929800;29;BA;Saúde
+2929909;29;BA;Seabra
+2930006;29;BA;Sebastião Laranjeiras
+2930105;29;BA;Senhor do Bonfim
+2930154;29;BA;Serra do Ramalho
+2930204;29;BA;Sento Sé
+2930303;29;BA;Serra Dourada
+2930402;29;BA;Serra Preta
+2930501;29;BA;Serrinha
+2930600;29;BA;Serrolândia
+2930709;29;BA;Simões Filho
+2930758;29;BA;Sítio do Mato
+2930766;29;BA;Sítio do Quinto
+2930774;29;BA;Sobradinho
+2930808;29;BA;Souto Soares
+2930907;29;BA;Tabocas do Brejo Velho
+2931004;29;BA;Tanhaçu
+2931053;29;BA;Tanque Novo
+2931103;29;BA;Tanquinho
+2931202;29;BA;Taperoá
+2931301;29;BA;Tapiramutá
+2931350;29;BA;Teixeira de Freitas
+2931400;29;BA;Teodoro Sampaio
+2931509;29;BA;Teofilândia
+2931608;29;BA;Teolândia
+2931707;29;BA;Terra Nova
+2931806;29;BA;Tremedal
+2931905;29;BA;Tucano
+2932002;29;BA;Uauá
+2932101;29;BA;Ubaíra
+2932200;29;BA;Ubaitaba
+2932309;29;BA;Ubatã
+2932408;29;BA;Uibaí
+2932457;29;BA;Umburanas
+2932507;29;BA;Una
+2932606;29;BA;Urandi
+2932705;29;BA;Uruçuca
+2932804;29;BA;Utinga
+2932903;29;BA;Valença
+2933000;29;BA;Valente
+2933059;29;BA;Várzea da Roça
+2933109;29;BA;Várzea do Poço
+2933158;29;BA;Várzea Nova
+2933174;29;BA;Varzedo
+2933208;29;BA;Vera Cruz
+2933257;29;BA;Vereda
+2933307;29;BA;Vitória da Conquista
+2933406;29;BA;Wagner
+2933455;29;BA;Wanderley
+2933505;29;BA;Wenceslau Guimarães
+2933604;29;BA;Xique-Xique
+3100104;31;MG;Abadia dos Dourados
+3100203;31;MG;Abaeté
+3100302;31;MG;Abre Campo
+3100401;31;MG;Acaiaca
+3100500;31;MG;Açucena
+3100609;31;MG;Água Boa
+3100708;31;MG;Água Comprida
+3100807;31;MG;Aguanil
+3100906;31;MG;Águas Formosas
+3101003;31;MG;Águas Vermelhas
+3101102;31;MG;Aimorés
+3101201;31;MG;Aiuruoca
+3101300;31;MG;Alagoa
+3101409;31;MG;Albertina
+3101508;31;MG;Além Paraíba
+3101607;31;MG;Alfenas
+3101631;31;MG;Alfredo Vasconcelos
+3101706;31;MG;Almenara
+3101805;31;MG;Alpercata
+3101904;31;MG;Alpinópolis
+3102001;31;MG;Alterosa
+3102050;31;MG;Alto Caparaó
+3102100;31;MG;Alto Rio Doce
+3102209;31;MG;Alvarenga
+3102308;31;MG;Alvinópolis
+3102407;31;MG;Alvorada de Minas
+3102506;31;MG;Amparo do Serra
+3102605;31;MG;Andradas
+3102704;31;MG;Cachoeira de Pajeú
+3102803;31;MG;Andrelândia
+3102852;31;MG;Angelândia
+3102902;31;MG;Antônio Carlos
+3103009;31;MG;Antônio Dias
+3103108;31;MG;Antônio Prado de Minas
+3103207;31;MG;Araçaí
+3103306;31;MG;Aracitaba
+3103405;31;MG;Araçuaí
+3103504;31;MG;Araguari
+3103603;31;MG;Arantina
+3103702;31;MG;Araponga
+3103751;31;MG;Araporã
+3103801;31;MG;Arapuá
+3103900;31;MG;Araújos
+3104007;31;MG;Araxá
+3104106;31;MG;Arceburgo
+3104205;31;MG;Arcos
+3104304;31;MG;Areado
+3104403;31;MG;Argirita
+3104452;31;MG;Aricanduva
+3104502;31;MG;Arinos
+3104601;31;MG;Astolfo Dutra
+3104700;31;MG;Ataléia
+3104809;31;MG;Augusto de Lima
+3104908;31;MG;Baependi
+3105004;31;MG;Baldim
+3105103;31;MG;Bambuí
+3105202;31;MG;Bandeira
+3105301;31;MG;Bandeira do Sul
+3105400;31;MG;Barão de Cocais
+3105509;31;MG;Barão de Monte Alto
+3105608;31;MG;Barbacena
+3105707;31;MG;Barra Longa
+3105905;31;MG;Barroso
+3106002;31;MG;Bela Vista de Minas
+3106101;31;MG;Belmiro Braga
+3106200;31;MG;Belo Horizonte
+3106309;31;MG;Belo Oriente
+3106408;31;MG;Belo Vale
+3106507;31;MG;Berilo
+3106606;31;MG;Bertópolis
+3106655;31;MG;Berizal
+3106705;31;MG;Betim
+3106804;31;MG;Bias Fortes
+3106903;31;MG;Bicas
+3107000;31;MG;Biquinhas
+3107109;31;MG;Boa Esperança
+3107208;31;MG;Bocaina de Minas
+3107307;31;MG;Bocaiuva
+3107406;31;MG;Bom Despacho
+3107505;31;MG;Bom Jardim de Minas
+3107604;31;MG;Bom Jesus da Penha
+3107703;31;MG;Bom Jesus do Amparo
+3107802;31;MG;Bom Jesus do Galho
+3107901;31;MG;Bom Repouso
+3108008;31;MG;Bom Sucesso
+3108107;31;MG;Bonfim
+3108206;31;MG;Bonfinópolis de Minas
+3108255;31;MG;Bonito de Minas
+3108305;31;MG;Borda da Mata
+3108404;31;MG;Botelhos
+3108503;31;MG;Botumirim
+3108552;31;MG;Brasilândia de Minas
+3108602;31;MG;Brasília de Minas
+3108701;31;MG;Brás Pires
+3108800;31;MG;Braúnas
+3108909;31;MG;Brazópolis
+3109006;31;MG;Brumadinho
+3109105;31;MG;Bueno Brandão
+3109204;31;MG;Buenópolis
+3109253;31;MG;Bugre
+3109303;31;MG;Buritis
+3109402;31;MG;Buritizeiro
+3109451;31;MG;Cabeceira Grande
+3109501;31;MG;Cabo Verde
+3109600;31;MG;Cachoeira da Prata
+3109709;31;MG;Cachoeira de Minas
+3109808;31;MG;Cachoeira Dourada
+3109907;31;MG;Caetanópolis
+3110004;31;MG;Caeté
+3110103;31;MG;Caiana
+3110202;31;MG;Cajuri
+3110301;31;MG;Caldas
+3110400;31;MG;Camacho
+3110509;31;MG;Camanducaia
+3110608;31;MG;Cambuí
+3110707;31;MG;Cambuquira
+3110806;31;MG;Campanário
+3110905;31;MG;Campanha
+3111002;31;MG;Campestre
+3111101;31;MG;Campina Verde
+3111150;31;MG;Campo Azul
+3111200;31;MG;Campo Belo
+3111309;31;MG;Campo do Meio
+3111408;31;MG;Campo Florido
+3111507;31;MG;Campos Altos
+3111606;31;MG;Campos Gerais
+3111705;31;MG;Canaã
+3111804;31;MG;Canápolis
+3111903;31;MG;Cana Verde
+3112000;31;MG;Candeias
+3112059;31;MG;Cantagalo
+3112109;31;MG;Caparaó
+3112208;31;MG;Capela Nova
+3112307;31;MG;Capelinha
+3112406;31;MG;Capetinga
+3112505;31;MG;Capim Branco
+3112604;31;MG;Capinópolis
+3112653;31;MG;Capitão Andrade
+3112703;31;MG;Capitão Enéas
+3112802;31;MG;Capitólio
+3112901;31;MG;Caputira
+3113008;31;MG;Caraí
+3113107;31;MG;Caranaíba
+3113206;31;MG;Carandaí
+3113305;31;MG;Carangola
+3113404;31;MG;Caratinga
+3113503;31;MG;Carbonita
+3113602;31;MG;Careaçu
+3113701;31;MG;Carlos Chagas
+3113800;31;MG;Carmésia
+3113909;31;MG;Carmo da Cachoeira
+3114006;31;MG;Carmo da Mata
+3114105;31;MG;Carmo de Minas
+3114204;31;MG;Carmo do Cajuru
+3114303;31;MG;Carmo do Paranaíba
+3114402;31;MG;Carmo do Rio Claro
+3114501;31;MG;Carmópolis de Minas
+3114550;31;MG;Carneirinho
+3114600;31;MG;Carrancas
+3114709;31;MG;Carvalhópolis
+3114808;31;MG;Carvalhos
+3114907;31;MG;Casa Grande
+3115003;31;MG;Cascalho Rico
+3115102;31;MG;Cássia
+3115201;31;MG;Conceição da Barra de Minas
+3115300;31;MG;Cataguases
+3115359;31;MG;Catas Altas
+3115409;31;MG;Catas Altas da Noruega
+3115458;31;MG;Catuji
+3115474;31;MG;Catuti
+3115508;31;MG;Caxambu
+3115607;31;MG;Cedro do Abaeté
+3115706;31;MG;Central de Minas
+3115805;31;MG;Centralina
+3115904;31;MG;Chácara
+3116001;31;MG;Chalé
+3116100;31;MG;Chapada do Norte
+3116159;31;MG;Chapada Gaúcha
+3116209;31;MG;Chiador
+3116308;31;MG;Cipotânea
+3116407;31;MG;Claraval
+3116506;31;MG;Claro dos Poções
+3116605;31;MG;Cláudio
+3116704;31;MG;Coimbra
+3116803;31;MG;Coluna
+3116902;31;MG;Comendador Gomes
+3117009;31;MG;Comercinho
+3117108;31;MG;Conceição da Aparecida
+3117207;31;MG;Conceição das Pedras
+3117306;31;MG;Conceição das Alagoas
+3117405;31;MG;Conceição de Ipanema
+3117504;31;MG;Conceição do Mato Dentro
+3117603;31;MG;Conceição do Pará
+3117702;31;MG;Conceição do Rio Verde
+3117801;31;MG;Conceição dos Ouros
+3117836;31;MG;Cônego Marinho
+3117876;31;MG;Confins
+3117900;31;MG;Congonhal
+3118007;31;MG;Congonhas
+3118106;31;MG;Congonhas do Norte
+3118205;31;MG;Conquista
+3118304;31;MG;Conselheiro Lafaiete
+3118403;31;MG;Conselheiro Pena
+3118502;31;MG;Consolação
+3118601;31;MG;Contagem
+3118700;31;MG;Coqueiral
+3118809;31;MG;Coração de Jesus
+3118908;31;MG;Cordisburgo
+3119005;31;MG;Cordislândia
+3119104;31;MG;Corinto
+3119203;31;MG;Coroaci
+3119302;31;MG;Coromandel
+3119401;31;MG;Coronel Fabriciano
+3119500;31;MG;Coronel Murta
+3119609;31;MG;Coronel Pacheco
+3119708;31;MG;Coronel Xavier Chaves
+3119807;31;MG;Córrego Danta
+3119906;31;MG;Córrego do Bom Jesus
+3119955;31;MG;Córrego Fundo
+3120003;31;MG;Córrego Novo
+3120102;31;MG;Couto de Magalhães de Minas
+3120151;31;MG;Crisólita
+3120201;31;MG;Cristais
+3120300;31;MG;Cristália
+3120409;31;MG;Cristiano Otoni
+3120508;31;MG;Cristina
+3120607;31;MG;Crucilândia
+3120706;31;MG;Cruzeiro da Fortaleza
+3120805;31;MG;Cruzília
+3120839;31;MG;Cuparaque
+3120870;31;MG;Curral de Dentro
+3120904;31;MG;Curvelo
+3121001;31;MG;Datas
+3121100;31;MG;Delfim Moreira
+3121209;31;MG;Delfinópolis
+3121258;31;MG;Delta
+3121308;31;MG;Descoberto
+3121407;31;MG;Desterro de Entre Rios
+3121506;31;MG;Desterro do Melo
+3121605;31;MG;Diamantina
+3121704;31;MG;Diogo de Vasconcelos
+3121803;31;MG;Dionísio
+3121902;31;MG;Divinésia
+3122009;31;MG;Divino
+3122108;31;MG;Divino das Laranjeiras
+3122207;31;MG;Divinolândia de Minas
+3122306;31;MG;Divinópolis
+3122355;31;MG;Divisa Alegre
+3122405;31;MG;Divisa Nova
+3122454;31;MG;Divisópolis
+3122470;31;MG;Dom Bosco
+3122504;31;MG;Dom Cavati
+3122603;31;MG;Dom Joaquim
+3122702;31;MG;Dom Silvério
+3122801;31;MG;Dom Viçoso
+3122900;31;MG;Dona Euzébia
+3123007;31;MG;Dores de Campos
+3123106;31;MG;Dores de Guanhães
+3123205;31;MG;Dores do Indaiá
+3123304;31;MG;Dores do Turvo
+3123403;31;MG;Doresópolis
+3123502;31;MG;Douradoquara
+3123528;31;MG;Durandé
+3123601;31;MG;Elói Mendes
+3123700;31;MG;Engenheiro Caldas
+3123809;31;MG;Engenheiro Navarro
+3123858;31;MG;Entre Folhas
+3123908;31;MG;Entre Rios de Minas
+3124005;31;MG;Ervália
+3124104;31;MG;Esmeraldas
+3124203;31;MG;Espera Feliz
+3124302;31;MG;Espinosa
+3124401;31;MG;Espírito Santo do Dourado
+3124500;31;MG;Estiva
+3124609;31;MG;Estrela Dalva
+3124708;31;MG;Estrela do Indaiá
+3124807;31;MG;Estrela do Sul
+3124906;31;MG;Eugenópolis
+3125002;31;MG;Ewbank da Câmara
+3125101;31;MG;Extrema
+3125200;31;MG;Fama
+3125309;31;MG;Faria Lemos
+3125408;31;MG;Felício dos Santos
+3125507;31;MG;São Gonçalo do Rio Preto
+3125606;31;MG;Felisburgo
+3125705;31;MG;Felixlândia
+3125804;31;MG;Fernandes Tourinho
+3125903;31;MG;Ferros
+3125952;31;MG;Fervedouro
+3126000;31;MG;Florestal
+3126109;31;MG;Formiga
+3126208;31;MG;Formoso
+3126307;31;MG;Fortaleza de Minas
+3126406;31;MG;Fortuna de Minas
+3126505;31;MG;Francisco Badaró
+3126604;31;MG;Francisco Dumont
+3126703;31;MG;Francisco Sá
+3126752;31;MG;Franciscópolis
+3126802;31;MG;Frei Gaspar
+3126901;31;MG;Frei Inocêncio
+3126950;31;MG;Frei Lagonegro
+3127008;31;MG;Fronteira
+3127057;31;MG;Fronteira dos Vales
+3127073;31;MG;Fruta de Leite
+3127107;31;MG;Frutal
+3127206;31;MG;Funilândia
+3127305;31;MG;Galiléia
+3127339;31;MG;Gameleiras
+3127354;31;MG;Glaucilândia
+3127370;31;MG;Goiabeira
+3127388;31;MG;Goianá
+3127404;31;MG;Gonçalves
+3127503;31;MG;Gonzaga
+3127602;31;MG;Gouveia
+3127701;31;MG;Governador Valadares
+3127800;31;MG;Grão Mogol
+3127909;31;MG;Grupiara
+3128006;31;MG;Guanhães
+3128105;31;MG;Guapé
+3128204;31;MG;Guaraciaba
+3128253;31;MG;Guaraciama
+3128303;31;MG;Guaranésia
+3128402;31;MG;Guarani
+3128501;31;MG;Guarará
+3128600;31;MG;Guarda-Mor
+3128709;31;MG;Guaxupé
+3128808;31;MG;Guidoval
+3128907;31;MG;Guimarânia
+3129004;31;MG;Guiricema
+3129103;31;MG;Gurinhatã
+3129202;31;MG;Heliodora
+3129301;31;MG;Iapu
+3129400;31;MG;Ibertioga
+3129509;31;MG;Ibiá
+3129608;31;MG;Ibiaí
+3129657;31;MG;Ibiracatu
+3129707;31;MG;Ibiraci
+3129806;31;MG;Ibirité
+3129905;31;MG;Ibitiúra de Minas
+3130002;31;MG;Ibituruna
+3130051;31;MG;Icaraí de Minas
+3130101;31;MG;Igarapé
+3130200;31;MG;Igaratinga
+3130309;31;MG;Iguatama
+3130408;31;MG;Ijaci
+3130507;31;MG;Ilicínea
+3130556;31;MG;Imbé de Minas
+3130606;31;MG;Inconfidentes
+3130655;31;MG;Indaiabira
+3130705;31;MG;Indianópolis
+3130804;31;MG;Ingaí
+3130903;31;MG;Inhapim
+3131000;31;MG;Inhaúma
+3131109;31;MG;Inimutaba
+3131158;31;MG;Ipaba
+3131208;31;MG;Ipanema
+3131307;31;MG;Ipatinga
+3131406;31;MG;Ipiaçu
+3131505;31;MG;Ipuiúna
+3131604;31;MG;Iraí de Minas
+3131703;31;MG;Itabira
+3131802;31;MG;Itabirinha
+3131901;31;MG;Itabirito
+3132008;31;MG;Itacambira
+3132107;31;MG;Itacarambi
+3132206;31;MG;Itaguara
+3132305;31;MG;Itaipé
+3132404;31;MG;Itajubá
+3132503;31;MG;Itamarandiba
+3132602;31;MG;Itamarati de Minas
+3132701;31;MG;Itambacuri
+3132800;31;MG;Itambé do Mato Dentro
+3132909;31;MG;Itamogi
+3133006;31;MG;Itamonte
+3133105;31;MG;Itanhandu
+3133204;31;MG;Itanhomi
+3133303;31;MG;Itaobim
+3133402;31;MG;Itapagipe
+3133501;31;MG;Itapecerica
+3133600;31;MG;Itapeva
+3133709;31;MG;Itatiaiuçu
+3133758;31;MG;Itaú de Minas
+3133808;31;MG;Itaúna
+3133907;31;MG;Itaverava
+3134004;31;MG;Itinga
+3134103;31;MG;Itueta
+3134202;31;MG;Ituiutaba
+3134301;31;MG;Itumirim
+3134400;31;MG;Iturama
+3134509;31;MG;Itutinga
+3134608;31;MG;Jaboticatubas
+3134707;31;MG;Jacinto
+3134806;31;MG;Jacuí
+3134905;31;MG;Jacutinga
+3135001;31;MG;Jaguaraçu
+3135050;31;MG;Jaíba
+3135076;31;MG;Jampruca
+3135100;31;MG;Janaúba
+3135209;31;MG;Januária
+3135308;31;MG;Japaraíba
+3135357;31;MG;Japonvar
+3135407;31;MG;Jeceaba
+3135456;31;MG;Jenipapo de Minas
+3135506;31;MG;Jequeri
+3135605;31;MG;Jequitaí
+3135704;31;MG;Jequitibá
+3135803;31;MG;Jequitinhonha
+3135902;31;MG;Jesuânia
+3136009;31;MG;Joaíma
+3136108;31;MG;Joanésia
+3136207;31;MG;João Monlevade
+3136306;31;MG;João Pinheiro
+3136405;31;MG;Joaquim Felício
+3136504;31;MG;Jordânia
+3136520;31;MG;José Gonçalves de Minas
+3136553;31;MG;José Raydan
+3136579;31;MG;Josenópolis
+3136603;31;MG;Nova União
+3136652;31;MG;Juatuba
+3136702;31;MG;Juiz de Fora
+3136801;31;MG;Juramento
+3136900;31;MG;Juruaia
+3136959;31;MG;Juvenília
+3137007;31;MG;Ladainha
+3137106;31;MG;Lagamar
+3137205;31;MG;Lagoa da Prata
+3137304;31;MG;Lagoa dos Patos
+3137403;31;MG;Lagoa Dourada
+3137502;31;MG;Lagoa Formosa
+3137536;31;MG;Lagoa Grande
+3137601;31;MG;Lagoa Santa
+3137700;31;MG;Lajinha
+3137809;31;MG;Lambari
+3137908;31;MG;Lamim
+3138005;31;MG;Laranjal
+3138104;31;MG;Lassance
+3138203;31;MG;Lavras
+3138302;31;MG;Leandro Ferreira
+3138351;31;MG;Leme do Prado
+3138401;31;MG;Leopoldina
+3138500;31;MG;Liberdade
+3138609;31;MG;Lima Duarte
+3138625;31;MG;Limeira do Oeste
+3138658;31;MG;Lontra
+3138674;31;MG;Luisburgo
+3138682;31;MG;Luislândia
+3138708;31;MG;Luminárias
+3138807;31;MG;Luz
+3138906;31;MG;Machacalis
+3139003;31;MG;Machado
+3139102;31;MG;Madre de Deus de Minas
+3139201;31;MG;Malacacheta
+3139250;31;MG;Mamonas
+3139300;31;MG;Manga
+3139409;31;MG;Manhuaçu
+3139508;31;MG;Manhumirim
+3139607;31;MG;Mantena
+3139706;31;MG;Maravilhas
+3139805;31;MG;Mar de Espanha
+3139904;31;MG;Maria da Fé
+3140001;31;MG;Mariana
+3140100;31;MG;Marilac
+3140159;31;MG;Mário Campos
+3140209;31;MG;Maripá de Minas
+3140308;31;MG;Marliéria
+3140407;31;MG;Marmelópolis
+3140506;31;MG;Martinho Campos
+3140530;31;MG;Martins Soares
+3140555;31;MG;Mata Verde
+3140605;31;MG;Materlândia
+3140704;31;MG;Mateus Leme
+3140803;31;MG;Matias Barbosa
+3140852;31;MG;Matias Cardoso
+3140902;31;MG;Matipó
+3141009;31;MG;Mato Verde
+3141108;31;MG;Matozinhos
+3141207;31;MG;Matutina
+3141306;31;MG;Medeiros
+3141405;31;MG;Medina
+3141504;31;MG;Mendes Pimentel
+3141603;31;MG;Mercês
+3141702;31;MG;Mesquita
+3141801;31;MG;Minas Novas
+3141900;31;MG;Minduri
+3142007;31;MG;Mirabela
+3142106;31;MG;Miradouro
+3142205;31;MG;Miraí
+3142254;31;MG;Miravânia
+3142304;31;MG;Moeda
+3142403;31;MG;Moema
+3142502;31;MG;Monjolos
+3142601;31;MG;Monsenhor Paulo
+3142700;31;MG;Montalvânia
+3142809;31;MG;Monte Alegre de Minas
+3142908;31;MG;Monte Azul
+3143005;31;MG;Monte Belo
+3143104;31;MG;Monte Carmelo
+3143153;31;MG;Monte Formoso
+3143203;31;MG;Monte Santo de Minas
+3143302;31;MG;Montes Claros
+3143401;31;MG;Monte Sião
+3143450;31;MG;Montezuma
+3143500;31;MG;Morada Nova de Minas
+3143609;31;MG;Morro da Garça
+3143708;31;MG;Morro do Pilar
+3143807;31;MG;Munhoz
+3143906;31;MG;Muriaé
+3144003;31;MG;Mutum
+3144102;31;MG;Muzambinho
+3144201;31;MG;Nacip Raydan
+3144300;31;MG;Nanuque
+3144359;31;MG;Naque
+3144375;31;MG;Natalândia
+3144409;31;MG;Natércia
+3144508;31;MG;Nazareno
+3144607;31;MG;Nepomuceno
+3144656;31;MG;Ninheira
+3144672;31;MG;Nova Belém
+3144706;31;MG;Nova Era
+3144805;31;MG;Nova Lima
+3144904;31;MG;Nova Módica
+3145000;31;MG;Nova Ponte
+3145059;31;MG;Nova Porteirinha
+3145109;31;MG;Nova Resende
+3145208;31;MG;Nova Serrana
+3145307;31;MG;Novo Cruzeiro
+3145356;31;MG;Novo Oriente de Minas
+3145372;31;MG;Novorizonte
+3145406;31;MG;Olaria
+3145455;31;MG;Olhos-d'Água
+3145505;31;MG;Olímpio Noronha
+3145604;31;MG;Oliveira
+3145703;31;MG;Oliveira Fortes
+3145802;31;MG;Onça de Pitangui
+3145851;31;MG;Oratórios
+3145877;31;MG;Orizânia
+3145901;31;MG;Ouro Branco
+3146008;31;MG;Ouro Fino
+3146107;31;MG;Ouro Preto
+3146206;31;MG;Ouro Verde de Minas
+3146255;31;MG;Padre Carvalho
+3146305;31;MG;Padre Paraíso
+3146404;31;MG;Paineiras
+3146503;31;MG;Pains
+3146552;31;MG;Pai Pedro
+3146602;31;MG;Paiva
+3146701;31;MG;Palma
+3146750;31;MG;Palmópolis
+3146909;31;MG;Papagaios
+3147006;31;MG;Paracatu
+3147105;31;MG;Pará de Minas
+3147204;31;MG;Paraguaçu
+3147303;31;MG;Paraisópolis
+3147402;31;MG;Paraopeba
+3147501;31;MG;Passabém
+3147600;31;MG;Passa Quatro
+3147709;31;MG;Passa Tempo
+3147808;31;MG;Passa-Vinte
+3147907;31;MG;Passos
+3147956;31;MG;Patis
+3148004;31;MG;Patos de Minas
+3148103;31;MG;Patrocínio
+3148202;31;MG;Patrocínio do Muriaé
+3148301;31;MG;Paula Cândido
+3148400;31;MG;Paulistas
+3148509;31;MG;Pavão
+3148608;31;MG;Peçanha
+3148707;31;MG;Pedra Azul
+3148756;31;MG;Pedra Bonita
+3148806;31;MG;Pedra do Anta
+3148905;31;MG;Pedra do Indaiá
+3149002;31;MG;Pedra Dourada
+3149101;31;MG;Pedralva
+3149150;31;MG;Pedras de Maria da Cruz
+3149200;31;MG;Pedrinópolis
+3149309;31;MG;Pedro Leopoldo
+3149408;31;MG;Pedro Teixeira
+3149507;31;MG;Pequeri
+3149606;31;MG;Pequi
+3149705;31;MG;Perdigão
+3149804;31;MG;Perdizes
+3149903;31;MG;Perdões
+3149952;31;MG;Periquito
+3150000;31;MG;Pescador
+3150109;31;MG;Piau
+3150158;31;MG;Piedade de Caratinga
+3150208;31;MG;Piedade de Ponte Nova
+3150307;31;MG;Piedade do Rio Grande
+3150406;31;MG;Piedade dos Gerais
+3150505;31;MG;Pimenta
+3150539;31;MG;Pingo-d'Água
+3150570;31;MG;Pintópolis
+3150604;31;MG;Piracema
+3150703;31;MG;Pirajuba
+3150802;31;MG;Piranga
+3150901;31;MG;Piranguçu
+3151008;31;MG;Piranguinho
+3151107;31;MG;Pirapetinga
+3151206;31;MG;Pirapora
+3151305;31;MG;Piraúba
+3151404;31;MG;Pitangui
+3151503;31;MG;Piumhi
+3151602;31;MG;Planura
+3151701;31;MG;Poço Fundo
+3151800;31;MG;Poços de Caldas
+3151909;31;MG;Pocrane
+3152006;31;MG;Pompéu
+3152105;31;MG;Ponte Nova
+3152131;31;MG;Ponto Chique
+3152170;31;MG;Ponto dos Volantes
+3152204;31;MG;Porteirinha
+3152303;31;MG;Porto Firme
+3152402;31;MG;Poté
+3152501;31;MG;Pouso Alegre
+3152600;31;MG;Pouso Alto
+3152709;31;MG;Prados
+3152808;31;MG;Prata
+3152907;31;MG;Pratápolis
+3153004;31;MG;Pratinha
+3153103;31;MG;Presidente Bernardes
+3153202;31;MG;Presidente Juscelino
+3153301;31;MG;Presidente Kubitschek
+3153400;31;MG;Presidente Olegário
+3153509;31;MG;Alto Jequitibá
+3153608;31;MG;Prudente de Morais
+3153707;31;MG;Quartel Geral
+3153806;31;MG;Queluzito
+3153905;31;MG;Raposos
+3154002;31;MG;Raul Soares
+3154101;31;MG;Recreio
+3154150;31;MG;Reduto
+3154200;31;MG;Resende Costa
+3154309;31;MG;Resplendor
+3154408;31;MG;Ressaquinha
+3154457;31;MG;Riachinho
+3154507;31;MG;Riacho dos Machados
+3154606;31;MG;Ribeirão das Neves
+3154705;31;MG;Ribeirão Vermelho
+3154804;31;MG;Rio Acima
+3154903;31;MG;Rio Casca
+3155009;31;MG;Rio Doce
+3155108;31;MG;Rio do Prado
+3155207;31;MG;Rio Espera
+3155306;31;MG;Rio Manso
+3155405;31;MG;Rio Novo
+3155504;31;MG;Rio Paranaíba
+3155603;31;MG;Rio Pardo de Minas
+3155702;31;MG;Rio Piracicaba
+3155801;31;MG;Rio Pomba
+3155900;31;MG;Rio Preto
+3156007;31;MG;Rio Vermelho
+3156106;31;MG;Ritápolis
+3156205;31;MG;Rochedo de Minas
+3156304;31;MG;Rodeiro
+3156403;31;MG;Romaria
+3156452;31;MG;Rosário da Limeira
+3156502;31;MG;Rubelita
+3156601;31;MG;Rubim
+3156700;31;MG;Sabará
+3156809;31;MG;Sabinópolis
+3156908;31;MG;Sacramento
+3157005;31;MG;Salinas
+3157104;31;MG;Salto da Divisa
+3157203;31;MG;Santa Bárbara
+3157252;31;MG;Santa Bárbara do Leste
+3157278;31;MG;Santa Bárbara do Monte Verde
+3157302;31;MG;Santa Bárbara do Tugúrio
+3157336;31;MG;Santa Cruz de Minas
+3157377;31;MG;Santa Cruz de Salinas
+3157401;31;MG;Santa Cruz do Escalvado
+3157500;31;MG;Santa Efigênia de Minas
+3157609;31;MG;Santa Fé de Minas
+3157658;31;MG;Santa Helena de Minas
+3157708;31;MG;Santa Juliana
+3157807;31;MG;Santa Luzia
+3157906;31;MG;Santa Margarida
+3158003;31;MG;Santa Maria de Itabira
+3158102;31;MG;Santa Maria do Salto
+3158201;31;MG;Santa Maria do Suaçuí
+3158300;31;MG;Santana da Vargem
+3158409;31;MG;Santana de Cataguases
+3158508;31;MG;Santana de Pirapama
+3158607;31;MG;Santana do Deserto
+3158706;31;MG;Santana do Garambéu
+3158805;31;MG;Santana do Jacaré
+3158904;31;MG;Santana do Manhuaçu
+3158953;31;MG;Santana do Paraíso
+3159001;31;MG;Santana do Riacho
+3159100;31;MG;Santana dos Montes
+3159209;31;MG;Santa Rita de Caldas
+3159308;31;MG;Santa Rita de Jacutinga
+3159357;31;MG;Santa Rita de Minas
+3159407;31;MG;Santa Rita de Ibitipoca
+3159506;31;MG;Santa Rita do Itueto
+3159605;31;MG;Santa Rita do Sapucaí
+3159704;31;MG;Santa Rosa da Serra
+3159803;31;MG;Santa Vitória
+3159902;31;MG;Santo Antônio do Amparo
+3160009;31;MG;Santo Antônio do Aventureiro
+3160108;31;MG;Santo Antônio do Grama
+3160207;31;MG;Santo Antônio do Itambé
+3160306;31;MG;Santo Antônio do Jacinto
+3160405;31;MG;Santo Antônio do Monte
+3160454;31;MG;Santo Antônio do Retiro
+3160504;31;MG;Santo Antônio do Rio Abaixo
+3160603;31;MG;Santo Hipólito
+3160702;31;MG;Santos Dumont
+3160801;31;MG;São Bento Abade
+3160900;31;MG;São Brás do Suaçuí
+3160959;31;MG;São Domingos das Dores
+3161007;31;MG;São Domingos do Prata
+3161056;31;MG;São Félix de Minas
+3161106;31;MG;São Francisco
+3161205;31;MG;São Francisco de Paula
+3161304;31;MG;São Francisco de Sales
+3161403;31;MG;São Francisco do Glória
+3161502;31;MG;São Geraldo
+3161601;31;MG;São Geraldo da Piedade
+3161650;31;MG;São Geraldo do Baixio
+3161700;31;MG;São Gonçalo do Abaeté
+3161809;31;MG;São Gonçalo do Pará
+3161908;31;MG;São Gonçalo do Rio Abaixo
+3162005;31;MG;São Gonçalo do Sapucaí
+3162104;31;MG;São Gotardo
+3162203;31;MG;São João Batista do Glória
+3162252;31;MG;São João da Lagoa
+3162302;31;MG;São João da Mata
+3162401;31;MG;São João da Ponte
+3162450;31;MG;São João das Missões
+3162500;31;MG;São João del-Rei
+3162559;31;MG;São João do Manhuaçu
+3162575;31;MG;São João do Manteninha
+3162609;31;MG;São João do Oriente
+3162658;31;MG;São João do Pacuí
+3162708;31;MG;São João do Paraíso
+3162807;31;MG;São João Evangelista
+3162906;31;MG;São João Nepomuceno
+3162922;31;MG;São Joaquim de Bicas
+3162948;31;MG;São José da Barra
+3162955;31;MG;São José da Lapa
+3163003;31;MG;São José da Safira
+3163102;31;MG;São José da Varginha
+3163201;31;MG;São José do Alegre
+3163300;31;MG;São José do Divino
+3163409;31;MG;São José do Goiabal
+3163508;31;MG;São José do Jacuri
+3163607;31;MG;São José do Mantimento
+3163706;31;MG;São Lourenço
+3163805;31;MG;São Miguel do Anta
+3163904;31;MG;São Pedro da União
+3164001;31;MG;São Pedro dos Ferros
+3164100;31;MG;São Pedro do Suaçuí
+3164209;31;MG;São Romão
+3164308;31;MG;São Roque de Minas
+3164407;31;MG;São Sebastião da Bela Vista
+3164431;31;MG;São Sebastião da Vargem Alegre
+3164472;31;MG;São Sebastião do Anta
+3164506;31;MG;São Sebastião do Maranhão
+3164605;31;MG;São Sebastião do Oeste
+3164704;31;MG;São Sebastião do Paraíso
+3164803;31;MG;São Sebastião do Rio Preto
+3164902;31;MG;São Sebastião do Rio Verde
+3165008;31;MG;São Tiago
+3165107;31;MG;São Tomás de Aquino
+3165206;31;MG;São Tomé das Letras
+3165305;31;MG;São Vicente de Minas
+3165404;31;MG;Sapucaí-Mirim
+3165503;31;MG;Sardoá
+3165537;31;MG;Sarzedo
+3165552;31;MG;Setubinha
+3165560;31;MG;Sem-Peixe
+3165578;31;MG;Senador Amaral
+3165602;31;MG;Senador Cortes
+3165701;31;MG;Senador Firmino
+3165800;31;MG;Senador José Bento
+3165909;31;MG;Senador Modestino Gonçalves
+3166006;31;MG;Senhora de Oliveira
+3166105;31;MG;Senhora do Porto
+3166204;31;MG;Senhora dos Remédios
+3166303;31;MG;Sericita
+3166402;31;MG;Seritinga
+3166501;31;MG;Serra Azul de Minas
+3166600;31;MG;Serra da Saudade
+3166709;31;MG;Serra dos Aimorés
+3166808;31;MG;Serra do Salitre
+3166907;31;MG;Serrania
+3166956;31;MG;Serranópolis de Minas
+3167004;31;MG;Serranos
+3167103;31;MG;Serro
+3167202;31;MG;Sete Lagoas
+3167301;31;MG;Silveirânia
+3167400;31;MG;Silvianópolis
+3167509;31;MG;Simão Pereira
+3167608;31;MG;Simonésia
+3167707;31;MG;Sobrália
+3167806;31;MG;Soledade de Minas
+3167905;31;MG;Tabuleiro
+3168002;31;MG;Taiobeiras
+3168051;31;MG;Taparuba
+3168101;31;MG;Tapira
+3168200;31;MG;Tapiraí
+3168309;31;MG;Taquaraçu de Minas
+3168408;31;MG;Tarumirim
+3168507;31;MG;Teixeiras
+3168606;31;MG;Teófilo Otoni
+3168705;31;MG;Timóteo
+3168804;31;MG;Tiradentes
+3168903;31;MG;Tiros
+3169000;31;MG;Tocantins
+3169059;31;MG;Tocos do Moji
+3169109;31;MG;Toledo
+3169208;31;MG;Tombos
+3169307;31;MG;Três Corações
+3169356;31;MG;Três Marias
+3169406;31;MG;Três Pontas
+3169505;31;MG;Tumiritinga
+3169604;31;MG;Tupaciguara
+3169703;31;MG;Turmalina
+3169802;31;MG;Turvolândia
+3169901;31;MG;Ubá
+3170008;31;MG;Ubaí
+3170057;31;MG;Ubaporanga
+3170107;31;MG;Uberaba
+3170206;31;MG;Uberlândia
+3170305;31;MG;Umburatiba
+3170404;31;MG;Unaí
+3170438;31;MG;União de Minas
+3170479;31;MG;Uruana de Minas
+3170503;31;MG;Urucânia
+3170529;31;MG;Urucuia
+3170578;31;MG;Vargem Alegre
+3170602;31;MG;Vargem Bonita
+3170651;31;MG;Vargem Grande do Rio Pardo
+3170701;31;MG;Varginha
+3170750;31;MG;Varjão de Minas
+3170800;31;MG;Várzea da Palma
+3170909;31;MG;Varzelândia
+3171006;31;MG;Vazante
+3171030;31;MG;Verdelândia
+3171071;31;MG;Veredinha
+3171105;31;MG;Veríssimo
+3171154;31;MG;Vermelho Novo
+3171204;31;MG;Vespasiano
+3171303;31;MG;Viçosa
+3171402;31;MG;Vieiras
+3171501;31;MG;Mathias Lobato
+3171600;31;MG;Virgem da Lapa
+3171709;31;MG;Virgínia
+3171808;31;MG;Virginópolis
+3171907;31;MG;Virgolândia
+3172004;31;MG;Visconde do Rio Branco
+3172103;31;MG;Volta Grande
+3172202;31;MG;Wenceslau Braz
+3200102;32;ES;Afonso Cláudio
+3200136;32;ES;Águia Branca
+3200169;32;ES;Água Doce do Norte
+3200201;32;ES;Alegre
+3200300;32;ES;Alfredo Chaves
+3200359;32;ES;Alto Rio Novo
+3200409;32;ES;Anchieta
+3200508;32;ES;Apiacá
+3200607;32;ES;Aracruz
+3200706;32;ES;Atilio Vivacqua
+3200805;32;ES;Baixo Guandu
+3200904;32;ES;Barra de São Francisco
+3201001;32;ES;Boa Esperança
+3201100;32;ES;Bom Jesus do Norte
+3201159;32;ES;Brejetuba
+3201209;32;ES;Cachoeiro de Itapemirim
+3201308;32;ES;Cariacica
+3201407;32;ES;Castelo
+3201506;32;ES;Colatina
+3201605;32;ES;Conceição da Barra
+3201704;32;ES;Conceição do Castelo
+3201803;32;ES;Divino de São Lourenço
+3201902;32;ES;Domingos Martins
+3202009;32;ES;Dores do Rio Preto
+3202108;32;ES;Ecoporanga
+3202207;32;ES;Fundão
+3202256;32;ES;Governador Lindenberg
+3202306;32;ES;Guaçuí
+3202405;32;ES;Guarapari
+3202454;32;ES;Ibatiba
+3202504;32;ES;Ibiraçu
+3202553;32;ES;Ibitirama
+3202603;32;ES;Iconha
+3202652;32;ES;Irupi
+3202702;32;ES;Itaguaçu
+3202801;32;ES;Itapemirim
+3202900;32;ES;Itarana
+3203007;32;ES;Iúna
+3203056;32;ES;Jaguaré
+3203106;32;ES;Jerônimo Monteiro
+3203130;32;ES;João Neiva
+3203163;32;ES;Laranja da Terra
+3203205;32;ES;Linhares
+3203304;32;ES;Mantenópolis
+3203320;32;ES;Marataízes
+3203346;32;ES;Marechal Floriano
+3203353;32;ES;Marilândia
+3203403;32;ES;Mimoso do Sul
+3203502;32;ES;Montanha
+3203601;32;ES;Mucurici
+3203700;32;ES;Muniz Freire
+3203809;32;ES;Muqui
+3203908;32;ES;Nova Venécia
+3204005;32;ES;Pancas
+3204054;32;ES;Pedro Canário
+3204104;32;ES;Pinheiros
+3204203;32;ES;Piúma
+3204252;32;ES;Ponto Belo
+3204302;32;ES;Presidente Kennedy
+3204351;32;ES;Rio Bananal
+3204401;32;ES;Rio Novo do Sul
+3204500;32;ES;Santa Leopoldina
+3204559;32;ES;Santa Maria de Jetibá
+3204609;32;ES;Santa Teresa
+3204658;32;ES;São Domingos do Norte
+3204708;32;ES;São Gabriel da Palha
+3204807;32;ES;São José do Calçado
+3204906;32;ES;São Mateus
+3204955;32;ES;São Roque do Canaã
+3205002;32;ES;Serra
+3205010;32;ES;Sooretama
+3205036;32;ES;Vargem Alta
+3205069;32;ES;Venda Nova do Imigrante
+3205101;32;ES;Viana
+3205150;32;ES;Vila Pavão
+3205176;32;ES;Vila Valério
+3205200;32;ES;Vila Velha
+3205309;32;ES;Vitória
+3300100;33;RJ;Angra dos Reis
+3300159;33;RJ;Aperibé
+3300209;33;RJ;Araruama
+3300225;33;RJ;Areal
+3300233;33;RJ;Armação dos Búzios
+3300258;33;RJ;Arraial do Cabo
+3300308;33;RJ;Barra do Piraí
+3300407;33;RJ;Barra Mansa
+3300456;33;RJ;Belford Roxo
+3300506;33;RJ;Bom Jardim
+3300605;33;RJ;Bom Jesus do Itabapoana
+3300704;33;RJ;Cabo Frio
+3300803;33;RJ;Cachoeiras de Macacu
+3300902;33;RJ;Cambuci
+3300936;33;RJ;Carapebus
+3300951;33;RJ;Comendador Levy Gasparian
+3301009;33;RJ;Campos dos Goytacazes
+3301108;33;RJ;Cantagalo
+3301157;33;RJ;Cardoso Moreira
+3301207;33;RJ;Carmo
+3301306;33;RJ;Casimiro de Abreu
+3301405;33;RJ;Conceição de Macabu
+3301504;33;RJ;Cordeiro
+3301603;33;RJ;Duas Barras
+3301702;33;RJ;Duque de Caxias
+3301801;33;RJ;Engenheiro Paulo de Frontin
+3301850;33;RJ;Guapimirim
+3301876;33;RJ;Iguaba Grande
+3301900;33;RJ;Itaboraí
+3302007;33;RJ;Itaguaí
+3302056;33;RJ;Italva
+3302106;33;RJ;Itaocara
+3302205;33;RJ;Itaperuna
+3302254;33;RJ;Itatiaia
+3302270;33;RJ;Japeri
+3302304;33;RJ;Laje do Muriaé
+3302403;33;RJ;Macaé
+3302452;33;RJ;Macuco
+3302502;33;RJ;Magé
+3302601;33;RJ;Mangaratiba
+3302700;33;RJ;Maricá
+3302809;33;RJ;Mendes
+3302858;33;RJ;Mesquita
+3302908;33;RJ;Miguel Pereira
+3303005;33;RJ;Miracema
+3303104;33;RJ;Natividade
+3303203;33;RJ;Nilópolis
+3303302;33;RJ;Niterói
+3303401;33;RJ;Nova Friburgo
+3303500;33;RJ;Nova Iguaçu
+3303609;33;RJ;Paracambi
+3303708;33;RJ;Paraíba do Sul
+3303807;33;RJ;Paraty
+3303856;33;RJ;Paty do Alferes
+3303906;33;RJ;Petrópolis
+3303955;33;RJ;Pinheiral
+3304003;33;RJ;Piraí
+3304102;33;RJ;Porciúncula
+3304110;33;RJ;Porto Real
+3304128;33;RJ;Quatis
+3304144;33;RJ;Queimados
+3304151;33;RJ;Quissamã
+3304201;33;RJ;Resende
+3304300;33;RJ;Rio Bonito
+3304409;33;RJ;Rio Claro
+3304508;33;RJ;Rio das Flores
+3304524;33;RJ;Rio das Ostras
+3304557;33;RJ;Rio de Janeiro
+3304607;33;RJ;Santa Maria Madalena
+3304706;33;RJ;Santo Antônio de Pádua
+3304755;33;RJ;São Francisco de Itabapoana
+3304805;33;RJ;São Fidélis
+3304904;33;RJ;São Gonçalo
+3305000;33;RJ;São João da Barra
+3305109;33;RJ;São João de Meriti
+3305133;33;RJ;São José de Ubá
+3305158;33;RJ;São José do Vale do Rio Preto
+3305208;33;RJ;São Pedro da Aldeia
+3305307;33;RJ;São Sebastião do Alto
+3305406;33;RJ;Sapucaia
+3305505;33;RJ;Saquarema
+3305554;33;RJ;Seropédica
+3305604;33;RJ;Silva Jardim
+3305703;33;RJ;Sumidouro
+3305752;33;RJ;Tanguá
+3305802;33;RJ;Teresópolis
+3305901;33;RJ;Trajano de Moraes
+3306008;33;RJ;Três Rios
+3306107;33;RJ;Valença
+3306156;33;RJ;Varre-Sai
+3306206;33;RJ;Vassouras
+3306305;33;RJ;Volta Redonda
+3500105;35;SP;Adamantina
+3500204;35;SP;Adolfo
+3500303;35;SP;Aguaí
+3500402;35;SP;Águas da Prata
+3500501;35;SP;Águas de Lindóia
+3500550;35;SP;Águas de Santa Bárbara
+3500600;35;SP;Águas de São Pedro
+3500709;35;SP;Agudos
+3500758;35;SP;Alambari
+3500808;35;SP;Alfredo Marcondes
+3500907;35;SP;Altair
+3501004;35;SP;Altinópolis
+3501103;35;SP;Alto Alegre
+3501152;35;SP;Alumínio
+3501202;35;SP;Álvares Florence
+3501301;35;SP;Álvares Machado
+3501400;35;SP;Álvaro de Carvalho
+3501509;35;SP;Alvinlândia
+3501608;35;SP;Americana
+3501707;35;SP;Américo Brasiliense
+3501806;35;SP;Américo de Campos
+3501905;35;SP;Amparo
+3502002;35;SP;Analândia
+3502101;35;SP;Andradina
+3502200;35;SP;Angatuba
+3502309;35;SP;Anhembi
+3502408;35;SP;Anhumas
+3502507;35;SP;Aparecida
+3502606;35;SP;Aparecida d'Oeste
+3502705;35;SP;Apiaí
+3502754;35;SP;Araçariguama
+3502804;35;SP;Araçatuba
+3502903;35;SP;Araçoiaba da Serra
+3503000;35;SP;Aramina
+3503109;35;SP;Arandu
+3503158;35;SP;Arapeí
+3503208;35;SP;Araraquara
+3503307;35;SP;Araras
+3503356;35;SP;Arco-Íris
+3503406;35;SP;Arealva
+3503505;35;SP;Areias
+3503604;35;SP;Areiópolis
+3503703;35;SP;Ariranha
+3503802;35;SP;Artur Nogueira
+3503901;35;SP;Arujá
+3503950;35;SP;Aspásia
+3504008;35;SP;Assis
+3504107;35;SP;Atibaia
+3504206;35;SP;Auriflama
+3504305;35;SP;Avaí
+3504404;35;SP;Avanhandava
+3504503;35;SP;Avaré
+3504602;35;SP;Bady Bassitt
+3504701;35;SP;Balbinos
+3504800;35;SP;Bálsamo
+3504909;35;SP;Bananal
+3505005;35;SP;Barão de Antonina
+3505104;35;SP;Barbosa
+3505203;35;SP;Bariri
+3505302;35;SP;Barra Bonita
+3505351;35;SP;Barra do Chapéu
+3505401;35;SP;Barra do Turvo
+3505500;35;SP;Barretos
+3505609;35;SP;Barrinha
+3505708;35;SP;Barueri
+3505807;35;SP;Bastos
+3505906;35;SP;Batatais
+3506003;35;SP;Bauru
+3506102;35;SP;Bebedouro
+3506201;35;SP;Bento de Abreu
+3506300;35;SP;Bernardino de Campos
+3506359;35;SP;Bertioga
+3506409;35;SP;Bilac
+3506508;35;SP;Birigui
+3506607;35;SP;Biritiba-Mirim
+3506706;35;SP;Boa Esperança do Sul
+3506805;35;SP;Bocaina
+3506904;35;SP;Bofete
+3507001;35;SP;Boituva
+3507100;35;SP;Bom Jesus dos Perdões
+3507159;35;SP;Bom Sucesso de Itararé
+3507209;35;SP;Borá
+3507308;35;SP;Boracéia
+3507407;35;SP;Borborema
+3507456;35;SP;Borebi
+3507506;35;SP;Botucatu
+3507605;35;SP;Bragança Paulista
+3507704;35;SP;Braúna
+3507753;35;SP;Brejo Alegre
+3507803;35;SP;Brodowski
+3507902;35;SP;Brotas
+3508009;35;SP;Buri
+3508108;35;SP;Buritama
+3508207;35;SP;Buritizal
+3508306;35;SP;Cabrália Paulista
+3508405;35;SP;Cabreúva
+3508504;35;SP;Caçapava
+3508603;35;SP;Cachoeira Paulista
+3508702;35;SP;Caconde
+3508801;35;SP;Cafelândia
+3508900;35;SP;Caiabu
+3509007;35;SP;Caieiras
+3509106;35;SP;Caiuá
+3509205;35;SP;Cajamar
+3509254;35;SP;Cajati
+3509304;35;SP;Cajobi
+3509403;35;SP;Cajuru
+3509452;35;SP;Campina do Monte Alegre
+3509502;35;SP;Campinas
+3509601;35;SP;Campo Limpo Paulista
+3509700;35;SP;Campos do Jordão
+3509809;35;SP;Campos Novos Paulista
+3509908;35;SP;Cananéia
+3509957;35;SP;Canas
+3510005;35;SP;Cândido Mota
+3510104;35;SP;Cândido Rodrigues
+3510153;35;SP;Canitar
+3510203;35;SP;Capão Bonito
+3510302;35;SP;Capela do Alto
+3510401;35;SP;Capivari
+3510500;35;SP;Caraguatatuba
+3510609;35;SP;Carapicuíba
+3510708;35;SP;Cardoso
+3510807;35;SP;Casa Branca
+3510906;35;SP;Cássia dos Coqueiros
+3511003;35;SP;Castilho
+3511102;35;SP;Catanduva
+3511201;35;SP;Catiguá
+3511300;35;SP;Cedral
+3511409;35;SP;Cerqueira César
+3511508;35;SP;Cerquilho
+3511607;35;SP;Cesário Lange
+3511706;35;SP;Charqueada
+3511904;35;SP;Clementina
+3512001;35;SP;Colina
+3512100;35;SP;Colômbia
+3512209;35;SP;Conchal
+3512308;35;SP;Conchas
+3512407;35;SP;Cordeirópolis
+3512506;35;SP;Coroados
+3512605;35;SP;Coronel Macedo
+3512704;35;SP;Corumbataí
+3512803;35;SP;Cosmópolis
+3512902;35;SP;Cosmorama
+3513009;35;SP;Cotia
+3513108;35;SP;Cravinhos
+3513207;35;SP;Cristais Paulista
+3513306;35;SP;Cruzália
+3513405;35;SP;Cruzeiro
+3513504;35;SP;Cubatão
+3513603;35;SP;Cunha
+3513702;35;SP;Descalvado
+3513801;35;SP;Diadema
+3513850;35;SP;Dirce Reis
+3513900;35;SP;Divinolândia
+3514007;35;SP;Dobrada
+3514106;35;SP;Dois Córregos
+3514205;35;SP;Dolcinópolis
+3514304;35;SP;Dourado
+3514403;35;SP;Dracena
+3514502;35;SP;Duartina
+3514601;35;SP;Dumont
+3514700;35;SP;Echaporã
+3514809;35;SP;Eldorado
+3514908;35;SP;Elias Fausto
+3514924;35;SP;Elisiário
+3514957;35;SP;Embaúba
+3515004;35;SP;Embu das Artes
+3515103;35;SP;Embu-Guaçu
+3515129;35;SP;Emilianópolis
+3515152;35;SP;Engenheiro Coelho
+3515186;35;SP;Espírito Santo do Pinhal
+3515194;35;SP;Espírito Santo do Turvo
+3515202;35;SP;Estrela d'Oeste
+3515301;35;SP;Estrela do Norte
+3515350;35;SP;Euclides da Cunha Paulista
+3515400;35;SP;Fartura
+3515509;35;SP;Fernandópolis
+3515608;35;SP;Fernando Prestes
+3515657;35;SP;Fernão
+3515707;35;SP;Ferraz de Vasconcelos
+3515806;35;SP;Flora Rica
+3515905;35;SP;Floreal
+3516002;35;SP;Flórida Paulista
+3516101;35;SP;Florínea
+3516200;35;SP;Franca
+3516309;35;SP;Francisco Morato
+3516408;35;SP;Franco da Rocha
+3516507;35;SP;Gabriel Monteiro
+3516606;35;SP;Gália
+3516705;35;SP;Garça
+3516804;35;SP;Gastão Vidigal
+3516853;35;SP;Gavião Peixoto
+3516903;35;SP;General Salgado
+3517000;35;SP;Getulina
+3517109;35;SP;Glicério
+3517208;35;SP;Guaiçara
+3517307;35;SP;Guaimbê
+3517406;35;SP;Guaíra
+3517505;35;SP;Guapiaçu
+3517604;35;SP;Guapiara
+3517703;35;SP;Guará
+3517802;35;SP;Guaraçaí
+3517901;35;SP;Guaraci
+3518008;35;SP;Guarani d'Oeste
+3518107;35;SP;Guarantã
+3518206;35;SP;Guararapes
+3518305;35;SP;Guararema
+3518404;35;SP;Guaratinguetá
+3518503;35;SP;Guareí
+3518602;35;SP;Guariba
+3518701;35;SP;Guarujá
+3518800;35;SP;Guarulhos
+3518859;35;SP;Guatapará
+3518909;35;SP;Guzolândia
+3519006;35;SP;Herculândia
+3519055;35;SP;Holambra
+3519071;35;SP;Hortolândia
+3519105;35;SP;Iacanga
+3519204;35;SP;Iacri
+3519253;35;SP;Iaras
+3519303;35;SP;Ibaté
+3519402;35;SP;Ibirá
+3519501;35;SP;Ibirarema
+3519600;35;SP;Ibitinga
+3519709;35;SP;Ibiúna
+3519808;35;SP;Icém
+3519907;35;SP;Iepê
+3520004;35;SP;Igaraçu do Tietê
+3520103;35;SP;Igarapava
+3520202;35;SP;Igaratá
+3520301;35;SP;Iguape
+3520400;35;SP;Ilhabela
+3520426;35;SP;Ilha Comprida
+3520442;35;SP;Ilha Solteira
+3520509;35;SP;Indaiatuba
+3520608;35;SP;Indiana
+3520707;35;SP;Indiaporã
+3520806;35;SP;Inúbia Paulista
+3520905;35;SP;Ipaussu
+3521002;35;SP;Iperó
+3521101;35;SP;Ipeúna
+3521150;35;SP;Ipiguá
+3521200;35;SP;Iporanga
+3521309;35;SP;Ipuã
+3521408;35;SP;Iracemápolis
+3521507;35;SP;Irapuã
+3521606;35;SP;Irapuru
+3521705;35;SP;Itaberá
+3521804;35;SP;Itaí
+3521903;35;SP;Itajobi
+3522000;35;SP;Itaju
+3522109;35;SP;Itanhaém
+3522158;35;SP;Itaóca
+3522208;35;SP;Itapecerica da Serra
+3522307;35;SP;Itapetininga
+3522406;35;SP;Itapeva
+3522505;35;SP;Itapevi
+3522604;35;SP;Itapira
+3522653;35;SP;Itapirapuã Paulista
+3522703;35;SP;Itápolis
+3522802;35;SP;Itaporanga
+3522901;35;SP;Itapuí
+3523008;35;SP;Itapura
+3523107;35;SP;Itaquaquecetuba
+3523206;35;SP;Itararé
+3523305;35;SP;Itariri
+3523404;35;SP;Itatiba
+3523503;35;SP;Itatinga
+3523602;35;SP;Itirapina
+3523701;35;SP;Itirapuã
+3523800;35;SP;Itobi
+3523909;35;SP;Itu
+3524006;35;SP;Itupeva
+3524105;35;SP;Ituverava
+3524204;35;SP;Jaborandi
+3524303;35;SP;Jaboticabal
+3524402;35;SP;Jacareí
+3524501;35;SP;Jaci
+3524600;35;SP;Jacupiranga
+3524709;35;SP;Jaguariúna
+3524808;35;SP;Jales
+3524907;35;SP;Jambeiro
+3525003;35;SP;Jandira
+3525102;35;SP;Jardinópolis
+3525201;35;SP;Jarinu
+3525300;35;SP;Jaú
+3525409;35;SP;Jeriquara
+3525508;35;SP;Joanópolis
+3525607;35;SP;João Ramalho
+3525706;35;SP;José Bonifácio
+3525805;35;SP;Júlio Mesquita
+3525854;35;SP;Jumirim
+3525904;35;SP;Jundiaí
+3526001;35;SP;Junqueirópolis
+3526100;35;SP;Juquiá
+3526209;35;SP;Juquitiba
+3526308;35;SP;Lagoinha
+3526407;35;SP;Laranjal Paulista
+3526506;35;SP;Lavínia
+3526605;35;SP;Lavrinhas
+3526704;35;SP;Leme
+3526803;35;SP;Lençóis Paulista
+3526902;35;SP;Limeira
+3527009;35;SP;Lindóia
+3527108;35;SP;Lins
+3527207;35;SP;Lorena
+3527256;35;SP;Lourdes
+3527306;35;SP;Louveira
+3527405;35;SP;Lucélia
+3527504;35;SP;Lucianópolis
+3527603;35;SP;Luís Antônio
+3527702;35;SP;Luiziânia
+3527801;35;SP;Lupércio
+3527900;35;SP;Lutécia
+3528007;35;SP;Macatuba
+3528106;35;SP;Macaubal
+3528205;35;SP;Macedônia
+3528304;35;SP;Magda
+3528403;35;SP;Mairinque
+3528502;35;SP;Mairiporã
+3528601;35;SP;Manduri
+3528700;35;SP;Marabá Paulista
+3528809;35;SP;Maracaí
+3528858;35;SP;Marapoama
+3528908;35;SP;Mariápolis
+3529005;35;SP;Marília
+3529104;35;SP;Marinópolis
+3529203;35;SP;Martinópolis
+3529302;35;SP;Matão
+3529401;35;SP;Mauá
+3529500;35;SP;Mendonça
+3529609;35;SP;Meridiano
+3529658;35;SP;Mesópolis
+3529708;35;SP;Miguelópolis
+3529807;35;SP;Mineiros do Tietê
+3529906;35;SP;Miracatu
+3530003;35;SP;Mira Estrela
+3530102;35;SP;Mirandópolis
+3530201;35;SP;Mirante do Paranapanema
+3530300;35;SP;Mirassol
+3530409;35;SP;Mirassolândia
+3530508;35;SP;Mococa
+3530607;35;SP;Mogi das Cruzes
+3530706;35;SP;Mogi Guaçu
+3530805;35;SP;Mogi Mirim
+3530904;35;SP;Mombuca
+3531001;35;SP;Monções
+3531100;35;SP;Mongaguá
+3531209;35;SP;Monte Alegre do Sul
+3531308;35;SP;Monte Alto
+3531407;35;SP;Monte Aprazível
+3531506;35;SP;Monte Azul Paulista
+3531605;35;SP;Monte Castelo
+3531704;35;SP;Monteiro Lobato
+3531803;35;SP;Monte Mor
+3531902;35;SP;Morro Agudo
+3532009;35;SP;Morungaba
+3532058;35;SP;Motuca
+3532108;35;SP;Murutinga do Sul
+3532157;35;SP;Nantes
+3532207;35;SP;Narandiba
+3532306;35;SP;Natividade da Serra
+3532405;35;SP;Nazaré Paulista
+3532504;35;SP;Neves Paulista
+3532603;35;SP;Nhandeara
+3532702;35;SP;Nipoã
+3532801;35;SP;Nova Aliança
+3532827;35;SP;Nova Campina
+3532843;35;SP;Nova Canaã Paulista
+3532868;35;SP;Nova Castilho
+3532900;35;SP;Nova Europa
+3533007;35;SP;Nova Granada
+3533106;35;SP;Nova Guataporanga
+3533205;35;SP;Nova Independência
+3533254;35;SP;Novais
+3533304;35;SP;Nova Luzitânia
+3533403;35;SP;Nova Odessa
+3533502;35;SP;Novo Horizonte
+3533601;35;SP;Nuporanga
+3533700;35;SP;Ocauçu
+3533809;35;SP;Óleo
+3533908;35;SP;Olímpia
+3534005;35;SP;Onda Verde
+3534104;35;SP;Oriente
+3534203;35;SP;Orindiúva
+3534302;35;SP;Orlândia
+3534401;35;SP;Osasco
+3534500;35;SP;Oscar Bressane
+3534609;35;SP;Osvaldo Cruz
+3534708;35;SP;Ourinhos
+3534757;35;SP;Ouroeste
+3534807;35;SP;Ouro Verde
+3534906;35;SP;Pacaembu
+3535002;35;SP;Palestina
+3535101;35;SP;Palmares Paulista
+3535200;35;SP;Palmeira d'Oeste
+3535309;35;SP;Palmital
+3535408;35;SP;Panorama
+3535507;35;SP;Paraguaçu Paulista
+3535606;35;SP;Paraibuna
+3535705;35;SP;Paraíso
+3535804;35;SP;Paranapanema
+3535903;35;SP;Paranapuã
+3536000;35;SP;Parapuã
+3536109;35;SP;Pardinho
+3536208;35;SP;Pariquera-Açu
+3536257;35;SP;Parisi
+3536307;35;SP;Patrocínio Paulista
+3536406;35;SP;Paulicéia
+3536505;35;SP;Paulínia
+3536570;35;SP;Paulistânia
+3536604;35;SP;Paulo de Faria
+3536703;35;SP;Pederneiras
+3536802;35;SP;Pedra Bela
+3536901;35;SP;Pedranópolis
+3537008;35;SP;Pedregulho
+3537107;35;SP;Pedreira
+3537156;35;SP;Pedrinhas Paulista
+3537206;35;SP;Pedro de Toledo
+3537305;35;SP;Penápolis
+3537404;35;SP;Pereira Barreto
+3537503;35;SP;Pereiras
+3537602;35;SP;Peruíbe
+3537701;35;SP;Piacatu
+3537800;35;SP;Piedade
+3537909;35;SP;Pilar do Sul
+3538006;35;SP;Pindamonhangaba
+3538105;35;SP;Pindorama
+3538204;35;SP;Pinhalzinho
+3538303;35;SP;Piquerobi
+3538501;35;SP;Piquete
+3538600;35;SP;Piracaia
+3538709;35;SP;Piracicaba
+3538808;35;SP;Piraju
+3538907;35;SP;Pirajuí
+3539004;35;SP;Pirangi
+3539103;35;SP;Pirapora do Bom Jesus
+3539202;35;SP;Pirapozinho
+3539301;35;SP;Pirassununga
+3539400;35;SP;Piratininga
+3539509;35;SP;Pitangueiras
+3539608;35;SP;Planalto
+3539707;35;SP;Platina
+3539806;35;SP;Poá
+3539905;35;SP;Poloni
+3540002;35;SP;Pompeia
+3540101;35;SP;Pongaí
+3540200;35;SP;Pontal
+3540259;35;SP;Pontalinda
+3540309;35;SP;Pontes Gestal
+3540408;35;SP;Populina
+3540507;35;SP;Porangaba
+3540606;35;SP;Porto Feliz
+3540705;35;SP;Porto Ferreira
+3540754;35;SP;Potim
+3540804;35;SP;Potirendaba
+3540853;35;SP;Pracinha
+3540903;35;SP;Pradópolis
+3541000;35;SP;Praia Grande
+3541059;35;SP;Pratânia
+3541109;35;SP;Presidente Alves
+3541208;35;SP;Presidente Bernardes
+3541307;35;SP;Presidente Epitácio
+3541406;35;SP;Presidente Prudente
+3541505;35;SP;Presidente Venceslau
+3541604;35;SP;Promissão
+3541653;35;SP;Quadra
+3541703;35;SP;Quatá
+3541802;35;SP;Queiroz
+3541901;35;SP;Queluz
+3542008;35;SP;Quintana
+3542107;35;SP;Rafard
+3542206;35;SP;Rancharia
+3542305;35;SP;Redenção da Serra
+3542404;35;SP;Regente Feijó
+3542503;35;SP;Reginópolis
+3542602;35;SP;Registro
+3542701;35;SP;Restinga
+3542800;35;SP;Ribeira
+3542909;35;SP;Ribeirão Bonito
+3543006;35;SP;Ribeirão Branco
+3543105;35;SP;Ribeirão Corrente
+3543204;35;SP;Ribeirão do Sul
+3543238;35;SP;Ribeirão dos Índios
+3543253;35;SP;Ribeirão Grande
+3543303;35;SP;Ribeirão Pires
+3543402;35;SP;Ribeirão Preto
+3543501;35;SP;Riversul
+3543600;35;SP;Rifaina
+3543709;35;SP;Rincão
+3543808;35;SP;Rinópolis
+3543907;35;SP;Rio Claro
+3544004;35;SP;Rio das Pedras
+3544103;35;SP;Rio Grande da Serra
+3544202;35;SP;Riolândia
+3544251;35;SP;Rosana
+3544301;35;SP;Roseira
+3544400;35;SP;Rubiácea
+3544509;35;SP;Rubinéia
+3544608;35;SP;Sabino
+3544707;35;SP;Sagres
+3544806;35;SP;Sales
+3544905;35;SP;Sales Oliveira
+3545001;35;SP;Salesópolis
+3545100;35;SP;Salmourão
+3545159;35;SP;Saltinho
+3545209;35;SP;Salto
+3545308;35;SP;Salto de Pirapora
+3545407;35;SP;Salto Grande
+3545506;35;SP;Sandovalina
+3545605;35;SP;Santa Adélia
+3545704;35;SP;Santa Albertina
+3545803;35;SP;Santa Bárbara d'Oeste
+3546009;35;SP;Santa Branca
+3546108;35;SP;Santa Clara d'Oeste
+3546207;35;SP;Santa Cruz da Conceição
+3546256;35;SP;Santa Cruz da Esperança
+3546306;35;SP;Santa Cruz das Palmeiras
+3546405;35;SP;Santa Cruz do Rio Pardo
+3546504;35;SP;Santa Ernestina
+3546603;35;SP;Santa Fé do Sul
+3546702;35;SP;Santa Gertrudes
+3546801;35;SP;Santa Isabel
+3546900;35;SP;Santa Lúcia
+3547007;35;SP;Santa Maria da Serra
+3547106;35;SP;Santa Mercedes
+3547205;35;SP;Santana da Ponte Pensa
+3547304;35;SP;Santana de Parnaíba
+3547403;35;SP;Santa Rita d'Oeste
+3547502;35;SP;Santa Rita do Passa Quatro
+3547601;35;SP;Santa Rosa de Viterbo
+3547650;35;SP;Santa Salete
+3547700;35;SP;Santo Anastácio
+3547809;35;SP;Santo André
+3547908;35;SP;Santo Antônio da Alegria
+3548005;35;SP;Santo Antônio de Posse
+3548054;35;SP;Santo Antônio do Aracanguá
+3548104;35;SP;Santo Antônio do Jardim
+3548203;35;SP;Santo Antônio do Pinhal
+3548302;35;SP;Santo Expedito
+3548401;35;SP;Santópolis do Aguapeí
+3548500;35;SP;Santos
+3548609;35;SP;São Bento do Sapucaí
+3548708;35;SP;São Bernardo do Campo
+3548807;35;SP;São Caetano do Sul
+3548906;35;SP;São Carlos
+3549003;35;SP;São Francisco
+3549102;35;SP;São João da Boa Vista
+3549201;35;SP;São João das Duas Pontes
+3549250;35;SP;São João de Iracema
+3549300;35;SP;São João do Pau d'Alho
+3549409;35;SP;São Joaquim da Barra
+3549508;35;SP;São José da Bela Vista
+3549607;35;SP;São José do Barreiro
+3549706;35;SP;São José do Rio Pardo
+3549805;35;SP;São José do Rio Preto
+3549904;35;SP;São José dos Campos
+3549953;35;SP;São Lourenço da Serra
+3550001;35;SP;São Luiz do Paraitinga
+3550100;35;SP;São Manuel
+3550209;35;SP;São Miguel Arcanjo
+3550308;35;SP;São Paulo
+3550407;35;SP;São Pedro
+3550506;35;SP;São Pedro do Turvo
+3550605;35;SP;São Roque
+3550704;35;SP;São Sebastião
+3550803;35;SP;São Sebastião da Grama
+3550902;35;SP;São Simão
+3551009;35;SP;São Vicente
+3551108;35;SP;Sarapuí
+3551207;35;SP;Sarutaiá
+3551306;35;SP;Sebastianópolis do Sul
+3551405;35;SP;Serra Azul
+3551504;35;SP;Serrana
+3551603;35;SP;Serra Negra
+3551702;35;SP;Sertãozinho
+3551801;35;SP;Sete Barras
+3551900;35;SP;Severínia
+3552007;35;SP;Silveiras
+3552106;35;SP;Socorro
+3552205;35;SP;Sorocaba
+3552304;35;SP;Sud Mennucci
+3552403;35;SP;Sumaré
+3552502;35;SP;Suzano
+3552551;35;SP;Suzanápolis
+3552601;35;SP;Tabapuã
+3552700;35;SP;Tabatinga
+3552809;35;SP;Taboão da Serra
+3552908;35;SP;Taciba
+3553005;35;SP;Taguaí
+3553104;35;SP;Taiaçu
+3553203;35;SP;Taiúva
+3553302;35;SP;Tambaú
+3553401;35;SP;Tanabi
+3553500;35;SP;Tapiraí
+3553609;35;SP;Tapiratiba
+3553658;35;SP;Taquaral
+3553708;35;SP;Taquaritinga
+3553807;35;SP;Taquarituba
+3553856;35;SP;Taquarivaí
+3553906;35;SP;Tarabai
+3553955;35;SP;Tarumã
+3554003;35;SP;Tatuí
+3554102;35;SP;Taubaté
+3554201;35;SP;Tejupá
+3554300;35;SP;Teodoro Sampaio
+3554409;35;SP;Terra Roxa
+3554508;35;SP;Tietê
+3554607;35;SP;Timburi
+3554656;35;SP;Torre de Pedra
+3554706;35;SP;Torrinha
+3554755;35;SP;Trabiju
+3554805;35;SP;Tremembé
+3554904;35;SP;Três Fronteiras
+3554953;35;SP;Tuiuti
+3555000;35;SP;Tupã
+3555109;35;SP;Tupi Paulista
+3555208;35;SP;Turiúba
+3555307;35;SP;Turmalina
+3555356;35;SP;Ubarana
+3555406;35;SP;Ubatuba
+3555505;35;SP;Ubirajara
+3555604;35;SP;Uchoa
+3555703;35;SP;União Paulista
+3555802;35;SP;Urânia
+3555901;35;SP;Uru
+3556008;35;SP;Urupês
+3556107;35;SP;Valentim Gentil
+3556206;35;SP;Valinhos
+3556305;35;SP;Valparaíso
+3556354;35;SP;Vargem
+3556404;35;SP;Vargem Grande do Sul
+3556453;35;SP;Vargem Grande Paulista
+3556503;35;SP;Várzea Paulista
+3556602;35;SP;Vera Cruz
+3556701;35;SP;Vinhedo
+3556800;35;SP;Viradouro
+3556909;35;SP;Vista Alegre do Alto
+3556958;35;SP;Vitória Brasil
+3557006;35;SP;Votorantim
+3557105;35;SP;Votuporanga
+3557154;35;SP;Zacarias
+3557204;35;SP;Chavantes
+3557303;35;SP;Estiva Gerbi
+4100103;41;PR;Abatiá
+4100202;41;PR;Adrianópolis
+4100301;41;PR;Agudos do Sul
+4100400;41;PR;Almirante Tamandaré
+4100459;41;PR;Altamira do Paraná
+4100509;41;PR;Altônia
+4100608;41;PR;Alto Paraná
+4100707;41;PR;Alto Piquiri
+4100806;41;PR;Alvorada do Sul
+4100905;41;PR;Amaporã
+4101002;41;PR;Ampére
+4101051;41;PR;Anahy
+4101101;41;PR;Andirá
+4101150;41;PR;Ângulo
+4101200;41;PR;Antonina
+4101309;41;PR;Antônio Olinto
+4101408;41;PR;Apucarana
+4101507;41;PR;Arapongas
+4101606;41;PR;Arapoti
+4101655;41;PR;Arapuã
+4101705;41;PR;Araruna
+4101804;41;PR;Araucária
+4101853;41;PR;Ariranha do Ivaí
+4101903;41;PR;Assaí
+4102000;41;PR;Assis Chateaubriand
+4102109;41;PR;Astorga
+4102208;41;PR;Atalaia
+4102307;41;PR;Balsa Nova
+4102406;41;PR;Bandeirantes
+4102505;41;PR;Barbosa Ferraz
+4102604;41;PR;Barracão
+4102703;41;PR;Barra do Jacaré
+4102752;41;PR;Bela Vista da Caroba
+4102802;41;PR;Bela Vista do Paraíso
+4102901;41;PR;Bituruna
+4103008;41;PR;Boa Esperança
+4103024;41;PR;Boa Esperança do Iguaçu
+4103040;41;PR;Boa Ventura de São Roque
+4103057;41;PR;Boa Vista da Aparecida
+4103107;41;PR;Bocaiúva do Sul
+4103156;41;PR;Bom Jesus do Sul
+4103206;41;PR;Bom Sucesso
+4103222;41;PR;Bom Sucesso do Sul
+4103305;41;PR;Borrazópolis
+4103354;41;PR;Braganey
+4103370;41;PR;Brasilândia do Sul
+4103404;41;PR;Cafeara
+4103453;41;PR;Cafelândia
+4103479;41;PR;Cafezal do Sul
+4103503;41;PR;Califórnia
+4103602;41;PR;Cambará
+4103701;41;PR;Cambé
+4103800;41;PR;Cambira
+4103909;41;PR;Campina da Lagoa
+4103958;41;PR;Campina do Simão
+4104006;41;PR;Campina Grande do Sul
+4104055;41;PR;Campo Bonito
+4104105;41;PR;Campo do Tenente
+4104204;41;PR;Campo Largo
+4104253;41;PR;Campo Magro
+4104303;41;PR;Campo Mourão
+4104402;41;PR;Cândido de Abreu
+4104428;41;PR;Candói
+4104451;41;PR;Cantagalo
+4104501;41;PR;Capanema
+4104600;41;PR;Capitão Leônidas Marques
+4104659;41;PR;Carambeí
+4104709;41;PR;Carlópolis
+4104808;41;PR;Cascavel
+4104907;41;PR;Castro
+4105003;41;PR;Catanduvas
+4105102;41;PR;Centenário do Sul
+4105201;41;PR;Cerro Azul
+4105300;41;PR;Céu Azul
+4105409;41;PR;Chopinzinho
+4105508;41;PR;Cianorte
+4105607;41;PR;Cidade Gaúcha
+4105706;41;PR;Clevelândia
+4105805;41;PR;Colombo
+4105904;41;PR;Colorado
+4106001;41;PR;Congonhinhas
+4106100;41;PR;Conselheiro Mairinck
+4106209;41;PR;Contenda
+4106308;41;PR;Corbélia
+4106407;41;PR;Cornélio Procópio
+4106456;41;PR;Coronel Domingos Soares
+4106506;41;PR;Coronel Vivida
+4106555;41;PR;Corumbataí do Sul
+4106571;41;PR;Cruzeiro do Iguaçu
+4106605;41;PR;Cruzeiro do Oeste
+4106704;41;PR;Cruzeiro do Sul
+4106803;41;PR;Cruz Machado
+4106852;41;PR;Cruzmaltina
+4106902;41;PR;Curitiba
+4107009;41;PR;Curiúva
+4107108;41;PR;Diamante do Norte
+4107124;41;PR;Diamante do Sul
+4107157;41;PR;Diamante d'Oeste
+4107207;41;PR;Dois Vizinhos
+4107256;41;PR;Douradina
+4107306;41;PR;Doutor Camargo
+4107405;41;PR;Enéas Marques
+4107504;41;PR;Engenheiro Beltrão
+4107520;41;PR;Esperança Nova
+4107538;41;PR;Entre Rios do Oeste
+4107546;41;PR;Espigão Alto do Iguaçu
+4107553;41;PR;Farol
+4107603;41;PR;Faxinal
+4107652;41;PR;Fazenda Rio Grande
+4107702;41;PR;Fênix
+4107736;41;PR;Fernandes Pinheiro
+4107751;41;PR;Figueira
+4107801;41;PR;Floraí
+4107850;41;PR;Flor da Serra do Sul
+4107900;41;PR;Floresta
+4108007;41;PR;Florestópolis
+4108106;41;PR;Flórida
+4108205;41;PR;Formosa do Oeste
+4108304;41;PR;Foz do Iguaçu
+4108320;41;PR;Francisco Alves
+4108403;41;PR;Francisco Beltrão
+4108452;41;PR;Foz do Jordão
+4108502;41;PR;General Carneiro
+4108551;41;PR;Godoy Moreira
+4108601;41;PR;Goioerê
+4108650;41;PR;Goioxim
+4108700;41;PR;Grandes Rios
+4108809;41;PR;Guaíra
+4108908;41;PR;Guairaçá
+4108957;41;PR;Guamiranga
+4109005;41;PR;Guapirama
+4109104;41;PR;Guaporema
+4109203;41;PR;Guaraci
+4109302;41;PR;Guaraniaçu
+4109401;41;PR;Guarapuava
+4109500;41;PR;Guaraqueçaba
+4109609;41;PR;Guaratuba
+4109658;41;PR;Honório Serpa
+4109708;41;PR;Ibaiti
+4109757;41;PR;Ibema
+4109807;41;PR;Ibiporã
+4109906;41;PR;Icaraíma
+4110003;41;PR;Iguaraçu
+4110052;41;PR;Iguatu
+4110078;41;PR;Imbaú
+4110102;41;PR;Imbituva
+4110201;41;PR;Inácio Martins
+4110300;41;PR;Inajá
+4110409;41;PR;Indianópolis
+4110508;41;PR;Ipiranga
+4110607;41;PR;Iporã
+4110656;41;PR;Iracema do Oeste
+4110706;41;PR;Irati
+4110805;41;PR;Iretama
+4110904;41;PR;Itaguajé
+4110953;41;PR;Itaipulândia
+4111001;41;PR;Itambaracá
+4111100;41;PR;Itambé
+4111209;41;PR;Itapejara d'Oeste
+4111258;41;PR;Itaperuçu
+4111308;41;PR;Itaúna do Sul
+4111407;41;PR;Ivaí
+4111506;41;PR;Ivaiporã
+4111555;41;PR;Ivaté
+4111605;41;PR;Ivatuba
+4111704;41;PR;Jaboti
+4111803;41;PR;Jacarezinho
+4111902;41;PR;Jaguapitã
+4112009;41;PR;Jaguariaíva
+4112108;41;PR;Jandaia do Sul
+4112207;41;PR;Janiópolis
+4112306;41;PR;Japira
+4112405;41;PR;Japurá
+4112504;41;PR;Jardim Alegre
+4112603;41;PR;Jardim Olinda
+4112702;41;PR;Jataizinho
+4112751;41;PR;Jesuítas
+4112801;41;PR;Joaquim Távora
+4112900;41;PR;Jundiaí do Sul
+4112959;41;PR;Juranda
+4113007;41;PR;Jussara
+4113106;41;PR;Kaloré
+4113205;41;PR;Lapa
+4113254;41;PR;Laranjal
+4113304;41;PR;Laranjeiras do Sul
+4113403;41;PR;Leópolis
+4113429;41;PR;Lidianópolis
+4113452;41;PR;Lindoeste
+4113502;41;PR;Loanda
+4113601;41;PR;Lobato
+4113700;41;PR;Londrina
+4113734;41;PR;Luiziana
+4113759;41;PR;Lunardelli
+4113809;41;PR;Lupionópolis
+4113908;41;PR;Mallet
+4114005;41;PR;Mamborê
+4114104;41;PR;Mandaguaçu
+4114203;41;PR;Mandaguari
+4114302;41;PR;Mandirituba
+4114351;41;PR;Manfrinópolis
+4114401;41;PR;Mangueirinha
+4114500;41;PR;Manoel Ribas
+4114609;41;PR;Marechal Cândido Rondon
+4114708;41;PR;Maria Helena
+4114807;41;PR;Marialva
+4114906;41;PR;Marilândia do Sul
+4115002;41;PR;Marilena
+4115101;41;PR;Mariluz
+4115200;41;PR;Maringá
+4115309;41;PR;Mariópolis
+4115358;41;PR;Maripá
+4115408;41;PR;Marmeleiro
+4115457;41;PR;Marquinho
+4115507;41;PR;Marumbi
+4115606;41;PR;Matelândia
+4115705;41;PR;Matinhos
+4115739;41;PR;Mato Rico
+4115754;41;PR;Mauá da Serra
+4115804;41;PR;Medianeira
+4115853;41;PR;Mercedes
+4115903;41;PR;Mirador
+4116000;41;PR;Miraselva
+4116059;41;PR;Missal
+4116109;41;PR;Moreira Sales
+4116208;41;PR;Morretes
+4116307;41;PR;Munhoz de Melo
+4116406;41;PR;Nossa Senhora das Graças
+4116505;41;PR;Nova Aliança do Ivaí
+4116604;41;PR;Nova América da Colina
+4116703;41;PR;Nova Aurora
+4116802;41;PR;Nova Cantu
+4116901;41;PR;Nova Esperança
+4116950;41;PR;Nova Esperança do Sudoeste
+4117008;41;PR;Nova Fátima
+4117057;41;PR;Nova Laranjeiras
+4117107;41;PR;Nova Londrina
+4117206;41;PR;Nova Olímpia
+4117214;41;PR;Nova Santa Bárbara
+4117222;41;PR;Nova Santa Rosa
+4117255;41;PR;Nova Prata do Iguaçu
+4117271;41;PR;Nova Tebas
+4117297;41;PR;Novo Itacolomi
+4117305;41;PR;Ortigueira
+4117404;41;PR;Ourizona
+4117453;41;PR;Ouro Verde do Oeste
+4117503;41;PR;Paiçandu
+4117602;41;PR;Palmas
+4117701;41;PR;Palmeira
+4117800;41;PR;Palmital
+4117909;41;PR;Palotina
+4118006;41;PR;Paraíso do Norte
+4118105;41;PR;Paranacity
+4118204;41;PR;Paranaguá
+4118303;41;PR;Paranapoema
+4118402;41;PR;Paranavaí
+4118451;41;PR;Pato Bragado
+4118501;41;PR;Pato Branco
+4118600;41;PR;Paula Freitas
+4118709;41;PR;Paulo Frontin
+4118808;41;PR;Peabiru
+4118857;41;PR;Perobal
+4118907;41;PR;Pérola
+4119004;41;PR;Pérola d'Oeste
+4119103;41;PR;Piên
+4119152;41;PR;Pinhais
+4119202;41;PR;Pinhalão
+4119251;41;PR;Pinhal de São Bento
+4119301;41;PR;Pinhão
+4119400;41;PR;Piraí do Sul
+4119509;41;PR;Piraquara
+4119608;41;PR;Pitanga
+4119657;41;PR;Pitangueiras
+4119707;41;PR;Planaltina do Paraná
+4119806;41;PR;Planalto
+4119905;41;PR;Ponta Grossa
+4119954;41;PR;Pontal do Paraná
+4120002;41;PR;Porecatu
+4120101;41;PR;Porto Amazonas
+4120150;41;PR;Porto Barreiro
+4120200;41;PR;Porto Rico
+4120309;41;PR;Porto Vitória
+4120333;41;PR;Prado Ferreira
+4120358;41;PR;Pranchita
+4120408;41;PR;Presidente Castelo Branco
+4120507;41;PR;Primeiro de Maio
+4120606;41;PR;Prudentópolis
+4120655;41;PR;Quarto Centenário
+4120705;41;PR;Quatiguá
+4120804;41;PR;Quatro Barras
+4120853;41;PR;Quatro Pontes
+4120903;41;PR;Quedas do Iguaçu
+4121000;41;PR;Querência do Norte
+4121109;41;PR;Quinta do Sol
+4121208;41;PR;Quitandinha
+4121257;41;PR;Ramilândia
+4121307;41;PR;Rancho Alegre
+4121356;41;PR;Rancho Alegre d'Oeste
+4121406;41;PR;Realeza
+4121505;41;PR;Rebouças
+4121604;41;PR;Renascença
+4121703;41;PR;Reserva
+4121752;41;PR;Reserva do Iguaçu
+4121802;41;PR;Ribeirão Claro
+4121901;41;PR;Ribeirão do Pinhal
+4122008;41;PR;Rio Azul
+4122107;41;PR;Rio Bom
+4122156;41;PR;Rio Bonito do Iguaçu
+4122172;41;PR;Rio Branco do Ivaí
+4122206;41;PR;Rio Branco do Sul
+4122305;41;PR;Rio Negro
+4122404;41;PR;Rolândia
+4122503;41;PR;Roncador
+4122602;41;PR;Rondon
+4122651;41;PR;Rosário do Ivaí
+4122701;41;PR;Sabáudia
+4122800;41;PR;Salgado Filho
+4122909;41;PR;Salto do Itararé
+4123006;41;PR;Salto do Lontra
+4123105;41;PR;Santa Amélia
+4123204;41;PR;Santa Cecília do Pavão
+4123303;41;PR;Santa Cruz de Monte Castelo
+4123402;41;PR;Santa Fé
+4123501;41;PR;Santa Helena
+4123600;41;PR;Santa Inês
+4123709;41;PR;Santa Isabel do Ivaí
+4123808;41;PR;Santa Izabel do Oeste
+4123824;41;PR;Santa Lúcia
+4123857;41;PR;Santa Maria do Oeste
+4123907;41;PR;Santa Mariana
+4123956;41;PR;Santa Mônica
+4124004;41;PR;Santana do Itararé
+4124020;41;PR;Santa Tereza do Oeste
+4124053;41;PR;Santa Terezinha de Itaipu
+4124103;41;PR;Santo Antônio da Platina
+4124202;41;PR;Santo Antônio do Caiuá
+4124301;41;PR;Santo Antônio do Paraíso
+4124400;41;PR;Santo Antônio do Sudoeste
+4124509;41;PR;Santo Inácio
+4124608;41;PR;São Carlos do Ivaí
+4124707;41;PR;São Jerônimo da Serra
+4124806;41;PR;São João
+4124905;41;PR;São João do Caiuá
+4125001;41;PR;São João do Ivaí
+4125100;41;PR;São João do Triunfo
+4125209;41;PR;São Jorge d'Oeste
+4125308;41;PR;São Jorge do Ivaí
+4125357;41;PR;São Jorge do Patrocínio
+4125407;41;PR;São José da Boa Vista
+4125456;41;PR;São José das Palmeiras
+4125506;41;PR;São José dos Pinhais
+4125555;41;PR;São Manoel do Paraná
+4125605;41;PR;São Mateus do Sul
+4125704;41;PR;São Miguel do Iguaçu
+4125753;41;PR;São Pedro do Iguaçu
+4125803;41;PR;São Pedro do Ivaí
+4125902;41;PR;São Pedro do Paraná
+4126009;41;PR;São Sebastião da Amoreira
+4126108;41;PR;São Tomé
+4126207;41;PR;Sapopema
+4126256;41;PR;Sarandi
+4126272;41;PR;Saudade do Iguaçu
+4126306;41;PR;Sengés
+4126355;41;PR;Serranópolis do Iguaçu
+4126405;41;PR;Sertaneja
+4126504;41;PR;Sertanópolis
+4126603;41;PR;Siqueira Campos
+4126652;41;PR;Sulina
+4126678;41;PR;Tamarana
+4126702;41;PR;Tamboara
+4126801;41;PR;Tapejara
+4126900;41;PR;Tapira
+4127007;41;PR;Teixeira Soares
+4127106;41;PR;Telêmaco Borba
+4127205;41;PR;Terra Boa
+4127304;41;PR;Terra Rica
+4127403;41;PR;Terra Roxa
+4127502;41;PR;Tibagi
+4127601;41;PR;Tijucas do Sul
+4127700;41;PR;Toledo
+4127809;41;PR;Tomazina
+4127858;41;PR;Três Barras do Paraná
+4127882;41;PR;Tunas do Paraná
+4127908;41;PR;Tuneiras do Oeste
+4127957;41;PR;Tupãssi
+4127965;41;PR;Turvo
+4128005;41;PR;Ubiratã
+4128104;41;PR;Umuarama
+4128203;41;PR;União da Vitória
+4128302;41;PR;Uniflor
+4128401;41;PR;Uraí
+4128500;41;PR;Wenceslau Braz
+4128534;41;PR;Ventania
+4128559;41;PR;Vera Cruz do Oeste
+4128609;41;PR;Verê
+4128625;41;PR;Alto Paraíso
+4128633;41;PR;Doutor Ulysses
+4128658;41;PR;Virmond
+4128708;41;PR;Vitorino
+4128807;41;PR;Xambrê
+4200051;42;SC;Abdon Batista
+4200101;42;SC;Abelardo Luz
+4200200;42;SC;Agrolândia
+4200309;42;SC;Agronômica
+4200408;42;SC;Água Doce
+4200507;42;SC;Águas de Chapecó
+4200556;42;SC;Águas Frias
+4200606;42;SC;Águas Mornas
+4200705;42;SC;Alfredo Wagner
+4200754;42;SC;Alto Bela Vista
+4200804;42;SC;Anchieta
+4200903;42;SC;Angelina
+4201000;42;SC;Anita Garibaldi
+4201109;42;SC;Anitápolis
+4201208;42;SC;Antônio Carlos
+4201257;42;SC;Apiúna
+4201273;42;SC;Arabutã
+4201307;42;SC;Araquari
+4201406;42;SC;Araranguá
+4201505;42;SC;Armazém
+4201604;42;SC;Arroio Trinta
+4201653;42;SC;Arvoredo
+4201703;42;SC;Ascurra
+4201802;42;SC;Atalanta
+4201901;42;SC;Aurora
+4201950;42;SC;Balneário Arroio do Silva
+4202008;42;SC;Balneário Camboriú
+4202057;42;SC;Balneário Barra do Sul
+4202073;42;SC;Balneário Gaivota
+4202081;42;SC;Bandeirante
+4202099;42;SC;Barra Bonita
+4202107;42;SC;Barra Velha
+4202131;42;SC;Bela Vista do Toldo
+4202156;42;SC;Belmonte
+4202206;42;SC;Benedito Novo
+4202305;42;SC;Biguaçu
+4202404;42;SC;Blumenau
+4202438;42;SC;Bocaina do Sul
+4202453;42;SC;Bombinhas
+4202503;42;SC;Bom Jardim da Serra
+4202537;42;SC;Bom Jesus
+4202578;42;SC;Bom Jesus do Oeste
+4202602;42;SC;Bom Retiro
+4202701;42;SC;Botuverá
+4202800;42;SC;Braço do Norte
+4202859;42;SC;Braço do Trombudo
+4202875;42;SC;Brunópolis
+4202909;42;SC;Brusque
+4203006;42;SC;Caçador
+4203105;42;SC;Caibi
+4203154;42;SC;Calmon
+4203204;42;SC;Camboriú
+4203253;42;SC;Capão Alto
+4203303;42;SC;Campo Alegre
+4203402;42;SC;Campo Belo do Sul
+4203501;42;SC;Campo Erê
+4203600;42;SC;Campos Novos
+4203709;42;SC;Canelinha
+4203808;42;SC;Canoinhas
+4203907;42;SC;Capinzal
+4203956;42;SC;Capivari de Baixo
+4204004;42;SC;Catanduvas
+4204103;42;SC;Caxambu do Sul
+4204152;42;SC;Celso Ramos
+4204178;42;SC;Cerro Negro
+4204194;42;SC;Chapadão do Lageado
+4204202;42;SC;Chapecó
+4204251;42;SC;Cocal do Sul
+4204301;42;SC;Concórdia
+4204350;42;SC;Cordilheira Alta
+4204400;42;SC;Coronel Freitas
+4204459;42;SC;Coronel Martins
+4204509;42;SC;Corupá
+4204558;42;SC;Correia Pinto
+4204608;42;SC;Criciúma
+4204707;42;SC;Cunha Porã
+4204756;42;SC;Cunhataí
+4204806;42;SC;Curitibanos
+4204905;42;SC;Descanso
+4205001;42;SC;Dionísio Cerqueira
+4205100;42;SC;Dona Emma
+4205159;42;SC;Doutor Pedrinho
+4205175;42;SC;Entre Rios
+4205191;42;SC;Ermo
+4205209;42;SC;Erval Velho
+4205308;42;SC;Faxinal dos Guedes
+4205357;42;SC;Flor do Sertão
+4205407;42;SC;Florianópolis
+4205431;42;SC;Formosa do Sul
+4205456;42;SC;Forquilhinha
+4205506;42;SC;Fraiburgo
+4205555;42;SC;Frei Rogério
+4205605;42;SC;Galvão
+4205704;42;SC;Garopaba
+4205803;42;SC;Garuva
+4205902;42;SC;Gaspar
+4206009;42;SC;Governador Celso Ramos
+4206108;42;SC;Grão Pará
+4206207;42;SC;Gravatal
+4206306;42;SC;Guabiruba
+4206405;42;SC;Guaraciaba
+4206504;42;SC;Guaramirim
+4206603;42;SC;Guarujá do Sul
+4206652;42;SC;Guatambú
+4206702;42;SC;Herval d'Oeste
+4206751;42;SC;Ibiam
+4206801;42;SC;Ibicaré
+4206900;42;SC;Ibirama
+4207007;42;SC;Içara
+4207106;42;SC;Ilhota
+4207205;42;SC;Imaruí
+4207304;42;SC;Imbituba
+4207403;42;SC;Imbuia
+4207502;42;SC;Indaial
+4207577;42;SC;Iomerê
+4207601;42;SC;Ipira
+4207650;42;SC;Iporã do Oeste
+4207684;42;SC;Ipuaçu
+4207700;42;SC;Ipumirim
+4207759;42;SC;Iraceminha
+4207809;42;SC;Irani
+4207858;42;SC;Irati
+4207908;42;SC;Irineópolis
+4208005;42;SC;Itá
+4208104;42;SC;Itaiópolis
+4208203;42;SC;Itajaí
+4208302;42;SC;Itapema
+4208401;42;SC;Itapiranga
+4208450;42;SC;Itapoá
+4208500;42;SC;Ituporanga
+4208609;42;SC;Jaborá
+4208708;42;SC;Jacinto Machado
+4208807;42;SC;Jaguaruna
+4208906;42;SC;Jaraguá do Sul
+4208955;42;SC;Jardinópolis
+4209003;42;SC;Joaçaba
+4209102;42;SC;Joinville
+4209151;42;SC;José Boiteux
+4209177;42;SC;Jupiá
+4209201;42;SC;Lacerdópolis
+4209300;42;SC;Lages
+4209409;42;SC;Laguna
+4209458;42;SC;Lajeado Grande
+4209508;42;SC;Laurentino
+4209607;42;SC;Lauro Müller
+4209706;42;SC;Lebon Régis
+4209805;42;SC;Leoberto Leal
+4209854;42;SC;Lindóia do Sul
+4209904;42;SC;Lontras
+4210001;42;SC;Luiz Alves
+4210035;42;SC;Luzerna
+4210050;42;SC;Macieira
+4210100;42;SC;Mafra
+4210209;42;SC;Major Gercino
+4210308;42;SC;Major Vieira
+4210407;42;SC;Maracajá
+4210506;42;SC;Maravilha
+4210555;42;SC;Marema
+4210605;42;SC;Massaranduba
+4210704;42;SC;Matos Costa
+4210803;42;SC;Meleiro
+4210852;42;SC;Mirim Doce
+4210902;42;SC;Modelo
+4211009;42;SC;Mondaí
+4211058;42;SC;Monte Carlo
+4211108;42;SC;Monte Castelo
+4211207;42;SC;Morro da Fumaça
+4211256;42;SC;Morro Grande
+4211306;42;SC;Navegantes
+4211405;42;SC;Nova Erechim
+4211454;42;SC;Nova Itaberaba
+4211504;42;SC;Nova Trento
+4211603;42;SC;Nova Veneza
+4211652;42;SC;Novo Horizonte
+4211702;42;SC;Orleans
+4211751;42;SC;Otacílio Costa
+4211801;42;SC;Ouro
+4211850;42;SC;Ouro Verde
+4211876;42;SC;Paial
+4211892;42;SC;Painel
+4211900;42;SC;Palhoça
+4212007;42;SC;Palma Sola
+4212056;42;SC;Palmeira
+4212106;42;SC;Palmitos
+4212205;42;SC;Papanduva
+4212239;42;SC;Paraíso
+4212254;42;SC;Passo de Torres
+4212270;42;SC;Passos Maia
+4212304;42;SC;Paulo Lopes
+4212403;42;SC;Pedras Grandes
+4212502;42;SC;Penha
+4212601;42;SC;Peritiba
+4212650;42;SC;Pescaria Brava
+4212700;42;SC;Petrolândia
+4212809;42;SC;Balneário Piçarras
+4212908;42;SC;Pinhalzinho
+4213005;42;SC;Pinheiro Preto
+4213104;42;SC;Piratuba
+4213153;42;SC;Planalto Alegre
+4213203;42;SC;Pomerode
+4213302;42;SC;Ponte Alta
+4213351;42;SC;Ponte Alta do Norte
+4213401;42;SC;Ponte Serrada
+4213500;42;SC;Porto Belo
+4213609;42;SC;Porto União
+4213708;42;SC;Pouso Redondo
+4213807;42;SC;Praia Grande
+4213906;42;SC;Presidente Castello Branco
+4214003;42;SC;Presidente Getúlio
+4214102;42;SC;Presidente Nereu
+4214151;42;SC;Princesa
+4214201;42;SC;Quilombo
+4214300;42;SC;Rancho Queimado
+4214409;42;SC;Rio das Antas
+4214508;42;SC;Rio do Campo
+4214607;42;SC;Rio do Oeste
+4214706;42;SC;Rio dos Cedros
+4214805;42;SC;Rio do Sul
+4214904;42;SC;Rio Fortuna
+4215000;42;SC;Rio Negrinho
+4215059;42;SC;Rio Rufino
+4215075;42;SC;Riqueza
+4215109;42;SC;Rodeio
+4215208;42;SC;Romelândia
+4215307;42;SC;Salete
+4215356;42;SC;Saltinho
+4215406;42;SC;Salto Veloso
+4215455;42;SC;Sangão
+4215505;42;SC;Santa Cecília
+4215554;42;SC;Santa Helena
+4215604;42;SC;Santa Rosa de Lima
+4215653;42;SC;Santa Rosa do Sul
+4215679;42;SC;Santa Terezinha
+4215687;42;SC;Santa Terezinha do Progresso
+4215695;42;SC;Santiago do Sul
+4215703;42;SC;Santo Amaro da Imperatriz
+4215752;42;SC;São Bernardino
+4215802;42;SC;São Bento do Sul
+4215901;42;SC;São Bonifácio
+4216008;42;SC;São Carlos
+4216057;42;SC;São Cristóvão do Sul
+4216107;42;SC;São Domingos
+4216206;42;SC;São Francisco do Sul
+4216255;42;SC;São João do Oeste
+4216305;42;SC;São João Batista
+4216354;42;SC;São João do Itaperiú
+4216404;42;SC;São João do Sul
+4216503;42;SC;São Joaquim
+4216602;42;SC;São José
+4216701;42;SC;São José do Cedro
+4216800;42;SC;São José do Cerrito
+4216909;42;SC;São Lourenço do Oeste
+4217006;42;SC;São Ludgero
+4217105;42;SC;São Martinho
+4217154;42;SC;São Miguel da Boa Vista
+4217204;42;SC;São Miguel do Oeste
+4217253;42;SC;São Pedro de Alcântara
+4217303;42;SC;Saudades
+4217402;42;SC;Schroeder
+4217501;42;SC;Seara
+4217550;42;SC;Serra Alta
+4217600;42;SC;Siderópolis
+4217709;42;SC;Sombrio
+4217758;42;SC;Sul Brasil
+4217808;42;SC;Taió
+4217907;42;SC;Tangará
+4217956;42;SC;Tigrinhos
+4218004;42;SC;Tijucas
+4218103;42;SC;Timbé do Sul
+4218202;42;SC;Timbó
+4218251;42;SC;Timbó Grande
+4218301;42;SC;Três Barras
+4218350;42;SC;Treviso
+4218400;42;SC;Treze de Maio
+4218509;42;SC;Treze Tílias
+4218608;42;SC;Trombudo Central
+4218707;42;SC;Tubarão
+4218756;42;SC;Tunápolis
+4218806;42;SC;Turvo
+4218855;42;SC;União do Oeste
+4218905;42;SC;Urubici
+4218954;42;SC;Urupema
+4219002;42;SC;Urussanga
+4219101;42;SC;Vargeão
+4219150;42;SC;Vargem
+4219176;42;SC;Vargem Bonita
+4219200;42;SC;Vidal Ramos
+4219309;42;SC;Videira
+4219358;42;SC;Vitor Meireles
+4219408;42;SC;Witmarsum
+4219507;42;SC;Xanxerê
+4219606;42;SC;Xavantina
+4219705;42;SC;Xaxim
+4219853;42;SC;Zortéa
+4220000;42;SC;Balneário Rincão
+4300034;43;RS;Aceguá
+4300059;43;RS;Água Santa
+4300109;43;RS;Agudo
+4300208;43;RS;Ajuricaba
+4300307;43;RS;Alecrim
+4300406;43;RS;Alegrete
+4300455;43;RS;Alegria
+4300471;43;RS;Almirante Tamandaré do Sul
+4300505;43;RS;Alpestre
+4300554;43;RS;Alto Alegre
+4300570;43;RS;Alto Feliz
+4300604;43;RS;Alvorada
+4300638;43;RS;Amaral Ferrador
+4300646;43;RS;Ametista do Sul
+4300661;43;RS;André da Rocha
+4300703;43;RS;Anta Gorda
+4300802;43;RS;Antônio Prado
+4300851;43;RS;Arambaré
+4300877;43;RS;Araricá
+4300901;43;RS;Aratiba
+4301008;43;RS;Arroio do Meio
+4301057;43;RS;Arroio do Sal
+4301073;43;RS;Arroio do Padre
+4301107;43;RS;Arroio dos Ratos
+4301206;43;RS;Arroio do Tigre
+4301305;43;RS;Arroio Grande
+4301404;43;RS;Arvorezinha
+4301503;43;RS;Augusto Pestana
+4301552;43;RS;Áurea
+4301602;43;RS;Bagé
+4301636;43;RS;Balneário Pinhal
+4301651;43;RS;Barão
+4301701;43;RS;Barão de Cotegipe
+4301750;43;RS;Barão do Triunfo
+4301800;43;RS;Barracão
+4301859;43;RS;Barra do Guarita
+4301875;43;RS;Barra do Quaraí
+4301909;43;RS;Barra do Ribeiro
+4301925;43;RS;Barra do Rio Azul
+4301958;43;RS;Barra Funda
+4302006;43;RS;Barros Cassal
+4302055;43;RS;Benjamin Constant do Sul
+4302105;43;RS;Bento Gonçalves
+4302154;43;RS;Boa Vista das Missões
+4302204;43;RS;Boa Vista do Buricá
+4302220;43;RS;Boa Vista do Cadeado
+4302238;43;RS;Boa Vista do Incra
+4302253;43;RS;Boa Vista do Sul
+4302303;43;RS;Bom Jesus
+4302352;43;RS;Bom Princípio
+4302378;43;RS;Bom Progresso
+4302402;43;RS;Bom Retiro do Sul
+4302451;43;RS;Boqueirão do Leão
+4302501;43;RS;Bossoroca
+4302584;43;RS;Bozano
+4302600;43;RS;Braga
+4302659;43;RS;Brochier
+4302709;43;RS;Butiá
+4302808;43;RS;Caçapava do Sul
+4302907;43;RS;Cacequi
+4303004;43;RS;Cachoeira do Sul
+4303103;43;RS;Cachoeirinha
+4303202;43;RS;Cacique Doble
+4303301;43;RS;Caibaté
+4303400;43;RS;Caiçara
+4303509;43;RS;Camaquã
+4303558;43;RS;Camargo
+4303608;43;RS;Cambará do Sul
+4303673;43;RS;Campestre da Serra
+4303707;43;RS;Campina das Missões
+4303806;43;RS;Campinas do Sul
+4303905;43;RS;Campo Bom
+4304002;43;RS;Campo Novo
+4304101;43;RS;Campos Borges
+4304200;43;RS;Candelária
+4304309;43;RS;Cândido Godói
+4304358;43;RS;Candiota
+4304408;43;RS;Canela
+4304507;43;RS;Canguçu
+4304606;43;RS;Canoas
+4304614;43;RS;Canudos do Vale
+4304622;43;RS;Capão Bonito do Sul
+4304630;43;RS;Capão da Canoa
+4304655;43;RS;Capão do Cipó
+4304663;43;RS;Capão do Leão
+4304671;43;RS;Capivari do Sul
+4304689;43;RS;Capela de Santana
+4304697;43;RS;Capitão
+4304705;43;RS;Carazinho
+4304713;43;RS;Caraá
+4304804;43;RS;Carlos Barbosa
+4304853;43;RS;Carlos Gomes
+4304903;43;RS;Casca
+4304952;43;RS;Caseiros
+4305009;43;RS;Catuípe
+4305108;43;RS;Caxias do Sul
+4305116;43;RS;Centenário
+4305124;43;RS;Cerrito
+4305132;43;RS;Cerro Branco
+4305157;43;RS;Cerro Grande
+4305173;43;RS;Cerro Grande do Sul
+4305207;43;RS;Cerro Largo
+4305306;43;RS;Chapada
+4305355;43;RS;Charqueadas
+4305371;43;RS;Charrua
+4305405;43;RS;Chiapetta
+4305439;43;RS;Chuí
+4305447;43;RS;Chuvisca
+4305454;43;RS;Cidreira
+4305504;43;RS;Ciríaco
+4305587;43;RS;Colinas
+4305603;43;RS;Colorado
+4305702;43;RS;Condor
+4305801;43;RS;Constantina
+4305835;43;RS;Coqueiro Baixo
+4305850;43;RS;Coqueiros do Sul
+4305871;43;RS;Coronel Barros
+4305900;43;RS;Coronel Bicaco
+4305934;43;RS;Coronel Pilar
+4305959;43;RS;Cotiporã
+4305975;43;RS;Coxilha
+4306007;43;RS;Crissiumal
+4306056;43;RS;Cristal
+4306072;43;RS;Cristal do Sul
+4306106;43;RS;Cruz Alta
+4306130;43;RS;Cruzaltense
+4306205;43;RS;Cruzeiro do Sul
+4306304;43;RS;David Canabarro
+4306320;43;RS;Derrubadas
+4306353;43;RS;Dezesseis de Novembro
+4306379;43;RS;Dilermando de Aguiar
+4306403;43;RS;Dois Irmãos
+4306429;43;RS;Dois Irmãos das Missões
+4306452;43;RS;Dois Lajeados
+4306502;43;RS;Dom Feliciano
+4306551;43;RS;Dom Pedro de Alcântara
+4306601;43;RS;Dom Pedrito
+4306700;43;RS;Dona Francisca
+4306734;43;RS;Doutor Maurício Cardoso
+4306759;43;RS;Doutor Ricardo
+4306767;43;RS;Eldorado do Sul
+4306809;43;RS;Encantado
+4306908;43;RS;Encruzilhada do Sul
+4306924;43;RS;Engenho Velho
+4306932;43;RS;Entre-Ijuís
+4306957;43;RS;Entre Rios do Sul
+4306973;43;RS;Erebango
+4307005;43;RS;Erechim
+4307054;43;RS;Ernestina
+4307104;43;RS;Herval
+4307203;43;RS;Erval Grande
+4307302;43;RS;Erval Seco
+4307401;43;RS;Esmeralda
+4307450;43;RS;Esperança do Sul
+4307500;43;RS;Espumoso
+4307559;43;RS;Estação
+4307609;43;RS;Estância Velha
+4307708;43;RS;Esteio
+4307807;43;RS;Estrela
+4307815;43;RS;Estrela Velha
+4307831;43;RS;Eugênio de Castro
+4307864;43;RS;Fagundes Varela
+4307906;43;RS;Farroupilha
+4308003;43;RS;Faxinal do Soturno
+4308052;43;RS;Faxinalzinho
+4308078;43;RS;Fazenda Vilanova
+4308102;43;RS;Feliz
+4308201;43;RS;Flores da Cunha
+4308250;43;RS;Floriano Peixoto
+4308300;43;RS;Fontoura Xavier
+4308409;43;RS;Formigueiro
+4308433;43;RS;Forquetinha
+4308458;43;RS;Fortaleza dos Valos
+4308508;43;RS;Frederico Westphalen
+4308607;43;RS;Garibaldi
+4308656;43;RS;Garruchos
+4308706;43;RS;Gaurama
+4308805;43;RS;General Câmara
+4308854;43;RS;Gentil
+4308904;43;RS;Getúlio Vargas
+4309001;43;RS;Giruá
+4309050;43;RS;Glorinha
+4309100;43;RS;Gramado
+4309126;43;RS;Gramado dos Loureiros
+4309159;43;RS;Gramado Xavier
+4309209;43;RS;Gravataí
+4309258;43;RS;Guabiju
+4309308;43;RS;Guaíba
+4309407;43;RS;Guaporé
+4309506;43;RS;Guarani das Missões
+4309555;43;RS;Harmonia
+4309571;43;RS;Herveiras
+4309605;43;RS;Horizontina
+4309654;43;RS;Hulha Negra
+4309704;43;RS;Humaitá
+4309753;43;RS;Ibarama
+4309803;43;RS;Ibiaçá
+4309902;43;RS;Ibiraiaras
+4309951;43;RS;Ibirapuitã
+4310009;43;RS;Ibirubá
+4310108;43;RS;Igrejinha
+4310207;43;RS;Ijuí
+4310306;43;RS;Ilópolis
+4310330;43;RS;Imbé
+4310363;43;RS;Imigrante
+4310405;43;RS;Independência
+4310413;43;RS;Inhacorá
+4310439;43;RS;Ipê
+4310462;43;RS;Ipiranga do Sul
+4310504;43;RS;Iraí
+4310538;43;RS;Itaara
+4310553;43;RS;Itacurubi
+4310579;43;RS;Itapuca
+4310603;43;RS;Itaqui
+4310652;43;RS;Itati
+4310702;43;RS;Itatiba do Sul
+4310751;43;RS;Ivorá
+4310801;43;RS;Ivoti
+4310850;43;RS;Jaboticaba
+4310876;43;RS;Jacuizinho
+4310900;43;RS;Jacutinga
+4311007;43;RS;Jaguarão
+4311106;43;RS;Jaguari
+4311122;43;RS;Jaquirana
+4311130;43;RS;Jari
+4311155;43;RS;Jóia
+4311205;43;RS;Júlio de Castilhos
+4311239;43;RS;Lagoa Bonita do Sul
+4311254;43;RS;Lagoão
+4311270;43;RS;Lagoa dos Três Cantos
+4311304;43;RS;Lagoa Vermelha
+4311403;43;RS;Lajeado
+4311429;43;RS;Lajeado do Bugre
+4311502;43;RS;Lavras do Sul
+4311601;43;RS;Liberato Salzano
+4311627;43;RS;Lindolfo Collor
+4311643;43;RS;Linha Nova
+4311700;43;RS;Machadinho
+4311718;43;RS;Maçambará
+4311734;43;RS;Mampituba
+4311759;43;RS;Manoel Viana
+4311775;43;RS;Maquiné
+4311791;43;RS;Maratá
+4311809;43;RS;Marau
+4311908;43;RS;Marcelino Ramos
+4311981;43;RS;Mariana Pimentel
+4312005;43;RS;Mariano Moro
+4312054;43;RS;Marques de Souza
+4312104;43;RS;Mata
+4312138;43;RS;Mato Castelhano
+4312153;43;RS;Mato Leitão
+4312179;43;RS;Mato Queimado
+4312203;43;RS;Maximiliano de Almeida
+4312252;43;RS;Minas do Leão
+4312302;43;RS;Miraguaí
+4312351;43;RS;Montauri
+4312377;43;RS;Monte Alegre dos Campos
+4312385;43;RS;Monte Belo do Sul
+4312401;43;RS;Montenegro
+4312427;43;RS;Mormaço
+4312443;43;RS;Morrinhos do Sul
+4312450;43;RS;Morro Redondo
+4312476;43;RS;Morro Reuter
+4312500;43;RS;Mostardas
+4312609;43;RS;Muçum
+4312617;43;RS;Muitos Capões
+4312625;43;RS;Muliterno
+4312658;43;RS;Não-Me-Toque
+4312674;43;RS;Nicolau Vergueiro
+4312708;43;RS;Nonoai
+4312757;43;RS;Nova Alvorada
+4312807;43;RS;Nova Araçá
+4312906;43;RS;Nova Bassano
+4312955;43;RS;Nova Boa Vista
+4313003;43;RS;Nova Bréscia
+4313011;43;RS;Nova Candelária
+4313037;43;RS;Nova Esperança do Sul
+4313060;43;RS;Nova Hartz
+4313086;43;RS;Nova Pádua
+4313102;43;RS;Nova Palma
+4313201;43;RS;Nova Petrópolis
+4313300;43;RS;Nova Prata
+4313334;43;RS;Nova Ramada
+4313359;43;RS;Nova Roma do Sul
+4313375;43;RS;Nova Santa Rita
+4313391;43;RS;Novo Cabrais
+4313409;43;RS;Novo Hamburgo
+4313425;43;RS;Novo Machado
+4313441;43;RS;Novo Tiradentes
+4313466;43;RS;Novo Xingu
+4313490;43;RS;Novo Barreiro
+4313508;43;RS;Osório
+4313607;43;RS;Paim Filho
+4313656;43;RS;Palmares do Sul
+4313706;43;RS;Palmeira das Missões
+4313805;43;RS;Palmitinho
+4313904;43;RS;Panambi
+4313953;43;RS;Pantano Grande
+4314001;43;RS;Paraí
+4314027;43;RS;Paraíso do Sul
+4314035;43;RS;Pareci Novo
+4314050;43;RS;Parobé
+4314068;43;RS;Passa Sete
+4314076;43;RS;Passo do Sobrado
+4314100;43;RS;Passo Fundo
+4314134;43;RS;Paulo Bento
+4314159;43;RS;Paverama
+4314175;43;RS;Pedras Altas
+4314209;43;RS;Pedro Osório
+4314308;43;RS;Pejuçara
+4314407;43;RS;Pelotas
+4314423;43;RS;Picada Café
+4314456;43;RS;Pinhal
+4314464;43;RS;Pinhal da Serra
+4314472;43;RS;Pinhal Grande
+4314498;43;RS;Pinheirinho do Vale
+4314506;43;RS;Pinheiro Machado
+4314548;43;RS;Pinto Bandeira
+4314555;43;RS;Pirapó
+4314605;43;RS;Piratini
+4314704;43;RS;Planalto
+4314753;43;RS;Poço das Antas
+4314779;43;RS;Pontão
+4314787;43;RS;Ponte Preta
+4314803;43;RS;Portão
+4314902;43;RS;Porto Alegre
+4315008;43;RS;Porto Lucena
+4315057;43;RS;Porto Mauá
+4315073;43;RS;Porto Vera Cruz
+4315107;43;RS;Porto Xavier
+4315131;43;RS;Pouso Novo
+4315149;43;RS;Presidente Lucena
+4315156;43;RS;Progresso
+4315172;43;RS;Protásio Alves
+4315206;43;RS;Putinga
+4315305;43;RS;Quaraí
+4315313;43;RS;Quatro Irmãos
+4315321;43;RS;Quevedos
+4315354;43;RS;Quinze de Novembro
+4315404;43;RS;Redentora
+4315453;43;RS;Relvado
+4315503;43;RS;Restinga Sêca
+4315552;43;RS;Rio dos Índios
+4315602;43;RS;Rio Grande
+4315701;43;RS;Rio Pardo
+4315750;43;RS;Riozinho
+4315800;43;RS;Roca Sales
+4315909;43;RS;Rodeio Bonito
+4315958;43;RS;Rolador
+4316006;43;RS;Rolante
+4316105;43;RS;Ronda Alta
+4316204;43;RS;Rondinha
+4316303;43;RS;Roque Gonzales
+4316402;43;RS;Rosário do Sul
+4316428;43;RS;Sagrada Família
+4316436;43;RS;Saldanha Marinho
+4316451;43;RS;Salto do Jacuí
+4316477;43;RS;Salvador das Missões
+4316501;43;RS;Salvador do Sul
+4316600;43;RS;Sananduva
+4316709;43;RS;Santa Bárbara do Sul
+4316733;43;RS;Santa Cecília do Sul
+4316758;43;RS;Santa Clara do Sul
+4316808;43;RS;Santa Cruz do Sul
+4316907;43;RS;Santa Maria
+4316956;43;RS;Santa Maria do Herval
+4316972;43;RS;Santa Margarida do Sul
+4317004;43;RS;Santana da Boa Vista
+4317103;43;RS;Sant'Ana do Livramento
+4317202;43;RS;Santa Rosa
+4317251;43;RS;Santa Tereza
+4317301;43;RS;Santa Vitória do Palmar
+4317400;43;RS;Santiago
+4317509;43;RS;Santo Ângelo
+4317558;43;RS;Santo Antônio do Palma
+4317608;43;RS;Santo Antônio da Patrulha
+4317707;43;RS;Santo Antônio das Missões
+4317756;43;RS;Santo Antônio do Planalto
+4317806;43;RS;Santo Augusto
+4317905;43;RS;Santo Cristo
+4317954;43;RS;Santo Expedito do Sul
+4318002;43;RS;São Borja
+4318051;43;RS;São Domingos do Sul
+4318101;43;RS;São Francisco de Assis
+4318200;43;RS;São Francisco de Paula
+4318309;43;RS;São Gabriel
+4318408;43;RS;São Jerônimo
+4318424;43;RS;São João da Urtiga
+4318432;43;RS;São João do Polêsine
+4318440;43;RS;São Jorge
+4318457;43;RS;São José das Missões
+4318465;43;RS;São José do Herval
+4318481;43;RS;São José do Hortêncio
+4318499;43;RS;São José do Inhacorá
+4318507;43;RS;São José do Norte
+4318606;43;RS;São José do Ouro
+4318614;43;RS;São José do Sul
+4318622;43;RS;São José dos Ausentes
+4318705;43;RS;São Leopoldo
+4318804;43;RS;São Lourenço do Sul
+4318903;43;RS;São Luiz Gonzaga
+4319000;43;RS;São Marcos
+4319109;43;RS;São Martinho
+4319125;43;RS;São Martinho da Serra
+4319158;43;RS;São Miguel das Missões
+4319208;43;RS;São Nicolau
+4319307;43;RS;São Paulo das Missões
+4319356;43;RS;São Pedro da Serra
+4319364;43;RS;São Pedro das Missões
+4319372;43;RS;São Pedro do Butiá
+4319406;43;RS;São Pedro do Sul
+4319505;43;RS;São Sebastião do Caí
+4319604;43;RS;São Sepé
+4319703;43;RS;São Valentim
+4319711;43;RS;São Valentim do Sul
+4319737;43;RS;São Valério do Sul
+4319752;43;RS;São Vendelino
+4319802;43;RS;São Vicente do Sul
+4319901;43;RS;Sapiranga
+4320008;43;RS;Sapucaia do Sul
+4320107;43;RS;Sarandi
+4320206;43;RS;Seberi
+4320230;43;RS;Sede Nova
+4320263;43;RS;Segredo
+4320305;43;RS;Selbach
+4320321;43;RS;Senador Salgado Filho
+4320354;43;RS;Sentinela do Sul
+4320404;43;RS;Serafina Corrêa
+4320453;43;RS;Sério
+4320503;43;RS;Sertão
+4320552;43;RS;Sertão Santana
+4320578;43;RS;Sete de Setembro
+4320602;43;RS;Severiano de Almeida
+4320651;43;RS;Silveira Martins
+4320677;43;RS;Sinimbu
+4320701;43;RS;Sobradinho
+4320800;43;RS;Soledade
+4320859;43;RS;Tabaí
+4320909;43;RS;Tapejara
+4321006;43;RS;Tapera
+4321105;43;RS;Tapes
+4321204;43;RS;Taquara
+4321303;43;RS;Taquari
+4321329;43;RS;Taquaruçu do Sul
+4321352;43;RS;Tavares
+4321402;43;RS;Tenente Portela
+4321436;43;RS;Terra de Areia
+4321451;43;RS;Teutônia
+4321469;43;RS;Tio Hugo
+4321477;43;RS;Tiradentes do Sul
+4321493;43;RS;Toropi
+4321501;43;RS;Torres
+4321600;43;RS;Tramandaí
+4321626;43;RS;Travesseiro
+4321634;43;RS;Três Arroios
+4321667;43;RS;Três Cachoeiras
+4321709;43;RS;Três Coroas
+4321808;43;RS;Três de Maio
+4321832;43;RS;Três Forquilhas
+4321857;43;RS;Três Palmeiras
+4321907;43;RS;Três Passos
+4321956;43;RS;Trindade do Sul
+4322004;43;RS;Triunfo
+4322103;43;RS;Tucunduva
+4322152;43;RS;Tunas
+4322186;43;RS;Tupanci do Sul
+4322202;43;RS;Tupanciretã
+4322251;43;RS;Tupandi
+4322301;43;RS;Tuparendi
+4322327;43;RS;Turuçu
+4322343;43;RS;Ubiretama
+4322350;43;RS;União da Serra
+4322376;43;RS;Unistalda
+4322400;43;RS;Uruguaiana
+4322509;43;RS;Vacaria
+4322525;43;RS;Vale Verde
+4322533;43;RS;Vale do Sol
+4322541;43;RS;Vale Real
+4322558;43;RS;Vanini
+4322608;43;RS;Venâncio Aires
+4322707;43;RS;Vera Cruz
+4322806;43;RS;Veranópolis
+4322855;43;RS;Vespasiano Correa
+4322905;43;RS;Viadutos
+4323002;43;RS;Viamão
+4323101;43;RS;Vicente Dutra
+4323200;43;RS;Victor Graeff
+4323309;43;RS;Vila Flores
+4323358;43;RS;Vila Lângaro
+4323408;43;RS;Vila Maria
+4323457;43;RS;Vila Nova do Sul
+4323507;43;RS;Vista Alegre
+4323606;43;RS;Vista Alegre do Prata
+4323705;43;RS;Vista Gaúcha
+4323754;43;RS;Vitória das Missões
+4323770;43;RS;Westfália
+4323804;43;RS;Xangri-lá
+5000203;50;MS;Água Clara
+5000252;50;MS;Alcinópolis
+5000609;50;MS;Amambai
+5000708;50;MS;Anastácio
+5000807;50;MS;Anaurilândia
+5000856;50;MS;Angélica
+5000906;50;MS;Antônio João
+5001003;50;MS;Aparecida do Taboado
+5001102;50;MS;Aquidauana
+5001243;50;MS;Aral Moreira
+5001508;50;MS;Bandeirantes
+5001904;50;MS;Bataguassu
+5002001;50;MS;Batayporã
+5002100;50;MS;Bela Vista
+5002159;50;MS;Bodoquena
+5002209;50;MS;Bonito
+5002308;50;MS;Brasilândia
+5002407;50;MS;Caarapó
+5002605;50;MS;Camapuã
+5002704;50;MS;Campo Grande
+5002803;50;MS;Caracol
+5002902;50;MS;Cassilândia
+5002951;50;MS;Chapadão do Sul
+5003108;50;MS;Corguinho
+5003157;50;MS;Coronel Sapucaia
+5003207;50;MS;Corumbá
+5003256;50;MS;Costa Rica
+5003306;50;MS;Coxim
+5003454;50;MS;Deodápolis
+5003488;50;MS;Dois Irmãos do Buriti
+5003504;50;MS;Douradina
+5003702;50;MS;Dourados
+5003751;50;MS;Eldorado
+5003801;50;MS;Fátima do Sul
+5003900;50;MS;Figueirão
+5004007;50;MS;Glória de Dourados
+5004106;50;MS;Guia Lopes da Laguna
+5004304;50;MS;Iguatemi
+5004403;50;MS;Inocência
+5004502;50;MS;Itaporã
+5004601;50;MS;Itaquiraí
+5004700;50;MS;Ivinhema
+5004809;50;MS;Japorã
+5004908;50;MS;Jaraguari
+5005004;50;MS;Jardim
+5005103;50;MS;Jateí
+5005152;50;MS;Juti
+5005202;50;MS;Ladário
+5005251;50;MS;Laguna Carapã
+5005400;50;MS;Maracaju
+5005608;50;MS;Miranda
+5005681;50;MS;Mundo Novo
+5005707;50;MS;Naviraí
+5005806;50;MS;Nioaque
+5006002;50;MS;Nova Alvorada do Sul
+5006200;50;MS;Nova Andradina
+5006259;50;MS;Novo Horizonte do Sul
+5006275;50;MS;Paraíso das Águas
+5006309;50;MS;Paranaíba
+5006358;50;MS;Paranhos
+5006408;50;MS;Pedro Gomes
+5006606;50;MS;Ponta Porã
+5006903;50;MS;Porto Murtinho
+5007109;50;MS;Ribas do Rio Pardo
+5007208;50;MS;Rio Brilhante
+5007307;50;MS;Rio Negro
+5007406;50;MS;Rio Verde de Mato Grosso
+5007505;50;MS;Rochedo
+5007554;50;MS;Santa Rita do Pardo
+5007695;50;MS;São Gabriel do Oeste
+5007703;50;MS;Sete Quedas
+5007802;50;MS;Selvíria
+5007901;50;MS;Sidrolândia
+5007935;50;MS;Sonora
+5007950;50;MS;Tacuru
+5007976;50;MS;Taquarussu
+5008008;50;MS;Terenos
+5008305;50;MS;Três Lagoas
+5008404;50;MS;Vicentina
+5100102;51;MT;Acorizal
+5100201;51;MT;Água Boa
+5100250;51;MT;Alta Floresta
+5100300;51;MT;Alto Araguaia
+5100359;51;MT;Alto Boa Vista
+5100409;51;MT;Alto Garças
+5100508;51;MT;Alto Paraguai
+5100607;51;MT;Alto Taquari
+5100805;51;MT;Apiacás
+5101001;51;MT;Araguaiana
+5101209;51;MT;Araguainha
+5101258;51;MT;Araputanga
+5101308;51;MT;Arenápolis
+5101407;51;MT;Aripuanã
+5101605;51;MT;Barão de Melgaço
+5101704;51;MT;Barra do Bugres
+5101803;51;MT;Barra do Garças
+5101852;51;MT;Bom Jesus do Araguaia
+5101902;51;MT;Brasnorte
+5102504;51;MT;Cáceres
+5102603;51;MT;Campinápolis
+5102637;51;MT;Campo Novo do Parecis
+5102678;51;MT;Campo Verde
+5102686;51;MT;Campos de Júlio
+5102694;51;MT;Canabrava do Norte
+5102702;51;MT;Canarana
+5102793;51;MT;Carlinda
+5102850;51;MT;Castanheira
+5103007;51;MT;Chapada dos Guimarães
+5103056;51;MT;Cláudia
+5103106;51;MT;Cocalinho
+5103205;51;MT;Colíder
+5103254;51;MT;Colniza
+5103304;51;MT;Comodoro
+5103353;51;MT;Confresa
+5103361;51;MT;Conquista d'Oeste
+5103379;51;MT;Cotriguaçu
+5103403;51;MT;Cuiabá
+5103437;51;MT;Curvelândia
+5103452;51;MT;Denise
+5103502;51;MT;Diamantino
+5103601;51;MT;Dom Aquino
+5103700;51;MT;Feliz Natal
+5103809;51;MT;Figueirópolis d'Oeste
+5103858;51;MT;Gaúcha do Norte
+5103908;51;MT;General Carneiro
+5103957;51;MT;Glória d'Oeste
+5104104;51;MT;Guarantã do Norte
+5104203;51;MT;Guiratinga
+5104500;51;MT;Indiavaí
+5104526;51;MT;Ipiranga do Norte
+5104542;51;MT;Itanhangá
+5104559;51;MT;Itaúba
+5104609;51;MT;Itiquira
+5104807;51;MT;Jaciara
+5104906;51;MT;Jangada
+5105002;51;MT;Jauru
+5105101;51;MT;Juara
+5105150;51;MT;Juína
+5105176;51;MT;Juruena
+5105200;51;MT;Juscimeira
+5105234;51;MT;Lambari d'Oeste
+5105259;51;MT;Lucas do Rio Verde
+5105309;51;MT;Luciara
+5105507;51;MT;Vila Bela da Santíssima Trindade
+5105580;51;MT;Marcelândia
+5105606;51;MT;Matupá
+5105622;51;MT;Mirassol d'Oeste
+5105903;51;MT;Nobres
+5106000;51;MT;Nortelândia
+5106109;51;MT;Nossa Senhora do Livramento
+5106158;51;MT;Nova Bandeirantes
+5106174;51;MT;Nova Nazaré
+5106182;51;MT;Nova Lacerda
+5106190;51;MT;Nova Santa Helena
+5106208;51;MT;Nova Brasilândia
+5106216;51;MT;Nova Canaã do Norte
+5106224;51;MT;Nova Mutum
+5106232;51;MT;Nova Olímpia
+5106240;51;MT;Nova Ubiratã
+5106257;51;MT;Nova Xavantina
+5106265;51;MT;Novo Mundo
+5106273;51;MT;Novo Horizonte do Norte
+5106281;51;MT;Novo São Joaquim
+5106299;51;MT;Paranaíta
+5106307;51;MT;Paranatinga
+5106315;51;MT;Novo Santo Antônio
+5106372;51;MT;Pedra Preta
+5106422;51;MT;Peixoto de Azevedo
+5106455;51;MT;Planalto da Serra
+5106505;51;MT;Poconé
+5106653;51;MT;Pontal do Araguaia
+5106703;51;MT;Ponte Branca
+5106752;51;MT;Pontes e Lacerda
+5106778;51;MT;Porto Alegre do Norte
+5106802;51;MT;Porto dos Gaúchos
+5106828;51;MT;Porto Esperidião
+5106851;51;MT;Porto Estrela
+5107008;51;MT;Poxoréu
+5107040;51;MT;Primavera do Leste
+5107065;51;MT;Querência
+5107107;51;MT;São José dos Quatro Marcos
+5107156;51;MT;Reserva do Cabaçal
+5107180;51;MT;Ribeirão Cascalheira
+5107198;51;MT;Ribeirãozinho
+5107206;51;MT;Rio Branco
+5107248;51;MT;Santa Carmem
+5107263;51;MT;Santo Afonso
+5107297;51;MT;São José do Povo
+5107305;51;MT;São José do Rio Claro
+5107354;51;MT;São José do Xingu
+5107404;51;MT;São Pedro da Cipa
+5107578;51;MT;Rondolândia
+5107602;51;MT;Rondonópolis
+5107701;51;MT;Rosário Oeste
+5107743;51;MT;Santa Cruz do Xingu
+5107750;51;MT;Salto do Céu
+5107768;51;MT;Santa Rita do Trivelato
+5107776;51;MT;Santa Terezinha
+5107792;51;MT;Santo Antônio do Leste
+5107800;51;MT;Santo Antônio do Leverger
+5107859;51;MT;São Félix do Araguaia
+5107875;51;MT;Sapezal
+5107883;51;MT;Serra Nova Dourada
+5107909;51;MT;Sinop
+5107925;51;MT;Sorriso
+5107941;51;MT;Tabaporã
+5107958;51;MT;Tangará da Serra
+5108006;51;MT;Tapurah
+5108055;51;MT;Terra Nova do Norte
+5108105;51;MT;Tesouro
+5108204;51;MT;Torixoréu
+5108303;51;MT;União do Sul
+5108352;51;MT;Vale de São Domingos
+5108402;51;MT;Várzea Grande
+5108501;51;MT;Vera
+5108600;51;MT;Vila Rica
+5108808;51;MT;Nova Guarita
+5108857;51;MT;Nova Marilândia
+5108907;51;MT;Nova Maringá
+5108956;51;MT;Nova Monte Verde
+5200050;52;GO;Abadia de Goiás
+5200100;52;GO;Abadiânia
+5200134;52;GO;Acreúna
+5200159;52;GO;Adelândia
+5200175;52;GO;Água Fria de Goiás
+5200209;52;GO;Água Limpa
+5200258;52;GO;Águas Lindas de Goiás
+5200308;52;GO;Alexânia
+5200506;52;GO;Aloândia
+5200555;52;GO;Alto Horizonte
+5200605;52;GO;Alto Paraíso de Goiás
+5200803;52;GO;Alvorada do Norte
+5200829;52;GO;Amaralina
+5200852;52;GO;Americano do Brasil
+5200902;52;GO;Amorinópolis
+5201108;52;GO;Anápolis
+5201207;52;GO;Anhanguera
+5201306;52;GO;Anicuns
+5201405;52;GO;Aparecida de Goiânia
+5201454;52;GO;Aparecida do Rio Doce
+5201504;52;GO;Aporé
+5201603;52;GO;Araçu
+5201702;52;GO;Aragarças
+5201801;52;GO;Aragoiânia
+5202155;52;GO;Araguapaz
+5202353;52;GO;Arenópolis
+5202502;52;GO;Aruanã
+5202601;52;GO;Aurilândia
+5202809;52;GO;Avelinópolis
+5203104;52;GO;Baliza
+5203203;52;GO;Barro Alto
+5203302;52;GO;Bela Vista de Goiás
+5203401;52;GO;Bom Jardim de Goiás
+5203500;52;GO;Bom Jesus de Goiás
+5203559;52;GO;Bonfinópolis
+5203575;52;GO;Bonópolis
+5203609;52;GO;Brazabrantes
+5203807;52;GO;Britânia
+5203906;52;GO;Buriti Alegre
+5203939;52;GO;Buriti de Goiás
+5203962;52;GO;Buritinópolis
+5204003;52;GO;Cabeceiras
+5204102;52;GO;Cachoeira Alta
+5204201;52;GO;Cachoeira de Goiás
+5204250;52;GO;Cachoeira Dourada
+5204300;52;GO;Caçu
+5204409;52;GO;Caiapônia
+5204508;52;GO;Caldas Novas
+5204557;52;GO;Caldazinha
+5204607;52;GO;Campestre de Goiás
+5204656;52;GO;Campinaçu
+5204706;52;GO;Campinorte
+5204805;52;GO;Campo Alegre de Goiás
+5204854;52;GO;Campo Limpo de Goiás
+5204904;52;GO;Campos Belos
+5204953;52;GO;Campos Verdes
+5205000;52;GO;Carmo do Rio Verde
+5205059;52;GO;Castelândia
+5205109;52;GO;Catalão
+5205208;52;GO;Caturaí
+5205307;52;GO;Cavalcante
+5205406;52;GO;Ceres
+5205455;52;GO;Cezarina
+5205471;52;GO;Chapadão do Céu
+5205497;52;GO;Cidade Ocidental
+5205513;52;GO;Cocalzinho de Goiás
+5205521;52;GO;Colinas do Sul
+5205703;52;GO;Córrego do Ouro
+5205802;52;GO;Corumbá de Goiás
+5205901;52;GO;Corumbaíba
+5206206;52;GO;Cristalina
+5206305;52;GO;Cristianópolis
+5206404;52;GO;Crixás
+5206503;52;GO;Cromínia
+5206602;52;GO;Cumari
+5206701;52;GO;Damianópolis
+5206800;52;GO;Damolândia
+5206909;52;GO;Davinópolis
+5207105;52;GO;Diorama
+5207253;52;GO;Doverlândia
+5207352;52;GO;Edealina
+5207402;52;GO;Edéia
+5207501;52;GO;Estrela do Norte
+5207535;52;GO;Faina
+5207600;52;GO;Fazenda Nova
+5207808;52;GO;Firminópolis
+5207907;52;GO;Flores de Goiás
+5208004;52;GO;Formosa
+5208103;52;GO;Formoso
+5208152;52;GO;Gameleira de Goiás
+5208301;52;GO;Divinópolis de Goiás
+5208400;52;GO;Goianápolis
+5208509;52;GO;Goiandira
+5208608;52;GO;Goianésia
+5208707;52;GO;Goiânia
+5208806;52;GO;Goianira
+5208905;52;GO;Goiás
+5209101;52;GO;Goiatuba
+5209150;52;GO;Gouvelândia
+5209200;52;GO;Guapó
+5209291;52;GO;Guaraíta
+5209408;52;GO;Guarani de Goiás
+5209457;52;GO;Guarinos
+5209606;52;GO;Heitoraí
+5209705;52;GO;Hidrolândia
+5209804;52;GO;Hidrolina
+5209903;52;GO;Iaciara
+5209937;52;GO;Inaciolândia
+5209952;52;GO;Indiara
+5210000;52;GO;Inhumas
+5210109;52;GO;Ipameri
+5210158;52;GO;Ipiranga de Goiás
+5210208;52;GO;Iporá
+5210307;52;GO;Israelândia
+5210406;52;GO;Itaberaí
+5210562;52;GO;Itaguari
+5210604;52;GO;Itaguaru
+5210802;52;GO;Itajá
+5210901;52;GO;Itapaci
+5211008;52;GO;Itapirapuã
+5211206;52;GO;Itapuranga
+5211305;52;GO;Itarumã
+5211404;52;GO;Itauçu
+5211503;52;GO;Itumbiara
+5211602;52;GO;Ivolândia
+5211701;52;GO;Jandaia
+5211800;52;GO;Jaraguá
+5211909;52;GO;Jataí
+5212006;52;GO;Jaupaci
+5212055;52;GO;Jesúpolis
+5212105;52;GO;Joviânia
+5212204;52;GO;Jussara
+5212253;52;GO;Lagoa Santa
+5212303;52;GO;Leopoldo de Bulhões
+5212501;52;GO;Luziânia
+5212600;52;GO;Mairipotaba
+5212709;52;GO;Mambaí
+5212808;52;GO;Mara Rosa
+5212907;52;GO;Marzagão
+5212956;52;GO;Matrinchã
+5213004;52;GO;Maurilândia
+5213053;52;GO;Mimoso de Goiás
+5213087;52;GO;Minaçu
+5213103;52;GO;Mineiros
+5213400;52;GO;Moiporá
+5213509;52;GO;Monte Alegre de Goiás
+5213707;52;GO;Montes Claros de Goiás
+5213756;52;GO;Montividiu
+5213772;52;GO;Montividiu do Norte
+5213806;52;GO;Morrinhos
+5213855;52;GO;Morro Agudo de Goiás
+5213905;52;GO;Mossâmedes
+5214002;52;GO;Mozarlândia
+5214051;52;GO;Mundo Novo
+5214101;52;GO;Mutunópolis
+5214408;52;GO;Nazário
+5214507;52;GO;Nerópolis
+5214606;52;GO;Niquelândia
+5214705;52;GO;Nova América
+5214804;52;GO;Nova Aurora
+5214838;52;GO;Nova Crixás
+5214861;52;GO;Nova Glória
+5214879;52;GO;Nova Iguaçu de Goiás
+5214903;52;GO;Nova Roma
+5215009;52;GO;Nova Veneza
+5215207;52;GO;Novo Brasil
+5215231;52;GO;Novo Gama
+5215256;52;GO;Novo Planalto
+5215306;52;GO;Orizona
+5215405;52;GO;Ouro Verde de Goiás
+5215504;52;GO;Ouvidor
+5215603;52;GO;Padre Bernardo
+5215652;52;GO;Palestina de Goiás
+5215702;52;GO;Palmeiras de Goiás
+5215801;52;GO;Palmelo
+5215900;52;GO;Palminópolis
+5216007;52;GO;Panamá
+5216304;52;GO;Paranaiguara
+5216403;52;GO;Paraúna
+5216452;52;GO;Perolândia
+5216809;52;GO;Petrolina de Goiás
+5216908;52;GO;Pilar de Goiás
+5217104;52;GO;Piracanjuba
+5217203;52;GO;Piranhas
+5217302;52;GO;Pirenópolis
+5217401;52;GO;Pires do Rio
+5217609;52;GO;Planaltina
+5217708;52;GO;Pontalina
+5218003;52;GO;Porangatu
+5218052;52;GO;Porteirão
+5218102;52;GO;Portelândia
+5218300;52;GO;Posse
+5218391;52;GO;Professor Jamil
+5218508;52;GO;Quirinópolis
+5218607;52;GO;Rialma
+5218706;52;GO;Rianápolis
+5218789;52;GO;Rio Quente
+5218805;52;GO;Rio Verde
+5218904;52;GO;Rubiataba
+5219001;52;GO;Sanclerlândia
+5219100;52;GO;Santa Bárbara de Goiás
+5219209;52;GO;Santa Cruz de Goiás
+5219258;52;GO;Santa Fé de Goiás
+5219308;52;GO;Santa Helena de Goiás
+5219357;52;GO;Santa Isabel
+5219407;52;GO;Santa Rita do Araguaia
+5219456;52;GO;Santa Rita do Novo Destino
+5219506;52;GO;Santa Rosa de Goiás
+5219605;52;GO;Santa Tereza de Goiás
+5219704;52;GO;Santa Terezinha de Goiás
+5219712;52;GO;Santo Antônio da Barra
+5219738;52;GO;Santo Antônio de Goiás
+5219753;52;GO;Santo Antônio do Descoberto
+5219803;52;GO;São Domingos
+5219902;52;GO;São Francisco de Goiás
+5220009;52;GO;São João d'Aliança
+5220058;52;GO;São João da Paraúna
+5220108;52;GO;São Luís de Montes Belos
+5220157;52;GO;São Luiz do Norte
+5220207;52;GO;São Miguel do Araguaia
+5220264;52;GO;São Miguel do Passa Quatro
+5220280;52;GO;São Patrício
+5220405;52;GO;São Simão
+5220454;52;GO;Senador Canedo
+5220504;52;GO;Serranópolis
+5220603;52;GO;Silvânia
+5220686;52;GO;Simolândia
+5220702;52;GO;Sítio d'Abadia
+5221007;52;GO;Taquaral de Goiás
+5221080;52;GO;Teresina de Goiás
+5221197;52;GO;Terezópolis de Goiás
+5221304;52;GO;Três Ranchos
+5221403;52;GO;Trindade
+5221452;52;GO;Trombas
+5221502;52;GO;Turvânia
+5221551;52;GO;Turvelândia
+5221577;52;GO;Uirapuru
+5221601;52;GO;Uruaçu
+5221700;52;GO;Uruana
+5221809;52;GO;Urutaí
+5221858;52;GO;Valparaíso de Goiás
+5221908;52;GO;Varjão
+5222005;52;GO;Vianópolis
+5222054;52;GO;Vicentinópolis
+5222203;52;GO;Vila Boa
+5222302;52;GO;Vila Propício
+5300108;53;DF;Brasília

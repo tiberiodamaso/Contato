@@ -22,96 +22,144 @@
         {{form.img_perfil}}
       </div>
 
-      <div class="mb-3">
-        <label for="id_nome_display">Nome no card:</label>
-        {{form.nome_display}}
-      </div>
+        <!--NOME DISPLAY-->
+        <div>
+            <label for="id_nome_display">Nome no card:</label>
+            <div class=" input-group mb-3">
+                {{form.nome_display}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-circle-fill text-danger"></i></span>
+            </div>
+        </div>
 
-      <div class="mb-3">
-        <label for="id_empresa">Empresa:</label>
-        {{form.empresa}}
-      </div>
+        <!--EMPRESA-->
+        <div>
+            <label for="id_empresa">Empresa:</label>
+            <div class="input-group mb-3">
+                {{form.empresa}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-circle-fill text-danger"></i></span>
+            </div>
+        </div>
 
-      <div class="mb-3">
-        <label for="id_site">Site:</label>
-        {{form.site}}
-      </div>
+        <!--SITE-->
+        <div>
+            <label for="id_site">Site:</label>
+            <div class="input-group mb-3">
+                {{form.site}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-circle-fill text-danger"></i></span>
+            </div>
+        </div>
 
       <div class="mb-3">
         <label for="id_logotipo">Logotipo:</label>
         {{form.logotipo}}
       </div>
 
-      <div class="mb-3">
-        <label for="id_cargo">Cargo:</label>
-        {{form.cargo}}
-      </div>
 
-      <div class="mb-3">
+    <!--CARGO-->
+    <div>
+        <label for="id_cargo">Cargo:</label>
+        <div class="input-group mb-3">
+            {{form.cargo}}
+            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-circle-fill text-danger"></i></span>
+        </div>
+    </div>
+
+    <!--CATEGORIA-->
+    <div class="mb-3">
         <label for="id_categoria">Categoria:</label>
         {{form.categoria}}
-      </div>
-
-      <div class="mb-3">
+    </div>
+    
+    <!--ESTADO-->
+    <div class="mb-3">
         <label for="id_estado">Estado:</label>
         {{form.estado}}
-      </div>
-
-      <div class="mb-3">
+    </div>
+    
+    <!--MUNICIPIO-->
+    <div class="mb-3">
         <label for="id_municipio">Município:</label>
         {{form.municipio}}
-      </div>
+    </div>
 
-      <div class="mb-3">
+    <!--TELEFONE-->
+    <div>
         <label for="id_telefone">Telefone:</label>
-        {{form.telefone}}
-        {% if form.telefone.errors %}
-          {% for error in form.telefone.errors %}
-          <div class="alert alert-danger text-center alert-dismissible" role="alert">
-            {{error}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          {% endfor %}
-        {% endif %}
-      </div>
+        <div class="input-group mb-3">
+            {{form.telefone}}
+            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-circle-fill text-danger"></i></span>
+            {% if form.telefone.errors %}
+            {% for error in form.telefone.errors %}
+            <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                {{error}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
 
-      <div class="mb-3">
+    <!--WHATSAPP-->
+    <div>
         <label for="id_whatsapp">Whatsapp:</label>
-        {{form.whatsapp}}
-        {% if form.whatsapp.errors %}
-          {% for error in form.whatsapp.errors %}
-          <div class="alert alert-danger text-center alert-dismissible" role="alert">
-            {{error}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          {% endfor %}
-        {% endif %}
-      </div>
+        <div class="input-group mb-3">
+            {{form.whatsapp}}
+            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-circle-fill text-danger"></i></span>
+            {% if form.whatsapp.errors %}
+            {% for error in form.whatsapp.errors %}
+            <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                {{error}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
 
-      <div class="mb-3">
+    <!--FACEBOOK-->
+    <div>
         <label for="id_facebook">Facebook:</label>
-        {{form.facebook}}
-      </div>
-
-      <div class="mb-3">
+        <div class="input-group mb-3">
+            {{form.facebook}}
+            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-circle-fill text-danger"></i></span>
+        </div>
+    </div>
+    
+    <!--INSTAGRAM-->
+    <div>
         <label for="id_instagram">Instagram:</label>
-        {{form.instagram}}
-      </div>
-
-      <div class="mb-3">
+        <div class="input-group mb-3">
+            {{form.instagram}}
+            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-circle-fill text-danger"></i></span>
+        </div>
+    </div>
+    
+    <!--LINKEDIN-->
+    <div>
         <label for="id_linkedin">LinkedIn:</label>
-        {{form.linkedin}}
-      </div>
-
-      <div class="mb-3">
+        <div class="input-group mb-3">
+            {{form.linkedin}}
+            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-circle-fill text-danger"></i></span>
+        </div>
+    </div>
+    
+    <!--YOUTUBE-->
+    <div>
         <label for="id_youtube">Youtube:</label>
-        {{form.youtube}}
-      </div>
-
-      <div class="mb-3">
+        <div class="input-group mb-3">
+            {{form.youtube}}
+            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-circle-fill text-danger"></i></span>
+        </div>
+    </div>
+    
+    <!--TIK TOK-->
+    <div>
         <label for="id_tik_tok">Tik Tok:</label>
-        {{form.tik_tok}}
-      </div>
+        <div class="input-group mb-3">
+            {{form.tik_tok}}
+            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-circle-fill text-danger"></i></span>
+        </div>
+    </div>
 
       <div class="d-flex justify-content-between">
         <button type="button" class="btn btn-secondary" style="width: 45%;" onclick="history.back()">Cancelar</button>
@@ -119,6 +167,13 @@
       </div>
     </form>
   </div>
+
+  <script>
+    function limpaCampo(e) {
+        let input = e.previousElementSibling;
+        input.value =  '';
+    }
+  </script>
 
 </body>
 
