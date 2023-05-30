@@ -49,7 +49,7 @@ class TipoConteudoAdmin(admin.ModelAdmin):
 
 
 class ConteudoAdmin(admin.ModelAdmin):
-    list_display = ['id', 'card', 'conteudo_tipo', 'conteudo_link']
+    list_display = ['id', 'card', 'img', 'tipo', 'link']
 
 
 admin.site.register(Categoria, CategoriaAdmin)

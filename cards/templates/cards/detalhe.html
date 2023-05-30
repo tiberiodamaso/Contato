@@ -72,7 +72,7 @@
     </div>
 
     <!--SLIDES-->
-    {% if card.conteudo.promo1 or card.conteudo.promo2 or card.conteudo.promo3 %}
+    <!-- {% if card.conteudo.promo1 or card.conteudo.promo2 or card.conteudo.promo3 %}
     <div class="row d-flex justify-content-center mb-5">
         <div class="col-12 col-lg-8">
             <h2 class="fs-1">Promoções</h2>
@@ -122,10 +122,10 @@
             </div>
         </div>
     </div>
-    {% endif %}
+    {% endif %} -->
 
     <!--PRODUTOS-->
-    {% if card.conteudo.produtos and card.conteudo.produtos_link %}
+    <!-- {% if card.conteudo.produtos and card.conteudo.produtos_link %}
     <div class="row d-flex justify-content-center mb-5">
         <div class="col-12 col-lg-8">
             <h2 class="fs-1">Produtos</h2>
@@ -136,10 +136,10 @@
             </div>
         </div>
     </div>
-    {% endif %}
+    {% endif %} -->
 
     <!--SERVIÇOS-->
-    {% if card.conteudo.servicos and card.conteudo.servicos_link %}
+    <!-- {% if card.conteudo.servicos and card.conteudo.servicos_link %}
     <div class="row d-flex justify-content-center mb-5">
         <div class="col-12 col-lg-8">
             <h2 class="fs-1">Serviços</h2>
@@ -150,10 +150,10 @@
             </div>
         </div>
     </div>
-    {% endif %}
+    {% endif %} -->
 
     <!--PROMOÇÕES-->
-    {% if card.conteudo.promocoes and card.conteudo.promocoes_link %}
+    <!-- {% if card.conteudo.promocoes and card.conteudo.promocoes_link %}
     <div class="row d-flex justify-content-center mb-5">
         <div class="col-12 col-lg-8">
             <h2 class="fs-1">Promoções</h2>
@@ -164,10 +164,10 @@
             </div>
         </div>
     </div>
-    {% endif %}
+    {% endif %} -->
 
     <!--VÍDEOS-->
-    {% if card.conteudo.youtube %}
+    <!-- {% if card.conteudo.youtube %}
     <div class="row d-flex justify-content-center mb-5">
         <div class="col-12 col-lg-8">
             <h2 class="fs-1">Vídeos</h2>
@@ -176,60 +176,101 @@
             </div>
         </div>
     </div>
+    {% endif %} -->
+
+    {% if produtos %}
+    <!--PRODUTOS-->
+    <div class="my-5">
+        <h3 class="text-center my-4">PRODUTOS</h3>
+        <div class="row row-cols-2 row-cols-md-2 g-4">
+        {% for produto in produtos %}
+            <div class="col">
+                <div class="card border-0">
+                    <img src="{{ produto.img.url }}" class="card-img" alt="...">
+                    <div class="card-img-overlay">
+                        <div class="text-end">
+                            <a href="#">
+                                <!-- <i class="bi bi-box-arrow-up-right"></i> -->
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
     {% endif %}
 
-    <!--TESTE-->
-    <!-- <div class="row row-cols-2 row-cols-md-2 g-4">
-        <div class="col">
-            <div class="card border-0">
-                <img src="{{ card.conteudo.produto1.url }}" class="card-img" alt="...">
-                <div class="card-img-overlay">
-                    <div class="text-end">
-                        <a href="#" class="bg-body p-2 rounded-4">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                        </a>
+    {% if servicos %}
+    <!--SERVIÇOS-->
+    <div class="my-5">
+        <h3 class="text-center my-4">SERVIÇOS</h3>
+        <div class="row row-cols-2 row-cols-md-2 g-4">
+        {% for servico in servicos %}
+            <div class="col">
+                <div class="card border-0">
+                    <img src="{{ servico.img.url }}" class="card-img" alt="...">
+                    <div class="card-img-overlay">
+                        <div class="text-end">
+                            <a href="#">
+                                <!-- <i class="bi bi-box-arrow-up-right"></i> -->
+                            </a>
+                        </div>
                     </div>
                 </div>
-              </div>
+            </div>
+        {% endfor %}
         </div>
-        <div class="col">
-            <div class="card border-0">
-                <img src="{{ card.conteudo.produto2.url }}" class="card-img" alt="...">
-                <div class="card-img-overlay">
-                    <div class="text-end">
-                        <a href="#" class="bg-body p-2 rounded-4">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                        </a>
-                    </div>
-                </div>
-              </div>
-        </div>
-        <div class="col">
-            <div class="card border-0">
-                <img src="{{ card.conteudo.produto3.url }}" class="card-img" alt="...">
-                <div class="card-img-overlay">
-                    <div class="text-end">
-                        <a href="#" class="bg-body p-2 rounded-4">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                        </a>
-                    </div>
-                </div>
-              </div>
-        </div>
-        <div class="col">
-            <div class="card border-0">
-                <img src="{{ card.conteudo.produto2.url }}" class="card-img" alt="...">
-                <div class="card-img-overlay">
-                    <div class="text-end">
-                        <a href="#" class="bg-body p-2 rounded-4">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                        </a>
-                    </div>
-                </div>
-              </div>
-        </div>
-    </div> -->
+    </div>
+    {% endif %}
 
+    {% if promocoes %}
+    <!--PROMOÇÕES-->
+    <div class="my-5">
+        <h3 class="text-center my-4">PROMOÇÕES</h3>
+        <div class="row row-cols-2 row-cols-md-2 g-4">
+            {% for promocao in promocoes %}
+            <div class="col">
+                <div class="card border-0">
+                    <img src="{{ promocao.img.url }}" class="card-img" alt="...">
+                    <div class="card-img-overlay">
+                        <div class="text-end">
+                            <a href="#">
+                                <!-- <i class="bi bi-box-arrow-up-right"></i> -->
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if portfolios %}
+    <!--PORTFÓLIOS-->
+    <div class="my-5">
+        <h3 class="text-center my-4">PORTFÓLIOS</h3>
+        <div class="row row-cols-2 row-cols-md-2 g-4">
+            {% for portfolio in portfolios %}
+            <div class="col">
+                <div class="card border-0">
+                    <img src="{{ portfolio.img.url }}" class="card-img" alt="...">
+                    <div class="card-img-overlay">
+                        <div class="text-end">
+                            <a href="#">
+                                <!-- <i class="bi bi-box-arrow-up-right"></i> -->
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!--WHATSAPP FLUTUANTE-->
     <div class="align-items-center d-flex justify-content-center position-fixed roun rounded-5" 
     style="right: 20px; bottom: 20px; width: 50px; height: 50px; background-color: #25D366;">
         <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}">

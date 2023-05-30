@@ -28,13 +28,12 @@ class CardEditForm(forms.ModelForm):
 
 class ConteudoEditForm(forms.ModelForm):
 
-    conteudo_tipo = forms.ModelChoiceField(queryset=TipoConteudo.objects.all(), widget=forms.Select(attrs={'class': 'form-select'}))
+    tipo = forms.ModelChoiceField(queryset=TipoConteudo.objects.all(), widget=forms.Select(attrs={'class': 'form-select'}))
 
     class Meta:
         model = Conteudo
         exclude = ['card']
         widgets = {
-            # 'conteudo_tipo': forms.Select(attrs={'class': 'form-select'}),
-            'conteudo_img': forms.FileInput(attrs={'class': 'form-control'}),
-            'conteudo_link': forms.URLInput(attrs={'class': 'form-control'}),
+            'img': forms.FileInput(attrs={'class': 'form-control'}),
+            'link': forms.URLInput(attrs={'class': 'form-control'}),
         }

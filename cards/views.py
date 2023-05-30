@@ -266,6 +266,29 @@ class CardDetailView(DetailView):
     model = Card
     template_name = 'cards/detalhe.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        card = self.get_object()
+        conteudos = card.conteudos.all()
+        produtos = []
+        servicos = []
+        portfolios = []
+        promocoes = []
+        for conteudo in conteudos:
+            if conteudo.tipo.nome == 'Produto':
+                produtos.append(conteudo)
+            if conteudo.tipo.nome == 'Serviço':
+                servicos.append(conteudo)
+            if conteudo.tipo.nome == 'Promoção':
+                promocoes.append(conteudo)
+            if conteudo.tipo.nome == 'Portfólio':
+                portfolios.append(conteudo)
+            
+        context['produtos'] = produtos
+        context['servicos'] = servicos
+        context['portfolios'] = portfolios
+        context['promocoes'] = produtos
+        return context
 
 class TodosCardsListView(LoginRequiredMixin, ListView):
     model = Card
@@ -376,13 +399,6 @@ class ConteudoCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'cards/conteudo.html'
     success_message = 'Informações atualizados com sucesso!'
 
-    # def get_success_url(self, **kwargs):
-    #     empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
-    #     card = empresa.cards.first()
-    #     success_url = reverse_lazy('core:detalhe', kwargs={
-    #                                'empresa': empresa.slug, 'slug': card.slug})
-    #     return success_url
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
@@ -391,12 +407,11 @@ class ConteudoCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return context
 
     def form_valid(self, form):
-      form.instance.usuario = self.request.user
-      conteudo = form.save()
+      conteudo = form.save(commit=False)
       usuario = self.request.user
       card = usuario.cards.first()
-      card.conteudo = conteudo
-      card.save()
+      conteudo.card = card
+      conteudo.save()
       return super().form_valid(form)
 
 

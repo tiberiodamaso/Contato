@@ -9,7 +9,7 @@ from PIL import Image
 
 
 def get_path(instance, filename):
-    instance = instance.proprietario.id.hex
+    instance = instance.card.proprietario.id.hex
     arquivo = slugify(os.path.splitext(filename)[0])
     extensao = os.path.splitext(filename)[1]
     filename = f'{arquivo}{extensao}'
@@ -183,24 +183,25 @@ class TipoConteudo(models.Model):
     def __str__(self):
         return self.nome
 
+
 class Conteudo(models.Model):
     card = models.ForeignKey(Card, verbose_name='card', on_delete=models.CASCADE, related_name='conteudos')
-    conteudo_tipo = models.ForeignKey(
+    tipo = models.ForeignKey(
         TipoConteudo,
-        verbose_name='conteudo_tipo',
+        verbose_name='Tipo',
         on_delete=models.CASCADE,
         related_name='conteudos',
     )
-    conteudo_img = models.ImageField(
-        verbose_name='conteudo_img',
+    img = models.ImageField(
+        verbose_name='Imagem',
         upload_to=get_path,
         blank=True,
         null=True,
         validators=[FileExtensionValidator(
             allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
     )
-    conteudo_link = models.URLField(
-        verbose_name='conteudo_link',
+    link = models.URLField(
+        verbose_name='Link',
         max_length=1000,
         blank=True,
         null=True,

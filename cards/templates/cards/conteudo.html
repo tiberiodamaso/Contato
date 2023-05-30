@@ -5,53 +5,55 @@
 {% include 'core/menu.html' %}
 
 <body class="container">
-  {% include 'core/mensagens.html' %}
-  <div class="d-flex flex-column align-items-center py-5">
+    {% include 'core/mensagens.html' %}
+    <div class="d-flex flex-column align-items-center py-5">
 
-    <!--LOGOTIPO DA EMPRESA-->
-    {% if empresa.logotipo %}
-    <img src="{{empresa.logotipo.url}}" alt="logotipo" class="col col-lg-2 col-md-4 img-fluid my-3" loading="lazy">
-    {% else %}
-    <img src="{% static 'core/img/person.jpg' %}" alt="logotipo" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
-    {% endif %}
+        <!--LOGOTIPO DA EMPRESA-->
+        {% if empresa.logotipo %}
+        <img src="{{empresa.logotipo.url}}" alt="logotipo" class="col col-lg-2 col-md-4 img-fluid my-3" loading="lazy">
+        {% else %}
+        <img src="{% static 'core/img/person.jpg' %}" alt="logotipo"
+            class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+        {% endif %}
 
-    <!--FORMULÁRIO PARA CRIAR CONTEÚDO-->
-    <form action="{% url 'core:conteudo' card.slug_empresa card.slug %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
-      {% csrf_token %}
+        <!--FORMULÁRIO PARA CRIAR CONTEÚDO-->
+        <form action="{% url 'core:conteudo' card.slug_empresa card.slug %}" method="post"
+            class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+            {% csrf_token %}
 
-    <!--TIPO CONTEÚDO-->
-    <div>
-        <label for="id_tik_tok">Tipo de conteúdo:</label>
-        <div class="mb-3">
-            {{form.conteudo_tipo}}
-        </div>
+            <!--TIPO CONTEÚDO-->
+            <div>
+                <label for="id_tik_tok">Tipo de conteúdo:</label>
+                <div class="mb-3">
+                    {{form.tipo}}
+                </div>
+            </div>
+
+            <!--CONTEÚDO IMAGEM-->
+            <div>
+                <label for="id_tik_tok">Imagem:</label>
+                <div class="mb-3">
+                    {{form.img}}
+                </div>
+            </div>
+
+            <!--CONTEÚDO LINK-->
+            <div>
+                <label for="id_tik_tok">Link da imagem:</label>
+                <div class="mb-3">
+                    {{form.link}}
+                </div>
+            </div>
+
+            {% for error in field.errors %}
+            <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                {{error}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-warning w-100">Salvar</button>
+        </form>
     </div>
-
-    <!--CONTEÚDO IMAGEM-->
-    <div>
-        <label for="id_tik_tok">Imagem:</label>
-        <div class="mb-3">
-            {{form.conteudo_img}}
-        </div>
-    </div>
-
-    <!--CONTEÚDO LINK-->
-    <div>
-        <label for="id_tik_tok">Link da imagem:</label>
-        <div class="mb-3">
-            {{form.conteudo_link}}
-        </div>
-    </div>
-
-    {% for error in field.errors %}
-    <div class="alert alert-danger text-center alert-dismissible" role="alert">
-        {{error}}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-warning w-100">Salvar</button>
-    </form>
-  </div>
 
 </body>
 
