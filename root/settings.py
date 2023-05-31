@@ -15,8 +15,8 @@ from pathlib import Path
 import environ
 from django.contrib.messages import constants as messages
 
-env = environ.Env()
-environ.Env.read_env()
+# env = environ.Env()
+environ.Env.read_env('.env')
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'cards.apps.CardsConfig',
     'debug_toolbar',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
