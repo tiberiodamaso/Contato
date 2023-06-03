@@ -6,6 +6,7 @@
 <body class="container">
   {% include 'core/mensagens.html' %}
 
+  {% if not user.cards %}
   <div class="d-flex flex-column align-items-center">
 
     <div class="my-5">
@@ -135,6 +136,18 @@
       <button type="submit" class="btn btn-warning w-100">Salvar</button>
     </form>
   </div>
+  {% else %}
+    <div class="text-center my-5">
+        <h2>Por enquanto cada pessoa pode ter somente 1 card</h2>
+        <div class="fs-6 my-4">Você pode editar ou inserir informações no seu card utilizando os botões abaixo</div>
+        <div class="d-flex justify-content-center my-2 rounded">
+            <a href="{% url 'core:editar' user.cards.first.slug_empresa user.cards.first.slug %}"
+                class="btn fs-4 w-100 bg-success text-white mx-1">Editar card</a>
+            <a href="{% url 'core:conteudo' user.cards.first.slug_empresa user.cards.first.slug %}"
+                class="btn fs-4 w-100  bg-success text-white mx-1">Conteúdo</a>
+        </div>
+    </div>
+    {% endif %}
 
 </body>
 
