@@ -21,6 +21,7 @@ class CardEditForm(forms.ModelForm):
             'nome_display': forms.TextInput(attrs={'class': 'form-control'}),
             'empresa': forms.TextInput(attrs={'class': 'form-control'}),
             'categoria': forms.Select(attrs={'class': 'form-select'}),
+            'subcategoria': forms.Select(attrs={'class': 'form-select'}),
             'estado': forms.Select(attrs={'class': 'form-select'}),
             'municipio': forms.Select(attrs={'class': 'form-select'}),
         }

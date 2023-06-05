@@ -1,10 +1,14 @@
 from django.contrib import admin
 
-from .models import Card, Categoria, Conteudo, Estado, Municipio, TipoConteudo
+from .models import Card, Categoria, Subcategoria, Conteudo, Estado, Municipio, TipoConteudo
 
 
 class CategoriaAdmin(admin.ModelAdmin):
     list_display = ['id', 'nome']
+
+
+class SubcategoriaAdmin(admin.ModelAdmin):
+    list_display = ['id', 'categoria', 'nome']
 
 
 class EstadoAdmin(admin.ModelAdmin):
@@ -53,6 +57,7 @@ class ConteudoAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Categoria, CategoriaAdmin)
+admin.site.register(Subcategoria, SubcategoriaAdmin)
 admin.site.register(Estado, EstadoAdmin)
 admin.site.register(Municipio, MunicipioAdmin)
 # admin.site.register(Empresa, EmpresaAdmin)

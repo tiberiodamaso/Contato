@@ -6,7 +6,7 @@
 <body class="container">
   {% include 'core/mensagens.html' %}
 
-  {% if not user.cards %}
+  {% if not user.cards.first %}
   <div class="d-flex flex-column align-items-center">
 
     <div class="my-5">
@@ -61,6 +61,11 @@
       <div class="mb-3">
         <label for="id_categoria">Categoria:</label>
         {{form.categoria}}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_categoria">Subcategoria:</label>
+        {{form.subcategoria}}
       </div>
 
       <div class="mb-3">

@@ -262,11 +262,10 @@ dmypy.json
 .pyre/
 
 # migrations
-**/migrations
+**/migrations/
 
 # launch.json
 .vscode/launch.json
 
 # media
-**/media
-core/templatetags/__init__.py
+**/media/

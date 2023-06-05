@@ -26,6 +26,18 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nome
 
+class Subcategoria(models.Model):
+    categoria = models.ForeignKey(Categoria, verbose_name='Categoria', on_delete=models.CASCADE, related_name='subcategorias')
+    nome = models.CharField(verbose_name='Subcategoria', max_length=100)
+
+    class Meta:
+        verbose_name = 'Subcategoria'
+        verbose_name_plural = 'Subcategorias'
+
+    def __str__(self):
+        return self.nome
+
+
 
 class Estado(models.Model):
     nome = models.CharField(verbose_name='Estado', max_length=100)
@@ -79,6 +91,7 @@ class Card(models.Model):
             allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
     )
     categoria = models.ForeignKey(Categoria, verbose_name='Categoria', on_delete=models.CASCADE, related_name='cards')
+    subcategoria = models.ForeignKey(Subcategoria, verbose_name='Subcategoria', on_delete=models.CASCADE, related_name='cards')
 
     # dados de perfil do usuario proprietario do card
     proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.CASCADE, related_name='cards')
