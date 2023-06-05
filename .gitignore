@@ -262,10 +262,10 @@ dmypy.json
 .pyre/
 
 # migrations
-**/migrations
+**/migrations/
 
 # launch.json
 .vscode/launch.json
 
 # media
-**/media
+**/media/

@@ -9,7 +9,7 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 
-from cards.models import Card, Categoria, Conteudo, Estado, Municipio, TipoConteudo
+from cards.models import Card, Categoria, Subcategoria, Conteudo, Estado, Municipio, TipoConteudo
 from cards.utils import make_vcf
 from usuarios.models import Usuario
 
@@ -24,15 +24,71 @@ ARQUIVO_ESTADOS = 'estados.csv'
 ARQUIVO_MUNICIPIOS = 'municipios.csv'
 
 CATEGORIAS = [
-    'Dentista',
-    'Artesão',
+    'Beleza e Estética',
+    'Saúde e Bem estar',
+    'Reparo e Manutenção',
+    'Limpeza e Organização',
+    'Cuidados pessoais',
+    'Consultoria e Coaching',
+    'Fotografia e Vídeo',
+    'Design e Criação',
+    'Aulas particulares',
+    'Tradução e Interpretação',
+    'Eventos',
+    'Manutenção de veículos',
+    'Jardinagem e Paisagismo',
+    'Marketing digital',
+    'Delivery e Transporte',
+    'Artesanato',
+]
+
+SUBCATEGORIAS = [
+    (1, 'Cabeleleiro'),
+    (1, 'Manicure'),
+    (1, 'Esteticista'),
+    (2, 'Massagista'),
+    (2, 'Terapeuta'),
+    (2, 'Nutricionista'),
+    (3, 'Encanador'),
+    (3, 'Eletricista'),
+    (3, 'Marceneiro'),
+    (3, 'Serralheiro'),
+    (4, 'Diarista'),
+    (4, 'Faxineiro'),
+    (4, 'Personal organizer'),
+    (5, 'Cuidadores de idosos'),
+    (5, 'Babá'),
+    (5, 'Pet sitter'),
+    (6, 'Consultores de negócios'),
+    (6, 'Coach'),
+    (6, 'Pet sitter'),
+    (7, 'Fotógrafo'),
+    (7, 'Videomaker'),
+    (8, 'Designer gráfico'),
+    (8, 'Web designer'),
+    (9, 'Professor particular'),
+    (9, 'Instrutor de música'),
+    (10, 'Tradutor'),
+    (10, 'Intérprete'),
+    (11, 'Organizador de festa'),
+    (11, 'Cerimonialista'),
+    (12, 'Mecânico'),
+    (12, 'Funileiro'),
+    (12, 'Pintor'),
+    (13, 'Jardineiro'),
+    (13, 'Paisagista'),
+    (14, 'Especialista em mídias sociais'),
+    (14, 'Gestor de campanha online'),
+    (15, 'Motoboy'),
+    (15, 'Motorista de aplicativo'),
 ]
 
 TIPOS_CONTEUDOS = [
-    'servico',
-    'produto',
-    'promoção',
-    'portifolio',
+    'Serviço',
+    'Produto',
+    'Promoção',
+    'Portfólio',
+    'Curso',
 ]
 
 
@@ -129,9 +185,16 @@ class Command(BaseCommand):
             Categoria.objects.get_or_create(nome=categoria)
         print('\nTabela Categoria populada com sucesso!')
 
+        # SUBCATEGORIA
+        for subcategoria in SUBCATEGORIAS:
+            id_categoria, nome = subcategoria
+            categoria = Categoria.objects.get(id=id_categoria)
+            Subcategoria.objects.get_or_create(categoria=categoria, nome=nome)
+        print('\nTabela Subcategoria populada com sucesso!')
+
         # TIPO CONTEUDO
-        for tipo_conteudo in TIPOS_CONTEUDOS:
-            TipoConteudo.objects.get_or_create(tipo_conteudo=tipo_conteudo)
+        for nome in TIPOS_CONTEUDOS:
+            TipoConteudo.objects.get_or_create(nome=nome)
         print('\n Tabela Tipo Conteudo populada com sucesso!')
 
     # CRIA CONTEUDO
@@ -140,16 +203,16 @@ class Command(BaseCommand):
         tipo2 = TipoConteudo.objects.last()
         conteudo = Conteudo(
             card=Card.objects.first(),
-            conteudo_tipo=tipo1,
-            conteudo_link='https://www.google.com',
+            tipo=tipo1,
+            link='https://www.google.com',
         )
         conteudo.save()
         print(f'\nCriou conteudo do tipo: {tipo1}')
 
         conteudo2 = Conteudo(
             card=Card.objects.first(),
-            conteudo_tipo=tipo2,
-            conteudo_link='https://www.outlook.com',
+            tipo=tipo2,
+            link='https://www.outlook.com',
         )
         conteudo2.save()
         print(f'\nCriou conteudo do tipo: {tipo2}')
@@ -196,6 +259,7 @@ class Command(BaseCommand):
         card.nome_display = 'Nome Display Populate'
         card.img_perfil = File('models.jpg') if File('models.jpg') else None
         card.categoria = Categoria.objects.first()
+        card.subcategoria = Subcategoria.objects.first()
 
         card.proprietario = Usuario.objects.first()
         card.cargo = 'gerente'
@@ -248,8 +312,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if input('\nDo you want to populate tables? (y/n): ') == str.lower('y'):
             self._populate_basic_tables()
-            self._create_card()
-            self._create_conteudo()
+            # self._create_card()
+            # self._create_conteudo()
 
             print('\npopulate db success!!')
         else:

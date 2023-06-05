@@ -69,9 +69,8 @@ class CardDashboardView(TemplateView):
         context = super().get_context_data(**kwargs)
         if self.process_request():
             context['mobile'] = True
-        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
-        card = Card.objects.get(slug=self.kwargs['slug'])
-        pagina = f'/{empresa.slug}/card/{card.slug}/'
+        card = self.request.user.cards.first()
+        pagina = f'/{card.slug_empresa}/card/{card.slug}/'
         data_city = analytics_data_api.run_report_city(
             property_id=None, pagina=pagina)
         data_session_origin = analytics_data_api.run_report_session_origin(
@@ -92,7 +91,7 @@ class CardDashboardView(TemplateView):
             resultados['usuarios_por_origem'] = usuarios_por_origem
 
         context['card'] = card
-        context['empresa'] = empresa
+        context['empresa'] = card.empresa
 
         # AQUISIÇÃO DE USUÁRIOS
         context['total_de_usuarios'] = data_city.totals[0].metric_values[0].value
@@ -289,6 +288,7 @@ class CardDetailView(DetailView):
         context['portfolios'] = portfolios
         context['promocoes'] = produtos
         return context
+
 
 class TodosCardsListView(LoginRequiredMixin, ListView):
     model = Card
