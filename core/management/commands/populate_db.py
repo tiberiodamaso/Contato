@@ -29,10 +29,11 @@ CATEGORIAS = [
 ]
 
 TIPOS_CONTEUDOS = [
-    'servico',
-    'produto',
-    'promoção',
-    'portifolio',
+    'Serviço',
+    'Produto',
+    'Promoção',
+    'Portfólio',
+    'Curso',
 ]
 
 

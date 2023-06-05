@@ -269,3 +269,4 @@ dmypy.json
 
 # media
 **/media
+core/templatetags/__init__.py
