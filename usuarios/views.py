@@ -1,5 +1,7 @@
+from typing import Any, Dict
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, View
+from django.http import HttpResponseRedirect
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import PasswordChangeView, LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -21,7 +23,7 @@ from django.shortcuts import redirect, render
 from cards.models import Card
 
 
-class LoginView(LoginView):
+class UsusarioLoginView(LoginView):
     template_name = 'usuarios/login.html'
     form_class = UsuarioAuthenticationForm
 
@@ -32,9 +34,18 @@ class LoginView(LoginView):
           return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
         else:
           return reverse('core:criar')
-        if user.is_superuser:
-            return reverse('core:todos-cards')
-
+        # if user.is_superuser:
+        #     return reverse('core:todos-cards')
+    
+    def post(self, request):
+        # recupera formulário
+        form = self.get_form()
+        # recupera usuário no banco de dados com base no e-mail inserido no formulário
+        usuario = Usuario.objects.filter(email=form['username'].value())
+        # se usuário existe e não está ativo, chama tela de reenviar email de ativação
+        if usuario and not usuario[0].is_active:
+            return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao', kwargs={'username': usuario[0].username}))
+        return super().post(self.request)
 
 class LogoutView(LogoutView):
     template_name = 'core/home.html'
@@ -108,3 +119,32 @@ def ativar_conta(request, uidb64, token):
     else:
         return render(request, 'usuarios/falha-ativacao.html')
 
+class ReenviarEmailAtivacao(TemplateView):
+    template_name = 'usuarios/reenviar-email-ativacao.html'
+    
+    def get_success_url(self):
+        return HttpResponseRedirect(reverse('usuarios:login'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['username'] = kwargs['username']
+        return context
+
+    def post(self, request, **kwargs):
+        username = kwargs['username']
+        
+        usuario = Usuario.objects.get(username=username)
+
+        # Envia email para ativação da conta com o password
+        current_site = get_current_site(self.request)
+        subject = 'Ative a sua conta'
+        to = usuario.email
+        context = {'usuario': usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(usuario.pk)),
+                   'token': account_activation_token.make_token(usuario)}
+        body = render_to_string(
+            'usuarios/email-ativacao.html', context=context)
+        msg = EmailMessage(subject, body, to=[to])
+        msg.content_subtype = "html"  # Main content is now text/html
+        msg.send()
+
+        return self.get_success_url()
