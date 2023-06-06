@@ -6,6 +6,7 @@
 <body class="container">
     {% include 'core/menu.html' %}
     {% include 'core/mensagens.html' %}
+    
     <!--EMPRESA-->
     {% if card.logotipo %}
     <div class="row d-flex justify-content-center my-5">
@@ -71,112 +72,6 @@
         </div>
     </div>
 
-    <!--SLIDES-->
-    <!-- {% if card.conteudo.promo1 or card.conteudo.promo2 or card.conteudo.promo3 %}
-    <div class="row d-flex justify-content-center mb-5">
-        <div class="col-12 col-lg-8">
-            <h2 class="fs-1">Promoções</h2>
-            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                        class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                    {% if card.conteudo.promo1 and card.conteudo.promo1_link %}
-                    <div class="carousel-item active">
-                        <a href="{{ card.conteudo.promo1_link }}">
-                            <img src="{{ card.conteudo.promo1.url }}" class="d-block w-100" alt="ribeirao_evero"
-                                loading="lazy" />
-                        </a>
-                    </div>
-                    {% endif %} {% if card.conteudo.promo2 and card.conteudo.promo2_link %}
-                    <div class="carousel-item">
-                        <a href="{{ card.conteudo.promo2_link }}">
-                            <img src="{{ card.conteudo.promo2.url }}" class="d-block w-100" alt="sonance"
-                                loading="lazy" />
-                        </a>
-                    </div>
-                    {% endif %} {% if card.conteudo.promo3 and card.conteudo.promo3_link %}
-                    <div class="carousel-item">
-                        <a href="{{ card.conteudo.promo3_link }}">
-                            <img src="{{ card.conteudo.promo3.url }}" class="d-block w-100" alt="sette"
-                                loading="lazy" />
-                        </a>
-                    </div>
-                    {% endif %}
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Anterior</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Próximo</span>
-                </button>
-            </div>
-        </div>
-    </div>
-    {% endif %} -->
-
-    <!--PRODUTOS-->
-    <!-- {% if card.conteudo.produtos and card.conteudo.produtos_link %}
-    <div class="row d-flex justify-content-center mb-5">
-        <div class="col-12 col-lg-8">
-            <h2 class="fs-1">Produtos</h2>
-            <div style="background-color: #683568">
-                <a href="{{ card.conteudo.produtos_link }}">
-                    <img src="{{ card.conteudo.produtos.url }}" class="w-100" alt="" loading="lazy" />
-                </a>
-            </div>
-        </div>
-    </div>
-    {% endif %} -->
-
-    <!--SERVIÇOS-->
-    <!-- {% if card.conteudo.servicos and card.conteudo.servicos_link %}
-    <div class="row d-flex justify-content-center mb-5">
-        <div class="col-12 col-lg-8">
-            <h2 class="fs-1">Serviços</h2>
-            <div>
-                <a href="{{ card.conteudo.servicos_link }}">
-                    <img src="{{ card.conteudo.servicos.url }}" class="w-100" alt="" />
-                </a>
-            </div>
-        </div>
-    </div>
-    {% endif %} -->
-
-    <!--PROMOÇÕES-->
-    <!-- {% if card.conteudo.promocoes and card.conteudo.promocoes_link %}
-    <div class="row d-flex justify-content-center mb-5">
-        <div class="col-12 col-lg-8">
-            <h2 class="fs-1">Promoções</h2>
-            <div>
-                <a href="{{ card.conteudo.promocoes_link }}">
-                    <img src="{{ card.conteudo.promocoes.url }}" class="w-100" alt="" />
-                </a>
-            </div>
-        </div>
-    </div>
-    {% endif %} -->
-
-    <!--VÍDEOS-->
-    <!-- {% if card.conteudo.youtube %}
-    <div class="row d-flex justify-content-center mb-5">
-        <div class="col-12 col-lg-8">
-            <h2 class="fs-1">Vídeos</h2>
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                {{ card.conteudo.youtube|safe }}
-            </div>
-        </div>
-    </div>
-    {% endif %} -->
 
     {% if produtos %}
     <!--PRODUTOS-->
@@ -190,7 +85,6 @@
                     <div class="card-img-overlay">
                         <div class="text-end">
                             <a href="#">
-                                <!-- <i class="bi bi-box-arrow-up-right"></i> -->
                             </a>
                         </div>
                     </div>
@@ -213,7 +107,6 @@
                     <div class="card-img-overlay">
                         <div class="text-end">
                             <a href="#">
-                                <!-- <i class="bi bi-box-arrow-up-right"></i> -->
                             </a>
                         </div>
                     </div>
@@ -236,7 +129,6 @@
                     <div class="card-img-overlay">
                         <div class="text-end">
                             <a href="#">
-                                <!-- <i class="bi bi-box-arrow-up-right"></i> -->
                             </a>
                         </div>
                     </div>
@@ -260,6 +152,28 @@
                         <div class="text-end">
                             <a href="#">
                                 <!-- <i class="bi bi-box-arrow-up-right"></i> -->
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if cursos %}
+    <!--CURSOS-->
+    <div class="my-5">
+        <h3 class="text-center my-4">CURSOS</h3>
+        <div class="row row-cols-2 row-cols-md-2 g-4">
+            {% for curso in cursos %}
+            <div class="col">
+                <div class="card border-0">
+                    <img src="{{ curso.img.url }}" class="card-img" alt="...">
+                    <div class="card-img-overlay">
+                        <div class="text-end">
+                            <a href="#">
                             </a>
                         </div>
                     </div>

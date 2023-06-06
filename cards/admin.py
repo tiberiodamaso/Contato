@@ -39,6 +39,7 @@ class CardAdmin(admin.ModelAdmin):
         'telefone',
         'empresa',
         'slug_empresa',
+        'conteudo_pesquisavel',
     ]
 
     def save_model(self, request, obj, form, change):

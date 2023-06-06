@@ -14,18 +14,6 @@ class HomeView(TemplateView):
     template_name = 'core/home.html'
 
 
-class Marcas(TemplateView):
-    template_name = 'core/marcas.html'
-
-
-class Bild(TemplateView):
-    template_name = 'core/bild.html'
-
-
-class Perplan(TemplateView):
-    template_name = 'core/perplan.html'
-
-
 class GetMunicipios(LoginRequiredMixin, ListView):
     model = Municipio
     template_name = 'core/municipios.html'
@@ -35,7 +23,8 @@ class GetMunicipios(LoginRequiredMixin, ListView):
         context['municipios'] = Municipio.objects.filter(estado=self.request.GET.get('estado'))
         return context
 
-class GetSubcategorias(LoginRequiredMixin, ListView):
+
+class GetSubcategorias(ListView):
     model = Subcategoria
     template_name = 'core/subcategorias.html'
 

@@ -81,5 +81,27 @@ def resize_image(image_file, size):
 
         return image
 
+def cleaner(text: str) -> str:
+    """
+    Função utilizada para limpar texto substituindo caracteres acentuados e removendo o que não é letra
+
+    :param text: texto que será tratado
+
+    :returns: texto processado
+    """
+    text = text.lower()
+
+    # substituir caracteres acentuados por não acentuados
+    text = re.sub(r'[áàâãä]', 'a', text)
+    text = re.sub(r'[éèêë]', 'e', text)
+    text = re.sub(r'[íìîï]', 'i', text)
+    text = re.sub(r'[óòôõö]', 'o', text)
+    text = re.sub(r'[úùûü]', 'u', text)
+    text = re.sub('ç', 'c', text)
+
+    # remover todos os caracteres que não são números e não são letras (caracter de linha, de parágrafo etc)
+    text = re.sub(r'[^a-z0-9]', '', text)
+
+    return text
 
 
