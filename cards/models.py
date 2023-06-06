@@ -9,7 +9,10 @@ from PIL import Image
 
 
 def get_path(instance, filename):
-    instance = instance.card.proprietario.id.hex
+    if isinstance(instance, Card):
+        instance = instance.proprietario.id.hex
+    else:
+        instance = instance.card.proprietario.id.hex
     arquivo = slugify(os.path.splitext(filename)[0])
     extensao = os.path.splitext(filename)[1]
     filename = f'{arquivo}{extensao}'
@@ -26,6 +29,7 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nome
 
+
 class Subcategoria(models.Model):
     categoria = models.ForeignKey(Categoria, verbose_name='Categoria', on_delete=models.CASCADE, related_name='subcategorias')
     nome = models.CharField(verbose_name='Subcategoria', max_length=100)
@@ -36,7 +40,6 @@ class Subcategoria(models.Model):
 
     def __str__(self):
         return self.nome
-
 
 
 class Estado(models.Model):
