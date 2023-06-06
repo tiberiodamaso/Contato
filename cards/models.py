@@ -1,4 +1,4 @@
-import os
+import os, re
 from django.core.validators import FileExtensionValidator, URLValidator
 from django.db import models
 from django.template.defaultfilters import slugify
@@ -104,6 +104,7 @@ class Card(models.Model):
     estado = models.ForeignKey(Estado, verbose_name='Estado', on_delete=models.CASCADE, related_name='cards')
     municipio = models.ForeignKey(Municipio, verbose_name='Município', on_delete=models.CASCADE, related_name='cards')
     empresa = models.CharField(verbose_name='Empresa', max_length=200, blank=True)
+    conteudo_pesquisavel = models.TextField(verbose_name='Conteúdo pesquisável', default='', editable=False)
     logotipo = models.FileField(
         verbose_name='Logotipo',
         upload_to=get_path,
@@ -158,6 +159,23 @@ class Card(models.Model):
     def __str__(self):
         return str(self.proprietario)
 
+    def prepara_conteudo_pesquisavel(self):
+        conteudo = self.proprietario.get_full_name().lower() + self.estado.nome.lower() + \
+            self.municipio.nome.lower() + self.categoria.nome.lower() + self.subcategoria.nome.lower()
+
+        # substituir caracteres acentuados por não acentuados
+        conteudo = re.sub(r'[áàâãä]', 'a', conteudo)
+        conteudo = re.sub(r'[éèêë]', 'e', conteudo)
+        conteudo = re.sub(r'[íìîï]', 'i', conteudo)
+        conteudo = re.sub(r'[óòôõö]', 'o', conteudo)
+        conteudo = re.sub(r'[úùûü]', 'u', conteudo)
+        conteudo = re.sub('ç', 'c', conteudo)
+
+        # remover todos os caracteres que não são números e não são letras (caracter de linha, de parágrafo etc)
+        conteudo = re.sub(r'[^a-z0-9]', '', conteudo)
+
+        return conteudo
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.nome_display)
@@ -172,6 +190,8 @@ class Card(models.Model):
                 self.slug_empresa = f'{get_random_string(length=4)}-{self.slug_empresa}'
         else:
             self.slug_empresa = slugify(self.empresa)
+        
+        self.conteudo_pesquisavel = self.prepara_conteudo_pesquisavel()
 
         # if self.img_perfil:
         #     desired_size = 300

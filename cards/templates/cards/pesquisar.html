@@ -1,0 +1,90 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} Meu Contato {% endblock %}
+{% block content %}
+
+
+<body class="container">
+    {% include 'core/menu.html' %}
+
+    <div class="my-5 text-center">
+        <h2>Pesquise contatos e encontre o profissional para o seu serviço</h2>
+    </div>
+
+    {% if not mobile %}
+    <!--BARRA DE PESQUISA DESKTOP-->
+    <form class="input-group my-5">
+        <input type="text" class="form-control form-control-lg w-50" placeholder="Pesquise pelo nome do contato, estado ou município" name="pesquisar">
+        <select name="categoria" class="form-select text-black-50 fs-5" style="width: 20%;" id="id_categoria" hx-get="{% url 'core:get-subcategorias' %}" hx-trigger="change" hx-target="#id_subcategoria">
+            <option value="0" selected>Categoria</option>
+            {% for categoria in categorias %}
+            <option value="{{categoria.id}}">{{categoria.nome}}</option>
+            {% endfor %}
+        </select>
+        <select name="subcategoria" class="form-select text-black-50 fs-5" id="id_subcategoria" style="width: 20%;">
+            <option value="0" selected>Subcategoria</option>
+            {% for subcategoria in subcategorias %}
+            <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
+            {% endfor %}
+        </select>
+        <button class="border-0 rounded-end bg-warning" type="submit">
+            <i class="fs-3 border-0 btn bi bi-binoculars"></i>
+        </button>
+    </form>
+
+    {% else %}
+    <!--BARRA DE PESQUISA MOBILE-->
+    <form class="d-flex flex-column my-5">
+        <input type="text" class="form-control form-control-lg mb-3" placeholder="Nome, estado ou município" name="pesquisar">
+        <select name="categoria" class="form-select text-black-50 fs-5 mb-3" id="id_categoria" hx-get="{% url 'core:get-subcategorias' %}" hx-trigger="change" hx-target="#id_subcategoria">
+            <option value="0" selected>Categoria</option>
+            {% for categoria in categorias %}
+            <option value="{{categoria.id}}">{{categoria.nome}}</option>
+            {% endfor %}
+        </select>
+        <select name="subcategoria" class="form-select text-black-50 fs-5 mb-3" id="id_subcategoria">
+            <option value="0" selected>Subcategoria</option>
+            {% for subcategoria in subcategorias %}
+            <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
+            {% endfor %}
+        </select>
+        <button class="border-0 rounded-end bg-warning" type="submit">
+            <i class="fs-3 border-0 btn bi bi-binoculars"></i>
+        </button>
+    </form>
+    {% endif %}
+
+    {% if cards %}
+    <!--CARDS-->
+    <div class="row text-center p-3 justify-content-center">
+        {% for card in cards %}
+        {% if card.proprietario.is_active %}
+        <a href="{% url 'core:detalhe' card.slug_empresa card.slug %}" class="text-decoration-none text-black">
+          <div class="col-lg-3 col-sm-5 col-12 mt-5 border border-2 rounded-2 mx-2">
+            {% if card.img_perfil %}
+            <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
+            {% else %}
+            <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
+            {% endif %}
+            <h2 class="fw-normal">{{card.proprietario.first_name}} {{card.proprietario.last_name}}</h2>
+            {% if card.cargo %}
+            <h4 class="lead">{{ card.cargo }}</h4>
+            <h4 class="lead">{{ card.empresa }}</h4>
+            {% endif %}
+            <h6 class="lead">{{ card.subcategoria }} - {{ card.municipio }}</h6>
+            <div class="d-flex justify-content-center py-3 mx-2">
+            </div>
+          </div>
+        </a>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <div class="text-center">
+        <p class="lead fs-3">Nenhum card encontrado</p>
+    </div>
+    {% endif %}
+</body>
+
+{% endblock %}

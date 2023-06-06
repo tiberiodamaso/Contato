@@ -15,7 +15,7 @@ from core import analytics_data_api
 from .models import Card, Conteudo, Estado, Municipio, Categoria, Subcategoria
 from usuarios.models import Usuario
 from .forms import CardEditForm, ConteudoEditForm
-from .utils import make_vcf
+from .utils import make_vcf, cleaner
 from django.template.defaultfilters import slugify
 from usuarios.tokens import account_activation_token
 from django.core.mail import EmailMessage
@@ -33,7 +33,7 @@ reg_b = re.compile(r"(android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|b
 reg_v = re.compile(r"1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\\-(n|u)|c55\\/|capi|ccwa|cdm\\-|cell|chtm|cldc|cmd\\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\\-s|devi|dica|dmob|do(c|p)o|ds(12|\\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\\-|_)|g1 u|g560|gene|gf\\-5|g\\-mo|go(\\.w|od)|gr(ad|un)|haie|hcit|hd\\-(m|p|t)|hei\\-|hi(pt|ta)|hp( i|ip)|hs\\-c|ht(c(\\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\\-(20|go|ma)|i230|iac( |\\-|\\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\\/)|klon|kpt |kwc\\-|kyo(c|k)|le(no|xi)|lg( g|\\/(k|l|u)|50|54|\\-[a-w])|libw|lynx|m1\\-w|m3ga|m50\\/|ma(te|ui|xo)|mc(01|21|ca)|m\\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\\-2|po(ck|rt|se)|prox|psio|pt\\-g|qa\\-a|qc(07|12|21|32|60|\\-[2-7]|i\\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\\-|oo|p\\-)|sdk\\/|se(c(\\-|0|1)|47|mc|nd|ri)|sgh\\-|shar|sie(\\-|m)|sk\\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\\-|v\\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\\-|tdg\\-|tel(i|m)|tim\\-|t\\-mo|to(pl|sh)|ts(70|m\\-|m3|m5)|tx\\-9|up(\\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\\-|your|zeto|zte\\-", re.I | re.M)
 
 
-class CardListView(LoginRequiredMixin, ListView):
+class Listar(LoginRequiredMixin, ListView):
     model = Card
     template_name = 'cards/lista.html'
     context_object_name = 'cards'
@@ -48,7 +48,7 @@ class CardListView(LoginRequiredMixin, ListView):
         return context
 
 
-class CardDashboardView(TemplateView):
+class Dashboard(TemplateView):
     template_name = 'cards/dashboard-card.html'
 
     def process_request(self):
@@ -113,7 +113,7 @@ class CardDashboardView(TemplateView):
         return context
 
 
-class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class Criar(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Card
     form_class = CardEditForm
     template_name = 'cards/criar.html'
@@ -172,7 +172,7 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url(card))
 
 
-class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Card
     form_class = CardEditForm
     template_name = 'cards/editar.html'
@@ -264,7 +264,7 @@ class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return super().form_valid(form)
 
 
-class CardDetailView(DetailView):
+class Detalhar(DetailView):
     model = Card
     template_name = 'cards/detalhe.html'
 
@@ -289,11 +289,12 @@ class CardDetailView(DetailView):
         context['produtos'] = produtos
         context['servicos'] = servicos
         context['portfolios'] = portfolios
-        context['promocoes'] = produtos
+        context['promocoes'] = promocoes
         return context
 
 
-class CardDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class Deletar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+
     model = Card
     success_message = 'Card apagado com sucesso!'
     template_name = 'cards/criar.html'
@@ -317,7 +318,8 @@ class CardDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class TodosCardsListView(LoginRequiredMixin, ListView):
+class Todos(LoginRequiredMixin, ListView):
+
     model = Card
     template_name = 'cards/todos-cards.html'
     context_object_name = 'cards'
@@ -325,7 +327,7 @@ class TodosCardsListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         ua = self.request.META['HTTP_USER_AGENT']
-        cards = Card.objects.all
+        cards = Card.objects.all()
         cards_por_empresa = Empresa.objects.values(
             'nome').annotate(num_cards=Count('cards'))
         context['cards'] = cards
@@ -333,7 +335,7 @@ class TodosCardsListView(LoginRequiredMixin, ListView):
         return context
 
 
-class EmpresaDashboardView(TemplateView):
+class DashboardEmpresa(TemplateView):
     template_name = 'cards/dashboard-empresa.html'
 
     def process_request(self):
@@ -419,7 +421,7 @@ class EmpresaDashboardView(TemplateView):
         return context
 
 
-class ConteudoCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class ConteudoCriar(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Conteudo
     form_class = ConteudoEditForm
     success_url = '.'
@@ -442,7 +444,8 @@ class ConteudoCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
       return super().form_valid(form)
 
 
-class CardCreateViewEmpresa(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class CriarEmpresa(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+
     model = Card
     form_class = CardEditForm
     template_name = 'cards/criar.html'
@@ -536,3 +539,45 @@ class CardCreateViewEmpresa(LoginRequiredMixin, SuccessMessageMixin, CreateView)
         msg.send()
 
         return super().form_valid(form)
+
+
+class Pesquisar(ListView):
+    model = Card
+    template_name = 'cards/pesquisar.html'
+    context_object_name = 'cards'
+
+    def process_request(self):
+        self.request.mobile = False
+        if self.request.META['HTTP_USER_AGENT']:
+            user_agent = self.request.META['HTTP_USER_AGENT']
+            b = reg_b.search(user_agent)
+            v = reg_v.search(user_agent[0:4])
+            if b or v:
+                return True
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        if self.process_request():
+            context['mobile'] = True
+        estados = Estado.objects.all()
+        categorias = Categoria.objects.all()
+        context['categorias'] = categorias
+        context['subcategorias'] = Subcategoria.objects.filter(categoria=categorias.first())
+        context['estados'] = estados
+        context['municipios'] = Municipio.objects.filter(estado=estados.first())
+        return context
+
+    def get_queryset(self):
+        conteudo_pesquisado = self.request.GET.get("pesquisar")
+        categoria = self.request.GET.get("categoria") if self.request.GET.get("categoria")!= '0' else None
+        subcategoria = self.request.GET.get("subcategoria") if self.request.GET.get("subcategoria")!= '0' else None
+        queryset = Card.objects.all()
+        if conteudo_pesquisado and conteudo_pesquisado != 'None':
+            conteudo_pesquisado_limpo = cleaner(conteudo_pesquisado)
+            queryset = queryset.filter(conteudo_pesquisavel__contains=conteudo_pesquisado_limpo)
+        if categoria and categoria != 'None':
+            queryset = queryset.filter(categoria=categoria)
+        if subcategoria and subcategoria != 'None':
+            queryset = queryset.filter(subcategoria=subcategoria)
+            
+        return queryset

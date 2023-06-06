@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import HomeView, Marcas, Bild, Perplan
-from cards.views import CardEditView, CardListView, CardDashboardView, CardDetailView, TodosCardsListView, CardCreateView, EmpresaDashboardView, ConteudoCreateView, CardDeleteView
+from .views import HomeView
+from cards.views import Editar, Listar, Dashboard, Detalhar, Todos, \
+    Criar, DashboardEmpresa, ConteudoCriar, Deletar, Pesquisar
 from core.views import GetMunicipios, GetSubcategorias
 
 
@@ -8,21 +9,18 @@ app_name = 'core'
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
-    path('<slug:empresa>/dashboard/', EmpresaDashboardView.as_view(), name='dashboard-empresa'),
-    path('<slug:empresa>/dashboard/<slug:slug>/', CardDashboardView.as_view(), name='dashboard-card'),
-    path('<slug:empresa>/cards/', CardListView.as_view(), name='lista'),
-    path('card/criar/', CardCreateView.as_view(), name='criar'),
-    path('<slug:empresa>/card/editar/<slug:slug>/', CardEditView.as_view(), name='editar'),
-    path('<slug:empresa>/card/deletar/<slug:slug>/', CardDeleteView.as_view(), name='deletar'),
-    path('<slug:empresa>/card/<slug:slug>/', CardDetailView.as_view(), name='detalhe'),
-    path('<slug:empresa>/card/conteudo/<slug:slug>/', ConteudoCreateView.as_view(), name='conteudo'),
-    path('todos-cards/', TodosCardsListView.as_view(), name='todos-cards'),
+    path('<slug:empresa>/dashboard/', DashboardEmpresa.as_view(), name='dashboard-empresa'),
+    path('<slug:empresa>/dashboard/<slug:slug>/', Dashboard.as_view(), name='dashboard-card'),
+    path('<slug:empresa>/cards/', Listar.as_view(), name='lista'),
+    path('card/criar/', Criar.as_view(), name='criar'),
+    path('<slug:empresa>/card/editar/<slug:slug>/', Editar.as_view(), name='editar'),
+    path('<slug:empresa>/card/deletar/<slug:slug>/', Deletar.as_view(), name='deletar'),
+    path('<slug:empresa>/card/<slug:slug>/', Detalhar.as_view(), name='detalhe'),
+    path('<slug:empresa>/card/conteudo/<slug:slug>/', ConteudoCriar.as_view(), name='conteudo'),
+    path('todos-cards/', Todos.as_view(), name='todos-cards'),
+    path('pesquisar/', Pesquisar.as_view(), name='pesquisar'),
 
     # POPULAR FORMS
     path('get_municipios/', GetMunicipios.as_view(), name='get-municipios'),
     path('get_subcategorias/', GetSubcategorias.as_view(), name='get-subcategorias'),
-
-    # path('marcas/', Marcas.as_view(), name='marcas'),
-    # path('marcas/bild/', Bild.as_view(), name='bild'),
-    # path('marcas/perplan/', Perplan.as_view(), name='perplan'),
 ] 
