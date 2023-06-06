@@ -294,6 +294,7 @@ class Detalhar(DetailView):
 
 
 class Deletar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+
     model = Card
     success_message = 'Card apagado com sucesso!'
     template_name = 'cards/criar.html'
@@ -318,6 +319,7 @@ class Deletar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
 
 class Todos(LoginRequiredMixin, ListView):
+
     model = Card
     template_name = 'cards/todos-cards.html'
     context_object_name = 'cards'
