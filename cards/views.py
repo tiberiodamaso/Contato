@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView
 from core import analytics_data_api
-from .models import Card, Conteudo, Estado, Municipio
+from .models import Card, Conteudo, Estado, Municipio, Categoria, Subcategoria
 from usuarios.models import Usuario
 from .forms import CardEditForm, ConteudoEditForm
 from .utils import make_vcf
@@ -125,6 +125,10 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     def get_context_data(self):
        context = super().get_context_data()
        estados = Estado.objects.all()
+       categorias = Categoria.objects.all()
+       subcategorias = Subcategoria.objects.filter(categoria=categorias.first())
+       context['categorias'] = categorias
+       context['subcategorias'] = subcategorias
        context['estados'] = estados
        context['municipios'] = Municipio.objects.filter(estado=estados.first())
        return context
