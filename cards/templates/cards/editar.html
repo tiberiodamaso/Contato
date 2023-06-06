@@ -14,6 +14,34 @@
     <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
     {% endif %}
 
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Apagar card
+    </button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Apagar card</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Deseja realmente apagar seu card ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form action="{% url 'core:deletar' card.slug_empresa card.slug %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Apagar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--FORMULÁRIO DE EDIÇÃO DO CARD-->
     <form action="{% url 'core:editar' card.slug_empresa card.slug %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
       {% csrf_token %}

@@ -1,4 +1,4 @@
-import re, os, qrcode
+import re, os, qrcode, shutil
 import qrcode.image.svg
 from io import BytesIO
 from pathlib import Path
@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView
+from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView, DeleteView
 from core import analytics_data_api
 from .models import Card, Conteudo, Estado, Municipio, Categoria, Subcategoria
 from usuarios.models import Usuario
@@ -175,7 +175,6 @@ class CardCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 class CardEditView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Card
     form_class = CardEditForm
-    success_url = '.'
     template_name = 'cards/editar.html'
     success_message = 'Card atualizado com sucesso!'
 
@@ -292,6 +291,30 @@ class CardDetailView(DetailView):
         context['portfolios'] = portfolios
         context['promocoes'] = produtos
         return context
+
+
+class CardDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = Card
+    success_message = 'Card apagado com sucesso!'
+    template_name = 'cards/criar.html'
+
+    def get_success_url(self):
+        return reverse('core:criar')
+
+    def post(self, request, *args, **kwargs):
+        card = self.get_object()
+        conteudos = Conteudo.objects.filter(card=card)
+        for conteudo in conteudos:
+            conteudo.delete()
+        
+        # Apagar arquivos associados ao conteúdo
+        path = os.path.join(settings.MEDIA_ROOT, self.request.user.id.hex)
+        try:
+            shutil.rmtree(path)
+        except FileNotFoundError as err:
+            print(err)
+
+        return super().post(request, *args, **kwargs)
 
 
 class TodosCardsListView(LoginRequiredMixin, ListView):

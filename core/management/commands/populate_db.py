@@ -81,6 +81,9 @@ SUBCATEGORIAS = [
     (14, 'Gestor de campanha online'),
     (15, 'Motoboy'),
     (15, 'Motorista de aplicativo'),
+    (16, 'Livros sensoriais'),
+    (16, 'Bijouterias'),
+    (16, 'Artigos decorativos'),
 ]
 
 TIPOS_CONTEUDOS = [
