@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import HomeView, Marcas, Bild, Perplan
 from cards.views import CardEditView, CardListView, CardDashboardView, CardDetailView, TodosCardsListView, CardCreateView, EmpresaDashboardView, ConteudoCreateView
-from core.views import GetMunicipios
+from core.views import GetMunicipios, GetSubcategorias
+
 
 app_name = 'core'
 
@@ -17,7 +18,8 @@ urlpatterns = [
     path('todos-cards/', TodosCardsListView.as_view(), name='todos-cards'),
 
     # POPULAR FORMS
-    path('get_municipio/', GetMunicipios.as_view(), name='get-municipios'),
+    path('get_municipios/', GetMunicipios.as_view(), name='get-municipios'),
+    path('get_subcategorias/', GetSubcategorias.as_view(), name='get-subcategorias'),
 
     # path('marcas/', Marcas.as_view(), name='marcas'),
     # path('marcas/bild/', Bild.as_view(), name='bild'),

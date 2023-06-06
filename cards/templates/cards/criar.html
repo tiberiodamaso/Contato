@@ -60,12 +60,21 @@
 
       <div class="mb-3">
         <label for="id_categoria">Categoria:</label>
-        {{form.categoria}}
+        <select name="categoria" class="form-select" id="id_categoria"
+          hx-get="{% url 'core:get-subcategorias'%}" hx-trigger="change" hx-target="#id_subcategoria">
+          {% for categoria in categorias %}
+            <option value="{{categoria.id}}">{{categoria.nome}}</option>
+          {% endfor %}
+        </select>
       </div>
 
       <div class="mb-3">
-        <label for="id_categoria">Subcategoria:</label>
-        {{form.subcategoria}}
+        <label for="id_subcategoria">Subcategoria:</label>
+        <select name="subcategoria" class="form-select" id="id_subcategoria">
+            {% for subcategoria in subcategorias %}
+              <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
+            {% endfor %}
+          </select>
       </div>
 
       <div class="mb-3">
