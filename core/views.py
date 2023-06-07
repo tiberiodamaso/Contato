@@ -32,3 +32,11 @@ class GetSubcategorias(ListView):
         context = super().get_context_data()
         context['subcategorias'] = Subcategoria.objects.filter(categoria=self.request.GET.get('categoria'))
         return context
+
+
+class TermosDeUso(TemplateView):
+    template_name = 'core/termos-de-uso.html'
+
+
+class PoliticaDePrivacidade(TemplateView):
+    template_name = 'core/politica-de-privacidade.html'

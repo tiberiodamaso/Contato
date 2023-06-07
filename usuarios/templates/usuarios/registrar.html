@@ -35,6 +35,10 @@
       <label for="id_password2">Confirmação de senha:</label>
     {{ form.password2 }}
     </div>
+
+    <div class="mb-3">
+      <input type="checkbox" class="me-2"/><span>Aceito os <a href="{% url 'core:termos-de-uso' %}" class="text-decoration-none">Termos e uso</a> e <a href="{% url 'core:politica-de-privacidade' %}" class="text-decoration-none">Política de privacidade</a></span>
+    </div>
     
     <button type="submit" class="btn btn-warning">Criar card</button>
   </form>

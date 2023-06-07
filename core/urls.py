@@ -2,7 +2,7 @@ from django.urls import path
 from .views import HomeView
 from cards.views import Editar, Listar, Dashboard, Detalhar, Todos, \
     Criar, DashboardEmpresa, ConteudoCriar, Deletar, Pesquisar
-from core.views import GetMunicipios, GetSubcategorias
+from core.views import GetMunicipios, GetSubcategorias, PoliticaDePrivacidade, TermosDeUso
 
 
 app_name = 'core'
@@ -23,4 +23,8 @@ urlpatterns = [
     # POPULAR FORMS
     path('get_municipios/', GetMunicipios.as_view(), name='get-municipios'),
     path('get_subcategorias/', GetSubcategorias.as_view(), name='get-subcategorias'),
+
+    # TERMOS
+    path('termos-de-uso/', TermosDeUso.as_view(), name='termos-de-uso'),
+    path('politica-de-privacidade/', PoliticaDePrivacidade.as_view(), name='politica-de-privacidade'),
 ] 
