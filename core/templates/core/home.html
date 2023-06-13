@@ -28,7 +28,7 @@
         <p class="lead">Tenha um cartão de visitas moderno, online e editável. Insira os links das suas redes sociais,
           slides de produtos, promoções, serviços e muito mais.</p>
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <button type="button" class="btn btn-warning btn-lg px-4 me-md-2">Comprar</button>
+          <a type="button" href="{% url 'usuarios:registrar' %}" class="btn btn-warning btn-lg px-4 me-md-2">Comprar</a>
         </div>
       </div>
     </div>
@@ -96,7 +96,7 @@
           </div>
         </div>
         <div class="col-12 d-flex justify-content-center">
-          <button type="button" class="btn btn-warning btn-lg px-4 me-md-2">Comprar agora</button>
+          <a href="{% url 'usuarios:registrar' %}" type="button" class="btn btn-warning btn-lg px-4 me-md-2">Comprar agora</a>
         </div>
       </div>
     </div>
@@ -129,7 +129,7 @@
                 <li><del>Google Analytics</del></li>
                 <li><del>Dashboard</del></li>
               </ul>
-              <button type="button" class="w-100 btn btn-lg btn-warning">Comprar esse</button>
+              <a type="button" href="{% url 'usuarios:registrar' %}" class="w-100 btn btn-lg btn-warning">Comprar esse</a>
             </div>
           </div>
         </div>
@@ -148,15 +148,15 @@
                 <li>Google Analytics</li>
                 <li>Dashboard</li>
               </ul>
-              <button type="button" class="w-100 btn btn-lg btn-warning">Comprar esse</button>
+              <a type="button" href="{% url 'usuarios:registrar' %}" class="w-100 btn btn-lg btn-warning">Comprar esse</a>
             </div>
           </div>
         </div>
 
         <!--PRODUTO 3-->
         <div class="col-10">
-          <div class="card mb-4 rounded-3 shadow-sm border-warning">
-            <div class="card-header py-3 text-bg-warning border-warning">
+          <div class="card mb-4 rounded-3 shadow-sm border-secondary">
+            <div class="card-header py-3 text-bg-secondary border-secondary">
               <h4 class="my-0 fw-normal">Empresa</h4>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 Em breve
@@ -170,7 +170,7 @@
                 <li>Google Analytics</li>
                 <li>Dashboard</li>
               </ul>
-              <button type="button" class="w-100 btn btn-lg btn-warning" disabled>Comprar esse</button>
+              <a type="button" href="#" class="w-100 btn btn-lg btn-secondary" disabled>Comprar esse</a>
             </div>
           </div>
         </div>
@@ -249,9 +249,9 @@
           <p class="lead">Todas as informações do seu cartão em um único lugar. Imagens de produtos, promoções, logo da
             empresa, redes sociais, telefones, e-mail e muito mais.
           </p>
-          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+          <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-start">
             <button type="button" class="btn btn-warning btn-lg px-4 me-md-2">Comprar</button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -268,11 +268,11 @@
       <div class="col-lg-6">
         <h1 class="display-5 fw-bold lh-1 mb-3">Edite quando quiser</h1>
         <p class="lead">Quer mudar a foto do seu cartão, o logo da empresa ou divulgar mais produtos ? Entre na sua
-          conta,
-          altere as informações que desejar e gere um novo QRCode para seu cartão.</p>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            conta,
+            altere as informações que desejar e gere um novo QRCode para seu cartão.</p>
+        <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-start">
           <button type="button" class="btn btn-warning btn-lg px-4 me-md-2">Comprar</button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -338,6 +338,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="my-5 d-md-flex justify-content-center">
+          <a type="button" href="{% url 'usuarios:registrar' %}" class="btn btn-warning btn-lg px-4 me-md-2 col-12">Comprar</a>
       </div>
     </div>
   </div>

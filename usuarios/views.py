@@ -34,8 +34,6 @@ class UsusarioLoginView(LoginView):
           return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
         else:
           return reverse('core:criar')
-        # if user.is_superuser:
-        #     return reverse('core:todos-cards')
     
     def post(self, request):
         # recupera formulário
@@ -46,6 +44,7 @@ class UsusarioLoginView(LoginView):
         if usuario and not usuario[0].is_active:
             return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao', kwargs={'username': usuario[0].username}))
         return super().post(self.request)
+
 
 class LogoutView(LogoutView):
     template_name = 'core/home.html'
@@ -118,6 +117,7 @@ def ativar_conta(request, uidb64, token):
         return render(request, 'usuarios/sucesso-ativacao.html')
     else:
         return render(request, 'usuarios/falha-ativacao.html')
+
 
 class ReenviarEmailAtivacao(TemplateView):
     template_name = 'usuarios/reenviar-email-ativacao.html'

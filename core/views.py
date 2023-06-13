@@ -1,6 +1,6 @@
 import re
 from typing import Any, Dict
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from cards.models import Card, Municipio, Subcategoria
@@ -40,3 +40,8 @@ class TermosDeUso(TemplateView):
 
 class PoliticaDePrivacidade(TemplateView):
     template_name = 'core/politica-de-privacidade.html'
+
+
+# class Pagamento(FormView):
+#     template_name = 'core/pagamento.html'
+

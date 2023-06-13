@@ -15,7 +15,6 @@ from pathlib import Path
 import environ
 from django.contrib.messages import constants as messages
 
-# env = environ.Env()
 environ.Env.read_env('.env')
 
 
@@ -150,15 +149,6 @@ LOGIN_URL = 'usuarios:login'
 LOGOUT_REDIRECT_URL = 'core:home'
 
 GOOGLE_APPLICATION_CREDENTIALS = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS',"")
-
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_USE_SSL=os.environ.get('EMAIL_USE_SSL')
-# EMAIL_USE_TLS=os.environ.get('EMAIL_USE_TLS')
-# EMAIL_HOST=os.environ.get('EMAIL_HOST')
-# EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
-# EMAIL_PORT=os.environ.get('EMAIL_PORT')
 
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_USE_SSL=env('EMAIL_USE_SSL')
