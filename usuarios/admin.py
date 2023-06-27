@@ -10,7 +10,7 @@ class PerfilInline(admin.StackedInline):
 
 
 class UsuarioAdmin(UserAdmin):
-    list_display = ('id', 'username', 'email', 'first_name', 'last_name', 'date_joined', 'is_active')
+    list_display = ('id', 'username', 'email', 'first_name', 'last_name', 'terms', 'date_joined', 'is_active')
     list_filter = ('username', 'first_name', 'last_name')
     search_fields = ('id', 'username', 'email', 'first_name', 'last_name')
     inlines = [PerfilInline]

@@ -114,7 +114,7 @@ def ativar_conta(request, uidb64, token):
         usuario.is_active = True
         usuario.save()
         # return HttpResponse('Seu card foi ativado com sucesso!')
-        return render(request, 'usuarios/sucesso-ativacao.html')
+        return redirect(reverse('usuarios:login'))
     else:
         return render(request, 'usuarios/falha-ativacao.html')
 

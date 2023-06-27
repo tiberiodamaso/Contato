@@ -2,7 +2,7 @@ from django.urls import path
 from .views import HomeView
 from cards.views import Editar, Listar, Dashboard, Detalhar, Todos, \
     Criar, DashboardEmpresa, ConteudoCriar, Deletar, Pesquisar
-from core.views import GetMunicipios, GetSubcategorias, PoliticaDePrivacidade, TermosDeUso, Pagamento
+from core.views import GetMunicipios, GetSubcategorias, PoliticaDePrivacidade, TermosDeUso
 
 
 app_name = 'core'
