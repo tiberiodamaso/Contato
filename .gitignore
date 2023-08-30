@@ -269,3 +269,6 @@ dmypy.json
 
 # media
 **/media/
+
+# postgresql env
+/postgresql/postgresql.env
