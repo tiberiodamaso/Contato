@@ -261,9 +261,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# migrations
-**/migrations/
-
 # launch.json
 .vscode/launch.json
 
