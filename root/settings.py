@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_DB'),
         'USER': os.getenv('POSTGRES_USER'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'HOST': os.getenv('DB_HOST', 'postgresql'),  # tem que ser o nome do serviço no container
         'PORT': os.getenv('DB_PORT', '5432'),
     }
     # 'default': {
