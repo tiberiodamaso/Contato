@@ -11,9 +11,9 @@
     {% if card.logotipo %}
     <div class="row d-flex justify-content-center my-5">
         <div class="col-12 col-lg-8">
-            <div>
-                <a href="#">
-                    <img src="{{ card.logotipo.url }}" class="w-100" alt="" loading="lazy" style="height: 100px" />
+            <div class="d-flex justify-content-center">
+                <a href="{{ card.site }}">
+                    <img src="{{ card.logotipo.url }}" alt="" loading="lazy" style="max-height: 70vh; max-width: 70vw;" />
                 </a>
             </div>
         </div>
@@ -59,14 +59,14 @@
             {% if user.is_authenticated %}
             <div class="d-flex justify-content-center my-2 rounded">
                 <a href="{% url 'core:editar' card.slug_empresa card.slug %}" class="btn fs-4 w-100 bg-success text-white mx-1">Editar card</a>
-                <a href="{% url 'core:conteudo' card.slug_empresa card.slug %}" class="btn fs-4 w-100  bg-success text-white mx-1">Conteúdo</a>
+                <a href="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}" class="btn fs-4 w-100  bg-success text-white mx-1">Editar conteúdo</a>
             </div>
             {% endif %}
 
             <!--CONTATO-->
             <div class="d-flex justify-content-around py-4">
-                <a href="mailto:{{card.usuario.email}}"><i class="bi bi-envelope fs-1 text-black-50"></i></a>
-                <a href="tel:+55{{card.telefone}}"><i class="bi bi-telephone fs-1 text-black-50"></i></a>
+                <a href="mailto:{{ card.proprietario.email }}"><i class="bi bi-envelope fs-1 text-black-50"></i></a>
+                <a href="tel:+55{{ card.telefone }}"><i class="bi bi-telephone fs-1 text-black-50"></i></a>
             </div>
 
         </div>

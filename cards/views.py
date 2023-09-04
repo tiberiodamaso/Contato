@@ -426,13 +426,15 @@ class ConteudoCriar(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = ConteudoEditForm
     success_url = '.'
     template_name = 'cards/conteudo.html'
-    success_message = 'Informações atualizados com sucesso!'
+    success_message = 'Conteúdo criado com sucesso!'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
         card = usuario.cards.first()
+        conteudos = Conteudo.objects.filter(card__proprietario=usuario)
         context['card'] = card
+        context['conteudos'] = conteudos
         return context
 
     def form_valid(self, form):
@@ -442,6 +444,32 @@ class ConteudoCriar(LoginRequiredMixin, SuccessMessageMixin, CreateView):
       conteudo.card = card
       conteudo.save()
       return super().form_valid(form)
+
+
+class ConteudoExcluir(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = Conteudo
+    template_name = 'cards/conteudo.html'
+    success_message = 'Conteúdo atualizado com sucesso!'
+    success_url = '.'
+
+    def get_success_url(self, card):
+        return reverse('core:conteudo-criar', kwargs={'empresa': card.slug_empresa, 'slug': card.slug })
+
+    def post(self, request, *args, **kwargs):
+        conteudo = Conteudo.objects.filter(id=self.kwargs['pk']).first()
+        card = conteudo.card
+        path = conteudo.img.path
+
+        # APAGA ARQUIVOS ANTIGOS E EXCLUI REGISTRO DO BANCO
+        try:
+            conteudo.delete()
+            os.remove(path)
+        except FileNotFoundError as err:
+            print(err)
+
+        # return super().post(request, *args, **kwargs)
+
+        return HttpResponseRedirect(self.get_success_url(card))
 
 
 class CriarEmpresa(LoginRequiredMixin, SuccessMessageMixin, CreateView):

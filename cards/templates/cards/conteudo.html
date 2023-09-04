@@ -9,15 +9,15 @@
     <div class="d-flex flex-column align-items-center py-5">
 
         <!--LOGOTIPO DA EMPRESA-->
-        {% if empresa.logotipo %}
-        <img src="{{empresa.logotipo.url}}" alt="logotipo" class="col col-lg-2 col-md-4 img-fluid my-3" loading="lazy">
+        {% if card.logotipo %}
+        <img src="{{card.logotipo.url}}" alt="logotipo" class="col col-lg-2 col-md-4 img-fluid my-3" loading="lazy">
         {% else %}
         <img src="{% static 'core/img/person.jpg' %}" alt="logotipo"
             class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
         {% endif %}
 
         <!--FORMULÁRIO PARA CRIAR CONTEÚDO-->
-        <form action="{% url 'core:conteudo' card.slug_empresa card.slug %}" method="post"
+        <form action="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}" method="post"
             class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
             {% csrf_token %}
 
@@ -54,6 +54,53 @@
             <button type="submit" class="btn btn-warning w-100">Salvar</button>
         </form>
     </div>
+
+    <!--TABELA DE CONTEÚDO-->
+    {% if conteudos %}
+    <table class="table col col-md-4 col-lg-4 p-4">
+        <thead>
+          <tr>
+            <th scope="col">Tipo</th>
+            <th scope="col">Conteúdo</th>
+            <th scope="col" class="text-center">Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for conteudo in conteudos %}
+          <tr>
+            <td>{{conteudo.tipo.nome}}</td>
+            <td><img src="{{ conteudo.img.url }}" style="max-width: 20vw; max-height: 20vh;"/></td>
+            <td class="text-center">
+                <a title="Deletar" href="#" class="text-decoration-none" data-bs-toggle="modal"
+            data-bs-target="#modalConfirmaExclusao{{ conteudo.id }}">
+            <i class="bi bi-trash3 text-danger"></i></a></td>
+          </tr>
+
+        <!--MODAL DE EXCLUSÃO DE CONTEÚDO-->
+        <div class="modal fade" tabindex="-1" id="modalConfirmaExclusao{{ conteudo.id }}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirma exclusão</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Confirma a exclusão do conteúdo?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                        <form action="{% url 'core:conteudo-excluir' conteudo.card.slug_empresa conteudo.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Sim</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
 
 </body>
 
