@@ -44,3 +44,4 @@ class Perfil(models.Model):
 
     def __str__(self):
         return self.usuario.get_full_name()
+        

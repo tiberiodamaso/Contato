@@ -121,7 +121,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav fs-4 ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'core:pesquisar' %}">Pesquisar contatos</a>
+                    <a class="nav-link" aria-current="page" href="{% url 'core:pesquisar' %}">Pesquisar</a>
                 </li>
 
                 {% if user.is_authenticated %}
@@ -142,6 +142,9 @@
                     <a class="nav-link" href="{% url 'core:criar' %}">Criar meu card</a>
                 </li>
                 {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Minha conta</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>
                 </li>

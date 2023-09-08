@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'usuarios.apps.UsuariosConfig',
     'core.apps.CoreConfig',
     'cards.apps.CardsConfig',
+    'pedidos.apps.PedidosConfig',
     'debug_toolbar',
     'django_extensions',
 ]

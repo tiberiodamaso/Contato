@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+{% include 'core/menu.html' %}
+
+<body class="container">
+    {% include 'core/mensagens.html' %}
+    <div class="d-flex flex-column align-items-center py-5">
+        <h1 class="fw-semibold">Permissão Negada</h1>
+        <h4>Você precisa realizar o pagamento</h4>
+
+</body>
+
+{% endblock %}

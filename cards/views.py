@@ -8,7 +8,7 @@ from django.core.files.base import ContentFile
 from django.conf import settings
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView, DeleteView
 from core import analytics_data_api
@@ -113,11 +113,20 @@ class Dashboard(TemplateView):
         return context
 
 
-class Criar(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Card
     form_class = CardEditForm
     template_name = 'cards/criar.html'
     success_message = 'Card criado com sucesso.'
+
+    def test_func(self):
+        pedidos = self.request.user.pedidos.all()
+        for pedido in pedidos:
+            if pedido.status == 'Pago':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada.html', status=403)
 
     def get_success_url(self, card):
         return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug })
