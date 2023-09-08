@@ -1,5 +1,7 @@
 import re, json
 from typing import Any, Dict
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 from django.views.generic import TemplateView, FormView
@@ -44,6 +46,7 @@ class PoliticaDePrivacidade(TemplateView):
     template_name = 'core/politica-de-privacidade.html'
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class Pagamento(View):
 
     def post(self, request, *args, **kwargs):
