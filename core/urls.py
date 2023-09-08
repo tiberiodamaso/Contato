@@ -2,7 +2,7 @@ from django.urls import path
 from .views import HomeView
 from cards.views import Editar, Listar, Dashboard, Detalhar, Todos, \
     Criar, DashboardEmpresa, ConteudoCriar, Deletar, Pesquisar, ConteudoExcluir
-from core.views import GetMunicipios, GetSubcategorias, PoliticaDePrivacidade, TermosDeUso
+from core.views import GetMunicipios, GetSubcategorias, PoliticaDePrivacidade, TermosDeUso, Pagamento
 
 
 app_name = 'core'
@@ -20,6 +20,7 @@ urlpatterns = [
     path('<slug:empresa>/card/conteudo/excluir/<int:pk>/', ConteudoExcluir.as_view(), name='conteudo-excluir'),
     path('todos-cards/', Todos.as_view(), name='todos-cards'),
     path('pesquisar/', Pesquisar.as_view(), name='pesquisar'),
+    path('pagamento/', Pagamento.as_view(), name='pagamento'),
 
     # POPULAR FORMS
     path('get_municipios/', GetMunicipios.as_view(), name='get-municipios'),

@@ -1,5 +1,7 @@
-import re
+import re, json
 from typing import Any, Dict
+from django.http import HttpResponse, JsonResponse
+from django.views import View
 from django.views.generic import TemplateView, FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -42,6 +44,18 @@ class PoliticaDePrivacidade(TemplateView):
     template_name = 'core/politica-de-privacidade.html'
 
 
-# class Pagamento(FormView):
-#     template_name = 'core/pagamento.html'
+class Pagamento(View):
+
+    def post(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+            print(data)
+            # Lide com os dados recebidos do Mercado Pago aqui
+            
+
+            return HttpResponse(status=200)  # Responda com sucesso para o Mercado Pago
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Erro ao analisar JSON'}, status=400)  # Responda com erro de análise JSON
+
+
 
