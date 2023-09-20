@@ -4,8 +4,10 @@ from io import BytesIO
 from pathlib import Path
 from django.conf import settings
 from django.core.files import File
+from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.conf import settings
+from django.contrib import messages
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -15,7 +17,7 @@ from core import analytics_data_api
 from .models import Card, Conteudo, Estado, Municipio, Categoria, Subcategoria
 from usuarios.models import Usuario
 from .forms import CardEditForm, ConteudoEditForm
-from .utils import make_vcf, cleaner
+from .utils import make_vcf, cleaner, resize_image
 from django.template.defaultfilters import slugify
 from usuarios.tokens import account_activation_token
 from django.core.mail import EmailMessage
@@ -131,7 +133,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
     def get_success_url(self, card):
         return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug })
     
-    def get_context_data(self):
+    def get_context_data(self, form=None):
        context = super().get_context_data()
        estados = Estado.objects.all()
        categorias = Categoria.objects.all()
@@ -164,6 +166,21 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         linkedin = form.cleaned_data['linkedin']
         youtube = form.cleaned_data['youtube']
         tik_tok = form.cleaned_data['tik_tok']
+        img_perfil = form.cleaned_data.get('img_perfil')
+        logotipo = form.cleaned_data.get('logotipo')
+        if img_perfil:
+        # Defina o tamanho máximo permitido 1 MB
+            tamanho_maximo = 1 * 1024 * 1024  # 0 MB em bytes
+            if img_perfil.size > tamanho_maximo:
+                messages.error(self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
+                return self.form_invalid(form)
+
+        if logotipo:
+        # Defina o tamanho máximo permitido 1 MB
+            tamanho_maximo = 1 * 1024 * 1024  # 0 MB em bytes
+            if logotipo.size > tamanho_maximo:
+                messages.error(self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
+                return self.form_invalid(form)
 
         #CRIA VCF
         vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
@@ -203,20 +220,88 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         card.qr_code.save(name, File(blob), save=False)
         return card.qr_code
 
-    def post(self, request, *args, **kwargs):
-        # Obtenha o objeto que está sendo atualizado
+    # def post(self, request, *args, **kwargs):
+        # card = self.get_object()
+        # tamanho_maximo = 1 * 1024 * 1024  # 0 MB em bytes
+
+        # # VALIDA TAMANO DE ARQUIVO
+        # if 'img_perfil' in request.FILES and request.FILES['img_perfil'].size > tamanho_maximo:
+        #     messages.error(self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
+        #     return self.form_invalid(form)
+        
+        # # APAGA ARQUIVOS ANTIGOS
+        # if 'img_perfil' in request.FILES and card.img_perfil:
+        #     try:
+        #         os.remove(card.img_perfil.path)
+        #         card.img_perfil.delete()
+        #         card.save()
+        #     except FileNotFoundError as err:
+        #         print(err)
+
+        # if 'logotipo' in request.FILES and card.logotipo:
+        #   try:
+        #     os.remove(card.logotipo.path)
+        #     card.logotipo.delete()
+        #     card.save()
+        #   except FileNotFoundError as err:
+        #     print(err)
+
+        # if card.vcf:
+        #   try:
+        #     os.remove(card.vcf.path)
+        #     card.vcf.delete()
+        #     card.save()
+        #   except FileNotFoundError as err:
+        #     print(err)
+
+        # if card.qr_code:
+        #   try:
+        #     os.remove(card.qr_code.path)
+        #     card.qr_code.delete()
+        #     card.save()
+        #   except FileNotFoundError as err:
+        #     print(err)
+
+        # return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
         card = self.get_object()
+        proprietario = self.request.user
+        tamanho_maximo = 1 * 1024 * 1024  # 0 MB em bytes
+        card.proprietario = proprietario
+        empresa = form.cleaned_data['empresa']
+        site = form.cleaned_data['site']
+        telefone = form.cleaned_data['telefone']
+        whatsapp = form.cleaned_data['whatsapp']
+        facebook = form.cleaned_data['facebook']
+        instagram = form.cleaned_data['instagram']
+        linkedin = form.cleaned_data['linkedin']
+        youtube = form.cleaned_data['youtube']
+        tik_tok = form.cleaned_data['tik_tok']
+        cargo = form.cleaned_data['cargo']
+        img_perfil = self.request.FILES['img_perfil'] if 'img_perfil' in self.request.FILES else ''
+        logotipo = self.request.FILES['logotipo'] if 'logotipo' in self.request.FILES else ''
+        # card = form.save(commit=False)
+
+        # VALIDA TAMANHO DE ARQUIVOS
+        if img_perfil and img_perfil.size > tamanho_maximo:
+            messages.error(self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
+            return self.form_invalid(form)
+
+        if logotipo and logotipo.size > tamanho_maximo:
+            messages.error(self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
+            return self.form_invalid(form)
 
         # APAGA ARQUIVOS ANTIGOS
-        if 'img_perfil' in request.FILES and card.img_perfil:
-          try:
-            os.remove(card.img_perfil.path)
-            card.img_perfil.delete()
-            card.save()
-          except FileNotFoundError as err:
-            print(err)
+        if img_perfil and card.img_perfil:
+            try:
+                os.remove(card.img_perfil.path)
+                card.img_perfil.delete()
+                card.save()
+            except FileNotFoundError as err:
+                print(err)
 
-        if 'logotipo' in request.FILES and card.logotipo:
+        if logotipo and card.logotipo:
           try:
             os.remove(card.logotipo.path)
             card.logotipo.delete()
@@ -239,23 +324,6 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
             card.save()
           except FileNotFoundError as err:
             print(err)
-
-        return super().post(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        proprietario = self.request.user
-        card = form.save(commit=False)
-        card.proprietario = proprietario
-        empresa = form.cleaned_data['empresa']
-        site = form.cleaned_data['site']
-        telefone = form.cleaned_data['telefone']
-        whatsapp = form.cleaned_data['whatsapp']
-        facebook = form.cleaned_data['facebook']
-        instagram = form.cleaned_data['instagram']
-        linkedin = form.cleaned_data['linkedin']
-        youtube = form.cleaned_data['youtube']
-        tik_tok = form.cleaned_data['tik_tok']
-        cargo = form.cleaned_data['cargo']
 
         #CRIA VCF
         vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
@@ -447,12 +515,39 @@ class ConteudoCriar(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return context
 
     def form_valid(self, form):
-      conteudo = form.save(commit=False)
-      usuario = self.request.user
-      card = usuario.cards.first()
-      conteudo.card = card
-      conteudo.save()
-      return super().form_valid(form)
+        img = form.cleaned_data['img']
+        tipo = form.cleaned_data['tipo']
+        link = form.cleaned_data['link']
+        largura_desejada = 300
+        altura_desejada = 300
+
+        usuario = self.request.user
+        card = usuario.cards.first()
+        instance = card.proprietario.id.hex
+        img_name = img.name
+        arquivo = slugify(os.path.splitext(img_name)[0])
+        extensao = os.path.splitext(img_name)[1]
+        filename = f'{arquivo}{extensao}'
+        path = os.path.join(settings.MEDIA_ROOT, instance, filename)
+
+        # Valida tamanho da imagem
+        if img:
+            tamanho_maximo = 1 * 1024 * 1024
+            if img.size > tamanho_maximo:
+                messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
+                return self.form_invalid(form)
+            
+            # Redimensiona imagem se existe
+            imagem_redimensionada = resize_image(img, largura_desejada, altura_desejada)
+            imagem_redimensionada.save(fp=path, format=None)
+            
+        conteudo = form.save(commit=False)
+        conteudo.card = card
+        conteudo.img = os.path.join(instance, filename)
+        conteudo.link = link
+        conteudo.save()
+
+        return super().form_valid(form)
 
 
 class ConteudoExcluir(LoginRequiredMixin, SuccessMessageMixin, DeleteView):

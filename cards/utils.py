@@ -1,4 +1,4 @@
-import os, re
+import os, re, io
 from PIL import Image
 from django.core.exceptions import ValidationError
 
@@ -73,13 +73,33 @@ def valida_cnpj(cnpj:str) -> bool:
 
   return True
 
-def resize_image(image_file, size):
-        image = Image.open(image_file)
+def resize_image(imagem, largura_desejada, altura_desejada):
+    try:
+        imagem = Image.open(imagem)
 
-        # Redimensionar a imagem mantendo a proporção original
-        image.thumbnail((size, size))
+        largura_atual, altura_atual = imagem.size
 
-        return image
+        if largura_atual <= largura_desejada and altura_atual <= altura_desejada:
+            # Não é necessário redimensionar a imagem
+            return imagem
+
+        proporcao_largura = largura_desejada / largura_atual
+        proporcao_altura = altura_desejada / altura_atual
+
+        if proporcao_largura < proporcao_altura:
+            nova_largura = largura_desejada
+            nova_altura = int(altura_atual * proporcao_largura)
+        else:
+            nova_largura = int(largura_atual * proporcao_altura)
+            nova_altura = altura_desejada
+
+        img_redimensionada = imagem.resize((nova_largura, nova_altura))
+
+        return img_redimensionada
+        
+    except Exception as e:
+        print(f"Erro ao redimensionar a imagem: {e}")
+        return None
 
 def cleaner(text: str) -> str:
     """

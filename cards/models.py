@@ -193,18 +193,6 @@ class Card(models.Model):
         
         self.conteudo_pesquisavel = self.prepara_conteudo_pesquisavel()
 
-        # if self.img_perfil:
-        #     desired_size = 300
-        #     img_perfil = Image.open(self.img_perfil.path)
-        #     img_perfil.thumbnail((desired_size, desired_size))
-        #     img_perfil.save(self.img_perfil.path)
-
-        # if self.logotipo:
-        #     desired_size = 300
-        #     logotipo = Image.open(self.logotipo.path)
-        #     logotipo.thumbnail((desired_size, desired_size))
-        #     logotipo.save(self.logotipo.path)
-
         super().save(*args, **kwargs)
 
 
