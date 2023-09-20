@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load tags %}
 {% block content %}
 {% include 'core/menu.html' %}
 
@@ -43,12 +44,14 @@
     </div>
 
     <!--FORMULÁRIO DE EDIÇÃO DO CARD-->
-    <form action="{% url 'core:editar' card.slug_empresa card.slug %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+    <form id="editCard" action="{% url 'core:editar' card.slug_empresa card.slug %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
       {% csrf_token %}
-      <div class="mb-3">
-        <label for="id_img_perfil">Foto:</label>
-        {{form.img_perfil}}
-      </div>
+
+        <!--IMG PERFIL-->
+        <div class="mb-3">
+            <label for="id_img_perfil">Foto: <span class="small text-danger">(máximo 1MB)</span></label>
+            {{form.img_perfil}}
+        </div>
 
         <!--NOME DISPLAY-->
         <div>
@@ -77,128 +80,131 @@
             </div>
         </div>
 
-      <div class="mb-3">
-        <label for="id_logotipo">Logotipo:</label>
-        {{form.logotipo}}
-      </div>
-
-
-    <!--CARGO-->
-    <div>
-        <label for="id_cargo">Cargo:</label>
-        <div class="input-group mb-3">
-            {{form.cargo}}
-            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+        <!--LOGOTIPO-->
+        <div class="mb-3">
+            <label for="id_logotipo">Logotipo: <span class="small text-danger">(máximo 1MB)</span></label>
+            {{form.logotipo}}
         </div>
-    </div>
 
-    <!--CATEGORIA-->
-    <div class="mb-3">
-        <label for="id_categoria">Categoria:</label>
-        {{form.categoria}}
-    </div>
 
-    <!--SUBCATEGORIA-->
-    <div class="mb-3">
-        <label for="id_categoria">Subcategoria:</label>
-        {{form.subcategoria}}
-    </div>
-    
-    <!--ESTADO-->
-    <div class="mb-3">
-        <label for="id_estado">Estado:</label>
-        {{form.estado}}
-    </div>
-    
-    <!--MUNICIPIO-->
-    <div class="mb-3">
-        <label for="id_municipio">Município:</label>
-        {{form.municipio}}
-    </div>
-
-    <!--TELEFONE-->
-    <div>
-        <label for="id_telefone">Telefone:</label>
-        <div class="input-group mb-3">
-            {{form.telefone}}
-            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
-            {% if form.telefone.errors %}
-            {% for error in form.telefone.errors %}
-            <div class="alert alert-danger text-center alert-dismissible" role="alert">
-                {{error}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <!--CARGO-->
+        <div>
+            <label for="id_cargo">Cargo:</label>
+            <div class="input-group mb-3">
+                {{form.cargo}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
             </div>
-            {% endfor %}
-            {% endif %}
         </div>
-    </div>
 
-    <!--WHATSAPP-->
-    <div>
-        <label for="id_whatsapp">Whatsapp:</label>
-        <div class="input-group mb-3">
-            {{form.whatsapp}}
-            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
-            {% if form.whatsapp.errors %}
-            {% for error in form.whatsapp.errors %}
-            <div class="alert alert-danger text-center alert-dismissible" role="alert">
-                {{error}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <!--CATEGORIA-->
+        <div class="mb-3">
+            <label for="id_categoria">Categoria:</label>
+            {{form.categoria}}
+        </div>
+
+        <!--SUBCATEGORIA-->
+        <div class="mb-3">
+            <label for="id_categoria">Subcategoria:</label>
+            {{form.subcategoria}}
+        </div>
+        
+        <!--ESTADO-->
+        <div class="mb-3">
+            <label for="id_estado">Estado:</label>
+            {{form.estado}}
+        </div>
+        
+        <!--MUNICIPIO-->
+        <div class="mb-3">
+            <label for="id_municipio">Município:</label>
+            {{form.municipio}}
+        </div>
+
+        <!--TELEFONE-->
+        <div>
+            <label for="id_telefone">Telefone:</label>
+            <div class="input-group mb-3">
+                {{form.telefone}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+                {% if form.telefone.errors %}
+                {% for error in form.telefone.errors %}
+                <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                    {{error}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
             </div>
-            {% endfor %}
-            {% endif %}
         </div>
-    </div>
 
-    <!--FACEBOOK-->
-    <div>
-        <label for="id_facebook">Facebook:</label>
-        <div class="input-group mb-3">
-            {{form.facebook}}
-            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+        <!--WHATSAPP-->
+        <div>
+            <label for="id_whatsapp">Whatsapp:</label>
+            <div class="input-group mb-3">
+                {{form.whatsapp}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+                {% if form.whatsapp.errors %}
+                {% for error in form.whatsapp.errors %}
+                <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                    {{error}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
         </div>
-    </div>
-    
-    <!--INSTAGRAM-->
-    <div>
-        <label for="id_instagram">Instagram:</label>
-        <div class="input-group mb-3">
-            {{form.instagram}}
-            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
-        </div>
-    </div>
-    
-    <!--LINKEDIN-->
-    <div>
-        <label for="id_linkedin">LinkedIn:</label>
-        <div class="input-group mb-3">
-            {{form.linkedin}}
-            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
-        </div>
-    </div>
-    
-    <!--YOUTUBE-->
-    <div>
-        <label for="id_youtube">Youtube:</label>
-        <div class="input-group mb-3">
-            {{form.youtube}}
-            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
-        </div>
-    </div>
-    
-    <!--TIK TOK-->
-    <div>
-        <label for="id_tik_tok">Tik Tok:</label>
-        <div class="input-group mb-3">
-            {{form.tik_tok}}
-            <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
-        </div>
-    </div>
 
-      <div class="d-flex justify-content-between">
+        <!--FACEBOOK-->
+        <div>
+            <label for="id_facebook">Facebook:</label>
+            <div class="input-group mb-3">
+                {{form.facebook}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
+        </div>
+        
+        <!--INSTAGRAM-->
+        <div>
+            <label for="id_instagram">Instagram:</label>
+            <div class="input-group mb-3">
+                {{form.instagram}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
+        </div>
+        
+        <!--LINKEDIN-->
+        <div>
+            <label for="id_linkedin">LinkedIn:</label>
+            <div class="input-group mb-3">
+                {{form.linkedin}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
+        </div>
+        
+        <!--YOUTUBE-->
+        <div>
+            <label for="id_youtube">Youtube:</label>
+            <div class="input-group mb-3">
+                {{form.youtube}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
+        </div>
+        
+        <!--TIK TOK-->
+        <div>
+            <label for="id_tik_tok">Tik Tok:</label>
+            <div class="input-group mb-3">
+                {{form.tik_tok}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
+        </div>
+
+        <!--BOTÕES-->
+        <div class="d-flex justify-content-between">
         <button type="button" class="btn btn-secondary" style="width: 45%;" onclick="history.back()">Cancelar</button>
         <button type="submit" class="btn btn-warning" style="width: 45%;">Salvar</button>
-      </div>
+        </div>
+
     </form>
   </div>
 
@@ -208,6 +214,76 @@
         input.value =  '';
     }
   </script>
+
+  <!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
+  <script>
+    function validarTamanhoArquivo(inputElement) {
+        const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
+
+        if (inputElement.files.length > 0) {
+            const arquivo = inputElement.files[0];
+
+            if (arquivo.size > tamanhoMaximo) {
+                alert("O arquivo excede o tamanho máximo permitido 1 MB.");
+                inputElement.value = ""; // Limpa o campo de arquivo, se necessário
+            }
+        }
+    }
+
+    const inputImgPerfil = document.getElementById("id_img_perfil");
+    const inputLogotipo = document.getElementById("id_logotipo");
+
+    inputImgPerfil.addEventListener("change", function () {
+    validarTamanhoArquivo(inputImgPerfil);
+    });
+
+    inputLogotipo.addEventListener("change", function () {
+    validarTamanhoArquivo(inputLogotipo);
+    });
+  </script>
+
+  <!--MÁSCARA DE TELEFONE-->
+  <!-- <script>
+    function aplicarMascaraTelefone(inputElement) {
+        const valor = inputElement.value.replace(/\D/g, ""); // Remove todos os não dígitos
+        let mascara;
+
+        if (valor.length === 11) {
+            mascara = "(##) #####-####";
+        } else if (valor.length === 10) {
+            mascara = "(##) ####-####";
+        } else {
+            // Se o número não tem 10 ou 11 dígitos, não aplicamos nenhuma máscara
+            mascara = "";
+        }
+
+        let valorFormatado = "";
+        let j = 0;
+
+        for (let i = 0; i < mascara.length; i++) {
+            if (mascara[i] === "#") {
+            valorFormatado += valor[j];
+            j++;
+            } else {
+            valorFormatado += mascara[i];
+            }
+        }
+
+        inputElement.value = valorFormatado;
+    }
+
+    const inputTelefone = document.getElementById("id_telefone");
+    const inputWhatsapp = document.getElementById("id_whatsapp");
+
+    inputTelefone.addEventListener("input", function () {
+    aplicarMascaraTelefone(inputTelefone);
+    });
+
+    inputWhatsapp.addEventListener("input", function () {
+    aplicarMascaraTelefone(inputWhatsapp);
+    });
+
+  </script> -->
 
 </body>
 

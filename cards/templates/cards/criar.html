@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load tags %}
 {% block content %}
 {% include 'core/menu.html' %}
 
@@ -29,7 +30,7 @@
       {% csrf_token %}
       
       <div class="mb-3">
-        <label for="id_img_perfil">Foto:</label>
+        <label for="id_img_perfil">Foto: <span class="small text-danger">(máximo 1MB)</span></label>
         {{form.img_perfil}}
       </div>
 
@@ -49,7 +50,7 @@
       </div>
 
       <div class="mb-3">
-        <label for="id_empresa">Logotipo:</label>
+        <label for="id_empresa">Logotipo: <span class="small text-danger">(máximo 1MB)</span></label>
         {{form.logotipo}}
       </div>
 
@@ -162,6 +163,33 @@
         </div>
     </div>
     {% endif %}
+
+    <!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
+  <script>
+    function validarTamanhoArquivo(inputElement) {
+        const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
+
+        if (inputElement.files.length > 0) {
+            const arquivo = inputElement.files[0];
+
+            if (arquivo.size > tamanhoMaximo) {
+                alert("O arquivo excede o tamanho máximo permitido 1 MB.");
+                inputElement.value = ""; // Limpa o campo de arquivo, se necessário
+            }
+        }
+    }
+
+    const inputImgPerfil = document.getElementById("id_img_perfil");
+    const inputLogotipo = document.getElementById("id_logotipo");
+
+    inputImgPerfil.addEventListener("change", function () {
+    validarTamanhoArquivo(inputImgPerfil);
+    });
+
+    inputLogotipo.addEventListener("change", function () {
+    validarTamanhoArquivo(inputLogotipo);
+    });
+  </script>
 
 </body>
 
