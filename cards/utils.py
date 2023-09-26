@@ -96,7 +96,7 @@ def resize_image(imagem, largura_desejada, altura_desejada):
         img_redimensionada = imagem.resize((nova_largura, nova_altura))
 
         return img_redimensionada
-        
+
     except Exception as e:
         print(f"Erro ao redimensionar a imagem: {e}")
         return None

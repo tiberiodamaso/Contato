@@ -41,7 +41,7 @@ class Pagar(LoginRequiredMixin, View):
         # Defina os dados da solicitação em formato JSON
         data = {
             "reason": "Plano individual",
-            "payer_email": usuario.email,
+            "payer_email": "test_user_436583754@testuser.com",
             "auto_recurring": {
                 "frequency": 1,
                 "frequency_type": "months",

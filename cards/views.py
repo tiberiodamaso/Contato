@@ -1,4 +1,8 @@
-import re, os, qrcode, shutil
+import re
+import os
+import qrcode
+import shutil
+import io
 import qrcode.image.svg
 from io import BytesIO
 from pathlib import Path
@@ -131,8 +135,8 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         return render(self.request, 'cards/permissao-negada.html', status=403)
 
     def get_success_url(self, card):
-        return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug })
-    
+        return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
+
     def get_context_data(self, form=None):
        context = super().get_context_data()
        estados = Estado.objects.all()
@@ -168,19 +172,6 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         tik_tok = form.cleaned_data['tik_tok']
         img_perfil = form.cleaned_data.get('img_perfil')
         logotipo = form.cleaned_data.get('logotipo')
-        if img_perfil:
-        # Defina o tamanho máximo permitido 1 MB
-            tamanho_maximo = 1 * 1024 * 1024  # 0 MB em bytes
-            if img_perfil.size > tamanho_maximo:
-                messages.error(self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
-                return self.form_invalid(form)
-
-        if logotipo:
-        # Defina o tamanho máximo permitido 1 MB
-            tamanho_maximo = 1 * 1024 * 1024  # 0 MB em bytes
-            if logotipo.size > tamanho_maximo:
-                messages.error(self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
-                return self.form_invalid(form)
 
         #CRIA VCF
         vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
@@ -191,8 +182,36 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         vcf_file = ContentFile(content)
         card.vcf.save(vcf_name, vcf_file)
 
+        if img_perfil:
+            tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
+            if img_perfil.size > tamanho_maximo:
+                messages.error(
+                    self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
+                return self.form_invalid(form)
+
+        if logotipo:
+            tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
+            if logotipo.size > tamanho_maximo:
+                messages.error(
+                    self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
+                return self.form_invalid(form)
+
+            # Redimensiona logotipo se existe
+            largura_desejada = 300
+            altura_desejada = 300
+            pasta_usuario = card.proprietario.id.hex
+            logo_name = f'{slugify(os.path.splitext(logotipo.name)[0])}{os.path.splitext(logotipo.name)[1]}'
+            filename = os.path.join(
+                settings.MEDIA_ROOT, pasta_usuario, logo_name)
+            logotipo_redimensionado = resize_image(
+                logotipo, largura_desejada, altura_desejada)
+            logotipo_redimensionado.save(filename)
+
         # CRIA QRCODE
         self.gera_qrcode(card)
+
+        # SALVA PATH LOGO NO BANCO
+        card.logotipo = os.path.join(pasta_usuario, logo_name)
         card.save()
 
         return HttpResponseRedirect(self.get_success_url(card))
@@ -204,10 +223,10 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'cards/editar.html'
     success_message = 'Card atualizado com sucesso!'
 
-    def get_success_url(self):
+    def get_success_url(self, card):
         user = self.request.user
         card = Card.objects.get(proprietario=user)
-        return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug })
+        return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
 
     def gera_qrcode(self, card, **kwargs):
         host = self.request.get_host()
@@ -220,54 +239,9 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         card.qr_code.save(name, File(blob), save=False)
         return card.qr_code
 
-    # def post(self, request, *args, **kwargs):
-        # card = self.get_object()
-        # tamanho_maximo = 1 * 1024 * 1024  # 0 MB em bytes
-
-        # # VALIDA TAMANO DE ARQUIVO
-        # if 'img_perfil' in request.FILES and request.FILES['img_perfil'].size > tamanho_maximo:
-        #     messages.error(self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
-        #     return self.form_invalid(form)
-        
-        # # APAGA ARQUIVOS ANTIGOS
-        # if 'img_perfil' in request.FILES and card.img_perfil:
-        #     try:
-        #         os.remove(card.img_perfil.path)
-        #         card.img_perfil.delete()
-        #         card.save()
-        #     except FileNotFoundError as err:
-        #         print(err)
-
-        # if 'logotipo' in request.FILES and card.logotipo:
-        #   try:
-        #     os.remove(card.logotipo.path)
-        #     card.logotipo.delete()
-        #     card.save()
-        #   except FileNotFoundError as err:
-        #     print(err)
-
-        # if card.vcf:
-        #   try:
-        #     os.remove(card.vcf.path)
-        #     card.vcf.delete()
-        #     card.save()
-        #   except FileNotFoundError as err:
-        #     print(err)
-
-        # if card.qr_code:
-        #   try:
-        #     os.remove(card.qr_code.path)
-        #     card.qr_code.delete()
-        #     card.save()
-        #   except FileNotFoundError as err:
-        #     print(err)
-
-        # return super().post(request, *args, **kwargs)
-
     def form_valid(self, form):
         card = self.get_object()
         proprietario = self.request.user
-        tamanho_maximo = 1 * 1024 * 1024  # 0 MB em bytes
         card.proprietario = proprietario
         empresa = form.cleaned_data['empresa']
         site = form.cleaned_data['site']
@@ -281,15 +255,17 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         cargo = form.cleaned_data['cargo']
         img_perfil = self.request.FILES['img_perfil'] if 'img_perfil' in self.request.FILES else ''
         logotipo = self.request.FILES['logotipo'] if 'logotipo' in self.request.FILES else ''
-        # card = form.save(commit=False)
+        tamanho_maximo = 1 * 1024 * 1024
 
         # VALIDA TAMANHO DE ARQUIVOS
         if img_perfil and img_perfil.size > tamanho_maximo:
-            messages.error(self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
+            messages.error(
+                self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
             return self.form_invalid(form)
 
         if logotipo and logotipo.size > tamanho_maximo:
-            messages.error(self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
+            messages.error(
+                self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
             return self.form_invalid(form)
 
         # APAGA ARQUIVOS ANTIGOS
@@ -297,48 +273,53 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
             try:
                 os.remove(card.img_perfil.path)
                 card.img_perfil.delete()
-                card.save()
+                card.img_perfil = img_perfil
             except FileNotFoundError as err:
                 print(err)
 
         if logotipo and card.logotipo:
-          try:
-            os.remove(card.logotipo.path)
-            card.logotipo.delete()
-            card.save()
-          except FileNotFoundError as err:
-            print(err)
+            try:
+                os.remove(card.logotipo.path)
+                card.logotipo.delete()
+
+                # Redimensiona logotipo se existe
+                largura_desejada = 300
+                altura_desejada = 300
+                pasta_usuario = card.proprietario.id.hex
+                logo_name = f'{slugify(os.path.splitext(logotipo.name)[0])}{os.path.splitext(logotipo.name)[1]}'
+                filename = os.path.join(settings.MEDIA_ROOT, pasta_usuario, logo_name)
+                logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
+                logotipo_redimensionado.save(filename)
+                card.logotipo = os.path.join(pasta_usuario, logo_name)
+
+            except FileNotFoundError as err:
+                print(err)
 
         if card.vcf:
-          try:
-            os.remove(card.vcf.path)
-            card.vcf.delete()
-            card.save()
-          except FileNotFoundError as err:
-            print(err)
+            try:
+                os.remove(card.vcf.path)
+                card.vcf.delete()
+                vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
+                                    telefone, whatsapp, facebook, instagram, linkedin, proprietario.email, youtube, tik_tok)
+
+                vcf_name = f'{slugify(proprietario.get_full_name())}.vcf'
+                content = '\n'.join([str(line) for line in vcf_content])
+                vcf_file = ContentFile(content)
+                card.vcf.save(vcf_name, vcf_file)
+            except FileNotFoundError as err:
+                print(err)
 
         if card.qr_code:
-          try:
-            os.remove(card.qr_code.path)
-            card.qr_code.delete()
-            card.save()
-          except FileNotFoundError as err:
-            print(err)
+            try:
+                os.remove(card.qr_code.path)
+                card.qr_code.delete()
+                qr_code = self.gera_qrcode(card)
+            except FileNotFoundError as err:
+                print(err)
 
-        #CRIA VCF
-        vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
-                               telefone, whatsapp, facebook, instagram, linkedin, proprietario.email, youtube, tik_tok)
-
-        vcf_name = f'{slugify(proprietario.get_full_name())}.vcf'
-        content = '\n'.join([str(line) for line in vcf_content])
-        vcf_file = ContentFile(content)
-        card.vcf.save(vcf_name, vcf_file)
-
-        # CRIA QRCODE
-        qr_code = self.gera_qrcode(card)
         card.save()
 
-        return super().form_valid(form)
+        return HttpResponseRedirect(self.get_success_url(card))
 
 
 class Detalhar(DetailView):
@@ -362,7 +343,7 @@ class Detalhar(DetailView):
                 promocoes.append(conteudo)
             if conteudo.tipo.nome == 'Portfólio':
                 portfolios.append(conteudo)
-            
+
         context['produtos'] = produtos
         context['servicos'] = servicos
         context['portfolios'] = portfolios
@@ -384,7 +365,7 @@ class Deletar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         conteudos = Conteudo.objects.filter(card=card)
         for conteudo in conteudos:
             conteudo.delete()
-        
+
         # Apagar arquivos associados ao conteúdo
         path = os.path.join(settings.MEDIA_ROOT, self.request.user.id.hex)
         try:
@@ -516,35 +497,31 @@ class ConteudoCriar(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         img = form.cleaned_data['img']
-        tipo = form.cleaned_data['tipo']
-        link = form.cleaned_data['link']
+        usuario = self.request.user
+        card = usuario.cards.first()
         largura_desejada = 300
         altura_desejada = 300
 
-        usuario = self.request.user
-        card = usuario.cards.first()
-        instance = card.proprietario.id.hex
-        img_name = img.name
-        arquivo = slugify(os.path.splitext(img_name)[0])
-        extensao = os.path.splitext(img_name)[1]
-        filename = f'{arquivo}{extensao}'
-        path = os.path.join(settings.MEDIA_ROOT, instance, filename)
+        pasta_usuario = card.proprietario.id.hex
+        img_name = f'{slugify(os.path.splitext(img.name)[0])}{os.path.splitext(img.name)[1]}'
+        filename = os.path.join(settings.MEDIA_ROOT, pasta_usuario, img_name)
 
         # Valida tamanho da imagem
         if img:
             tamanho_maximo = 1 * 1024 * 1024
             if img.size > tamanho_maximo:
-                messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
+                messages.error(
+                    self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
                 return self.form_invalid(form)
-            
-            # Redimensiona imagem se existe
-            imagem_redimensionada = resize_image(img, largura_desejada, altura_desejada)
-            imagem_redimensionada.save(fp=path, format=None)
-            
+
+            # Redimensiona imagem se existe e salva no filesystem
+            img_redimensionada = resize_image(
+                img, largura_desejada, altura_desejada)
+            img_redimensionada.save(filename)
+
         conteudo = form.save(commit=False)
         conteudo.card = card
-        conteudo.img = os.path.join(instance, filename)
-        conteudo.link = link
+        conteudo.img = os.path.join(pasta_usuario, img_name)
         conteudo.save()
 
         return super().form_valid(form)
@@ -557,7 +534,7 @@ class ConteudoExcluir(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     success_url = '.'
 
     def get_success_url(self, card):
-        return reverse('core:conteudo-criar', kwargs={'empresa': card.slug_empresa, 'slug': card.slug })
+        return reverse('core:conteudo-criar', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
 
     def post(self, request, *args, **kwargs):
         conteudo = Conteudo.objects.filter(id=self.kwargs['pk']).first()
@@ -634,7 +611,8 @@ class CriarEmpresa(LoginRequiredMixin, SuccessMessageMixin, CreateView):
           # cnpj = form.data['cnpj']
           nova_empresa = Empresa.objects.create(nome=nome)
         else:
-          nova_empresa = Empresa.objects.create(nome=slugify(f'{first_name}-{last-name}'))
+          nova_empresa = Empresa.objects.create(
+              nome=slugify(f'{first_name}-{last-name}'))
 
         # CRIA NOVO CARD
         card = form.save(commit=False)
@@ -649,7 +627,7 @@ class CriarEmpresa(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         tik_tok = form.cleaned_data['tik_tok']
         cargo = form.cleaned_data['cargo']
         vcf_content = make_vcf(novo_usuario.first_name, novo_usuario.last_name, nova_empresa.nome,
-                                   telefone, whatsapp, facebook, instagram, linkedin, novo_usuario.email, youtube, tik_tok)
+                               telefone, whatsapp, facebook, instagram, linkedin, novo_usuario.email, youtube, tik_tok)
 
         vcf_name = f'{slugify(novo_usuario.get_full_name())}.vcf'
         content = '\n'.join([str(line) for line in vcf_content])
@@ -694,22 +672,27 @@ class Pesquisar(ListView):
         estados = Estado.objects.all()
         categorias = Categoria.objects.all()
         context['categorias'] = categorias
-        context['subcategorias'] = Subcategoria.objects.filter(categoria=categorias.first())
+        context['subcategorias'] = Subcategoria.objects.filter(
+            categoria=categorias.first())
         context['estados'] = estados
-        context['municipios'] = Municipio.objects.filter(estado=estados.first())
+        context['municipios'] = Municipio.objects.filter(
+            estado=estados.first())
         return context
 
     def get_queryset(self):
         conteudo_pesquisado = self.request.GET.get("pesquisar")
-        categoria = self.request.GET.get("categoria") if self.request.GET.get("categoria")!= '0' else None
-        subcategoria = self.request.GET.get("subcategoria") if self.request.GET.get("subcategoria")!= '0' else None
+        categoria = self.request.GET.get(
+            "categoria") if self.request.GET.get("categoria") != '0' else None
+        subcategoria = self.request.GET.get(
+            "subcategoria") if self.request.GET.get("subcategoria") != '0' else None
         queryset = Card.objects.all()
         if conteudo_pesquisado and conteudo_pesquisado != 'None':
             conteudo_pesquisado_limpo = cleaner(conteudo_pesquisado)
-            queryset = queryset.filter(conteudo_pesquisavel__contains=conteudo_pesquisado_limpo)
+            queryset = queryset.filter(
+                conteudo_pesquisavel__contains=conteudo_pesquisado_limpo)
         if categoria and categoria != 'None':
             queryset = queryset.filter(categoria=categoria)
         if subcategoria and subcategoria != 'None':
             queryset = queryset.filter(subcategoria=subcategoria)
-            
+
         return queryset
