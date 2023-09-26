@@ -170,6 +170,10 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         linkedin = form.cleaned_data['linkedin']
         youtube = form.cleaned_data['youtube']
         tik_tok = form.cleaned_data['tik_tok']
+        categoria = form.cleaned_data['categoria']
+        subcategoria = form.cleaned_data['subcategoria']
+        estado = form.cleaned_data['estado']
+        municipio = form.cleaned_data['municipio']
         img_perfil = form.cleaned_data.get('img_perfil')
         logotipo = form.cleaned_data.get('logotipo')
 
@@ -201,10 +205,8 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
             altura_desejada = 300
             pasta_usuario = card.proprietario.id.hex
             logo_name = f'{slugify(os.path.splitext(logotipo.name)[0])}{os.path.splitext(logotipo.name)[1]}'
-            filename = os.path.join(
-                settings.MEDIA_ROOT, pasta_usuario, logo_name)
-            logotipo_redimensionado = resize_image(
-                logotipo, largura_desejada, altura_desejada)
+            filename = os.path.join(settings.MEDIA_ROOT, pasta_usuario, logo_name)
+            logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
             logotipo_redimensionado.save(filename)
 
         # CRIA QRCODE
@@ -228,6 +230,25 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         card = Card.objects.get(proprietario=user)
         return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
 
+    def get_context_data(self, form=None):
+       context = super().get_context_data()
+       estados = Estado.objects.all()
+       categorias = Categoria.objects.all()
+       subcategorias = Subcategoria.objects.all()
+       categoria_atual = self.object.categoria
+       subcategoria_atual = self.object.subcategoria
+       estado_atual = self.object.estado
+       municipio_atual = self.object.municipio
+       context['categorias'] = categorias
+       context['subcategorias'] = subcategorias
+       context['estados'] = estados
+       context['municipios'] = Municipio.objects.all()
+       context['categoria_atual'] = categoria_atual
+       context['subcategoria_atual'] = subcategoria_atual
+       context['estado_atual'] = estado_atual
+       context['municipio_atual'] = municipio_atual
+       return context
+
     def gera_qrcode(self, card, **kwargs):
         host = self.request.get_host()
         vcf_url = card.vcf.url
@@ -241,6 +262,7 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def form_valid(self, form):
         card = self.get_object()
+        card = form.save(commit=False)
         proprietario = self.request.user
         card.proprietario = proprietario
         empresa = form.cleaned_data['empresa']
@@ -253,6 +275,10 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         youtube = form.cleaned_data['youtube']
         tik_tok = form.cleaned_data['tik_tok']
         cargo = form.cleaned_data['cargo']
+        categoria = form.cleaned_data['categoria']
+        subcategoria = form.cleaned_data['subcategoria']
+        estado = form.cleaned_data['estado']
+        municipio = form.cleaned_data['municipio']
         img_perfil = self.request.FILES['img_perfil'] if 'img_perfil' in self.request.FILES else ''
         logotipo = self.request.FILES['logotipo'] if 'logotipo' in self.request.FILES else ''
         tamanho_maximo = 1 * 1024 * 1024

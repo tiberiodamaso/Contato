@@ -86,7 +86,6 @@
             {{form.logotipo}}
         </div>
 
-
         <!--CARGO-->
         <div>
             <label for="id_cargo">Cargo:</label>
@@ -99,25 +98,59 @@
         <!--CATEGORIA-->
         <div class="mb-3">
             <label for="id_categoria">Categoria:</label>
-            {{form.categoria}}
+            <select name="categoria" class="form-select" id="id_categoria"
+            hx-get="{% url 'core:get-subcategorias'%}" hx-trigger="change" hx-target="#id_subcategoria">
+            {% for categoria in categorias %}
+                {% if categoria == categoria_atual %}
+                <option value="{{categoria_atual.id}}" selected="{{categoria_atual.id}}">{{categoria.nome}}</option>
+                {% else %}
+                <option value="{{categoria.id}}">{{categoria.nome}}</option>
+                {% endif %}
+            {% endfor %}
+            </select>
         </div>
 
         <!--SUBCATEGORIA-->
         <div class="mb-3">
-            <label for="id_categoria">Subcategoria:</label>
-            {{form.subcategoria}}
+            <label for="id_subcategoria">Subcategoria:</label>
+            <select name="subcategoria" class="form-select" id="id_subcategoria">
+                {% for subcategoria in subcategorias %}
+                    {% if subcategoria == subcategoria_atual %}
+                    <option value="{{subcategoria_atual.id}}" selected="{{subcategoria_atual.id}}">{{subcategoria.nome}}</option>
+                    {% else %}
+                    <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
         </div>
-        
+
         <!--ESTADO-->
         <div class="mb-3">
             <label for="id_estado">Estado:</label>
-            {{form.estado}}
+            <select name="estado" class="form-select" id="id_estado"
+            hx-get="{% url 'core:get-municipios'%}" hx-trigger="change" hx-target="#id_municipio">
+            {% for estado in estados %}
+                {% if estado == estado_atual %}
+                <option value="{{estado_atual.id}}" selected="{{estado_atual.id}}">{{estado.nome}}</option>
+                {% else %}
+                <option value="{{estado.id}}">{{estado.nome}}</option>
+                {% endif %}
+            {% endfor %}
+            </select>
         </div>
-        
+
         <!--MUNICIPIO-->
         <div class="mb-3">
             <label for="id_municipio">Município:</label>
-            {{form.municipio}}
+            <select name="municipio" class="form-select" id="id_municipio">
+            {% for municipio in municipios %}
+                {% if municipio == municipio_atual %}
+                <option value="{{municipio_atual.id}}" selected="{{municipio_atual.id}}">{{municipio.nome}}</option>
+                {% else %}
+                <option value="{{municipio.id}}">{{municipio.nome}}</option>
+                {% endif %}
+            {% endfor %}
+            </select>
         </div>
 
         <!--TELEFONE-->

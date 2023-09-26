@@ -27,128 +27,145 @@
 
     <!--FORMULÁRIO PARA CRIAR NOVO CARD-->
     <form action="{% url 'core:criar' %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
-      {% csrf_token %}
+        {% csrf_token %}
       
-      <div class="mb-3">
-        <label for="id_img_perfil">Foto: <span class="small text-danger">(máximo 1MB)</span></label>
-        {{form.img_perfil}}
-      </div>
+        <!--IMG_PERFIL-->
+        <div class="mb-3">
+            <label for="id_img_perfil">Foto: <span class="small text-danger">(máximo 1MB)</span></label>
+            {{form.img_perfil}}
+        </div>
 
-      <div class="mb-3">
-        <label for="id_nome_display">Nome no card:</label>
-        {{form.nome_display}}
-      </div>
+        <!--NOME DISPLAY-->
+        <div class="mb-3">
+            <label for="id_nome_display">Nome no card:</label>
+            {{form.nome_display}}
+        </div>
 
-      <div class="mb-3">
-        <label for="id_empresa">Empresa:</label>
-        {{form.empresa}}
-      </div>
+        <!--EMPRESA-->
+        <div class="mb-3">
+            <label for="id_empresa">Empresa:</label>
+            {{form.empresa}}
+        </div>
 
-      <div class="mb-3">
-        <label for="id_site">Site:</label>
-        {{form.site}}
-      </div>
+        <!--SITE-->
+        <div class="mb-3">
+            <label for="id_site">Site:</label>
+            {{form.site}}
+        </div>
 
-      <div class="mb-3">
-        <label for="id_empresa">Logotipo: <span class="small text-danger">(máximo 1MB)</span></label>
-        {{form.logotipo}}
-      </div>
+        <!--LOGOTIPO-->
+        <div class="mb-3">
+            <label for="id_empresa">Logotipo: <span class="small text-danger">(máximo 1MB)</span></label>
+            {{form.logotipo}}
+        </div>
 
-      <div class="mb-3">
-        <label for="id_cargo">Cargo:</label>
-        {{form.cargo}}
-      </div>
+        <!--CARGO-->
+        <div class="mb-3">
+            <label for="id_cargo">Cargo:</label>
+            {{form.cargo}}
+        </div>
 
-      <div class="mb-3">
-        <label for="id_categoria">Categoria:</label>
-        <select name="categoria" class="form-select" id="id_categoria"
-          hx-get="{% url 'core:get-subcategorias'%}" hx-trigger="change" hx-target="#id_subcategoria">
-          {% for categoria in categorias %}
-            <option value="{{categoria.id}}">{{categoria.nome}}</option>
-          {% endfor %}
-        </select>
-      </div>
-
-      <div class="mb-3">
-        <label for="id_subcategoria">Subcategoria:</label>
-        <select name="subcategoria" class="form-select" id="id_subcategoria">
-            {% for subcategoria in subcategorias %}
-              <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
+        <!--CATEGORIA-->
+        <div class="mb-3">
+            <label for="id_categoria">Categoria:</label>
+            <select name="categoria" class="form-select" id="id_categoria"
+            hx-get="{% url 'core:get-subcategorias'%}" hx-trigger="change" hx-target="#id_subcategoria">
+            {% for categoria in categorias %}
+                <option value="{{categoria.id}}">{{categoria.nome}}</option>
             {% endfor %}
-          </select>
-      </div>
+            </select>
+        </div>
 
-      <div class="mb-3">
-        <label for="id_estado">Estado:</label>
-        <select name="estado" class="form-select" id="id_estado"
-          hx-get="{% url 'core:get-municipios'%}" hx-trigger="change" hx-target="#id_municipio">
-          {% for estado in estados %}
-            <option value="{{estado.id}}">{{estado.nome}}</option>
-          {% endfor %}
-        </select>
-      </div>
+        <!--SUBCATEGORIA-->
+        <div class="mb-3">
+            <label for="id_subcategoria">Subcategoria:</label>
+            <select name="subcategoria" class="form-select" id="id_subcategoria">
+                {% for subcategoria in subcategorias %}
+                <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-      <div class="mb-3">
-        <label for="id_municipio">Município:</label>
-        <select name="municipio" class="form-select" id="id_municipio">
-          {% for municipio in municipios %}
-            <option value="{{municipio.id}}">{{municipio.nome}}</option>
-          {% endfor %}
-        </select>
-      </div>
+        <!--ESTADO-->
+        <div class="mb-3">
+            <label for="id_estado">Estado:</label>
+            <select name="estado" class="form-select" id="id_estado"
+            hx-get="{% url 'core:get-municipios'%}" hx-trigger="change" hx-target="#id_municipio">
+            {% for estado in estados %}
+                <option value="{{estado.id}}">{{estado.nome}}</option>
+            {% endfor %}
+            </select>
+        </div>
 
-      <div class="mb-3">
-        <label for="id_telefone">Telefone:</label>
-        {{form.telefone}}
-        {% if form.telefone.errors %}
-          {% for error in form.telefone.errors %}
-          <div class="alert alert-danger text-center alert-dismissible" role="alert">
-            {{error}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          {% endfor %}
-        {% endif %}
-      </div>
+        <!--MUNICIPIO-->
+        <div class="mb-3">
+            <label for="id_municipio">Município:</label>
+            <select name="municipio" class="form-select" id="id_municipio">
+            {% for municipio in municipios %}
+                <option value="{{municipio.id}}">{{municipio.nome}}</option>
+            {% endfor %}
+            </select>
+        </div>
 
-      <div class="mb-3">
-        <label for="id_whatsapp">Whatsapp:</label>
-        {{form.whatsapp}}
-        {% if form.whatsapp.errors %}
-          {% for error in form.whatsapp.errors %}
-          <div class="alert alert-danger text-center alert-dismissible" role="alert">
-            {{error}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          {% endfor %}
-        {% endif %}
-      </div>
+        <!--TELEFONE-->
+        <div class="mb-3">
+            <label for="id_telefone">Telefone:</label>
+            {{form.telefone}}
+            {% if form.telefone.errors %}
+            {% for error in form.telefone.errors %}
+            <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                {{error}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
 
-      <div class="mb-3">
-        <label for="id_facebook">Facebook:</label>
-        {{form.facebook}}
-      </div>
+        <!--WHATSAPP-->
+        <div class="mb-3">
+            <label for="id_whatsapp">Whatsapp:</label>
+            {{form.whatsapp}}
+            {% if form.whatsapp.errors %}
+            {% for error in form.whatsapp.errors %}
+            <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                {{error}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
 
-      <div class="mb-3">
-        <label for="id_instagram">Instagram:</label>
-        {{form.instagram}}
-      </div>
+        <!--FACEBOOK-->
+        <div class="mb-3">
+            <label for="id_facebook">Facebook:</label>
+            {{form.facebook}}
+        </div>
 
-      <div class="mb-3">
-        <label for="id_linkedin">LinkedIn:</label>
-        {{form.linkedin}}
-      </div>
+        <!--INSTAGRAM-->
+        <div class="mb-3">
+            <label for="id_instagram">Instagram:</label>
+            {{form.instagram}}
+        </div>
 
-      <div class="mb-3">
-        <label for="id_youtube">Youtube:</label>
-        {{form.youtube}}
-      </div>
+        <!--LINKEDIN-->
+        <div class="mb-3">
+            <label for="id_linkedin">LinkedIn:</label>
+            {{form.linkedin}}
+        </div>
 
-      <div class="mb-3">
-        <label for="id_tik_tok">Tik Tok:</label>
-        {{form.tik_tok}}
-      </div>
+        <!--YOUTUBE-->
+        <div class="mb-3">
+            <label for="id_youtube">Youtube:</label>
+            {{form.youtube}}
+        </div>
 
-      <button type="submit" class="btn btn-warning w-100">Salvar</button>
+        <!--TIK TOK-->
+        <div class="mb-3">
+            <label for="id_tik_tok">Tik Tok:</label>
+            {{form.tik_tok}}
+        </div>
+
+        <button type="submit" class="btn btn-warning w-100">Salvar</button>
     </form>
   </div>
   {% else %}
