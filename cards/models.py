@@ -1,4 +1,4 @@
-import os, re
+import os, re, uuid
 from django.core.validators import FileExtensionValidator, URLValidator
 from django.db import models
 from django.template.defaultfilters import slugify
@@ -13,9 +13,9 @@ def get_path(instance, filename):
         instance = instance.proprietario.id.hex
     else:
         instance = instance.card.proprietario.id.hex
-    arquivo = slugify(os.path.splitext(filename)[0])
-    extensao = os.path.splitext(filename)[1]
-    filename = f'{arquivo}{extensao}'
+    arquivo = uuid.uuid4().hex
+    extensao = slugify(os.path.splitext(filename)[1])
+    filename = f'{arquivo}.{extensao}'
     return os.path.join(instance, filename)
 
 

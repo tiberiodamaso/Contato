@@ -3,6 +3,8 @@ import os
 import qrcode
 import shutil
 import io
+import uuid
+import tempfile
 import qrcode.image.svg
 from io import BytesIO
 from pathlib import Path
@@ -153,15 +155,16 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         vcf_url = card.vcf.url
         url = f'{host}{vcf_url}'
         qr_code = qrcode.make(url, box_size=20)
-        name = f'{card.slug}-qrcode.png'
+        name = f'{uuid.uuid4().hex}.png'
         blob = BytesIO()
         qr_code.save(blob)
         card.qr_code.save(name, File(blob), save=False)
 
     def form_valid(self, form):
-        proprietario = self.request.user
         card = form.save(commit=False)
+        proprietario = self.request.user
         card.proprietario = proprietario
+        pasta_usuario = card.proprietario.id.hex
         empresa = form.cleaned_data['empresa']
         telefone = form.cleaned_data['telefone']
         whatsapp = form.cleaned_data['whatsapp']
@@ -177,21 +180,13 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         img_perfil = form.cleaned_data.get('img_perfil')
         logotipo = form.cleaned_data.get('logotipo')
 
-        #CRIA VCF
-        vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
-                               telefone, whatsapp, facebook, instagram, linkedin, proprietario.email, youtube, tik_tok)
-
-        vcf_name = f'{slugify(proprietario.get_full_name())}.vcf'
-        content = '\n'.join([str(line) for line in vcf_content])
-        vcf_file = ContentFile(content)
-        card.vcf.save(vcf_name, vcf_file)
-
         if img_perfil:
             tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
             if img_perfil.size > tamanho_maximo:
                 messages.error(
                     self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
                 return self.form_invalid(form)
+
 
         if logotipo:
             tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
@@ -203,18 +198,26 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
             # Redimensiona logotipo se existe
             largura_desejada = 300
             altura_desejada = 300
-            pasta_usuario = card.proprietario.id.hex
-            logo_name = f'{slugify(os.path.splitext(logotipo.name)[0])}{os.path.splitext(logotipo.name)[1]}'
-            filename = os.path.join(settings.MEDIA_ROOT, pasta_usuario, logo_name)
             logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
-            logotipo_redimensionado.save(filename)
+
+            # Crie um arquivo temporário para a imagem redimensionada
+            temp_file = tempfile.NamedTemporaryFile(delete=False)
+            logotipo_redimensionado.save(temp_file, format='JPEG') 
+            card.logotipo.save(name=logotipo.name, content=temp_file, save=True)
+            temp_file.close()
+            os.remove(temp_file.name)
+
+        #CRIA VCF
+        vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
+                               telefone, whatsapp, facebook, instagram, linkedin, proprietario.email, youtube, tik_tok)
+
+        vcf_name = f'{uuid.uuid4().hex}.vcf'
+        content = '\n'.join([str(line) for line in vcf_content])
+        vcf_file = ContentFile(content)
+        card.vcf.save(vcf_name, vcf_file)
 
         # CRIA QRCODE
         self.gera_qrcode(card)
-
-        # SALVA PATH LOGO NO BANCO
-        card.logotipo = os.path.join(pasta_usuario, logo_name)
-        card.save()
 
         return HttpResponseRedirect(self.get_success_url(card))
 

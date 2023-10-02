@@ -26,7 +26,7 @@
     </div>
 
     <!--FORMULÁRIO PARA CRIAR NOVO CARD-->
-    <form action="{% url 'core:criar' %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+    <form action="{% url 'core:criar' %}" method="post" id="cardForm" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
         {% csrf_token %}
       
         <!--IMG_PERFIL-->
@@ -182,31 +182,31 @@
     {% endif %}
 
     <!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
-  <script>
-    function validarTamanhoArquivo(inputElement) {
-        const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
+    <script>
+        function validarTamanhoArquivo(inputElement) {
+            const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
 
-        if (inputElement.files.length > 0) {
-            const arquivo = inputElement.files[0];
+            if (inputElement.files.length > 0) {
+                const arquivo = inputElement.files[0];
 
-            if (arquivo.size > tamanhoMaximo) {
-                alert("O arquivo excede o tamanho máximo permitido 1 MB.");
-                inputElement.value = ""; // Limpa o campo de arquivo, se necessário
+                if (arquivo.size > tamanhoMaximo) {
+                    alert("O arquivo excede o tamanho máximo permitido 1 MB.");
+                    inputElement.value = ""; // Limpa o campo de arquivo, se necessário
+                }
             }
         }
-    }
 
-    const inputImgPerfil = document.getElementById("id_img_perfil");
-    const inputLogotipo = document.getElementById("id_logotipo");
+        const inputImgPerfil = document.getElementById("id_img_perfil");
+        const inputLogotipo = document.getElementById("id_logotipo");
 
-    inputImgPerfil.addEventListener("change", function () {
-    validarTamanhoArquivo(inputImgPerfil);
-    });
+        inputImgPerfil.addEventListener("change", function () {
+        validarTamanhoArquivo(inputImgPerfil);
+        });
 
-    inputLogotipo.addEventListener("change", function () {
-    validarTamanhoArquivo(inputLogotipo);
-    });
-  </script>
+        inputLogotipo.addEventListener("change", function () {
+        validarTamanhoArquivo(inputLogotipo);
+        });
+    </script>
 
 </body>
 
