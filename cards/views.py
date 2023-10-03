@@ -158,7 +158,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         name = f'{uuid.uuid4().hex}.png'
         blob = BytesIO()
         qr_code.save(blob)
-        card.qr_code.save(name, File(blob), save=False)
+        card.qr_code.save(name, File(blob))
 
     def form_valid(self, form):
         card = form.save(commit=False)
@@ -179,9 +179,10 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         municipio = form.cleaned_data['municipio']
         img_perfil = form.cleaned_data.get('img_perfil')
         logotipo = form.cleaned_data.get('logotipo')
+        tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
 
+        # VALIDA TAMANHO DE ARQUIVOS
         if img_perfil:
-            tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
             if img_perfil.size > tamanho_maximo:
                 messages.error(
                     self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
@@ -257,7 +258,7 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         vcf_url = card.vcf.url
         url = f'{host}{vcf_url}'
         qr_code = qrcode.make(url, box_size=20)
-        name = f'{card.slug}-qrcode.png'
+        name = f'{uuid.uuid4().hex}.png'
         blob = BytesIO()
         qr_code.save(blob)
         card.qr_code.save(name, File(blob), save=False)
@@ -265,7 +266,6 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def form_valid(self, form):
         card = self.get_object()
-        card = form.save(commit=False)
         proprietario = self.request.user
         card.proprietario = proprietario
         empresa = form.cleaned_data['empresa']
@@ -297,33 +297,45 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
                 self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
             return self.form_invalid(form)
 
-        # APAGA ARQUIVOS ANTIGOS
-        if img_perfil and card.img_perfil:
-            try:
-                os.remove(card.img_perfil.path)
-                card.img_perfil.delete()
-                card.img_perfil = img_perfil
-            except FileNotFoundError as err:
-                print(err)
+        # APAGA IMGAGEM PERFIL ANTIGA
+        if img_perfil:
+            if card.img_perfil:
+                try:
+                    os.remove(card.img_perfil.path)
+                    card.img_perfil.delete()
+                except FileNotFoundError as err:
+                    print(err)
+            card.img_perfil = img_perfil
+            card.img_perfil.save(name=img_perfil.name, content=img_perfil.file)
 
-        if logotipo and card.logotipo:
-            try:
-                os.remove(card.logotipo.path)
-                card.logotipo.delete()
+        # APAGA LOGOTIPO ANTIGO E SALVA NOVO
+        if logotipo:
+            if card.logotipo:
+                try:
+                    os.remove(card.logotipo.path)
+                    card.logotipo.delete()
+                except FileNotFoundError as err:
+                    print(err)
 
-                # Redimensiona logotipo se existe
-                largura_desejada = 300
-                altura_desejada = 300
-                pasta_usuario = card.proprietario.id.hex
-                logo_name = f'{slugify(os.path.splitext(logotipo.name)[0])}{os.path.splitext(logotipo.name)[1]}'
-                filename = os.path.join(settings.MEDIA_ROOT, pasta_usuario, logo_name)
-                logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
-                logotipo_redimensionado.save(filename)
-                card.logotipo = os.path.join(pasta_usuario, logo_name)
+            # Redimensiona logotipo se existe
+            largura_desejada = 300
+            altura_desejada = 300
+            logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
 
-            except FileNotFoundError as err:
-                print(err)
+            # pasta_usuario = card.proprietario.id.hex
+            # logo_name = f'{slugify(os.path.splitext(logotipo.name)[0])}{os.path.splitext(logotipo.name)[1]}'
+            # filename = os.path.join(settings.MEDIA_ROOT, pasta_usuario, logo_name)
+            # logotipo_redimensionado.save(filename)
+            # card.logotipo = os.path.join(pasta_usuario, logo_name)
 
+            # Crie um arquivo temporário para a imagem redimensionada
+            temp_file = tempfile.NamedTemporaryFile(delete=False)
+            logotipo_redimensionado.save(temp_file, format='JPEG') 
+            card.logotipo.save(name=logotipo.name, content=temp_file, save=True)
+            temp_file.close()
+            os.remove(temp_file.name)
+
+        # APAGA VCF ANTIGO SALVA NOVO
         if card.vcf:
             try:
                 os.remove(card.vcf.path)
@@ -331,13 +343,14 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
                 vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
                                     telefone, whatsapp, facebook, instagram, linkedin, proprietario.email, youtube, tik_tok)
 
-                vcf_name = f'{slugify(proprietario.get_full_name())}.vcf'
+                vcf_name = f'{uuid.uuid4().hex}.vcf'
                 content = '\n'.join([str(line) for line in vcf_content])
                 vcf_file = ContentFile(content)
                 card.vcf.save(vcf_name, vcf_file)
             except FileNotFoundError as err:
                 print(err)
 
+        # APAGA QRCODE ANTIGO E SALVA NOVO
         if card.qr_code:
             try:
                 os.remove(card.qr_code.path)
@@ -346,6 +359,18 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
             except FileNotFoundError as err:
                 print(err)
 
+        card.empresa = empresa
+        card.site = site
+        card.facebook = facebook
+        card.instagram = instagram
+        card.linkedin = linkedin
+        card.youtube = youtube
+        card.tik_tok = tik_tok
+        card.cargo = cargo
+        card.categoria = categoria
+        card.subcategoria = subcategoria
+        card.estado = estado
+        card.municipio = municipio
         card.save()
 
         return HttpResponseRedirect(self.get_success_url(card))

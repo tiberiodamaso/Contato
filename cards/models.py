@@ -88,8 +88,6 @@ class Card(models.Model):
     img_perfil = models.FileField(
         verbose_name='Foto perfil',
         upload_to=get_path,
-        blank=True,
-        null=True,
         validators=[FileExtensionValidator(
             allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
     )
