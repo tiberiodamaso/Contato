@@ -35,6 +35,6 @@ class ConteudoEditForm(forms.ModelForm):
         model = Conteudo
         exclude = ['card']
         widgets = {
-            'img': forms.FileInput(attrs={'class': 'form-control'}),
+            'img': forms.FileInput(attrs={'class': 'form-control', 'required': 'required'}),
             'link': forms.URLInput(attrs={'class': 'form-control'}),
         }

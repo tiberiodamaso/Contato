@@ -217,8 +217,6 @@ class Conteudo(models.Model):
     img = models.ImageField(
         verbose_name='Imagem',
         upload_to=get_path,
-        blank=True,
-        null=True,
         validators=[FileExtensionValidator(
             allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
     )

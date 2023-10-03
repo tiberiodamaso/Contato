@@ -322,12 +322,6 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
             altura_desejada = 300
             logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
 
-            # pasta_usuario = card.proprietario.id.hex
-            # logo_name = f'{slugify(os.path.splitext(logotipo.name)[0])}{os.path.splitext(logotipo.name)[1]}'
-            # filename = os.path.join(settings.MEDIA_ROOT, pasta_usuario, logo_name)
-            # logotipo_redimensionado.save(filename)
-            # card.logotipo = os.path.join(pasta_usuario, logo_name)
-
             # Crie um arquivo temporário para a imagem redimensionada
             temp_file = tempfile.NamedTemporaryFile(delete=False)
             logotipo_redimensionado.save(temp_file, format='JPEG') 
@@ -388,6 +382,7 @@ class Detalhar(DetailView):
         servicos = []
         portfolios = []
         promocoes = []
+        cursos = []
         for conteudo in conteudos:
             if conteudo.tipo.nome == 'Produto':
                 produtos.append(conteudo)
@@ -397,11 +392,14 @@ class Detalhar(DetailView):
                 promocoes.append(conteudo)
             if conteudo.tipo.nome == 'Portfólio':
                 portfolios.append(conteudo)
+            if conteudo.tipo.nome == 'Curso':
+                cursos.append(conteudo)
 
         context['produtos'] = produtos
         context['servicos'] = servicos
         context['portfolios'] = portfolios
         context['promocoes'] = promocoes
+        context['cursos'] = cursos
         return context
 
 
@@ -550,32 +548,36 @@ class ConteudoCriar(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        img = form.cleaned_data['img']
+        conteudo = form.save(commit=False)
         usuario = self.request.user
         card = usuario.cards.first()
+        conteudo.card = card
+        img = form.cleaned_data['img']
         largura_desejada = 300
         altura_desejada = 300
-
-        pasta_usuario = card.proprietario.id.hex
-        img_name = f'{slugify(os.path.splitext(img.name)[0])}{os.path.splitext(img.name)[1]}'
-        filename = os.path.join(settings.MEDIA_ROOT, pasta_usuario, img_name)
+        tamanho_maximo = 1 * 1024 * 1024
 
         # Valida tamanho da imagem
         if img:
-            tamanho_maximo = 1 * 1024 * 1024
             if img.size > tamanho_maximo:
                 messages.error(
                     self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
                 return self.form_invalid(form)
+            
+            extensao = slugify(os.path.splitext(img.name)[1])
+            if extensao == 'jpg':
+                extensao = 'jpeg'
 
-            # Redimensiona imagem se existe e salva no filesystem
-            img_redimensionada = resize_image(
-                img, largura_desejada, altura_desejada)
-            img_redimensionada.save(filename)
+            # Redimensiona imagem se existe
+            img_redimensionada = resize_image(img, largura_desejada, altura_desejada)
 
-        conteudo = form.save(commit=False)
-        conteudo.card = card
-        conteudo.img = os.path.join(pasta_usuario, img_name)
+            # Crie um arquivo temporário para a imagem redimensionada
+            temp_file = tempfile.NamedTemporaryFile(delete=False)
+            img_redimensionada.save(temp_file, format=extensao) 
+            conteudo.img.save(name=img.name, content=temp_file, save=True)
+            temp_file.close()
+            os.remove(temp_file.name)
+
         conteudo.save()
 
         return super().form_valid(form)
@@ -601,8 +603,6 @@ class ConteudoExcluir(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
             os.remove(path)
         except FileNotFoundError as err:
             print(err)
-
-        # return super().post(request, *args, **kwargs)
 
         return HttpResponseRedirect(self.get_success_url(card))
 

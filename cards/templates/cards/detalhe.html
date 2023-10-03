@@ -77,17 +77,13 @@
     <!--PRODUTOS-->
     <div class="my-5">
         <h3 class="text-center my-4">PRODUTOS</h3>
-        <div class="row row-cols-2 row-cols-md-2 g-4">
+        <div class="row flex-md-row flex-column row-cols-md-2 g-4">
         {% for produto in produtos %}
             <div class="col">
                 <div class="card border-0">
-                    <img src="{{ produto.img.url }}" class="card-img" alt="...">
-                    <div class="card-img-overlay">
-                        <div class="text-end">
-                            <a href="#">
-                            </a>
-                        </div>
-                    </div>
+                    <a href="{{ produto.link }}" target="_blank">
+                        <img src="{{ produto.img.url }}" class="card-img" alt="...">
+                    </a>
                 </div>
             </div>
         {% endfor %}
@@ -99,17 +95,13 @@
     <!--SERVIÇOS-->
     <div class="my-5">
         <h3 class="text-center my-4">SERVIÇOS</h3>
-        <div class="row row-cols-2 row-cols-md-2 g-4">
+        <div class="row flex-md-row flex-column row-cols-md-2 g-4">
         {% for servico in servicos %}
             <div class="col">
                 <div class="card border-0">
-                    <img src="{{ servico.img.url }}" class="card-img" alt="...">
-                    <div class="card-img-overlay">
-                        <div class="text-end">
-                            <a href="#">
-                            </a>
-                        </div>
-                    </div>
+                    <a href="{{ servico.link }}" target="_blank">
+                        <img src="{{ servico.img.url }}" class="card-img" alt="...">
+                    </a>
                 </div>
             </div>
         {% endfor %}
@@ -121,16 +113,13 @@
     <!--PROMOÇÕES-->
     <div class="my-5">
         <h3 class="text-center my-4">PROMOÇÕES</h3>
-        <div class="row row-cols-2 row-cols-md-2 g-4">
+        <div class="row flex-md-row flex-column row-cols-md-2 g-4">
             {% for promocao in promocoes %}
             <div class="col">
                 <div class="card border-0">
-                    <img src="{{ promocao.img.url }}" class="card-img" alt="...">
-                    <div class="card-img-overlay">
-                        <div class="text-end">
-                            <a href="#">
-                            </a>
-                        </div>
+                    <a href="{{ promocao.link }}" target="_blank">
+                        <img src="{{ promocao.img.url }}" class="card-img" alt="...">
+                    </a>
                     </div>
                 </div>
             </div>
@@ -143,18 +132,13 @@
     <!--PORTFÓLIOS-->
     <div class="my-5">
         <h3 class="text-center my-4">PORTFÓLIOS</h3>
-        <div class="row row-cols-2 row-cols-md-2 g-4">
+        <div class="row flex-md-row flex-column row-cols-md-2 g-4">
             {% for portfolio in portfolios %}
             <div class="col">
                 <div class="card border-0">
-                    <img src="{{ portfolio.img.url }}" class="card-img" alt="...">
-                    <div class="card-img-overlay">
-                        <div class="text-end">
-                            <a href="#">
-                                <!-- <i class="bi bi-box-arrow-up-right"></i> -->
-                            </a>
-                        </div>
-                    </div>
+                    <a href="{{ portfolio.link }}" target="_blank">
+                        <img src="{{ portfolio.img.url }}" class="card-img" alt="...">
+                    </a>
                 </div>
             </div>
             {% endfor %}
@@ -166,17 +150,13 @@
     <!--CURSOS-->
     <div class="my-5">
         <h3 class="text-center my-4">CURSOS</h3>
-        <div class="row row-cols-2 row-cols-md-2 g-4">
+        <div class="row flex-md-row flex-column row-cols-md-2 g-4">
             {% for curso in cursos %}
             <div class="col">
                 <div class="card border-0">
-                    <img src="{{ curso.img.url }}" class="card-img" alt="...">
-                    <div class="card-img-overlay">
-                        <div class="text-end">
-                            <a href="#">
-                            </a>
-                        </div>
-                    </div>
+                    <a href="{{ curso.link }}" target="_blank">
+                        <img src="{{ curso.img.url }}" class="card-img" alt="...">
+                    </a>
                 </div>
             </div>
             {% endfor %}
@@ -203,27 +183,27 @@
     <div class="d-flex justify-content-around pb-5 mx-5" style="padding-bottom: 5em !important;">
      <!--INSTAGRAM-->
      {% if card.instagram %}
-     <a href="{{card.instagram}}" target="_self"><i class="bi bi-instagram fs-1 text-black-50"></i></a>
+     <a href="{{card.instagram}}" target="_blank"><i class="bi bi-instagram fs-1 text-black-50"></i></a>
      {% endif %}
 
      <!--FACEBOOK-->
      {% if card.facebook %}
-     <a href="{{card.facebook}}" target="_self"><i class="bi bi-facebook fs-1 text-black-50"></i></a>
+     <a href="{{card.facebook}}" target="_blank"><i class="bi bi-facebook fs-1 text-black-50"></i></a>
      {% endif %}
 
      <!--LINKEDIN-->
      {% if card.linkedin %}
-     <a href="{{card.linkedin}}" target="_self"><i class="bi bi-linkedin fs-1 text-black-50"></i></a>
+     <a href="{{card.linkedin}}" target="_blank"><i class="bi bi-linkedin fs-1 text-black-50"></i></a>
      {% endif %}
 
      <!--YOUTUBE-->
      {% if card.youtube %}
-     <a href="{{card.youtube}}" target="_self"><i class="bi bi-youtube fs-1 text-black-50"></i></a>
+     <a href="{{card.youtube}}" target="_blank"><i class="bi bi-youtube fs-1 text-black-50"></i></a>
      {% endif %}
 
      <!--TIKTOK-->
      {% if card.tik_tok %}
-     <a href="{{card.tik_tok}}" target="_self"><i class="bi bi-tiktok fs-1 text-black-50"></i></a>
+     <a href="{{card.tik_tok}}" target="_blank"><i class="bi bi-tiktok fs-1 text-black-50"></i></a>
      {% endif %}
     </div>
 </body>
