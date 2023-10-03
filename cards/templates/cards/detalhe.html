@@ -3,209 +3,209 @@
 {% block title%} {{card.usuario.first_name}} {{card.usuario.last_name}} {% endblock %}
 {% block content %}
 
-<body class="container">
-    {% include 'core/menu.html' %}
-    {% include 'core/mensagens.html' %}
-    
-    <!--EMPRESA-->
-    {% if card.logotipo %}
-    <div class="row d-flex justify-content-center my-5">
-        <div class="col-12 col-lg-8">
-            <div class="d-flex justify-content-center">
-                <a href="{{ card.site }}">
-                    <img src="{{ card.logotipo.url }}" alt="" loading="lazy" style="max-height: 70vh; max-width: 70vw;" />
+{% include 'core/menu.html' %}
+{% include 'core/mensagens.html' %}
+
+<!--EMPRESA-->
+{% if card.logotipo %}
+<div class="row d-flex justify-content-center my-5">
+    <div class="col-12 col-lg-8">
+        <div class="d-flex justify-content-center">
+            <a href="{{ card.site }}">
+                <img src="{{ card.logotipo.url }}" alt="" loading="lazy" style="max-height: 70vh; max-width: 70vw;" />
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!--PROPRIETÁRIO-->
+<div class="row flex-column align-content-center my-5">
+    <div class="col-lg-8 col-12 text-center">
+        <!--FOTO PERFIL-->
+        {% if card.img_perfil %}
+        <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid"
+            loading="lazy" />
+        {% else %}
+        <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
+            class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy" />
+        {% endif %}
+
+        <!--NOMDE O USUÁRIO-->
+        <h2 class="fw-bold pt-3 pb-2">
+            {{card.nome_display}}
+        </h2>
+
+        <!--CARGO-->
+        {% if card.cargo %}
+        <h3 class="lead pb-3">{{ card.cargo }}</h3>
+        {% endif %}
+
+        <!--BOTÃO DE WHATSAPP-->
+        <div class="d-flex justify-content-center my-2 rounded bg-warning">
+            <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self"
+                class="btn fs-4 w-100">Whatsapp</a>
+        </div>
+
+        <!--VCF-->
+        {% if card.vcf %}
+        <div class="d-flex justify-content-center my-2 rounded bg-warning">
+            <a href="{{ card.vcf.url }}" class="btn fs-4 w-100">Adicionar na agenda</a>
+        </div>
+        {% endif %}
+
+        <!--BOTÃO DE EDITAR CARD-->
+        {% if user.is_authenticated and user == card.proprietario %}
+        <div class="d-flex justify-content-center my-2 rounded">
+            <a href="{% url 'core:editar' card.slug_empresa card.slug %}"
+                class="btn fs-4 w-100 bg-success text-white mx-1">Editar card</a>
+            <a href="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}"
+                class="btn fs-4 w-100  bg-success text-white mx-1">Editar conteúdo</a>
+        </div>
+        {% endif %}
+
+        <!--CONTATO-->
+        <div class="d-flex justify-content-around py-4">
+            <a href="mailto:{{ card.proprietario.email }}"><i class="bi bi-envelope fs-1 text-black-50"></i></a>
+            <a href="tel:+55{{ card.telefone }}"><i class="bi bi-telephone fs-1 text-black-50"></i></a>
+        </div>
+
+    </div>
+</div>
+
+
+{% if produtos %}
+<!--PRODUTOS-->
+<div class="my-5">
+    <h3 class="text-center my-4">PRODUTOS</h3>
+    <div class="row flex-md-row flex-column row-cols-md-2 g-4">
+        {% for produto in produtos %}
+        <div class="col">
+            <div class="card border-0">
+                <a href="{{ produto.link }}" target="_blank">
+                    <img src="{{ produto.img.url }}" class="card-img" alt="...">
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if servicos %}
+<!--SERVIÇOS-->
+<div class="my-5">
+    <h3 class="text-center my-4">SERVIÇOS</h3>
+    <div class="row flex-md-row flex-column row-cols-md-2 g-4">
+        {% for servico in servicos %}
+        <div class="col">
+            <div class="card border-0">
+                <a href="{{ servico.link }}" target="_blank">
+                    <img src="{{ servico.img.url }}" class="card-img" alt="...">
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if promocoes %}
+<!--PROMOÇÕES-->
+<div class="my-5">
+    <h3 class="text-center my-4">PROMOÇÕES</h3>
+    <div class="row flex-md-row flex-column row-cols-md-2 g-4">
+        {% for promocao in promocoes %}
+        <div class="col">
+            <div class="card border-0">
+                <a href="{{ promocao.link }}" target="_blank">
+                    <img src="{{ promocao.img.url }}" class="card-img" alt="...">
                 </a>
             </div>
         </div>
     </div>
-    {% endif %}
+    {% endfor %}
+</div>
+</div>
+{% endif %}
 
-    <!--PROPRIETÁRIO-->
-    <div class="row flex-column align-content-center my-5">
-        <div class="col-lg-8 col-12 text-center">
-            <!--FOTO PERFIL-->
-            {% if card.img_perfil %}
-            <img src="{{card.img_perfil.url}}" alt="Foto do perfil"
-                class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid" loading="lazy" />
-            {% else %}
-            <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
-                class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy" />
-            {% endif %}
-
-            <!--NOMDE O USUÁRIO-->
-            <h2 class="fw-bold pt-3 pb-2">
-                {{card.nome_display}}
-            </h2>
-
-            <!--CARGO-->
-            {% if card.cargo %}
-            <h3 class="lead pb-3">{{ card.cargo }}</h3>
-            {% endif %}
-
-            <!--BOTÃO DE WHATSAPP-->
-            <div class="d-flex justify-content-center my-2 rounded bg-warning">
-                <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self"
-                    class="btn fs-4 w-100">Whatsapp</a>
+{% if portfolios %}
+<!--PORTFÓLIOS-->
+<div class="my-5">
+    <h3 class="text-center my-4">PORTFÓLIOS</h3>
+    <div class="row flex-md-row flex-column row-cols-md-2 g-4">
+        {% for portfolio in portfolios %}
+        <div class="col">
+            <div class="card border-0">
+                <a href="{{ portfolio.link }}" target="_blank">
+                    <img src="{{ portfolio.img.url }}" class="card-img" alt="...">
+                </a>
             </div>
-
-            <!--VCF-->
-            {% if card.vcf %}
-            <div class="d-flex justify-content-center my-2 rounded bg-warning">
-                <a href="{{ card.vcf.url }}" class="btn fs-4 w-100">Adicionar na agenda</a>
-            </div>
-            {% endif %}
-
-            <!--BOTÃO DE EDITAR CARD-->
-            {% if user.is_authenticated and user == card.proprietario %}
-            <div class="d-flex justify-content-center my-2 rounded">
-                <a href="{% url 'core:editar' card.slug_empresa card.slug %}" class="btn fs-4 w-100 bg-success text-white mx-1">Editar card</a>
-                <a href="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}" class="btn fs-4 w-100  bg-success text-white mx-1">Editar conteúdo</a>
-            </div>
-            {% endif %}
-
-            <!--CONTATO-->
-            <div class="d-flex justify-content-around py-4">
-                <a href="mailto:{{ card.proprietario.email }}"><i class="bi bi-envelope fs-1 text-black-50"></i></a>
-                <a href="tel:+55{{ card.telefone }}"><i class="bi bi-telephone fs-1 text-black-50"></i></a>
-            </div>
-
         </div>
-    </div>
-
-
-    {% if produtos %}
-    <!--PRODUTOS-->
-    <div class="my-5">
-        <h3 class="text-center my-4">PRODUTOS</h3>
-        <div class="row flex-md-row flex-column row-cols-md-2 g-4">
-        {% for produto in produtos %}
-            <div class="col">
-                <div class="card border-0">
-                    <a href="{{ produto.link }}" target="_blank">
-                        <img src="{{ produto.img.url }}" class="card-img" alt="...">
-                    </a>
-                </div>
-            </div>
         {% endfor %}
-        </div>
     </div>
-    {% endif %}
+</div>
+{% endif %}
 
-    {% if servicos %}
-    <!--SERVIÇOS-->
-    <div class="my-5">
-        <h3 class="text-center my-4">SERVIÇOS</h3>
-        <div class="row flex-md-row flex-column row-cols-md-2 g-4">
-        {% for servico in servicos %}
-            <div class="col">
-                <div class="card border-0">
-                    <a href="{{ servico.link }}" target="_blank">
-                        <img src="{{ servico.img.url }}" class="card-img" alt="...">
-                    </a>
-                </div>
+{% if cursos %}
+<!--CURSOS-->
+<div class="my-5">
+    <h3 class="text-center my-4">CURSOS</h3>
+    <div class="row flex-md-row flex-column row-cols-md-2 g-4">
+        {% for curso in cursos %}
+        <div class="col">
+            <div class="card border-0">
+                <a href="{{ curso.link }}" target="_blank">
+                    <img src="{{ curso.img.url }}" class="card-img" alt="...">
+                </a>
             </div>
+        </div>
         {% endfor %}
-        </div>
     </div>
-    {% endif %}
+</div>
+{% endif %}
 
-    {% if promocoes %}
-    <!--PROMOÇÕES-->
-    <div class="my-5">
-        <h3 class="text-center my-4">PROMOÇÕES</h3>
-        <div class="row flex-md-row flex-column row-cols-md-2 g-4">
-            {% for promocao in promocoes %}
-            <div class="col">
-                <div class="card border-0">
-                    <a href="{{ promocao.link }}" target="_blank">
-                        <img src="{{ promocao.img.url }}" class="card-img" alt="...">
-                    </a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-
-    {% if portfolios %}
-    <!--PORTFÓLIOS-->
-    <div class="my-5">
-        <h3 class="text-center my-4">PORTFÓLIOS</h3>
-        <div class="row flex-md-row flex-column row-cols-md-2 g-4">
-            {% for portfolio in portfolios %}
-            <div class="col">
-                <div class="card border-0">
-                    <a href="{{ portfolio.link }}" target="_blank">
-                        <img src="{{ portfolio.img.url }}" class="card-img" alt="...">
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-
-    {% if cursos %}
-    <!--CURSOS-->
-    <div class="my-5">
-        <h3 class="text-center my-4">CURSOS</h3>
-        <div class="row flex-md-row flex-column row-cols-md-2 g-4">
-            {% for curso in cursos %}
-            <div class="col">
-                <div class="card border-0">
-                    <a href="{{ curso.link }}" target="_blank">
-                        <img src="{{ curso.img.url }}" class="card-img" alt="...">
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-
-    <!--WHATSAPP FLUTUANTE-->
-    <div class="align-items-center d-flex justify-content-center position-fixed roun rounded-5" 
+<!--WHATSAPP FLUTUANTE-->
+<div class="align-items-center d-flex justify-content-center position-fixed roun rounded-5"
     style="right: 20px; bottom: 20px; width: 50px; height: 50px; background-color: #25D366;">
-        <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}">
-            <i class="bi bi-whatsapp text-white" style="font-size: 2rem;"></i>
-        </a>
-    </div>
+    <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}">
+        <i class="bi bi-whatsapp text-white" style="font-size: 2rem;"></i>
+    </a>
+</div>
 
-    <!--QRCODE-->
-    {% if card.qr_code %}
-    <div class="d-flex justify-content-center pb-3">
-        <img class="w-25" src="{{card.qr_code.url }}" alt="qrcode" />
-    </div>
+<!--QRCODE-->
+{% if card.qr_code %}
+<div class="d-flex justify-content-center pb-3">
+    <img class="w-25" src="{{card.qr_code.url }}" alt="qrcode" />
+</div>
+{% endif %}
+
+<!--REDES SOCIAIS -->
+<div class="d-flex justify-content-around pb-5 mx-5" style="padding-bottom: 5em !important;">
+    <!--INSTAGRAM-->
+    {% if card.instagram %}
+    <a href="{{card.instagram}}" target="_blank"><i class="bi bi-instagram fs-1 text-black-50"></i></a>
     {% endif %}
 
-    <!--REDES SOCIAIS -->
-    <div class="d-flex justify-content-around pb-5 mx-5" style="padding-bottom: 5em !important;">
-     <!--INSTAGRAM-->
-     {% if card.instagram %}
-     <a href="{{card.instagram}}" target="_blank"><i class="bi bi-instagram fs-1 text-black-50"></i></a>
-     {% endif %}
+    <!--FACEBOOK-->
+    {% if card.facebook %}
+    <a href="{{card.facebook}}" target="_blank"><i class="bi bi-facebook fs-1 text-black-50"></i></a>
+    {% endif %}
 
-     <!--FACEBOOK-->
-     {% if card.facebook %}
-     <a href="{{card.facebook}}" target="_blank"><i class="bi bi-facebook fs-1 text-black-50"></i></a>
-     {% endif %}
+    <!--LINKEDIN-->
+    {% if card.linkedin %}
+    <a href="{{card.linkedin}}" target="_blank"><i class="bi bi-linkedin fs-1 text-black-50"></i></a>
+    {% endif %}
 
-     <!--LINKEDIN-->
-     {% if card.linkedin %}
-     <a href="{{card.linkedin}}" target="_blank"><i class="bi bi-linkedin fs-1 text-black-50"></i></a>
-     {% endif %}
+    <!--YOUTUBE-->
+    {% if card.youtube %}
+    <a href="{{card.youtube}}" target="_blank"><i class="bi bi-youtube fs-1 text-black-50"></i></a>
+    {% endif %}
 
-     <!--YOUTUBE-->
-     {% if card.youtube %}
-     <a href="{{card.youtube}}" target="_blank"><i class="bi bi-youtube fs-1 text-black-50"></i></a>
-     {% endif %}
-
-     <!--TIKTOK-->
-     {% if card.tik_tok %}
-     <a href="{{card.tik_tok}}" target="_blank"><i class="bi bi-tiktok fs-1 text-black-50"></i></a>
-     {% endif %}
-    </div>
-</body>
+    <!--TIKTOK-->
+    {% if card.tik_tok %}
+    <a href="{{card.tik_tok}}" target="_blank"><i class="bi bi-tiktok fs-1 text-black-50"></i></a>
+    {% endif %}
+</div>
 
 {% endblock %}

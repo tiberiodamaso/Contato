@@ -4,77 +4,77 @@
 <!-- {% include 'core/menu-interno.html'} -->
 {% include 'core/menu.html' %}
 
-<body class="container">
-    {% include 'core/mensagens.html' %}
-    <div class="d-flex flex-column align-items-center py-5">
+{% include 'core/mensagens.html' %}
+<div class="d-flex flex-column align-items-center py-5">
 
-        <!--LOGOTIPO DA EMPRESA-->
-        {% if card.logotipo %}
-        <img src="{{card.logotipo.url}}" alt="logotipo" class="col col-lg-2 col-md-4 img-fluid my-3" loading="lazy">
-        {% else %}
-        <img src="{% static 'core/img/person.jpg' %}" alt="logotipo"
-            class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
-        {% endif %}
+    <!--LOGOTIPO DA EMPRESA-->
+    {% if card.logotipo %}
+    <img src="{{card.logotipo.url}}" alt="logotipo" class="col col-lg-2 col-md-4 img-fluid my-3" loading="lazy">
+    {% else %}
+    <img src="{% static 'core/img/person.jpg' %}" alt="logotipo"
+        class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+    {% endif %}
 
-        <!--FORMULÁRIO PARA CRIAR CONTEÚDO-->
-        <form action="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}" method="post"
-            class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
-            {% csrf_token %}
+    <!--FORMULÁRIO PARA CRIAR CONTEÚDO-->
+    <form action="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}" method="post"
+        class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+        {% csrf_token %}
 
-            <!--TIPO CONTEÚDO-->
-            <div>
-                <label for="id_tik_tok">Tipo de conteúdo:</label>
-                <div class="mb-3">
-                    {{form.tipo}}
-                </div>
+        <!--TIPO CONTEÚDO-->
+        <div>
+            <label for="id_tik_tok">Tipo de conteúdo:</label>
+            <div class="mb-3">
+                {{form.tipo}}
             </div>
+        </div>
 
-            <!--CONTEÚDO IMAGEM-->
-            <div>
-                <label for="id_tik_tok">Imagem: <span class="small text-danger">(máximo 1MB)</span></label>
-                <div class="mb-3">
-                    {{form.img}}
-                </div>
+        <!--CONTEÚDO IMAGEM-->
+        <div>
+            <label for="id_tik_tok">Imagem: <span class="small text-danger">(máximo 1MB)</span></label>
+            <div class="mb-3">
+                {{form.img}}
             </div>
+        </div>
 
-            <!--CONTEÚDO LINK-->
-            <div>
-                <label for="id_tik_tok">Link da imagem:</label>
-                <div class="mb-3">
-                    {{form.link}}
-                </div>
+        <!--CONTEÚDO LINK-->
+        <div>
+            <label for="id_tik_tok">Link da imagem:</label>
+            <div class="mb-3">
+                {{form.link}}
             </div>
+        </div>
 
-            {% for error in field.errors %}
-            <div class="alert alert-danger text-center alert-dismissible" role="alert">
-                {{error}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            {% endfor %}
-            <button type="submit" class="btn btn-warning w-100">Salvar</button>
-        </form>
-    </div>
+        {% for error in field.errors %}
+        <div class="alert alert-danger text-center alert-dismissible" role="alert">
+            {{error}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-warning w-100">Salvar</button>
+    </form>
+</div>
 
-    <!--TABELA DE CONTEÚDO-->
-    {% if conteudos %}
-    <table class="table col col-md-4 col-lg-4 p-4">
-        <thead>
-          <tr>
+<!--TABELA DE CONTEÚDO-->
+{% if conteudos %}
+<table class="table col col-md-4 col-lg-4 p-4">
+    <thead>
+        <tr>
             <th scope="col">Tipo</th>
             <th scope="col">Conteúdo</th>
             <th scope="col" class="text-center">Excluir</th>
-          </tr>
-        </thead>
-        <tbody>
+        </tr>
+    </thead>
+    <tbody>
         {% for conteudo in conteudos %}
-          <tr>
+        <tr>
             <td>{{conteudo.tipo.nome}}</td>
-            <td><img src="{{ conteudo.img.url }}" style="max-width: 20vw; max-height: 20vh;"/></td>
+            <td><img src="{{ conteudo.img.url }}" style="max-width: 20vw; max-height: 20vh;" /></td>
             <td class="text-center">
                 <a title="Deletar" href="#" class="text-decoration-none" data-bs-toggle="modal"
-            data-bs-target="#modalConfirmaExclusao{{ conteudo.id }}">
-            <i class="bi bi-trash3 text-danger"></i></a></td>
-          </tr>
+                    data-bs-target="#modalConfirmaExclusao{{ conteudo.id }}">
+                    <i class="bi bi-trash3 text-danger"></i></a>
+            </td>
+        </tr>
 
         <!--MODAL DE EXCLUSÃO DE CONTEÚDO-->
         <div class="modal fade" tabindex="-1" id="modalConfirmaExclusao{{ conteudo.id }}">
@@ -89,7 +89,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
-                        <form action="{% url 'core:conteudo-excluir' conteudo.card.slug_empresa conteudo.id %}" method="post">
+                        <form action="{% url 'core:conteudo-excluir' conteudo.card.slug_empresa conteudo.id %}"
+                            method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">Sim</button>
                         </form>
@@ -98,33 +99,32 @@
             </div>
         </div>
         {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
+    </tbody>
+</table>
+{% endif %}
 
-    <!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
-    <script>
-        function validarTamanhoArquivo(inputElement) {
-            const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
+<!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
+<script>
+    function validarTamanhoArquivo(inputElement) {
+        const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
 
-            if (inputElement.files.length > 0) {
-                const arquivo = inputElement.files[0];
+        if (inputElement.files.length > 0) {
+            const arquivo = inputElement.files[0];
 
-                if (arquivo.size > tamanhoMaximo) {
-                    alert("O arquivo excede o tamanho máximo permitido 1 MB.");
-                    inputElement.value = ""; // Limpa o campo de arquivo, se necessário
-                }
+            if (arquivo.size > tamanhoMaximo) {
+                alert("O arquivo excede o tamanho máximo permitido 1 MB.");
+                inputElement.value = ""; // Limpa o campo de arquivo, se necessário
             }
         }
+    }
 
-        const inputImg = document.getElementById("id_img");
+    const inputImg = document.getElementById("id_img");
 
-        inputImg.addEventListener("change", function () {
+    inputImg.addEventListener("change", function () {
         validarTamanhoArquivo(inputImg);
-        });
+    });
 
-    </script>
+</script>
 
-</body>
 
 {% endblock %}

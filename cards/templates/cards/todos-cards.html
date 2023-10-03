@@ -3,38 +3,37 @@
 {% block title %} Meu Contato {% endblock %}
 {% block content %}
 
-<body class="container">
-  
+
 {% include 'core/menu-superuser.html' %}
 
 <!-- TABELA DE CARDS-->
 <table class="m-auto mt-5 table w-75 text-center">
-  <thead>
-    <tr>
-      <th scope="col">Empresa</th>
-      <!-- <th scope="col">Gerente</th> -->
-      <th scope="col">Cards</th>
-      <!-- <th scope="col">Total</th> -->
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      {% for empresa in cards_por_empresa %}
-      
-      <td scope="row">{{empresa.nome}}</td>
-      <!-- <td>Mark</td> -->
-      <td>{{empresa.num_cards}}</td>
-      <!-- <td>@mdo</td> -->
-    </tr>
-    {% endfor %}
-  </tbody>
+    <thead>
+        <tr>
+            <th scope="col">Empresa</th>
+            <!-- <th scope="col">Gerente</th> -->
+            <th scope="col">Cards</th>
+            <!-- <th scope="col">Total</th> -->
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% for empresa in cards_por_empresa %}
+
+            <td scope="row">{{empresa.nome}}</td>
+            <!-- <td>Mark</td> -->
+            <td>{{empresa.num_cards}}</td>
+            <!-- <td>@mdo</td> -->
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 
 <!-- <div class="container-fluid"> -->
-  <div class="row text-center p-3 justify-content-center">
+<div class="row text-center p-3 justify-content-center">
     {% for card in cards %}
     {% if card.usuario.is_active %}
-      <div class="col-lg-3 col-sm-5 col-12 mt-5 border border-2 rounded-2 mx-2">
+    <div class="col-lg-3 col-sm-5 col-12 mt-5 border border-2 rounded-2 mx-2">
         {% if card.img_perfil %}
         <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
         {% else %}
@@ -44,18 +43,17 @@
         {% if card.cargo %}
         <h4 class="lead">{{ card.cargo }}</h4>
         {% endif %}
-        <h6 >{{ card.empresa }}</h6>
+        <h6>{{ card.empresa }}</h6>
         <!-- <p>Informações sobre a performance</p> -->
         <div class="d-flex justify-content-center py-3 mx-2">
-          <!-- <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:editar' empresa.slug card.slug }">Editar</a>
+            <!-- <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:editar' empresa.slug card.slug }">Editar</a>
           <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:dashboard-card' empresa.slug card.slug }">Performance</a></p> -->
         </div>
-      </div>
+    </div>
     {% endif %}
     {% endfor %}
-  </div>
+</div>
 <!-- </div> -->
 
-</body>
 
 {% endblock %}

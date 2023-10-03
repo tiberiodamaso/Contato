@@ -5,42 +5,44 @@
 {% include 'core/menu.html' %}
 {% include 'core/mensagens.html' %}
 
-<body class="container">
-  <form method="post" action="{% url 'usuarios:registrar' %}" class="col-10 col-lg-6 py-5 d-flex flex-column m-auto">
-    {% csrf_token %}
+<div class="container">
+    <form method="post" action="{% url 'usuarios:registrar' %}" class="col-10 col-lg-6 py-5 d-flex flex-column m-auto">
+        {% csrf_token %}
 
-    <p class="text-center display-5 mb-5">CRIAR MINHA CONTA</p>
+        <p class="text-center display-5 mb-5">CRIAR MINHA CONTA</p>
 
-    <div class="mb-3">
-      <label for="id_email">Email:</label>
-      {{ form.email }}
-    </div>
+        <div class="mb-3">
+            <label for="id_email">Email:</label>
+            {{ form.email }}
+        </div>
 
-    <div class="mb-3">
-      <label for="id_first_name">Primeiro nome:</label>
-    {{ form.first_name }}
-    </div>
+        <div class="mb-3">
+            <label for="id_first_name">Primeiro nome:</label>
+            {{ form.first_name }}
+        </div>
 
-    <div class="mb-3">
-      <label for="id_last_name">Último nome:</label>
-    {{ form.last_name }}
-    </div>
+        <div class="mb-3">
+            <label for="id_last_name">Último nome:</label>
+            {{ form.last_name }}
+        </div>
 
-    <div class="mb-3">
-      <label for="id_password1">Senha:</label>
-    {{ form.password1 }}
-    </div>
+        <div class="mb-3">
+            <label for="id_password1">Senha:</label>
+            {{ form.password1 }}
+        </div>
 
-    <div class="mb-3">
-      <label for="id_password2">Confirmação de senha:</label>
-    {{ form.password2 }}
-    </div>
+        <div class="mb-3">
+            <label for="id_password2">Confirmação de senha:</label>
+            {{ form.password2 }}
+        </div>
 
-    <div class="mb-3">
-      Ao se registrar você aceita os <a href="{% url 'core:termos-de-uso' %}" class="text-decoration-none">Termos de uso</a> e <a href="{% url 'core:politica-de-privacidade' %}" class="text-decoration-none">Política de privacidade</a></span>
-    </div>
-    
-    <button type="submit" class="btn btn-warning">Criar</button>
-  </form>
-</body>
+        <div class="mb-3">
+            Ao se registrar você aceita os <a href="{% url 'core:termos-de-uso' %}" class="text-decoration-none">Termos
+                de uso</a> e <a href="{% url 'core:politica-de-privacidade' %}" class="text-decoration-none">Política de
+                privacidade</a></span>
+        </div>
+
+        <button type="submit" class="btn btn-warning">Criar</button>
+    </form>
+</div>
 {% endblock %}

@@ -5,235 +5,233 @@
 
 {% include 'core/menu.html'%}
 
-<body class="container">
 
-    <!--CHARTJS-->
-    {% if resultados %}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    {{resultados|json_script:'resultados'}}
-
-
-    <div class="container">
-        <div
-            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 text-center text-md-start text-lg-start">
-            <h1 class="h2">{{card.proprietario.first_name}} {{card.proprietario.last_name}} nos últimos 30 dias</h1>
-        </div>
-
-        <div class="row align-items-md-stretch my-4">
-
-            <!--AQUISIÇÃO DE USUÁRIOS-->
-            <div class="col-md-4 my-3 my-md-0 my-lg-0">
-                <div class="h-100 p-3 bg-light rounded-3">
-                    <h5 class="pb-4">Aquisição de usuários</h5>
-                    <div class="d-flex">
-                        <div class="col-6 text-center">
-                            <div
-                                class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-                                <span class="fs-6">Total de usuários</span>
-                                <span class="fs-1">{{total_de_usuarios}}</span>
-                            </div>
-                        </div>
-                        <div class="col-6 text-center">
-                            <div
-                                class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-                                <span class="fs-6">Usuários ativos</span>
-                                <span class="fs-1">{{usuarios_ativos}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="col-6 text-center">
-                            <div
-                                class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-                                <span class="fs-6">Novos usuários</span>
-                                <span class="fs-1">{{novos_usuarios}}</span>
-                            </div>
-                        </div>
-                        <div class="col-6 text-center">
-                            <div
-                                class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-                                <span class="fs-6">Tempo de interação</span>
-                                <span class="fs-1">{{tempo_de_interacao|floatformat:2}}s</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--AQUISIÇÃO DE TRÁFEGO-->
-            <div class="col-md-4  my-3 my-md-0 my-lg-0">
-                <div class="h-100 p-3 bg-light rounded-3">
-                    <h5 class="pb-4">Aquisição de tráfego</h5>
-                    <div class="d-flex">
-                        <div class="col-6 text-center">
-                            <div
-                                class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-                                <span class="fs-6">Visualizações</span>
-                                <span class="fs-1">{{visualizacoes}}</span>
-                            </div>
-                        </div>
-                        <div class="col-6 text-center">
-                            <div
-                                class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-                                <span class="fs-6">Sessões</span>
-                                <span class="fs-1">{{sessoes}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="col-6 text-center">
-                            <div
-                                class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-                                <span class="fs-6">Duração média da sessão</span>
-                                <span class="fs-1">{{duracao_media_sessao|floatformat:2}}s</span>
-                            </div>
-                        </div>
-                        <div class="col-6 text-center">
-                            <div
-                                class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
-                                <span class="fs-6">Rejeição</span>
-                                <span class="fs-1">{{rejeicao|floatformat}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--ORIGEM DE TRÁFEGO-->
-            <div class="col-md-4  my-3 my-md-0 my-lg-0">
-                <div class="h-100 p-3 bg-light rounded-3">
-                    <h5 class="pb-4">Origem do tráfego</h5>
-                    <div class="d-flex">
-                        <canvas id="origens_das_sessoes"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--CHARTJS-->
+{% if resultados %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{{resultados|json_script:'resultados'}}
 
 
-        {% if not mobile %}
-        <!--INFORMAÇÕES DEMOGRÁFICAS DESKTOP-->
-        <div class="col-md-12">
-            <div class="h-100 p-3 bg-light rounded-3">
-                <h5>Informações demográficas</h5>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Total usuários</th>
-                            <th>Usuários ativos</th>
-                            <th>Novos usuários</th>
-                            <th>Tempo de interação (s)</th>
-                            <th>Sessões</th>
-                            <th>Duração média da sessão (s)</th>
-                            <th>Visualizações</th>
-                            <th>Rejeição</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        {% for row in data.rows %}
-                        <tr>
-                            {% for dimension in row.dimension_values %}
-                            <td>{{dimension.value}}</td>
-                            {% endfor %}
-                            {% for metric in row.metric_values %}
-                            <td class="text-center">{{ metric.value|floatformat }}</td>
-                            {% endfor %}
-                        </tr>
-                        {% endfor %}
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        {% else %}
-        <!--INFORMAÇÕES DEMOGRÁFICAS MOBILE-->
-        <div class="col-md-12">
-            <div class="h-100 p-3 bg-light rounded-3">
-                <h5>Informações demográficas</h5>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Total usuários</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in data.rows %}
-                        <tr>
-                            {% for dimension in row.dimension_values %}
-                            <td>{{dimension.value}}</td>
-                            {% endfor %}
-                            <td class="text-center">{{ row.metric_values|get_values}}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        {% endif %}
-        
+<div class="container">
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 text-center text-md-start text-lg-start">
+        <h1 class="h2">{{card.proprietario.first_name}} {{card.proprietario.last_name}} nos últimos 30 dias</h1>
     </div>
 
-    <script>
-        let resultados = JSON.parse(document.querySelector("#resultados").textContent);
-        let chartStatus = Chart.getChart("origens_das_sessoes"); // <canvas> id
+    <div class="row align-items-md-stretch my-4">
 
-        if (chartStatus != undefined) {
-            chartStatus.destroy();
-        }
+        <!--AQUISIÇÃO DE USUÁRIOS-->
+        <div class="col-md-4 my-3 my-md-0 my-lg-0">
+            <div class="h-100 p-3 bg-light rounded-3">
+                <h5 class="pb-4">Aquisição de usuários</h5>
+                <div class="d-flex">
+                    <div class="col-6 text-center">
+                        <div
+                            class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
+                            <span class="fs-6">Total de usuários</span>
+                            <span class="fs-1">{{total_de_usuarios}}</span>
+                        </div>
+                    </div>
+                    <div class="col-6 text-center">
+                        <div
+                            class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
+                            <span class="fs-6">Usuários ativos</span>
+                            <span class="fs-1">{{usuarios_ativos}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="col-6 text-center">
+                        <div
+                            class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
+                            <span class="fs-6">Novos usuários</span>
+                            <span class="fs-1">{{novos_usuarios}}</span>
+                        </div>
+                    </div>
+                    <div class="col-6 text-center">
+                        <div
+                            class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
+                            <span class="fs-6">Tempo de interação</span>
+                            <span class="fs-1">{{tempo_de_interacao|floatformat:2}}s</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        const labels = resultados.origens;
-        const data = {
-            labels: labels,
-            datasets: [{
-                label: 'Usuários',
-                data: resultados.usuarios_por_origem,
-                backgroundColor: ['rgba(255, 193, 7)'],
-                borderColor: ['rgba(255, 193, 7)'],
-                borderWidth: 1
-            }]
-        }
-        const config = {
-            type: 'bar',
-            data: data,
-            plugins: {
-                legend: {
-                    labels: {
-                        boxWidth: 5,
-                        font: {
-                            size: 20,
-                        }
-                    }
-                }
-            },
-            options: {
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 10
-                        }
-                    },
-                }
-            }
-        }
+        <!--AQUISIÇÃO DE TRÁFEGO-->
+        <div class="col-md-4  my-3 my-md-0 my-lg-0">
+            <div class="h-100 p-3 bg-light rounded-3">
+                <h5 class="pb-4">Aquisição de tráfego</h5>
+                <div class="d-flex">
+                    <div class="col-6 text-center">
+                        <div
+                            class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
+                            <span class="fs-6">Visualizações</span>
+                            <span class="fs-1">{{visualizacoes}}</span>
+                        </div>
+                    </div>
+                    <div class="col-6 text-center">
+                        <div
+                            class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
+                            <span class="fs-6">Sessões</span>
+                            <span class="fs-1">{{sessoes}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="col-6 text-center">
+                        <div
+                            class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
+                            <span class="fs-6">Duração média da sessão</span>
+                            <span class="fs-1">{{duracao_media_sessao|floatformat:2}}s</span>
+                        </div>
+                    </div>
+                    <div class="col-6 text-center">
+                        <div
+                            class="align-items-center d-inline-flex flex-column flex-shrink-0 fs-4 justify-content-center">
+                            <span class="fs-6">Rejeição</span>
+                            <span class="fs-1">{{rejeicao|floatformat}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        const grafico = new Chart(document.getElementById('origens_das_sessoes'), config);
-      // let resultadosctx = document.getElementById('origens_das_sessoes').getContext('2d');
-      // let resultadosChart = new Chart(resultadosctx, { type: 'bar', data: chartData, options: chartOptions });
-    </script>
+        <!--ORIGEM DE TRÁFEGO-->
+        <div class="col-md-4  my-3 my-md-0 my-lg-0">
+            <div class="h-100 p-3 bg-light rounded-3">
+                <h5 class="pb-4">Origem do tráfego</h5>
+                <div class="d-flex">
+                    <canvas id="origens_das_sessoes"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% if not mobile %}
+    <!--INFORMAÇÕES DEMOGRÁFICAS DESKTOP-->
+    <div class="col-md-12">
+        <div class="h-100 p-3 bg-light rounded-3">
+            <h5>Informações demográficas</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Total usuários</th>
+                        <th>Usuários ativos</th>
+                        <th>Novos usuários</th>
+                        <th>Tempo de interação (s)</th>
+                        <th>Sessões</th>
+                        <th>Duração média da sessão (s)</th>
+                        <th>Visualizações</th>
+                        <th>Rejeição</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for row in data.rows %}
+                    <tr>
+                        {% for dimension in row.dimension_values %}
+                        <td>{{dimension.value}}</td>
+                        {% endfor %}
+                        {% for metric in row.metric_values %}
+                        <td class="text-center">{{ metric.value|floatformat }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     {% else %}
-
-    <!--SEM RESULTADOS-->
-    <h2 class="fw-semibold m-5 text-center">Card ainda sem dados de performance</h2>
-
+    <!--INFORMAÇÕES DEMOGRÁFICAS MOBILE-->
+    <div class="col-md-12">
+        <div class="h-100 p-3 bg-light rounded-3">
+            <h5>Informações demográficas</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Total usuários</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data.rows %}
+                    <tr>
+                        {% for dimension in row.dimension_values %}
+                        <td>{{dimension.value}}</td>
+                        {% endfor %}
+                        <td class="text-center">{{ row.metric_values|get_values}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
     {% endif %}
 
-</body>
+</div>
+
+<script>
+    let resultados = JSON.parse(document.querySelector("#resultados").textContent);
+    let chartStatus = Chart.getChart("origens_das_sessoes"); // <canvas> id
+
+    if (chartStatus != undefined) {
+        chartStatus.destroy();
+    }
+
+    const labels = resultados.origens;
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Usuários',
+            data: resultados.usuarios_por_origem,
+            backgroundColor: ['rgba(255, 193, 7)'],
+            borderColor: ['rgba(255, 193, 7)'],
+            borderWidth: 1
+        }]
+    }
+    const config = {
+        type: 'bar',
+        data: data,
+        plugins: {
+            legend: {
+                labels: {
+                    boxWidth: 5,
+                    font: {
+                        size: 20,
+                    }
+                }
+            }
+        },
+        options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 10
+                    }
+                },
+            }
+        }
+    }
+
+    const grafico = new Chart(document.getElementById('origens_das_sessoes'), config);
+    // let resultadosctx = document.getElementById('origens_das_sessoes').getContext('2d');
+    // let resultadosChart = new Chart(resultadosctx, { type: 'bar', data: chartData, options: chartOptions });
+</script>
+
+{% else %}
+
+<!--SEM RESULTADOS-->
+<h2 class="fw-semibold m-5 text-center">Card ainda sem dados de performance</h2>
+
+{% endif %}
+
 
 {% endblock %}

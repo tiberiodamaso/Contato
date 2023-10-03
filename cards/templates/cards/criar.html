@@ -4,31 +4,31 @@
 {% block content %}
 {% include 'core/menu.html' %}
 
-<body class="container">
-  {% include 'core/mensagens.html' %}
+{% include 'core/mensagens.html' %}
 
-  {% if not user.cards.first %}
-  <div class="d-flex flex-column align-items-center">
+{% if not user.cards.first %}
+<div class="d-flex flex-column align-items-center">
 
     <div class="my-5">
-      <h4>Olá {{user.first_name}}, vamos criar seu card</h4>
+        <h4>Olá {{user.first_name}}, vamos criar seu card</h4>
     </div>
 
     <!--IMAGEM DO PERFIL-->
     <div class="text-center">
-      {% if card.img_perfil %}
-      <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3"
-        loading="lazy">
-      {% else %}
-      <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
-        class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
-      {% endif %}
+        {% if card.img_perfil %}
+        <img src="{{card.img_perfil.url}}" alt="Foto do perfil"
+            class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+        {% else %}
+        <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
+            class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+        {% endif %}
     </div>
 
     <!--FORMULÁRIO PARA CRIAR NOVO CARD-->
-    <form action="{% url 'core:criar' %}" method="post" id="cardForm" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+    <form action="{% url 'core:criar' %}" method="post" id="cardForm" class="col col-md-4 col-lg-4 p-4"
+        enctype="multipart/form-data">
         {% csrf_token %}
-      
+
         <!--IMG_PERFIL-->
         <div class="mb-3">
             <label for="id_img_perfil">Foto: <span class="small text-danger">(máximo 1MB)</span></label>
@@ -68,11 +68,11 @@
         <!--CATEGORIA-->
         <div class="mb-3">
             <label for="id_categoria">Categoria:</label>
-            <select name="categoria" class="form-select" id="id_categoria"
-            hx-get="{% url 'core:get-subcategorias'%}" hx-trigger="change" hx-target="#id_subcategoria">
-            {% for categoria in categorias %}
+            <select name="categoria" class="form-select" id="id_categoria" hx-get="{% url 'core:get-subcategorias'%}"
+                hx-trigger="change" hx-target="#id_subcategoria">
+                {% for categoria in categorias %}
                 <option value="{{categoria.id}}">{{categoria.nome}}</option>
-            {% endfor %}
+                {% endfor %}
             </select>
         </div>
 
@@ -89,11 +89,11 @@
         <!--ESTADO-->
         <div class="mb-3">
             <label for="id_estado">Estado:</label>
-            <select name="estado" class="form-select" id="id_estado"
-            hx-get="{% url 'core:get-municipios'%}" hx-trigger="change" hx-target="#id_municipio">
-            {% for estado in estados %}
+            <select name="estado" class="form-select" id="id_estado" hx-get="{% url 'core:get-municipios'%}"
+                hx-trigger="change" hx-target="#id_municipio">
+                {% for estado in estados %}
                 <option value="{{estado.id}}">{{estado.nome}}</option>
-            {% endfor %}
+                {% endfor %}
             </select>
         </div>
 
@@ -101,9 +101,9 @@
         <div class="mb-3">
             <label for="id_municipio">Município:</label>
             <select name="municipio" class="form-select" id="id_municipio">
-            {% for municipio in municipios %}
+                {% for municipio in municipios %}
                 <option value="{{municipio.id}}">{{municipio.nome}}</option>
-            {% endfor %}
+                {% endfor %}
             </select>
         </div>
 
@@ -167,47 +167,46 @@
 
         <button type="submit" class="btn btn-warning w-100">Salvar</button>
     </form>
-  </div>
-  {% else %}
-    <div class="text-center my-5">
-        <h2>Por enquanto cada pessoa pode ter somente 1 card</h2>
-        <div class="fs-6 my-4">Você pode editar ou inserir informações no seu card utilizando os botões abaixo</div>
-        <div class="d-flex justify-content-center my-2 rounded">
-            <a href="{% url 'core:editar' user.cards.first.slug_empresa user.cards.first.slug %}"
-                class="btn fs-4 w-100 bg-success text-white mx-1">Editar card</a>
-            <a href="{% url 'core:conteudo' user.cards.first.slug_empresa user.cards.first.slug %}"
-                class="btn fs-4 w-100  bg-success text-white mx-1">Conteúdo</a>
-        </div>
+</div>
+{% else %}
+<div class="text-center my-5">
+    <h2>Por enquanto cada pessoa pode ter somente 1 card</h2>
+    <div class="fs-6 my-4">Você pode editar ou inserir informações no seu card utilizando os botões abaixo</div>
+    <div class="d-flex justify-content-center my-2 rounded">
+        <a href="{% url 'core:editar' user.cards.first.slug_empresa user.cards.first.slug %}"
+            class="btn fs-4 w-100 bg-success text-white mx-1">Editar card</a>
+        <a href="{% url 'core:conteudo' user.cards.first.slug_empresa user.cards.first.slug %}"
+            class="btn fs-4 w-100  bg-success text-white mx-1">Conteúdo</a>
     </div>
-    {% endif %}
+</div>
+{% endif %}
 
-    <!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
-    <script>
-        function validarTamanhoArquivo(inputElement) {
-            const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
+<!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
+<script>
+    function validarTamanhoArquivo(inputElement) {
+        const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
 
-            if (inputElement.files.length > 0) {
-                const arquivo = inputElement.files[0];
+        if (inputElement.files.length > 0) {
+            const arquivo = inputElement.files[0];
 
-                if (arquivo.size > tamanhoMaximo) {
-                    alert("O arquivo excede o tamanho máximo permitido 1 MB.");
-                    inputElement.value = ""; // Limpa o campo de arquivo, se necessário
-                }
+            if (arquivo.size > tamanhoMaximo) {
+                alert("O arquivo excede o tamanho máximo permitido 1 MB.");
+                inputElement.value = ""; // Limpa o campo de arquivo, se necessário
             }
         }
+    }
 
-        const inputImgPerfil = document.getElementById("id_img_perfil");
-        const inputLogotipo = document.getElementById("id_logotipo");
+    const inputImgPerfil = document.getElementById("id_img_perfil");
+    const inputLogotipo = document.getElementById("id_logotipo");
 
-        inputImgPerfil.addEventListener("change", function () {
+    inputImgPerfil.addEventListener("change", function () {
         validarTamanhoArquivo(inputImgPerfil);
-        });
+    });
 
-        inputLogotipo.addEventListener("change", function () {
+    inputLogotipo.addEventListener("change", function () {
         validarTamanhoArquivo(inputLogotipo);
-        });
-    </script>
+    });
+</script>
 
-</body>
 
 {% endblock %}

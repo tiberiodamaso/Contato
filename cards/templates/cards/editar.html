@@ -4,22 +4,23 @@
 {% block content %}
 {% include 'core/menu.html' %}
 
-<body class="container">
-  {% include 'core/mensagens.html' %}
-  <div class="d-flex flex-column align-items-center">
+{% include 'core/mensagens.html' %}
+<div class="d-flex flex-column align-items-center">
 
     <!--FOTO PERFIL-->
     {% if card.img_perfil %}
-    <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+    <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3"
+        loading="lazy">
     {% else %}
-    <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+    <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
+        class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
     {% endif %}
 
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         Apagar card
     </button>
-    
+
     <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -44,8 +45,9 @@
     </div>
 
     <!--FORMULÁRIO DE EDIÇÃO DO CARD-->
-    <form id="editCard" action="{% url 'core:editar' card.slug_empresa card.slug %}" method="post" class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
-      {% csrf_token %}
+    <form id="editCard" action="{% url 'core:editar' card.slug_empresa card.slug %}" method="post"
+        class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+        {% csrf_token %}
 
         <!--IMG PERFIL-->
         <div class="mb-3">
@@ -98,15 +100,15 @@
         <!--CATEGORIA-->
         <div class="mb-3">
             <label for="id_categoria">Categoria:</label>
-            <select name="categoria" class="form-select" id="id_categoria"
-            hx-get="{% url 'core:get-subcategorias'%}" hx-trigger="change" hx-target="#id_subcategoria">
-            {% for categoria in categorias %}
+            <select name="categoria" class="form-select" id="id_categoria" hx-get="{% url 'core:get-subcategorias'%}"
+                hx-trigger="change" hx-target="#id_subcategoria">
+                {% for categoria in categorias %}
                 {% if categoria == categoria_atual %}
                 <option value="{{categoria_atual.id}}" selected="{{categoria_atual.id}}">{{categoria.nome}}</option>
                 {% else %}
                 <option value="{{categoria.id}}">{{categoria.nome}}</option>
                 {% endif %}
-            {% endfor %}
+                {% endfor %}
             </select>
         </div>
 
@@ -115,11 +117,12 @@
             <label for="id_subcategoria">Subcategoria:</label>
             <select name="subcategoria" class="form-select" id="id_subcategoria">
                 {% for subcategoria in subcategorias %}
-                    {% if subcategoria == subcategoria_atual %}
-                    <option value="{{subcategoria_atual.id}}" selected="{{subcategoria_atual.id}}">{{subcategoria.nome}}</option>
-                    {% else %}
-                    <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
-                    {% endif %}
+                {% if subcategoria == subcategoria_atual %}
+                <option value="{{subcategoria_atual.id}}" selected="{{subcategoria_atual.id}}">{{subcategoria.nome}}
+                </option>
+                {% else %}
+                <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
+                {% endif %}
                 {% endfor %}
             </select>
         </div>
@@ -127,15 +130,15 @@
         <!--ESTADO-->
         <div class="mb-3">
             <label for="id_estado">Estado:</label>
-            <select name="estado" class="form-select" id="id_estado"
-            hx-get="{% url 'core:get-municipios'%}" hx-trigger="change" hx-target="#id_municipio">
-            {% for estado in estados %}
+            <select name="estado" class="form-select" id="id_estado" hx-get="{% url 'core:get-municipios'%}"
+                hx-trigger="change" hx-target="#id_municipio">
+                {% for estado in estados %}
                 {% if estado == estado_atual %}
                 <option value="{{estado_atual.id}}" selected="{{estado_atual.id}}">{{estado.nome}}</option>
                 {% else %}
                 <option value="{{estado.id}}">{{estado.nome}}</option>
                 {% endif %}
-            {% endfor %}
+                {% endfor %}
             </select>
         </div>
 
@@ -143,13 +146,13 @@
         <div class="mb-3">
             <label for="id_municipio">Município:</label>
             <select name="municipio" class="form-select" id="id_municipio">
-            {% for municipio in municipios %}
+                {% for municipio in municipios %}
                 {% if municipio == municipio_atual %}
                 <option value="{{municipio_atual.id}}" selected="{{municipio_atual.id}}">{{municipio.nome}}</option>
                 {% else %}
                 <option value="{{municipio.id}}">{{municipio.nome}}</option>
                 {% endif %}
-            {% endfor %}
+                {% endfor %}
             </select>
         </div>
 
@@ -195,7 +198,7 @@
                 <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
             </div>
         </div>
-        
+
         <!--INSTAGRAM-->
         <div>
             <label for="id_instagram">Instagram:</label>
@@ -204,7 +207,7 @@
                 <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
             </div>
         </div>
-        
+
         <!--LINKEDIN-->
         <div>
             <label for="id_linkedin">LinkedIn:</label>
@@ -213,7 +216,7 @@
                 <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
             </div>
         </div>
-        
+
         <!--YOUTUBE-->
         <div>
             <label for="id_youtube">Youtube:</label>
@@ -222,7 +225,7 @@
                 <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
             </div>
         </div>
-        
+
         <!--TIK TOK-->
         <div>
             <label for="id_tik_tok">Tik Tok:</label>
@@ -234,22 +237,23 @@
 
         <!--BOTÕES-->
         <div class="d-flex justify-content-between">
-        <button type="button" class="btn btn-secondary" style="width: 45%;" onclick="history.back()">Cancelar</button>
-        <button type="submit" class="btn btn-warning" style="width: 45%;">Salvar</button>
+            <button type="button" class="btn btn-secondary" style="width: 45%;"
+                onclick="history.back()">Cancelar</button>
+            <button type="submit" class="btn btn-warning" style="width: 45%;">Salvar</button>
         </div>
 
     </form>
-  </div>
+</div>
 
-  <script>
+<script>
     function limpaCampo(e) {
         let input = e.previousElementSibling;
-        input.value =  '';
+        input.value = '';
     }
-  </script>
+</script>
 
-  <!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
-  <script>
+<!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
+<script>
     function validarTamanhoArquivo(inputElement) {
         const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
 
@@ -267,16 +271,16 @@
     const inputLogotipo = document.getElementById("id_logotipo");
 
     inputImgPerfil.addEventListener("change", function () {
-    validarTamanhoArquivo(inputImgPerfil);
+        validarTamanhoArquivo(inputImgPerfil);
     });
 
     inputLogotipo.addEventListener("change", function () {
-    validarTamanhoArquivo(inputLogotipo);
+        validarTamanhoArquivo(inputLogotipo);
     });
-  </script>
+</script>
 
-  <!--MÁSCARA DE TELEFONE-->
-  <!-- <script>
+<!--MÁSCARA DE TELEFONE-->
+<!-- <script>
     function aplicarMascaraTelefone(inputElement) {
         const valor = inputElement.value.replace(/\D/g, ""); // Remove todos os não dígitos
         let mascara;
@@ -317,7 +321,5 @@
     });
 
   </script> -->
-
-</body>
 
 {% endblock %}
