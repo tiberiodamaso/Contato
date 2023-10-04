@@ -30,10 +30,11 @@ class UsusarioLoginView(LoginView):
     def get_success_url(self):
         user = self.request.user
         card = user.cards.first()
-        if card:
-          return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
-        else:
-          return reverse('core:criar')
+        return reverse('core:home')
+        # if card:
+        #   return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
+        # else:
+        #   return reverse('core:criar')
     
     def post(self, request):
         # recupera formulário
@@ -113,7 +114,6 @@ def ativar_conta(request, uidb64, token):
     if usuario is not None and account_activation_token.check_token(usuario, token):
         usuario.is_active = True
         usuario.save()
-        # return HttpResponse('Seu card foi ativado com sucesso!')
         return render(request, 'usuarios/sucesso-ativacao.html')
     else:
         return render(request, 'usuarios/falha-ativacao.html')

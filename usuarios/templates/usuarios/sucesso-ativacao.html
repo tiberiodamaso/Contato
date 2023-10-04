@@ -114,24 +114,27 @@
     <div>
         <h2>Confirmação de e-mail concluída</h2>
         <p>Parabéns! Seu endereço de e-mail foi confirmado com sucesso.</p>
-        <p>Escolha um dos planos abaixo para continuar a criar seu card.</p>
+        <p>Clique no botão abaixo para entrar</p>
     </div>
 
+    <!--LOGIN-->
+    <a href="{% url 'usuarios:login' %}" class="btn btn-warning">Login</a>
+
     <!--PLANOS-->
-    <div class="container col-xxl-8 px-4 py-5">
+    <!-- <div class="container col-xxl-8 px-4 py-5">
         <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
             <h1 class="display-4 fw-normal">Planos</h1>
             <h5 class="dis">Após selecinar o plano, você será redirecionado para o Mercado Pago para realizar o
                 pagamento.</h5>
-        </div>
+        </div> -->
 
         <!--PRODUTOS-->
-        <section>
+        <!-- <section>
 
-            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center justify-content-center">
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center justify-content-center"> -->
 
                 <!--PRODUTO 1-->
-                <div class="col-10">
+                <!-- <div class="col-10">
                     <div class="card mb-4 rounded-3 shadow-sm">
                         <div class="card-header py-3">
                             <h4 class="my-0 fw-normal">Básico</h4>
@@ -145,11 +148,11 @@
                                 <li>Google Analytics</li>
                                 <li>Dashboard</li>
                             </ul>
-                            <a type="button" href="{{ url 'pedidos:criar' }}"
+                            <a type="button" href="{% url 'pedidos:criar' %}"
                                 class="w-100 btn btn-lg btn-warning">Comprar esse</a>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!--PRODUTO 2-->
                 <!-- <div class="col-10">
@@ -173,7 +176,7 @@
                 </div> -->
 
                 <!--PRODUTO 3-->
-                <div class="col-10">
+                <!-- <div class="col-10">
                     <div class="card mb-4 rounded-3 shadow-sm border-secondary">
                         <div class="card-header py-3 text-bg-secondary border-secondary">
                             <h4 class="my-0 fw-normal">Empresa</h4>
@@ -187,7 +190,7 @@
                                     class="text-muted fw-light">/mês</small></h1>
                             <ul class="list-unstyled mt-3 mb-4">
                                 <li>Até 10 anúncios por card</li>
-                                <li>Suporte por email e whatsapp</li>
+                                <li>Suporte por whatsapp</li>
                                 <li>Google Analytics</li>
                                 <li>Dashboard</li>
                             </ul>
@@ -202,5 +205,5 @@
         </section>
 
     </div>
-</div>
+</div> -->
 {% endblock %}
