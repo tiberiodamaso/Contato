@@ -9,10 +9,25 @@
 
     <!--FORMULÁRIO PARA PAGAMENTO-->
     <div class="container mt-5">
-        <div class="row">
+        <div class="row justify-content-md-center justify-content-lg-center">
             <!--INFORMAÇÕES DO PRODUTO-->
-            <div class="col-6">
-                <h2>Informações do produto</h2>
+            <div class="col-md-4 mb-4">
+                <h4>Plano individual</h4>
+                <div class="border rounded-2 shadow text-center">
+                    <img src="{% static 'core/img/person.jpg'%}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
+                    <h2 class="fw-normal">Seu nome</h2>
+                    <h4 class="lead">Seu cargo</h4>
+                    <h4 class="lead">Sua empresa</h4>
+                    <h6 class="lead">Sua profissião</h6>
+                    <div class="d-flex justify-content-center py-3">
+                        <ul class="text-start lead">
+                            <li>Até 10 anúncios no seu card</li>
+                            <li>Suporte por email</li>
+                            <li>Google Analytics</li>
+                            <li>Dashboard</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
             <!--FORMULÁRIO DE PAGAMENTO-->
@@ -69,6 +84,8 @@
                   })
                     .then((response) => {
                         // Verifica o resultado do pagamento
+                        console.log(response)
+                        console.log(response.status)
                         if (response.status === 201) {
                             // Pagamento bem-sucedido, redirecione para a página de sucesso
                             console.log('Pagamento bem-sucedido, redirecione para a página de sucesso')

@@ -1,7 +1,7 @@
 import requests
 import mercadopago
 import json
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
@@ -70,8 +70,12 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
             pedido.status = 'Pago'
             pedido.save()
             messages.success(self.request, 'Pagamento realizado com sucesso!')
-            # back_url = response.json()['back_url']
-            # return redirect('core:home')
+            mensagem = 'Pagamento realizado com sucesso!'
+            response_data = {
+                'status_code': response.status_code,
+                'message': mensagem,
+            }
+            return JsonResponse(response_data, status=response.status_code)
         else:
             # Lidar com erros de solicitação, se necessário
             error_message = response.text
