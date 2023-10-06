@@ -130,7 +130,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
     def test_func(self):
         pedidos = self.request.user.pedidos.all()
         for pedido in pedidos:
-            if pedido.status == 'Pago':
+            if pedido.status == 'authorized':
                 return True
 
     def handle_no_permission(self):

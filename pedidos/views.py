@@ -1,6 +1,7 @@
 import requests
 import mercadopago
 import json
+from datetime import datetime
 from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
 from django.contrib import messages
@@ -18,7 +19,6 @@ class Criar(LoginRequiredMixin, View):
 
     def get(self, request):
         usuario = self.request.user
-        pedido = Pedido.objects.create(usuario=usuario)    
         return redirect('pedidos:pagar')
 
 
@@ -66,9 +66,22 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
 
         # Verifique se a solicitação foi bem-sucedida
         if response.status_code == 201:
-            pedido = usuario.pedidos.last()
-            pedido.status = 'Pago'
-            pedido.save()
+            data = response.json()
+            formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
+            pedido = Pedido.objects.create(
+                usuario=usuario,
+                assinatura_id = data['id'],
+                payer_id = data['payer_id'],
+                date_created = datetime.strptime(data['date_created'], formato_da_string),
+                valor = float(data['auto_recurring']['transaction_amount']),
+                status = data['status'],
+                start_date = datetime.strptime(data['auto_recurring']['start_date'], formato_da_string),
+                next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string),
+                last_modified = datetime.strptime(data['last_modified'], formato_da_string),
+            )
+            # pedido = usuario.pedidos.last()
+            # pedido.status = 'Pago'
+            # pedido.save()
             messages.success(self.request, 'Pagamento realizado com sucesso!')
             mensagem = 'Pagamento realizado com sucesso!'
             response_data = {
