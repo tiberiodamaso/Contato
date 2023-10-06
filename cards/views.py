@@ -142,12 +142,13 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
     def get_context_data(self, form=None):
        context = super().get_context_data()
        estados = Estado.objects.all()
+       municipios = Municipio.objects.all()
        categorias = Categoria.objects.all()
-       subcategorias = Subcategoria.objects.filter(categoria=categorias.first())
+       subcategorias = Subcategoria.objects.all()
        context['categorias'] = categorias
        context['subcategorias'] = subcategorias
        context['estados'] = estados
-       context['municipios'] = Municipio.objects.filter(estado=estados.first())
+       context['municipios'] = municipios
        return context
 
     def gera_qrcode(self, card, **kwargs):
