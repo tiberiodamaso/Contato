@@ -6,3 +6,11 @@ register = template.Library()
 @register.filter
 def get_values(value):
     return value[0].value
+
+
+@register.filter
+def translate(value):
+    if value == 'cancelled':
+        return 'cancelada'
+    return value
+

@@ -12,9 +12,6 @@ class Pedido(models.Model):
     next_payment_date = models.DateField(verbose_name='Próximo pgto', max_length=50)
     last_modified = models.DateField(verbose_name='Atualizado', max_length=50)
 
-    # id_pgto_mercado_pago = models.CharField(max_length=50, null=True, blank=True)
-    # criado = models.DateField(verbose_name='Criado', auto_now_add=True)
-    # atualizado = models.DateField(verbose_name='Atualizado', auto_now=True)
 
     class Meta:
         verbose_name = 'Pedido'

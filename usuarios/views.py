@@ -1,6 +1,10 @@
+import requests
 from typing import Any, Dict
+from datetime import datetime
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import CreateView, TemplateView, View
+from django.views.generic.base import TemplateResponseMixin
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import PasswordChangeView, LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
@@ -148,3 +152,43 @@ class ReenviarEmailAtivacao(TemplateView):
         msg.send()
 
         return self.get_success_url()
+
+
+class MinhaConta(TemplateResponseMixin, View):
+    template_name = 'usuarios/minha-conta.html'
+
+    def render_to_response(self, context, **response_kwargs):
+        response_kwargs.setdefault('content_type', self.content_type)
+        return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine, **response_kwargs)
+
+    def get(self, request, *args, **kwargs):
+        usuario = self.request.user
+        assinatura_id = usuario.pedidos.all().first().assinatura_id
+        access_token = settings.MERCADOPAGO_ACCESS_TOKEN
+
+        # Defina a URL da API do MercadoPago
+        url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
+
+        # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
+        headers = {
+            'Authorization': f'Bearer {access_token}',
+        }
+
+        # Faça a solicitação GET para a API do MercadoPago
+        response = requests.get(url, headers=headers)
+
+        # Verifique se a solicitação foi bem-sucedida
+        if response.status_code == 200:
+            data = response.json()
+            context = {}
+            formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
+            context['assinatura'] = data['reason']
+            context['status'] = data['status']
+            context['inicio'] = datetime.strptime(data['date_created'], formato_da_string)
+            context['mensalidade'] = "{:.2f}".format(float(data['auto_recurring']['transaction_amount']))
+            
+            return self.render_to_response(context=context)
+        else:
+            # Lidar com erros de solicitação, se necessário
+            error_message = response.text
+            return JsonResponse({'error': error_message}, status=response.status_code)

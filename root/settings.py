@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.middleware.locale.LocaleMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
@@ -134,6 +135,10 @@ TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 
 USE_TZ = False
+
+# THOUSAND_SEPARATOR = '.'
+# DECIMAL_SEPARATOR = ','
+# USE_THOUSAND_SEPARATOR = True
 
 
 # Static files (CSS, JavaScript, Images)
