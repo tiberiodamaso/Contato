@@ -193,23 +193,14 @@ class MinhaConta(LoginRequiredMixin, ListView):
     model = Assinatura
     context_object_name = 'assinaturas'
 
-    # def render_to_response(self, context, **response_kwargs):
-    #     response_kwargs.setdefault('content_type', self.content_type)
-    #     return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine, **response_kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['assinaturas'] = []
-        usuario = self.request.user
-        assinaturas = usuario.assinaturas.all()
-        # assinatura_id = usuario.assinaturas.all().first().assinatura_id
+        assinaturas = self.request.user.assinaturas.all()
         access_token = settings.MERCADOPAGO_ACCESS_TOKEN
-        # context = {}
 
-        # Defina a URL da API do MercadoPago
-        # url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
-
-        # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
+        # Defina o cabeçalho com o token de acesso do 
         headers = {
             'Authorization': f'Bearer {access_token}',
         }
@@ -229,18 +220,10 @@ class MinhaConta(LoginRequiredMixin, ListView):
                 assinatura.next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string)
                 assinatura.save()
                 context['assinaturas'].append(assinatura)
-                # context['assinaturas'] = assinaturas
-                # context['assinatura'] = data['reason']
-                # context['status'] = data['status']
-                # context['inicio'] = datetime.strptime(data['date_created'], formato_da_string)
-                # context['mensalidade'] = "{:.2f}".format(float(data['auto_recurring']['transaction_amount']))
-                
-                # return self.render_to_response(context=context)
+                return context
             else:
                 # Lidar com erros de solicitação, se necessário
                 error_message = response.text
                 return JsonResponse({'error': error_message}, status=response.status_code)
         
-        # return self.render_to_response(context=context)
-        return context
         
