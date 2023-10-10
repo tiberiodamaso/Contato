@@ -56,7 +56,7 @@ class Listar(LoginRequiredMixin, ListView):
         return context
 
 
-class Dashboard(TemplateView):
+class Dashboard(LoginRequiredMixin, TemplateView):
     template_name = 'cards/dashboard-card.html'
 
     def process_request(self):
@@ -224,11 +224,20 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         return HttpResponseRedirect(self.get_success_url(card))
 
 
-class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Card
     form_class = CardEditForm
     template_name = 'cards/editar.html'
     success_message = 'Card atualizado com sucesso!'
+
+    def test_func(self):
+        assinaturas = self.request.user.assinaturas.all()
+        for assinatura in assinaturas:
+            if assinatura.status == 'authorized':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada.html', status=403)
 
     def get_success_url(self, card):
         user = self.request.user
@@ -371,9 +380,18 @@ class Editar(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return HttpResponseRedirect(self.get_success_url(card))
 
 
-class Detalhar(DetailView):
+class Detalhar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DetailView):
     model = Card
     template_name = 'cards/detalhe.html'
+
+    def test_func(self):
+        assinaturas = self.request.user.assinaturas.all()
+        for assinatura in assinaturas:
+            if assinatura.status == 'authorized':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada.html', status=403)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -532,12 +550,21 @@ class DashboardEmpresa(TemplateView):
         return context
 
 
-class ConteudoCriar(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Conteudo
     form_class = ConteudoEditForm
     success_url = '.'
     template_name = 'cards/conteudo.html'
     success_message = 'Conteúdo criado com sucesso!'
+
+    def test_func(self):
+        assinaturas = self.request.user.assinaturas.all()
+        for assinatura in assinaturas:
+            if assinatura.status == 'authorized':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada.html', status=403)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -220,10 +220,10 @@ class MinhaConta(LoginRequiredMixin, ListView):
                 assinatura.next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string)
                 assinatura.save()
                 context['assinaturas'].append(assinatura)
-                return context
             else:
                 # Lidar com erros de solicitação, se necessário
                 error_message = response.text
                 return JsonResponse({'error': error_message}, status=response.status_code)
         
+        return context
         
