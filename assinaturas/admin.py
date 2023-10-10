@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Pedido
+from .models import Assinatura
 
 
-class PedidoAdmin(admin.ModelAdmin):
+class AssinaturaAdmin(admin.ModelAdmin):
     list_display = ('id', 'usuario', 'assinatura_id', 'payer_id', 'date_created', 'valor', 'status')
     search_fields = ['usuario']
 
-admin.site.register(Pedido, PedidoAdmin)
+admin.site.register(Assinatura, AssinaturaAdmin)

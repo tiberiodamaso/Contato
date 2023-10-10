@@ -128,9 +128,9 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
     success_message = 'Card criado com sucesso.'
 
     def test_func(self):
-        pedidos = self.request.user.pedidos.all()
-        for pedido in pedidos:
-            if pedido.status == 'authorized':
+        assinaturas = self.request.user.assinaturas.all()
+        for assinatura in assinaturas:
+            if assinatura.status == 'authorized':
                 return True
 
     def handle_no_permission(self):

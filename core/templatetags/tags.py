@@ -12,5 +12,7 @@ def get_values(value):
 def translate(value):
     if value == 'cancelled':
         return 'cancelada'
+    if value == 'authorized':
+        return 'pago'
     return value
 

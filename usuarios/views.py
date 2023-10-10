@@ -2,7 +2,7 @@ import requests
 from typing import Any, Dict
 from datetime import datetime
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import CreateView, TemplateView, View
+from django.views.generic import CreateView, TemplateView, View, ListView
 from django.views.generic.base import TemplateResponseMixin
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -25,28 +25,61 @@ from django.template.defaultfilters import slugify
 from .models import Usuario
 from django.shortcuts import redirect, render
 from cards.models import Card
-
+from assinaturas.models import Assinatura
 
 class UsusarioLoginView(LoginView):
     template_name = 'usuarios/login.html'
     form_class = UsuarioAuthenticationForm
 
     def get_success_url(self):
-        user = self.request.user
-        card = user.cards.first()
+        usuario = self.request.user
+        card = usuario.cards.first()
         return reverse('core:home')
-        # if card:
-        #   return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
-        # else:
-        #   return reverse('core:criar')
+
+    def verifica_status_assinatura(self, usuario):
+        # usuario = self.request.user
+        assinatura = usuario.assinaturas.all().last()
+        assinatura_id = assinatura.assinatura_id
+        access_token = settings.MERCADOPAGO_ACCESS_TOKEN
+
+        # Defina a URL da API do MercadoPago
+        url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
+
+        # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
+        headers = {
+            'Authorization': f'Bearer {access_token}',
+        }
+
+        if assinatura:
+            # Faça a solicitação GET para a API do MercadoPago
+            response = requests.get(url, headers=headers)
+
+        # Verifique se a solicitação foi bem-sucedida
+            if response.status_code == 200:
+                data = response.json()
+                context = {}
+                assinatura.status = data['status']
+                assinatura.save()
+                return assinatura.status
+                # return self.render_to_response(context=context)
+            else:
+                # Lidar com erros de solicitação, se necessário
+                error_message = response.text
+                return JsonResponse({'error': error_message}, status=response.status_code)
+        return None
+
     
     def post(self, request):
+
         # recupera formulário
         form = self.get_form()
+
         # recupera usuário no banco de dados com base no e-mail inserido no formulário
-        usuario = Usuario.objects.filter(email=form['username'].value())
+        usuario = Usuario.objects.get(email=form['username'].value())
+        status = self.verifica_status_assinatura(usuario)
+
         # se usuário existe e não está ativo, chama tela de reenviar email de ativação
-        if usuario and not usuario[0].is_active:
+        if usuario and not usuario.is_active:
             return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao', kwargs={'username': usuario[0].username}))
         return super().post(self.request)
 
@@ -154,41 +187,60 @@ class ReenviarEmailAtivacao(TemplateView):
         return self.get_success_url()
 
 
-class MinhaConta(TemplateResponseMixin, View):
+class MinhaConta(LoginRequiredMixin, ListView):
+
     template_name = 'usuarios/minha-conta.html'
+    model = Assinatura
+    context_object_name = 'assinaturas'
 
-    def render_to_response(self, context, **response_kwargs):
-        response_kwargs.setdefault('content_type', self.content_type)
-        return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine, **response_kwargs)
+    # def render_to_response(self, context, **response_kwargs):
+    #     response_kwargs.setdefault('content_type', self.content_type)
+    #     return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine, **response_kwargs)
 
-    def get(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['assinaturas'] = []
         usuario = self.request.user
-        assinatura_id = usuario.pedidos.all().first().assinatura_id
+        assinaturas = usuario.assinaturas.all()
+        # assinatura_id = usuario.assinaturas.all().first().assinatura_id
         access_token = settings.MERCADOPAGO_ACCESS_TOKEN
+        # context = {}
 
         # Defina a URL da API do MercadoPago
-        url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
+        # url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
 
         # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
         headers = {
             'Authorization': f'Bearer {access_token}',
         }
 
-        # Faça a solicitação GET para a API do MercadoPago
-        response = requests.get(url, headers=headers)
+        for assinatura in assinaturas:
+            url = f'https://api.mercadopago.com/preapproval/{assinatura.assinatura_id}'
 
-        # Verifique se a solicitação foi bem-sucedida
-        if response.status_code == 200:
-            data = response.json()
-            context = {}
-            formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
-            context['assinatura'] = data['reason']
-            context['status'] = data['status']
-            context['inicio'] = datetime.strptime(data['date_created'], formato_da_string)
-            context['mensalidade'] = "{:.2f}".format(float(data['auto_recurring']['transaction_amount']))
-            
-            return self.render_to_response(context=context)
-        else:
-            # Lidar com erros de solicitação, se necessário
-            error_message = response.text
-            return JsonResponse({'error': error_message}, status=response.status_code)
+            # Faça a solicitação GET para a API do MercadoPago
+            response = requests.get(url, headers=headers)
+
+            # Verifique se a solicitação foi bem-sucedida
+            if response.status_code == 200:
+                data = response.json()
+                formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
+                assinatura.status = data['status']
+                assinatura.start_date = datetime.strptime(data['date_created'], formato_da_string)
+                assinatura.next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string)
+                assinatura.save()
+                context['assinaturas'].append(assinatura)
+                # context['assinaturas'] = assinaturas
+                # context['assinatura'] = data['reason']
+                # context['status'] = data['status']
+                # context['inicio'] = datetime.strptime(data['date_created'], formato_da_string)
+                # context['mensalidade'] = "{:.2f}".format(float(data['auto_recurring']['transaction_amount']))
+                
+                # return self.render_to_response(context=context)
+            else:
+                # Lidar com erros de solicitação, se necessário
+                error_message = response.text
+                return JsonResponse({'error': error_message}, status=response.status_code)
+        
+        # return self.render_to_response(context=context)
+        return context
+        

@@ -4,34 +4,41 @@
 {% block title %} Meu Contato | Minha conta {% endblock %}
 {% block content %}
 
-    {% include 'core/menu.html' %}
+{% include 'core/menu.html' %}
+{% include 'core/mensagens.html' %}
 
-    <div>
-        <h2 class="text-center my-5 display-4">Minha conta</h2>
-        <p class="fs-4">Dados da assinatura</p>
-        <table class="table">
-            <thead>
-              <tr>
+<div>
+    <h2 class="text-center my-5 display-4">Minha conta</h2>
+    <p class="fs-4">Dados da assinatura</p>
+    <table class="table my-5">
+        <thead>
+            <tr>
                 <th>Tipo</th>
                 <th>Status</th>
                 <th>Início</th>
                 <th>Mensalidade</th>
                 <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{{assinatura}}</td>
-                <td>{{status|translate}}</td>
-                <td>{{inicio}}</td>
-                <td>{{mensalidade}}</td>
-                <td>ações</td>
-              </tr>
-            </tbody>
-          </table>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assinatura in assinaturas %}
+            <tr>
+                <td>Individual</td>
+                <td>{{assinatura.status|translate}}</td>
+                <td>{{assinatura.start_date}}</td>
+                <td>{{assinatura.valor}}</td>
+                {% if assinatura.status == 'authorized' %}
+                <td><a href="{% url 'assinaturas:cancelar' assinatura.id %}" class="btn btn-danger">cancelar</a></td>
+                {% else %}
+                <td><a href="{% url 'assinaturas:criar' %}" class="btn btn-warning">assinar</a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-    </div>
+</div>
 
-    {% include 'core/footer.html' %}
+{% include 'core/footer.html' %}
 
 {% endblock %}

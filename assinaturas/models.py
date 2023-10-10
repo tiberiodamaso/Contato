@@ -1,8 +1,8 @@
 from django.db import models
 from usuarios.models import Usuario
 
-class Pedido(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name='Usuário', related_name='pedidos')
+class Assinatura(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name='Usuário', related_name='assinaturas')
     assinatura_id = models.CharField(verbose_name='Assinatura ID', max_length=50)
     payer_id = models.CharField(verbose_name='Payer ID', max_length=20)
     date_created = models.DateField(verbose_name='Criado', max_length=50)
@@ -14,8 +14,8 @@ class Pedido(models.Model):
 
 
     class Meta:
-        verbose_name = 'Pedido'
-        verbose_name_plural = 'Pedidos'
+        verbose_name = 'Assinatura'
+        verbose_name_plural = 'Assinaturas'
 
     def __str__(self):
         return self.usuario.get_full_name()

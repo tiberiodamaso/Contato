@@ -10,16 +10,18 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import View, CreateView
+from django.views.generic.base import TemplateResponseMixin
+from django.views.generic.edit import DeletionMixin
+from django.views.generic import View, CreateView, UpdateView, TemplateView
 from django.http import JsonResponse
-from .models import Pedido
+from .models import Assinatura
 from cards.views import Criar
 
 class Criar(LoginRequiredMixin, View):
 
     def get(self, request):
         usuario = self.request.user
-        return redirect('pedidos:pagar')
+        return redirect('assinaturas:pagar')
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -29,7 +31,7 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
     def get(self, request, *args, **kwargs):
         usuario = self.request.user
         contexto = {'usuario': usuario,}
-        return render(request, 'pedidos/pagar.html', contexto)
+        return render(request, 'assinaturas/pagar.html', contexto)
 
     def post(self, request, *args, **kwargs):
         usuario = self.request.user
@@ -68,7 +70,7 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
         if response.status_code == 201:
             data = response.json()
             formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
-            pedido = Pedido.objects.create(
+            assinatura = Assinatura.objects.create(
                 usuario=usuario,
                 assinatura_id = data['id'],
                 payer_id = data['payer_id'],
@@ -79,9 +81,6 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
                 next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string),
                 last_modified = datetime.strptime(data['last_modified'], formato_da_string),
             )
-            # pedido = usuario.pedidos.last()
-            # pedido.status = 'Pago'
-            # pedido.save()
             messages.success(self.request, 'Pagamento realizado com sucesso!')
             mensagem = 'Pagamento realizado com sucesso!'
             response_data = {
@@ -89,6 +88,57 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
                 'message': mensagem,
             }
             return JsonResponse(response_data, status=response.status_code)
+        else:
+            # Lidar com erros de solicitação, se necessário
+            error_message = response.text
+            return JsonResponse({'error': error_message}, status=response.status_code)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class Cancelar(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
+
+    template_name = 'usuarios/minha-conta.html'
+
+    def render_to_response(self, context, **response_kwargs):
+        response_kwargs.setdefault('content_type', self.content_type)
+        return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine, **response_kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['assinaturas'] = self.request.user.assinaturas.all()
+        return context
+
+    def get(self, request, *args, **kwargs):    
+        # usuario = self.request.user
+        assinatura = Assinatura.objects.get(id=self.kwargs['pk'])
+        assinatura_id = assinatura.assinatura_id
+        access_token = settings.MERCADOPAGO_ACCESS_TOKEN
+
+        # Defina a URL da API do MercadoPago
+        url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
+
+        # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
+        headers = {
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'application/json'
+        }
+
+        # Defina os dados da solicitação em formato JSON
+        data = {
+            "status": "cancelled"
+        }
+
+        # Faça a solicitação PUT para a API do MercadoPago
+        response = requests.put(url, json=data, headers=headers)
+
+        # Verifique se a solicitação foi bem-sucedida
+        if response.status_code == 200:
+            data = response.json()
+            context = self.get_context_data(**kwargs)
+            assinatura.status = data['status']
+            assinatura.save()
+            messages.success(self.request, 'Assinatura cancelada com sucesso!')
+            return self.render_to_response(context=context)
         else:
             # Lidar com erros de solicitação, se necessário
             error_message = response.text
