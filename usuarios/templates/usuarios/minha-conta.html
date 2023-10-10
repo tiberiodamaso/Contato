@@ -10,6 +10,7 @@
 <div>
     <h2 class="text-center my-5 display-4">Minha conta</h2>
     <p class="fs-4">Dados da assinatura</p>
+    {% if assinaturas %}
     <table class="table my-5">
         <thead>
             <tr>
@@ -36,6 +37,9 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <p class="fs-5">Você ainda não possui nenhuma assinatura. </p>
+    {% endif %}
 
 </div>
 
