@@ -30,8 +30,6 @@
                 <td>{{assinatura.valor}}</td>
                 {% if assinatura.status == 'authorized' %}
                 <td><a href="{% url 'assinaturas:cancelar' assinatura.id %}" class="btn btn-danger">cancelar</a></td>
-                {% else %}
-                <td><a href="{% url 'assinaturas:criar' %}" class="btn btn-warning">assinar</a></td>
                 {% endif %}
             </tr>
             {% endfor %}

@@ -39,6 +39,10 @@ class UsusarioLoginView(LoginView):
     def verifica_status_assinatura(self, usuario):
         # usuario = self.request.user
         assinatura = usuario.assinaturas.all().last()
+
+        if not assinatura:
+            return 'pendente'
+
         assinatura_id = assinatura.assinatura_id
         access_token = settings.MERCADOPAGO_ACCESS_TOKEN
 
@@ -66,8 +70,6 @@ class UsusarioLoginView(LoginView):
                 # Lidar com erros de solicitação, se necessário
                 error_message = response.text
                 return JsonResponse({'error': error_message}, status=response.status_code)
-        return None
-
     
     def post(self, request):
 
