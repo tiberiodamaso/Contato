@@ -15,43 +15,48 @@
         class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
     {% endif %}
 
-    <!--FORMULÁRIO PARA CRIAR CONTEÚDO-->
-    <form action="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}" method="post"
-        class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
-        {% csrf_token %}
+    {% if quantidade_conteudo < 10 %}
+        <!--FORMULÁRIO PARA CRIAR CONTEÚDO-->
+        <form action="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}" method="post"
+            class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+            {% csrf_token %}
 
-        <!--TIPO CONTEÚDO-->
-        <div>
-            <label for="id_tik_tok">Tipo de conteúdo:</label>
-            <div class="mb-3">
-                {{form.tipo}}
+            <!--TIPO CONTEÚDO-->
+            <div>
+                <label for="id_tik_tok">Tipo de conteúdo:</label>
+                <div class="mb-3">
+                    {{form.tipo}}
+                </div>
             </div>
-        </div>
 
-        <!--CONTEÚDO IMAGEM-->
-        <div>
-            <label for="id_tik_tok">Imagem: <span class="small text-danger">(máximo 1MB)</span></label>
-            <div class="mb-3">
-                {{form.img}}
+            <!--CONTEÚDO IMAGEM-->
+            <div>
+                <label for="id_tik_tok">Imagem: <span class="small text-danger">(máximo 1MB)</span></label>
+                <div class="mb-3">
+                    {{form.img}}
+                </div>
             </div>
-        </div>
 
-        <!--CONTEÚDO LINK-->
-        <div>
-            <label for="id_tik_tok">Link da imagem:</label>
-            <div class="mb-3">
-                {{form.link}}
+            <!--CONTEÚDO LINK-->
+            <div>
+                <label for="id_tik_tok">Link da imagem:</label>
+                <div class="mb-3">
+                    {{form.link}}
+                </div>
             </div>
-        </div>
 
-        {% for error in field.errors %}
-        <div class="alert alert-danger text-center alert-dismissible" role="alert">
-            {{error}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
-        <button type="submit" class="btn btn-warning w-100">Salvar</button>
-    </form>
+            {% for error in field.errors %}
+            <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                {{error}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-warning w-100">Salvar</button>
+        </form>
+    {% else %}
+        <p>Quantidade máxima de conteúdos atingidos - 10 conteúdos.</p>
+    {% endif %}
+
 </div>
 
 <!--TABELA DE CONTEÚDO-->

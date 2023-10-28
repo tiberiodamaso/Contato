@@ -571,13 +571,21 @@ class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin
         usuario = self.request.user
         card = usuario.cards.first()
         conteudos = Conteudo.objects.filter(card__proprietario=usuario)
+        quantidade_conteudo = len(conteudos)
         context['card'] = card
         context['conteudos'] = conteudos
+        context['quantidade_conteudo'] = quantidade_conteudo
         return context
 
     def form_valid(self, form):
         conteudo = form.save(commit=False)
         usuario = self.request.user
+        # validação da quantidade de conteúdos criados
+        conteudos = Conteudo.objects.filter(card__proprietario=usuario)
+        if len(conteudos) > 10:
+            messages.error(
+                    self.request, 'Quantidade máxima de conteúdos atingidos - 10 conteúdos.')
+            return self.form_invalid(form)
         card = usuario.cards.first()
         conteudo.card = card
         img = form.cleaned_data['img']
