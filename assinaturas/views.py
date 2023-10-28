@@ -1,5 +1,4 @@
 import requests
-import mercadopago
 import json
 from datetime import datetime
 from django.http import HttpResponseRedirect, HttpResponse
