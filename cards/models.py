@@ -227,6 +227,8 @@ class Conteudo(models.Model):
         null=True,
         validators=[URLValidator(schemes=['http', 'https'])],
     )
+    nome = models.CharField(verbose_name='Nome', max_length=50)
+    descricao = models.TextField(verbose_name='Descrição', blank=True)
 
 
 # class Empresa(models.Model):

@@ -58,9 +58,9 @@
         {% if user.is_authenticated and user == card.proprietario %}
         <div class="d-flex justify-content-center my-2 rounded">
             <a href="{% url 'core:editar' card.slug_empresa card.slug %}"
-                class="btn fs-4 w-100 bg-success text-white mx-1">Editar card</a>
+                class="btn fs-5 w-100 bg-success text-white mx-1">Editar card</a>
             <a href="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}"
-                class="btn fs-4 w-100  bg-success text-white mx-1">Editar conteúdo</a>
+                class="btn fs-5 w-100  bg-success text-white mx-1">Editar conteúdo</a>
         </div>
         {% endif %}
 
@@ -78,15 +78,16 @@
 <!--PRODUTOS-->
 <div class="my-5">
     <h3 class="text-center my-4">PRODUTOS</h3>
-    <div class="row flex-md-row flex-column row-cols-md-2 g-4">
+    <div class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for produto in produtos %}
-        <div class="col">
-            <div class="card border-0">
-                <a href="{{ produto.link }}" target="_blank">
-                    <img src="{{ produto.img.url }}" class="card-img" alt="...">
-                </a>
+        <div class="card p-0" style="width: 18rem;">
+            <img src="{{ produto.img.url }}" class="card-img-top h-50" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{produto.nome}}</h5>
+              <p class="card-text">{{produto.descricao}}</p>
+              <a href="{{ produto.link }}" class="btn btn-warning">Detalhes</a>
             </div>
-        </div>
+          </div>
         {% endfor %}
     </div>
 </div>
@@ -96,15 +97,16 @@
 <!--SERVIÇOS-->
 <div class="my-5">
     <h3 class="text-center my-4">SERVIÇOS</h3>
-    <div class="row flex-md-row flex-column row-cols-md-2 g-4">
+    <div class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for servico in servicos %}
-        <div class="col">
-            <div class="card border-0">
-                <a href="{{ servico.link }}" target="_blank">
-                    <img src="{{ servico.img.url }}" class="card-img" alt="...">
-                </a>
+        <div class="card p-0" style="width: 18rem;">
+            <img src="{{ servico.img.url }}" class="card-img-top h-50" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{servico.nome}}</h5>
+              <p class="card-text">{{servico.descricao}}</p>
+              <a href="{{ servico.link }}" class="btn btn-warning">Detalhes</a>
             </div>
-        </div>
+          </div>
         {% endfor %}
     </div>
 </div>
@@ -114,15 +116,16 @@
 <!--PROMOÇÕES-->
 <div class="my-5">
     <h3 class="text-center my-4">PROMOÇÕES</h3>
-    <div class="row flex-md-row flex-column row-cols-md-2 g-4">
+    <div class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for promocao in promocoes %}
-        <div class="col">
-            <div class="card border-0">
-                <a href="{{ promocao.link }}" target="_blank">
-                    <img src="{{ promocao.img.url }}" class="card-img" alt="...">
-                </a>
+        <div class="card p-0" style="width: 18rem;">
+            <img src="{{ promocao.img.url }}" class="card-img-top h-50" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{promocao.nome}}</h5>
+              <p class="card-text">{{promocao.descricao}}</p>
+              <a href="{{ promocao.link }}" class="btn btn-warning">Detalhes</a>
             </div>
-        </div>
+          </div>
     </div>
     {% endfor %}
 </div>
@@ -133,15 +136,16 @@
 <!--PORTFÓLIOS-->
 <div class="my-5">
     <h3 class="text-center my-4">PORTFÓLIOS</h3>
-    <div class="row flex-md-row flex-column row-cols-md-2 g-4">
+    <div class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for portfolio in portfolios %}
-        <div class="col">
-            <div class="card border-0">
-                <a href="{{ portfolio.link }}" target="_blank">
-                    <img src="{{ portfolio.img.url }}" class="card-img" alt="...">
-                </a>
+        <div class="card p-0" style="width: 18rem;">
+            <img src="{{ portfolio.img.url }}" class="card-img-top h-50" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{portfolio.nome}}</h5>
+              <p class="card-text">{{portfolio.descricao}}</p>
+              <a href="{{ portfolio.link }}" class="btn btn-warning">Detalhes</a>
             </div>
-        </div>
+          </div>
         {% endfor %}
     </div>
 </div>
@@ -151,15 +155,16 @@
 <!--CURSOS-->
 <div class="my-5">
     <h3 class="text-center my-4">CURSOS</h3>
-    <div class="row flex-md-row flex-column row-cols-md-2 g-4">
+    <div class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for curso in cursos %}
-        <div class="col">
-            <div class="card border-0">
-                <a href="{{ curso.link }}" target="_blank">
-                    <img src="{{ curso.img.url }}" class="card-img" alt="...">
-                </a>
+        <div class="card p-0" style="width: 18rem;">
+            <img src="{{ curso.img.url }}" class="card-img-top h-50" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{curso.nome}}</h5>
+              <p class="card-text">{{curso.descricao}}</p>
+              <a href="{{ curso.link }}" class="btn btn-warning">Detalhes</a>
             </div>
-        </div>
+          </div>
         {% endfor %}
     </div>
 </div>
