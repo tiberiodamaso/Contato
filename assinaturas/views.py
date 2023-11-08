@@ -33,11 +33,13 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
 
 
     def get(self, request, *args, **kwargs):
+        print('Entrou na views PAGAR')
         usuario = self.request.user
         contexto = {'usuario': usuario,}
         return render(request, 'assinaturas/pagar.html', contexto)
 
     def post(self, request, *args, **kwargs):
+        print('Entrou no método POST de PAGAR')
         usuario = self.request.user
         access_token = settings.MERCADOPAGO_ACCESS_TOKEN
         form_data = json.loads(self.request.body.decode('utf-8'))
