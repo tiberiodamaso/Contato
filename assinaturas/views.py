@@ -65,7 +65,7 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
                 "transaction_amount": 10,
                 "currency_id": "BRL"
             },
-            "back_url": "https://meucontato.pythonanywhere.com/webhook/",
+            "back_url": "https://meucontato.pythonanywhere.com/assinaturas/webhook/",
             "status": "authorized"
         }
 
