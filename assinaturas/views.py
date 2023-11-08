@@ -1,7 +1,10 @@
-import requests
-import json
+import json, os, requests
+import hmac
+import hashlib
+
+from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.conf import settings
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
@@ -13,6 +16,8 @@ from django.views.generic.base import TemplateResponseMixin
 from django.views.generic.edit import DeletionMixin
 from django.views.generic import View, CreateView, UpdateView, TemplateView
 from django.http import JsonResponse
+
+
 from .models import Assinatura
 from cards.views import Criar
 
@@ -58,7 +63,7 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
                 "transaction_amount": 10,
                 "currency_id": "BRL"
             },
-            "back_url": "https://meucontato.pythonanywhere.com",
+            "back_url": "https://meucontato.pythonanywhere.com/webhook/",
             "status": "authorized"
         }
 
@@ -215,3 +220,71 @@ class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
             # Lidar com erros de solicitação, se necessário
             error_message = response.text
             return JsonResponse({'error': error_message}, status=response.status_code)
+        
+
+class MercadoPagoWebhook(View):
+    @csrf_exempt
+    def post(self, request, *args, **kwargs):
+        # Obtenha o token de autenticação do Mercado Pago
+        access_token = os.getenv('MERCADOPAGO_ACCESS_TOKEN')
+
+        # Obtenha a assinatura do cabeçalho da solicitação
+        print(f'request.META: {request.META}')
+        for _ in request.META:
+            print(f'request.META - chave: {_}, valor: {request.META.get(_)}')
+
+        signature = ''
+        # eu acho que é dá para usar o id x-request-id
+        # signature = request.META.get('HTTP_X_MERCADOPAGO_SIGNATURE')
+        # if not signature:
+        #     return HttpResponseBadRequest("Cabeçalho de autenticação ausente ou inválido")
+
+        # # Obtenha o corpo da solicitação JSON
+        data = request.POST
+        print(f'data = request.POST: {data}')
+
+        for _ in request.POST:
+            print(f'request.POST - chave: {_}, valor: {request.POST.get(_)}')
+
+        # # Obtenha o tipo da notificação
+        # notification_type = request.META.get('HTTP_X-MP-NOTIFICATION-TYPE')
+        # ou usar data.get("type") para notification type
+        # notification_type = data.get("type")
+        notification_type = ''
+        try:
+            notification_type = data.get("type")
+            print(f'notification_type = {notification_type}')
+        except Exception as err:
+            print(f'Erro ao extrair data.get(type). Erro: {str(err)}')
+        finally:
+            ...
+
+
+        # Verifique o token de autenticação do Mercado Pago
+        # if self.verify_signature(access_token, data, signature):
+        if True:
+            if notification_type == "payment":
+                ...  # TODO
+            elif data.get("type") == "plan":
+                ...  # TODO
+            elif data.get("type") == "subscription":
+                ...  # TODO
+            elif data.get("type") == "invoice":
+                ...  # TODO
+            elif data.get("type") == "point_integration_wh":
+                # data contém as informações relacionadas à notificação
+                pass
+
+            # resposta para webhook 
+            return JsonResponse({'status': 'ok'})
+        else:
+            return HttpResponseBadRequest("Token de autenticação inválido")
+
+    def verify_signature(self, access_token, data, signature):
+        # Implemente a lógica para verificar a assinatura
+        # Use a chave secreta para verificar se a assinatura corresponde aos dados
+
+        hmac_calc = hmac.new(access_token.encode(), data, hashlib.sha256).hexdigest()
+
+        result = hmac.compare_digest(signature, hmac_calc)
+        return result 
