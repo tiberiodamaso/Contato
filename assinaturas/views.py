@@ -231,7 +231,7 @@ class MercadoPagoWebhook(View):
 
     def post(self, request, *args, **kwargs):
         data = request.POST
-        print(f'request.POST = {request.POST}')
+        print(f'request = {request}')
         
         notification_type = ''
         try:
