@@ -76,7 +76,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.core.context_processors.csrf',
             ],
         },
     },
@@ -194,4 +193,5 @@ GRAPH_MODELS = {
   'exclude_models': ['AbstractUser', 'Permission', 'Group']
 }
 
-CSRF_TRUSTED_ORIGINS = ['*.mercadopago.com']
+CORS_ALLOWED_ORIGINS = ['https://mercadopago.com.br']
+# CSRF_TRUSTED_ORIGINS = ['*.mercadopago.com']
