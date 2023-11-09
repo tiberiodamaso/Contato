@@ -192,3 +192,5 @@ GRAPH_MODELS = {
   'app_labels': ["cards", "usuarios", "core"],
   'exclude_models': ['AbstractUser', 'Permission', 'Group']
 }
+
+CSRF_TRUSTED_ORIGINS = ['*.mercadopago.com']
