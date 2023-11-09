@@ -230,35 +230,40 @@ class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
 class MercadoPagoWebhook(View):
 
     def post(self, request, *args, **kwargs):
-        data = request.POST
-        print(f'request = {request}')
-        
-        notification_type = ''
         try:
-            notification_type = data.get("type")
-            print(f'notification_type = {notification_type}')
-        except Exception as err:
-            print(f'Erro ao extrair data.get(type). Erro: {str(err)}')
+            payload = json.loads(request.body)
+            print(f'payload = {payload}')
+        except json.JSONDecodeError as err:
+            print(f'Erro ao extrair json.loads(request.body). Erro: {str(err)}')
         finally:
             ...
 
-        if True:
-            if notification_type == "":
-                ...  # TODO
-            elif data.get("type") == "plan":
-                ...  # TODO
-            elif data.get("type") == "subscription":
-                ...  # TODO
-            elif data.get("type") == "invoice":
-                ...  # TODO
-            elif data.get("type") == "point_integration_wh":
-                # data contém as informações relacionadas à notificação
-                pass
+        try:
+            notification_type = payload.get("type")
+            print(f'notification_type = {notification_type}')
+        except Exception as err:
+            print(f'Erro ao pegar chave payload.get("type"). Erro: {str(err)}')
+        finally:
+            ...
 
-            # resposta para webhook 
-            return JsonResponse({'status': 'ok'})
-        else:
-            return HttpResponseBadRequest("Token de autenticação inválido")
+        return JsonResponse({'status': 'ok'})
+        # if True:
+        #     if notification_type == "":
+        #         ...  # TODO
+        #     elif data.get("type") == "plan":
+        #         ...  # TODO
+        #     elif data.get("type") == "subscription":
+        #         ...  # TODO
+        #     elif data.get("type") == "invoice":
+        #         ...  # TODO
+        #     elif data.get("type") == "point_integration_wh":
+        #         # data contém as informações relacionadas à notificação
+        #         pass
+
+        #     # resposta para webhook 
+        #     return JsonResponse({'status': 'ok'})
+        # else:
+        #     return HttpResponseBadRequest("Token de autenticação inválido")
 
     def verify_signature(self, access_token, data, signature):
         # Implemente a lógica para verificar a assinatura
