@@ -227,8 +227,9 @@ class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
             return JsonResponse({'error': error_message}, status=response.status_code)
         
 
+@method_decorator(csrf_exempt, name='dispatch')
 class MercadoPagoWebhook(View):
-    @csrf_exempt
+
     def post(self, request, *args, **kwargs):
         print('entrou na views MercadoPagoWebhook')
         # Obtenha o token de autenticação do Mercado Pago

@@ -194,4 +194,4 @@ GRAPH_MODELS = {
 }
 
 # CORS_ALLOWED_ORIGINS = ['https://mercadopago.com.br']
-CSRF_TRUSTED_ORIGINS = ['*.mercadopago.com.br']
+# CSRF_TRUSTED_ORIGINS = ['*.mercadopago.com.br']
