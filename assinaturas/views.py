@@ -64,7 +64,7 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
                 "transaction_amount": 10,
                 "currency_id": "BRL"
             },
-            "back_url": "https://meucontato.pythonanywhere.com/assinaturas/webhook/",
+            "back_url": "https://meucontato.pythonanywhere.com/",
             "status": "authorized"
         }
 
@@ -132,7 +132,6 @@ class Cancelar(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
         # Defina os dados da solicitação em formato JSON
         data = {
             "status": "cancelled",
-            "back_url": "https://meucontato.pythonanywhere.com/assinaturas/webhook/",
         }
 
         # Faça a solicitação PUT para a API do MercadoPago
