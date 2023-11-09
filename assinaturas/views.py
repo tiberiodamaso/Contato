@@ -70,7 +70,9 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
         }
 
         # Faça a solicitação POST para a API do MercadoPago
+        print(f'vai mandar post para url= {url}')
         response = requests.post(url, json=data, headers=headers)
+        print(f'status do response= {response.status_code}')
 
         # Verifique se a solicitação foi bem-sucedida
         if response.status_code == 201:
@@ -97,6 +99,7 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
         else:
             # Lidar com erros de solicitação, se necessário
             error_message = response.text
+            print(f'response.status_code != 201, error_message = {error_message}')
             return JsonResponse({'error': error_message}, status=response.status_code)
 
 
@@ -227,6 +230,7 @@ class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
 class MercadoPagoWebhook(View):
     @csrf_exempt
     def post(self, request, *args, **kwargs):
+        print('entrou na views MercadoPagoWebhook')
         # Obtenha o token de autenticação do Mercado Pago
         access_token = os.getenv('MERCADOPAGO_ACCESS_TOKEN')
 
