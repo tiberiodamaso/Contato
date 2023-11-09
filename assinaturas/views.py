@@ -70,9 +70,7 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
         }
 
         # Faça a solicitação POST para a API do MercadoPago
-        print(f'vai mandar post para url= {url}')
         response = requests.post(url, json=data, headers=headers)
-        print(f'status do response= {response.status_code}')
 
         # Verifique se a solicitação foi bem-sucedida
         if response.status_code == 201:
@@ -231,32 +229,8 @@ class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
 class MercadoPagoWebhook(View):
 
     def post(self, request, *args, **kwargs):
-        print('entrou na views MercadoPagoWebhook')
-        # Obtenha o token de autenticação do Mercado Pago
-        access_token = os.getenv('MERCADOPAGO_ACCESS_TOKEN')
-
-        # Obtenha a assinatura do cabeçalho da solicitação
-        print(f'request.META: {request.META}')
-        for _ in request.META:
-            print(f'request.META - chave: {_}, valor: {request.META.get(_)}')
-
-        signature = ''
-        # eu acho que é dá para usar o id x-request-id
-        # signature = request.META.get('HTTP_X_MERCADOPAGO_SIGNATURE')
-        # if not signature:
-        #     return HttpResponseBadRequest("Cabeçalho de autenticação ausente ou inválido")
-
-        # # Obtenha o corpo da solicitação JSON
         data = request.POST
-        print(f'data = request.POST: {data}')
-
-        for _ in request.POST:
-            print(f'request.POST - chave: {_}, valor: {request.POST.get(_)}')
-
-        # # Obtenha o tipo da notificação
-        # notification_type = request.META.get('HTTP_X-MP-NOTIFICATION-TYPE')
-        # ou usar data.get("type") para notification type
-        # notification_type = data.get("type")
+        
         notification_type = ''
         try:
             notification_type = data.get("type")
@@ -266,11 +240,8 @@ class MercadoPagoWebhook(View):
         finally:
             ...
 
-
-        # Verifique o token de autenticação do Mercado Pago
-        # if self.verify_signature(access_token, data, signature):
         if True:
-            if notification_type == "payment":
+            if notification_type == "":
                 ...  # TODO
             elif data.get("type") == "plan":
                 ...  # TODO
