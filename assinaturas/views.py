@@ -132,7 +132,8 @@ class Cancelar(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
 
         # Defina os dados da solicitação em formato JSON
         data = {
-            "status": "cancelled"
+            "status": "cancelled",
+            "back_url": "https://meucontato.pythonanywhere.com/assinaturas/webhook/",
         }
 
         # Faça a solicitação PUT para a API do MercadoPago
