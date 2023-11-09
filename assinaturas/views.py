@@ -2,7 +2,6 @@ import json, os, requests
 import hmac
 import hashlib
 
-from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.conf import settings
