@@ -86,7 +86,7 @@
         <div class="card p-0" style="width: 18rem;">
             <img src="{{ conteudo.img.url }}" class="card-img-top h-50" alt="...">
             <div class="card-body">
-                
+
                 <!--NOME-->
                 <div class="d-flex justify-content-between">
                     <h5 class="card-title" hx-target="this" id="nome-{{conteudo.id}}">{{conteudo.nome}}</h5>
@@ -112,6 +112,30 @@
                 </a>
             </div>
         </div>
+
+        <!--MODAL DE EXCLUSÃO DE CONTEÚDO-->
+        <div class="modal fade" tabindex="-1" id="modalConfirmaExclusao{{ conteudo.id }}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirma exclusão</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Confirma a exclusão do conteúdo?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                        <form action="{% url 'core:conteudo-excluir' conteudo.card.slug_empresa conteudo.id %}"
+                            method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Sim</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {% endfor %}
     </div>
 </div>
