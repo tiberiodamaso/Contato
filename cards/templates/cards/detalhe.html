@@ -66,8 +66,8 @@
 
         <!--CONTATO-->
         <div class="d-flex justify-content-around py-4">
-            <a href="mailto:{{ card.proprietario.email }}"><i class="bi bi-envelope fs-1 text-black-50"></i></a>
-            <a href="tel:+55{{ card.telefone }}"><i class="bi bi-telephone fs-1 text-black-50"></i></a>
+            <a href="mailto:{{ card.proprietario.email }}"><i class="bi bi-envelope fs-1 text-black text-opacity-50"></i></a>
+            <a href="tel:+55{{ card.telefone }}"><i class="bi bi-telephone fs-1 text-black text-opacity-50"></i></a>
         </div>
 
     </div>
@@ -78,16 +78,17 @@
 <!--PRODUTOS-->
 <div class="my-5">
     <h3 class="text-center my-4">PRODUTOS</h3>
-    <div class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+    <div
+        class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for produto in produtos %}
         <div class="card p-0" style="width: 18rem;">
             <img src="{{ produto.img.url }}" class="card-img-top h-50" alt="...">
             <div class="card-body">
-              <h5 class="card-title">{{produto.nome}}</h5>
-              <p class="card-text">{{produto.descricao}}</p>
-              <a href="{{ produto.link }}" class="btn btn-warning">Detalhes</a>
+                <h5 class="card-title">{{produto.nome}}</h5>
+                <p class="card-text">{{produto.descricao}}</p>
+                <a href="{{ produto.link }}" class="btn btn-warning">Detalhes</a>
             </div>
-          </div>
+        </div>
         {% endfor %}
     </div>
 </div>
@@ -97,16 +98,17 @@
 <!--SERVIÇOS-->
 <div class="my-5">
     <h3 class="text-center my-4">SERVIÇOS</h3>
-    <div class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+    <div
+        class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for servico in servicos %}
         <div class="card p-0" style="width: 18rem;">
             <img src="{{ servico.img.url }}" class="card-img-top h-50" alt="...">
             <div class="card-body">
-              <h5 class="card-title">{{servico.nome}}</h5>
-              <p class="card-text">{{servico.descricao}}</p>
-              <a href="{{ servico.link }}" class="btn btn-warning">Detalhes</a>
+                <h5 class="card-title">{{servico.nome}}</h5>
+                <p class="card-text">{{servico.descricao}}</p>
+                <a href="{{ servico.link }}" class="btn btn-warning">Detalhes</a>
             </div>
-          </div>
+        </div>
         {% endfor %}
     </div>
 </div>
@@ -116,19 +118,19 @@
 <!--PROMOÇÕES-->
 <div class="my-5">
     <h3 class="text-center my-4">PROMOÇÕES</h3>
-    <div class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+    <div
+        class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for promocao in promocoes %}
         <div class="card p-0" style="width: 18rem;">
             <img src="{{ promocao.img.url }}" class="card-img-top h-50" alt="...">
             <div class="card-body">
-              <h5 class="card-title">{{promocao.nome}}</h5>
-              <p class="card-text">{{promocao.descricao}}</p>
-              <a href="{{ promocao.link }}" class="btn btn-warning">Detalhes</a>
+                <h5 class="card-title">{{promocao.nome}}</h5>
+                <p class="card-text">{{promocao.descricao}}</p>
+                <a href="{{ promocao.link }}" class="btn btn-warning">Detalhes</a>
             </div>
-          </div>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
 </div>
 {% endif %}
 
@@ -136,16 +138,17 @@
 <!--PORTFÓLIOS-->
 <div class="my-5">
     <h3 class="text-center my-4">PORTFÓLIOS</h3>
-    <div class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+    <div
+        class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for portfolio in portfolios %}
         <div class="card p-0" style="width: 18rem;">
             <img src="{{ portfolio.img.url }}" class="card-img-top h-50" alt="...">
             <div class="card-body">
-              <h5 class="card-title">{{portfolio.nome}}</h5>
-              <p class="card-text">{{portfolio.descricao}}</p>
-              <a href="{{ portfolio.link }}" class="btn btn-warning">Detalhes</a>
+                <h5 class="card-title">{{portfolio.nome}}</h5>
+                <p class="card-text">{{portfolio.descricao}}</p>
+                <a href="{{ portfolio.link }}" class="btn btn-warning">Detalhes</a>
             </div>
-          </div>
+        </div>
         {% endfor %}
     </div>
 </div>
@@ -155,16 +158,17 @@
 <!--CURSOS-->
 <div class="my-5">
     <h3 class="text-center my-4">CURSOS</h3>
-    <div class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+    <div
+        class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for curso in cursos %}
         <div class="card p-0" style="width: 18rem;">
             <img src="{{ curso.img.url }}" class="card-img-top h-50" alt="...">
             <div class="card-body">
-              <h5 class="card-title">{{curso.nome}}</h5>
-              <p class="card-text">{{curso.descricao}}</p>
-              <a href="{{ curso.link }}" class="btn btn-warning">Detalhes</a>
+                <h5 class="card-title">{{curso.nome}}</h5>
+                <p class="card-text">{{curso.descricao}}</p>
+                <a href="{{ curso.link }}" class="btn btn-warning">Detalhes</a>
             </div>
-          </div>
+        </div>
         {% endfor %}
     </div>
 </div>
@@ -189,27 +193,27 @@
 <div class="d-flex justify-content-around pb-5 mx-5" style="padding-bottom: 5em !important;">
     <!--INSTAGRAM-->
     {% if card.instagram %}
-    <a href="{{card.instagram}}" target="_blank"><i class="bi bi-instagram fs-1 text-black-50"></i></a>
+    <a href="{{card.instagram}}" target="_blank"><i class="bi bi-instagram fs-1 text-black text-opacity-50"></i></a>
     {% endif %}
 
     <!--FACEBOOK-->
     {% if card.facebook %}
-    <a href="{{card.facebook}}" target="_blank"><i class="bi bi-facebook fs-1 text-black-50"></i></a>
+    <a href="{{card.facebook}}" target="_blank"><i class="bi bi-facebook fs-1 text-black text-opacity-50"></i></a>
     {% endif %}
 
     <!--LINKEDIN-->
     {% if card.linkedin %}
-    <a href="{{card.linkedin}}" target="_blank"><i class="bi bi-linkedin fs-1 text-black-50"></i></a>
+    <a href="{{card.linkedin}}" target="_blank"><i class="bi bi-linkedin fs-1 text-black text-opacity-50"></i></a>
     {% endif %}
 
     <!--YOUTUBE-->
     {% if card.youtube %}
-    <a href="{{card.youtube}}" target="_blank"><i class="bi bi-youtube fs-1 text-black-50"></i></a>
+    <a href="{{card.youtube}}" target="_blank"><i class="bi bi-youtube fs-1 text-black text-opacity-50"></i></a>
     {% endif %}
 
     <!--TIKTOK-->
     {% if card.tik_tok %}
-    <a href="{{card.tik_tok}}" target="_blank"><i class="bi bi-tiktok fs-1 text-black-50"></i></a>
+    <a href="{{card.tik_tok}}" target="_blank"><i class="bi bi-tiktok fs-1 text-black text-opacity-50"></i></a>
     {% endif %}
 </div>
 

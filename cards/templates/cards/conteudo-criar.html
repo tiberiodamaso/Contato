@@ -70,58 +70,51 @@
             <button type="submit" class="btn btn-warning w-100">Salvar</button>
         </form>
     {% else %}
-        <p>Quantidade máxima de conteúdos atingidos - 10 conteúdos.</p>
+        <p class="lead text-danger">Quantidade máxima de conteúdos atingidos - 10 conteúdos.</p>
     {% endif %}
 
 </div>
 
-<!--TABELA DE CONTEÚDO-->
+
+<!--CONTEUDO EM CARDS-->
 {% if conteudos %}
-<table class="table col col-md-4 col-lg-4 p-4">
-    <thead>
-        <tr>
-            <th scope="col">Tipo</th>
-            <th scope="col">Conteúdo</th>
-            <th scope="col" class="text-center">Excluir</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="my-5">
+    <h3 class="text-center my-4">LISTA DE CONTEÚDOS</h3>
+    <div
+        class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for conteudo in conteudos %}
-        <tr>
-            <td>{{conteudo.tipo.nome}}</td>
-            <td><img src="{{ conteudo.img.url }}" style="max-width: 20vw; max-height: 20vh;" /></td>
-            <td class="text-center">
+        <div class="card p-0" style="width: 18rem;">
+            <img src="{{ conteudo.img.url }}" class="card-img-top h-50" alt="...">
+            <div class="card-body">
+                
+                <!--NOME-->
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title" hx-target="this" id="nome-{{conteudo.id}}">{{conteudo.nome}}</h5>
+                    <a href="#" hx-get="{% url 'core:conteudo-editar-nome' card.slug_empresa conteudo.id %}"
+                        hx-target="#nome-{{conteudo.id}}">
+                        <i class="bi bi-pencil-square text-warning"></i>
+                    </a>
+                </div>
+
+                <!--DESCRICAO-->
+                <div class="d-flex justify-content-between">
+                    <p class="card-text" hx-target="this" id="descricao-{{conteudo.id}}">{{conteudo.descricao}}</p>
+                    <a href="#" hx-get="{% url 'core:conteudo-editar-descricao' card.slug_empresa conteudo.id %}"
+                        hx-target="#descricao-{{conteudo.id}}">
+                        <i class="bi bi-pencil-square text-warning"></i>
+                    </a>
+                </div>
+
+                <!--MODAL EXCLUSAO-->
                 <a title="Deletar" href="#" class="text-decoration-none" data-bs-toggle="modal"
                     data-bs-target="#modalConfirmaExclusao{{ conteudo.id }}">
-                    <i class="bi bi-trash3 text-danger"></i></a>
-            </td>
-        </tr>
-
-        <!--MODAL DE EXCLUSÃO DE CONTEÚDO-->
-        <div class="modal fade" tabindex="-1" id="modalConfirmaExclusao{{ conteudo.id }}">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Confirma exclusão</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Confirma a exclusão do conteúdo?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
-                        <form action="{% url 'core:conteudo-excluir' conteudo.card.slug_empresa conteudo.id %}"
-                            method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Sim</button>
-                        </form>
-                    </div>
-                </div>
+                    <i class="bi bi-trash3 text-danger"></i>
+                </a>
             </div>
         </div>
         {% endfor %}
-    </tbody>
-</table>
+    </div>
+</div>
 {% endif %}
 
 <!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->

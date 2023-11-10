@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import HomeView
 from cards.views import Editar, Listar, Dashboard, Detalhar, Todos, \
-    Criar, DashboardEmpresa, ConteudoCriar, Deletar, Pesquisar, ConteudoExcluir
+    Criar, DashboardEmpresa, ConteudoCriar, Deletar, Pesquisar, ConteudoExcluir, ConteudoEditarNome, ConteudoEditarDescricao
 from core.views import GetMunicipios, GetSubcategorias, PoliticaDePrivacidade, TermosDeUso, Pagamento
 
 
@@ -18,6 +18,8 @@ urlpatterns = [
     path('<slug:empresa>/card/<slug:slug>/', Detalhar.as_view(), name='detalhe'),
     path('<slug:empresa>/card/conteudo/<slug:slug>/', ConteudoCriar.as_view(), name='conteudo-criar'),
     path('<slug:empresa>/card/conteudo/excluir/<int:pk>/', ConteudoExcluir.as_view(), name='conteudo-excluir'),
+    path('<slug:empresa>/card/conteudo/editar/nome/<int:pk>/', ConteudoEditarNome.as_view(), name='conteudo-editar-nome'),
+    path('<slug:empresa>/card/conteudo/editar/descricao/<int:pk>/', ConteudoEditarDescricao.as_view(), name='conteudo-editar-descricao'),
     path('todos-cards/', Todos.as_view(), name='todos-cards'),
     path('pesquisar/', Pesquisar.as_view(), name='pesquisar'),
     path('pagamento/', Pagamento.as_view(), name='pagamento'),

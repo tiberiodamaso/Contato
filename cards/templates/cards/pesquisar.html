@@ -15,14 +15,14 @@
 <form class="input-group my-5">
     <input type="text" class="form-control form-control-lg w-50"
         placeholder="Pesquise pelo nome do contato, estado ou município" name="pesquisar">
-    <select name="categoria" class="form-select text-black-50 fs-5" style="width: 20%;" id="id_categoria"
+    <select name="categoria" class="form-select text-black text-opacity-50 fs-5" style="width: 20%;" id="id_categoria"
         hx-get="{% url 'core:get-subcategorias' %}" hx-trigger="change" hx-target="#id_subcategoria">
         <option value="0" selected>Categoria</option>
         {% for categoria in categorias %}
         <option value="{{categoria.id}}">{{categoria.nome}}</option>
         {% endfor %}
     </select>
-    <select name="subcategoria" class="form-select text-black-50 fs-5" id="id_subcategoria" style="width: 20%;">
+    <select name="subcategoria" class="form-select text-black text-opacity-50 fs-5" id="id_subcategoria" style="width: 20%;">
         <option value="0" selected>Subcategoria</option>
         {% for subcategoria in subcategorias %}
         <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
@@ -38,14 +38,14 @@
 <form class="d-flex flex-column my-5">
     <input type="text" class="form-control form-control-lg mb-3" placeholder="Nome, estado ou município"
         name="pesquisar">
-    <select name="categoria" class="form-select text-black-50 fs-5 mb-3" id="id_categoria"
+    <select name="categoria" class="form-select text-black text-opacity-50 fs-5 mb-3" id="id_categoria"
         hx-get="{% url 'core:get-subcategorias' %}" hx-trigger="change" hx-target="#id_subcategoria">
         <option value="0" selected>Categoria</option>
         {% for categoria in categorias %}
         <option value="{{categoria.id}}">{{categoria.nome}}</option>
         {% endfor %}
     </select>
-    <select name="subcategoria" class="form-select text-black-50 fs-5 mb-3" id="id_subcategoria">
+    <select name="subcategoria" class="form-select text-black text-opacity-50 fs-5 mb-3" id="id_subcategoria">
         <option value="0" selected>Subcategoria</option>
         {% for subcategoria in subcategorias %}
         <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
