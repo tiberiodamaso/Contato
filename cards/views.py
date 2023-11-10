@@ -43,7 +43,7 @@ reg_v = re.compile(r"1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er
 
 class Listar(LoginRequiredMixin, ListView):
     model = Card
-    template_name = 'cards/lista.html'
+    template_name = 'cards/card-lista.html'
     context_object_name = 'cards'
 
     def get_context_data(self, **kwargs):
@@ -124,7 +124,7 @@ class Dashboard(LoginRequiredMixin, TemplateView):
 class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Card
     form_class = CardEditForm
-    template_name = 'cards/criar.html'
+    template_name = 'cards/card-criar.html'
     success_message = 'Card criado com sucesso.'
 
     def test_func(self):
@@ -227,7 +227,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
 class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Card
     form_class = CardEditForm
-    template_name = 'cards/editar.html'
+    template_name = 'cards/card-editar.html'
     success_message = 'Card atualizado com sucesso!'
 
     def test_func(self):
@@ -382,7 +382,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
 
 class Detalhar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DetailView):
     model = Card
-    template_name = 'cards/detalhe.html'
+    template_name = 'cards/meu-card.html'
 
     def test_func(self):
         assinaturas = self.request.user.assinaturas.all()
@@ -426,7 +426,7 @@ class Deletar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
     model = Card
     success_message = 'Card apagado com sucesso!'
-    template_name = 'cards/criar.html'
+    template_name = 'cards/card-criar.html'
 
     def get_success_url(self):
         return reverse('core:criar')
@@ -557,16 +557,6 @@ class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin
     template_name = 'cards/conteudo-criar.html'
     success_message = 'Conteúdo criado com sucesso!'
 
-    def process_request(self):
-        self.request.mobile = False
-        if self.request.META['HTTP_USER_AGENT']:
-            user_agent = self.request.META['HTTP_USER_AGENT']
-            b = reg_b.search(user_agent)
-            v = reg_v.search(user_agent[0:4])
-            if b or v:
-                return True
-
-
     def test_func(self):
         assinaturas = self.request.user.assinaturas.all()
         for assinatura in assinaturas:
@@ -582,8 +572,6 @@ class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin
         card = usuario.cards.first()
         conteudos = Conteudo.objects.filter(card__proprietario=usuario)
         quantidade_conteudo = len(conteudos)
-        if self.process_request():
-            context['mobile'] = True
         context['card'] = card
         context['conteudos'] = conteudos
         context['quantidade_conteudo'] = quantidade_conteudo
@@ -705,13 +693,11 @@ class ConteudoEditarDescricao(LoginRequiredMixin, UpdateView):
         return HttpResponse(conteudo.descricao)
 
 
-
-
 class CriarEmpresa(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     model = Card
     form_class = CardEditForm
-    template_name = 'cards/criar.html'
+    template_name = 'cards/card-criar.html'
     success_url = '.'
     success_message = 'Card criado com sucesso. Solicite ao dono do card que ative-o clicando no link que ele recebeu por email'
 

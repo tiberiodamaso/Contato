@@ -115,6 +115,26 @@ class RegistrarView(SuccessMessageMixin, CreateView):
 
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        # Acesse os erros do formulário
+        errors = form.errors.as_data()
+
+        # Crie uma lista para armazenar mensagens de erro personalizadas
+        error_messages = []
+
+        # Itere sobre os erros e adicione mensagens personalizadas
+        for field, error_list in errors.items():
+             # Adicione mensagens de erro personalizadas
+                if field == 'email' and 'unique' in errors['email'][0].code:
+                    error_messages.append(form.error_messages['email_taken'])
+                elif field == 'password2' and 'password_mismatch' in errors['password2'][0].code:
+                    error_messages.append(form.error_messages['password_mismatch'])
+                else:
+                    # Adicione outras mensagens de erro conforme necessário
+                    error_messages.append(f"Campo '{form.fields[field].label}' é inválido: {error.message}")
+
+        return self.render_to_response(self.get_context_data(form=form, error_messages=error_messages))
+
 
 class TrocarSenha(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
     form_class = TrocaSenhaForm
@@ -142,20 +162,6 @@ class EsqueceuSenhaLink(SuccessMessageMixin, PasswordResetConfirmView):
     success_url = reverse_lazy("usuarios:login")
     template_name = "usuarios/esqueceu-senha-link.html"
     success_message = 'Sua senha foi definida. Você pode ir em frente e fazer login agora.'
-
-
-def ativar_conta(request, uidb64, token):
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        usuario = Usuario.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, Usuario.DoesNotExist):
-        usuario = None
-    if usuario is not None and account_activation_token.check_token(usuario, token):
-        usuario.is_active = True
-        usuario.save()
-        return render(request, 'usuarios/sucesso-ativacao.html')
-    else:
-        return render(request, 'usuarios/falha-ativacao.html')
 
 
 class ReenviarEmailAtivacao(TemplateView):
@@ -229,3 +235,26 @@ class MinhaConta(LoginRequiredMixin, ListView):
         
         return context
         
+
+def ativar_conta(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        usuario = Usuario.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, Usuario.DoesNotExist):
+        usuario = None
+    if usuario is not None and account_activation_token.check_token(usuario, token):
+        usuario.is_active = True
+        usuario.save()
+        return render(request, 'usuarios/sucesso-ativacao.html')
+    else:
+        return render(request, 'usuarios/falha-ativacao.html')
+
+
+def verificar_email(request):
+    usuario = request.user
+    email = request.GET.get('email', None)
+
+    if email and Usuario.objects.filter(email=email).exists():
+        return HttpResponse('Já existe uma conta com esse email')
+    else:
+        return HttpResponse('')

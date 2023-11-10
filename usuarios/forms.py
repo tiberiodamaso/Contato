@@ -17,9 +17,22 @@ class UsuarioRegistrationForm(UserCreationForm):
         model = Usuario
         fields = ('email', 'first_name', 'last_name')
 
+    error_messages = {
+        'password_mismatch': 'As senhas não coincidem.',
+        'email_taken': 'Este email já está em uso.',
+        # Adicione mais mensagens de erro conforme necessário
+    }
+
+    # def clean_username(self):
+    #     email = self.cleaned_data.get('email')
+    #     if email and self.user_model.objects.filter(email=email).exists():
+    #         raise forms.ValidationError(self.error_messages['email_taken'], code='email_taken')
+    #     return email
+
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': 'será o email do card'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': 'será o email do card', 'hx-trigger': 'change', 'hx-get': '/usuarios/verificar-email', 'hx-target': '#verificar_email'})
         self.fields['first_name'].widget.attrs.update({'class': 'form-control'})
         self.fields['last_name'].widget.attrs.update({'class': 'form-control'})
         self.fields['password1'].widget.attrs.update({'class': 'form-control'})

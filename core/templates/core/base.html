@@ -35,19 +35,44 @@
     <!-- HTMX-->
     <script src="https://unpkg.com/htmx.org@1.9.2"
         integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+    </script>
+
+    <style>
+        @media (min-width: 576px) {
+            .logo {
+                max-width: 10vw !important;
+            }
+
+            .qrcode {
+                max-width: 10vw !important;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .logo {
+                max-height: 10vh;
+            }
+
+            .qrcode {
+                max-height: 10vh;
+            }
+        }
+
+    </style>
+
 
 </head>
 
 
 <body class="container d-flex flex-column h-100">
     {% block content %}
+
     {% endblock %}
+    {% include 'core/footer.html' %}
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
     crossorigin="anonymous"></script>
-
-
 </html>

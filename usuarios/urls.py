@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import UsusarioLoginView, RegistrarView, LogoutView, TrocarSenha, EsqueceuSenhaFormView, EsqueceuSenhaLink, ReenviarEmailAtivacao, ativar_conta, MinhaConta
+from .views import UsusarioLoginView, RegistrarView, LogoutView, TrocarSenha, EsqueceuSenhaFormView, EsqueceuSenhaLink, ReenviarEmailAtivacao, ativar_conta, MinhaConta, verificar_email
 
 app_name = 'usuarios'
 
@@ -12,5 +12,6 @@ urlpatterns = [
     path('esqueceu-senha-link/<uidb64>/<token>/', EsqueceuSenhaLink.as_view(), name="esqueceu-senha-link"),
     path('ativar-conta/<uidb64>/<token>/', ativar_conta, name="ativar-conta"),
     path('reenviar-email-ativacao/<str:username>/', ReenviarEmailAtivacao.as_view(), name='reenviar-email-ativacao'),
-    path('minha-conta/<str:username>/', MinhaConta.as_view(), name='minha-conta')
+    path('minha-conta/<str:username>/', MinhaConta.as_view(), name='minha-conta'),
+    path('verificar-email/', verificar_email, name='verificar-email'),
 ]
