@@ -35,8 +35,11 @@
         </div>
     </div>
 
+    {{pk|json_script:'pk'}}
+
     <!--INICIALIZA FORM DE PAGAMENTO-->
     <script>
+        const pk = JSON.parse(document.querySelector("#pk").textContent);
         const mp = new MercadoPago('APP_USR-1f68dd69-e308-43d3-9eeb-dc30958d5db9', {
           locale: 'pt-BR'
         });
@@ -75,7 +78,7 @@
                 //  callback chamado o usuário clicar no botão de submissão dos dados
                 //  exemplo de envio dos dados coletados pelo Brick para seu servidor
                 return new Promise((resolve, reject) => {
-                  fetch("/assinaturas/pagar/", {
+                  fetch(`/assinaturas/atualizar-cartao/${pk}/`, {
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json",

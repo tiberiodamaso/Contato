@@ -142,3 +142,76 @@ class Cancelar(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
             # Lidar com erros de solicitação, se necessário
             error_message = response.text
             return JsonResponse({'error': error_message}, status=response.status_code)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
+
+
+    def get(self, request, *args, **kwargs):
+        usuario = self.request.user
+        assinatura = Assinatura.objects.get(id=self.kwargs['pk'])
+        assinatura_id = assinatura.assinatura_id
+        pk = assinatura.id
+        contexto = {'usuario': usuario, 'pk': pk}
+        return render(request, 'assinaturas/atualizar-cartao.html', contexto)
+
+    def post(self, request, *args, **kwargs):
+        usuario = self.request.user
+        assinatura = Assinatura.objects.get(id=self.kwargs['pk'])
+        assinatura_id = assinatura.assinatura_id
+        access_token = settings.MERCADOPAGO_ACCESS_TOKEN
+        form_data = json.loads(self.request.body.decode('utf-8'))
+
+        # Defina a URL da API do MercadoPago
+        url = 'https://api.mercadopago.com/preapproval/{assinatura_id}'
+
+        # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
+        headers = {
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'application/json'
+        }
+
+        # Defina os dados da solicitação em formato JSON
+        data = {
+            "reason": "Plano individual",
+            "back_url": "https://meucontato.pythonanywhere.com",
+            "auto_recurring": {
+                # "frequency": 1,
+                # "frequency_type": "months",
+                "transaction_amount": 10,
+                "currency_id": "BRL"
+            },
+            "card_token_id": form_data.get('token'),
+            "status": "authorized",
+        }
+
+        # Faça a solicitação POST para a API do MercadoPago
+        response = requests.put(url, json=data, headers=headers)
+
+        # Verifique se a solicitação foi bem-sucedida
+        if response.status_code == 201:
+            data = response.json()
+            formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
+            assinatura = Assinatura.objects.create(
+                usuario=usuario,
+                assinatura_id = data['id'],
+                payer_id = data['payer_id'],
+                date_created = datetime.strptime(data['date_created'], formato_da_string),
+                valor = float(data['auto_recurring']['transaction_amount']),
+                status = data['status'],
+                start_date = datetime.strptime(data['auto_recurring']['start_date'], formato_da_string),
+                next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string),
+                last_modified = datetime.strptime(data['last_modified'], formato_da_string),
+            )
+            messages.success(self.request, 'Pagamento realizado com sucesso!')
+            mensagem = 'Pagamento realizado com sucesso!'
+            response_data = {
+                'status_code': response.status_code,
+                'message': mensagem,
+            }
+            return JsonResponse(response_data, status=response.status_code)
+        else:
+            # Lidar com erros de solicitação, se necessário
+            error_message = response.text
+            return JsonResponse({'error': error_message}, status=response.status_code)

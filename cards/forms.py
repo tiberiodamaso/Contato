@@ -29,7 +29,7 @@ class CardEditForm(forms.ModelForm):
 
 class ConteudoEditForm(forms.ModelForm):
 
-    tipo = forms.ModelChoiceField(queryset=TipoConteudo.objects.all().order_by('nome'), widget=forms.Select(attrs={'class': 'form-select'}))
+    tipo = forms.ModelChoiceField(queryset=TipoConteudo.objects.all().order_by('nome'), widget=forms.Select(attrs={'class': 'form-select'}), empty_label=None)
 
     class Meta:
         model = Conteudo
