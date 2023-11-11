@@ -200,11 +200,13 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
             # Redimensiona logotipo se existe
             largura_desejada = 300
             altura_desejada = 300
+            _, extensao = os.path.splitext(logotipo.name)
+            extensao = extensao.lstrip('.').upper()
             logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
 
             # Crie um arquivo temporário para a imagem redimensionada
             temp_file = tempfile.NamedTemporaryFile(delete=False)
-            logotipo_redimensionado.save(temp_file, format='JPEG') 
+            logotipo_redimensionado.save(temp_file, format=extensao) 
             card.logotipo.save(name=logotipo.name, content=temp_file, save=True)
             temp_file.close()
             os.remove(temp_file.name)
@@ -330,11 +332,13 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
             # Redimensiona logotipo se existe
             largura_desejada = 300
             altura_desejada = 300
+            _, extensao = os.path.splitext(logotipo.name)
+            extensao = extensao.lstrip('.').upper()
             logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
 
             # Crie um arquivo temporário para a imagem redimensionada
             temp_file = tempfile.NamedTemporaryFile(delete=False)
-            logotipo_redimensionado.save(temp_file, format='JPEG') 
+            logotipo_redimensionado.save(temp_file, format=extensao) 
             card.logotipo.save(name=logotipo.name, content=temp_file, save=True)
             temp_file.close()
             os.remove(temp_file.name)
