@@ -171,7 +171,7 @@ class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
         form_data = json.loads(self.request.body.decode('utf-8'))
 
         # Defina a URL da API do MercadoPago
-        url = 'https://api.mercadopago.com/preapproval/{assinatura_id}'
+        url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
 
         # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
         headers = {
@@ -197,22 +197,10 @@ class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
         response = requests.put(url, json=data, headers=headers)
 
         # Verifique se a solicitação foi bem-sucedida
-        if response.status_code == 201:
-            data = response.json()
-            formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
-            assinatura = Assinatura.objects.create(
-                usuario=usuario,
-                assinatura_id = data['id'],
-                payer_id = data['payer_id'],
-                date_created = datetime.strptime(data['date_created'], formato_da_string),
-                valor = float(data['auto_recurring']['transaction_amount']),
-                status = data['status'],
-                start_date = datetime.strptime(data['auto_recurring']['start_date'], formato_da_string),
-                next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string),
-                last_modified = datetime.strptime(data['last_modified'], formato_da_string),
-            )
-            messages.success(self.request, 'Pagamento realizado com sucesso!')
-            mensagem = 'Pagamento realizado com sucesso!'
+        if response.status_code == 200:
+            
+            mensagem = 'Cartão atualizado com sucesso!'
+            messages.success(self.request, mensagem)
             response_data = {
                 'status_code': response.status_code,
                 'message': mensagem,
@@ -222,52 +210,3 @@ class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
             # Lidar com erros de solicitação, se necessário
             error_message = response.text
             return JsonResponse({'error': error_message}, status=response.status_code)
-        
-
-@method_decorator(csrf_exempt, name='dispatch')
-class MercadoPagoWebhook(View):
-
-    def post(self, request, *args, **kwargs):
-        try:
-            payload = json.loads(request.body)
-            print(f'payload = {payload}')
-        except json.JSONDecodeError as err:
-            print(f'Erro ao extrair json.loads(request.body). Erro: {str(err)}')
-        finally:
-            ...
-
-        try:
-            notification_type = payload.get("type")
-            print(f'notification_type = {notification_type}')
-        except Exception as err:
-            print(f'Erro ao pegar chave payload.get("type"). Erro: {str(err)}')
-        finally:
-            ...
-
-        return JsonResponse({'status': 'ok'})
-        # if True:
-        #     if notification_type == "":
-        #         ...  # TODO
-        #     elif data.get("type") == "plan":
-        #         ...  # TODO
-        #     elif data.get("type") == "subscription":
-        #         ...  # TODO
-        #     elif data.get("type") == "invoice":
-        #         ...  # TODO
-        #     elif data.get("type") == "point_integration_wh":
-        #         # data contém as informações relacionadas à notificação
-        #         pass
-
-        #     # resposta para webhook 
-        #     return JsonResponse({'status': 'ok'})
-        # else:
-        #     return HttpResponseBadRequest("Token de autenticação inválido")
-
-    def verify_signature(self, access_token, data, signature):
-        # Implemente a lógica para verificar a assinatura
-        # Use a chave secreta para verificar se a assinatura corresponde aos dados
-
-        hmac_calc = hmac.new(access_token.encode(), data, hashlib.sha256).hexdigest()
-
-        result = hmac.compare_digest(signature, hmac_calc)
-        return result 
