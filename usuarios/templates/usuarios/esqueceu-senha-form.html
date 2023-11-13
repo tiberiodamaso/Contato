@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% block content %}
 
-<div class="justify-content-center align-items-center my-4">
+<div class="container d-flex flex-column h-100 justify-content-center align-items-center">
     <div class="my-4">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200"
             zoomAndPan="magnify" viewBox="0 0 150 37.5" height="50" preserveAspectRatio="xMidYMid meet" version="1.0">
@@ -111,27 +111,27 @@
             </g>
         </svg>
     </div>
-    <div>
-        <form method="post" action="{% url 'usuarios:esqueceu-senha-form' %}"
-            class="col col-md-8 col-lg-10 d-flex flex-column m-auto">
-            {% csrf_token %}
-            {% for field in form %}
-            <p>
-                {{ field.label_tag }}
-                {{ field }}
-                {% if field.help_text %}
-                <small style="color: grey">{{ field.help_text }}</small>
-                {% endif %}
-                {% for error in field.errors %}
-            <div class="alert alert-danger text-center alert-dismissible" role="alert">
-                {{error}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            {% endfor %}
-            </p>
-            {% endfor %}
-            <button type="submit" class="btn btn-warning w-100">Enviar</button>
-        </form>
-    </div>
+    <form method="post" class="col-4" action="{% url 'usuarios:esqueceu-senha-form' %}">
+        {% csrf_token %}
+
+        {% include 'core/mensagens.html' %}
+
+        {% for field in form %}
+        <p>
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}
+            <small style="color: grey">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+        <div class="alert alert-danger text-center alert-dismissible" role="alert">
+            {{error}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        </p>
+        {% endfor %}
+        <button type="submit" class="btn btn-warning w-100">Enviar</button>
+    </form>
 </div>
 {% endblock %}

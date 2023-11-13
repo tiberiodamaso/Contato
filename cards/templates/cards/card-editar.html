@@ -57,8 +57,12 @@
 
         <!--NOME DISPLAY-->
         <div>
-            <label for="id_nome_display">Nome no card:</label>
-            <div class=" input-group mb-3">
+            <label for="id_nome_display">Nome que aparecerá no card:</label>
+            <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+                data-bs-html="true" data-bs-title="Servirá como referência para as estatísticas do Dashboard">
+                <i class="bi bi-info-circle-fill text-warning"></i>
+            </button>
+            <div class="input-group mb-3">
                 {{form.nome_display}}
                 <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
             </div>
@@ -276,6 +280,14 @@
 
     inputLogotipo.addEventListener("change", function () {
         validarTamanhoArquivo(inputLogotipo);
+    });
+</script>
+
+<!--TOOLTIPS-->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     });
 </script>
 

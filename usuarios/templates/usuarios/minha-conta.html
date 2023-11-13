@@ -9,7 +9,7 @@
 
 <div>
     <h2 class="text-center my-5 display-4">Minha conta</h2>
-    <p class="fs-4">Dados da assinatura</p>
+    <p class="fs-4">Assinaturas</p>
     {% if assinaturas %}
     <table class="table my-5">
         <thead>
@@ -45,6 +45,13 @@
     {% else %}
     <p class="fs-5">Você ainda não possui nenhuma assinatura. </p>
     {% endif %}
+
+    <p class="fs-4">Perfil</p>
+    <div>
+        <p>Nome: {{usuario.first_name}} {{ usuario.last_name}}</p>
+        <p>Email: {{usuario.email}}</p>
+        <p><a href="{% url 'usuarios:trocar-senha' %}" class="text-decoration-none">Trocar senha</a></p>
+    </div>
 
 </div>
 

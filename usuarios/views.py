@@ -149,7 +149,7 @@ class TrocarSenha(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
     def get_success_url(self):
         usuario = self.request.user
         card = Card.objects.filter(proprietario=usuario)
-        return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
+        return reverse('usuarios:minha-conta', kwargs={'username': usuario.username})
 
 
 class EsqueceuSenhaFormView(SuccessMessageMixin, PasswordResetView):
@@ -210,7 +210,8 @@ class MinhaConta(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['assinaturas'] = []
-        assinaturas = self.request.user.assinaturas.all()
+        context['usuario'] = self.request.user
+        assinaturas = self.request.user.assinaturas.all().order_by('-date_created')
         access_token = settings.MERCADOPAGO_ACCESS_TOKEN
 
         # Defina o cabeçalho com o token de acesso do 

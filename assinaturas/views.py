@@ -160,7 +160,8 @@ class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
         assinatura = Assinatura.objects.get(id=self.kwargs['pk'])
         assinatura_id = assinatura.assinatura_id
         pk = assinatura.id
-        contexto = {'usuario': usuario, 'pk': pk}
+        card = usuario.cards.all().first()
+        contexto = {'usuario': usuario, 'pk': pk, 'card': card}
         return render(request, 'assinaturas/atualizar-cartao.html', contexto)
 
     def post(self, request, *args, **kwargs):

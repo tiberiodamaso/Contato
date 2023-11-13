@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Criar, Pagar, Cancelar, AtualizarCartao, MercadoPagoWebhook
+from .views import Criar, Pagar, Cancelar, AtualizarCartao
 
 
 app_name = 'assinaturas'
@@ -11,5 +11,5 @@ urlpatterns = [
     path('atualizar-cartao/<int:pk>/', AtualizarCartao.as_view(), name='atualizar-cartao'),
 
     # rota para receber notificações webhooks
-    path('webhook/', MercadoPagoWebhook.as_view(), name='webhook')
+    # path('webhook/', MercadoPagoWebhook.as_view(), name='webhook')
 ] 
