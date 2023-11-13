@@ -5,7 +5,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import CreateView, TemplateView, View, ListView
 from django.views.generic.base import TemplateResponseMixin
 from django.conf import settings
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import PasswordChangeView, LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -77,8 +77,13 @@ class UsusarioLoginView(LoginView):
         form = self.get_form()
 
         # recupera usuário no banco de dados com base no e-mail inserido no formulário
-        usuario = Usuario.objects.get(email=form['username'].value())
-        status = self.verifica_status_assinatura(usuario)
+        usuario = Usuario.objects.filter(email=form['username'].value())
+        if usuario:
+            usuario = usuario[0]
+            status = self.verifica_status_assinatura(usuario)
+        else:
+            messages.error(self.request, "e-mail não encontrado.")
+            super().form_invalid(form)
 
         # se usuário existe e não está ativo, chama tela de reenviar email de ativação
         if usuario and not usuario.is_active:

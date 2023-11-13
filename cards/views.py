@@ -140,6 +140,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
 
     def get_context_data(self, form=None):
+       print('Entrou na views CRIAR card')
        context = super().get_context_data()
        estados = Estado.objects.all()
        municipios = Municipio.objects.all()

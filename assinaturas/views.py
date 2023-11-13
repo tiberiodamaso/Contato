@@ -1,7 +1,9 @@
-import requests
-import json
+import json, os, requests
+import hmac
+import hashlib
+
 from datetime import datetime
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.conf import settings
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
@@ -13,6 +15,8 @@ from django.views.generic.base import TemplateResponseMixin
 from django.views.generic.edit import DeletionMixin
 from django.views.generic import View, CreateView, UpdateView, TemplateView
 from django.http import JsonResponse
+
+
 from .models import Assinatura
 from cards.views import Criar
 
@@ -28,11 +32,13 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
 
 
     def get(self, request, *args, **kwargs):
+        print('Entrou na views PAGAR')
         usuario = self.request.user
         contexto = {'usuario': usuario,}
         return render(request, 'assinaturas/pagar.html', contexto)
 
     def post(self, request, *args, **kwargs):
+        print('Entrou no método POST de PAGAR')
         usuario = self.request.user
         access_token = settings.MERCADOPAGO_ACCESS_TOKEN
         form_data = json.loads(self.request.body.decode('utf-8'))
@@ -58,7 +64,7 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
                 "transaction_amount": 10,
                 "currency_id": "BRL"
             },
-            "back_url": "https://meucontato.pythonanywhere.com",
+            "back_url": "https://meucontato.pythonanywhere.com/",
             "status": "authorized"
         }
 
@@ -90,6 +96,7 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
         else:
             # Lidar com erros de solicitação, se necessário
             error_message = response.text
+            print(f'response.status_code != 201, error_message = {error_message}')
             return JsonResponse({'error': error_message}, status=response.status_code)
 
 
@@ -124,7 +131,7 @@ class Cancelar(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
 
         # Defina os dados da solicitação em formato JSON
         data = {
-            "status": "cancelled"
+            "status": "cancelled",
         }
 
         # Faça a solicitação PUT para a API do MercadoPago
@@ -164,7 +171,7 @@ class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
         form_data = json.loads(self.request.body.decode('utf-8'))
 
         # Defina a URL da API do MercadoPago
-        url = 'https://api.mercadopago.com/preapproval/{assinatura_id}'
+        url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
 
         # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
         headers = {
@@ -190,22 +197,10 @@ class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
         response = requests.put(url, json=data, headers=headers)
 
         # Verifique se a solicitação foi bem-sucedida
-        if response.status_code == 201:
-            data = response.json()
-            formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
-            assinatura = Assinatura.objects.create(
-                usuario=usuario,
-                assinatura_id = data['id'],
-                payer_id = data['payer_id'],
-                date_created = datetime.strptime(data['date_created'], formato_da_string),
-                valor = float(data['auto_recurring']['transaction_amount']),
-                status = data['status'],
-                start_date = datetime.strptime(data['auto_recurring']['start_date'], formato_da_string),
-                next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string),
-                last_modified = datetime.strptime(data['last_modified'], formato_da_string),
-            )
-            messages.success(self.request, 'Pagamento realizado com sucesso!')
-            mensagem = 'Pagamento realizado com sucesso!'
+        if response.status_code == 200:
+            
+            mensagem = 'Cartão atualizado com sucesso!'
+            messages.success(self.request, mensagem)
             response_data = {
                 'status_code': response.status_code,
                 'message': mensagem,
