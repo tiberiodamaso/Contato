@@ -63,18 +63,20 @@
 
 {% if produtos %}
 <!--PRODUTOS-->
-<div class="bg-opacity-10 bg-warning border-bottom border-warning pb-5 border-opacity-25">
-    <h3 class="text-center my-4">PRODUTOS</h3>
+<div class="pb-5">
+    <h3 class="text-center my-4 display-4">Produtos</h3>
     <div
         class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for produto in produtos %}
-        <div class="card p-0" style="width: 18rem; height: 26rem;">
+        <div class="card p-0" style="width: 18rem; min-height: 26rem;">
             <img src="{{ produto.img.url }}" class="card-img-top h-50" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{produto.nome}}</h5>
                 <p class="card-text">{{produto.descricao}}</p>
+            </div>
+            <div class="d-flex justify-content-end m-4">
                 {% if produto.link %}
-                <a href="{{ produto.link }}" class="btn btn-warning">Detalhes</a>
+                <a href="{{ produto.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
                 {% endif %}
             </div>
         </div>
@@ -85,18 +87,20 @@
 
 {% if servicos %}
 <!--SERVIÇOS-->
-<div class="bg-opacity-10 bg-warning border-bottom border-warning pb-5 border-opacity-25">
-    <h3 class="text-center my-4">SERVIÇOS</h3>
+<div class="pb-5">
+    <h3 class="text-center my-4 display-4">Serviços</h3>
     <div
         class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for servico in servicos %}
-        <div class="card p-0" style="width: 18rem; height: 26rem;">
+        <div class="card p-0" style="width: 18rem; min-height: 26rem;">
             <img src="{{ servico.img.url }}" class="card-img-top h-50" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{servico.nome}}</h5>
                 <p class="card-text">{{servico.descricao}}</p>
+            </div>
+            <div class="d-flex justify-content-end m-4">
                 {% if servico.link %}
-                <a href="{{ servico.link }}" class="btn btn-warning">Detalhes</a>
+                <a href="{{ servico.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
                 {% endif %}
             </div>
         </div>
@@ -107,18 +111,20 @@
 
 {% if promocoes %}
 <!--PROMOÇÕES-->
-<div class="bg-opacity-10 bg-warning border-bottom border-warning pb-5 border-opacity-25">
-    <h3 class="text-center my-4">PROMOÇÕES</h3>
+<div class="pb-5">
+    <h3 class="text-center my-4 display-4">Promoções</h3>
     <div
         class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for promocao in promocoes %}
-        <div class="card p-0" style="width: 18rem; height: 26rem;">
+        <div class="card p-0" style="width: 18rem; min-height: 26rem;">
             <img src="{{ promocao.img.url }}" class="card-img-top h-50" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{promocao.nome}}</h5>
                 <p class="card-text">{{promocao.descricao}}</p>
+            </div>
+            <div class="d-flex justify-content-end m-4">
                 {% if promocao.link %}
-                <a href="{{ promocao.link }}" class="btn btn-warning">Detalhes</a>
+                <a href="{{ promocao.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
                 {% endif %}
             </div>
         </div>
@@ -129,18 +135,20 @@
 
 {% if portfolios %}
 <!--PORTFÓLIOS-->
-<div class="bg-opacity-10 bg-warning border-bottom border-warning pb-5 border-opacity-25">
-    <h3 class="text-center my-4">PORTFÓLIOS</h3>
+<div class="pb-5">
+    <h3 class="text-center my-4 display-4">Portfólios</h3>
     <div
         class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for portfolio in portfolios %}
-        <div class="card p-0" style="width: 18rem; height: 26rem;">
+        <div class="card p-0" style="width: 18rem; min-height: 26rem;">
             <img src="{{ portfolio.img.url }}" class="card-img-top h-50" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{portfolio.nome}}</h5>
                 <p class="card-text">{{portfolio.descricao}}</p>
+            </div>
+            <div class="d-flex justify-content-end m-4">
                 {% if portfolio.link %}
-                <a href="{{ portfolio.link }}" class="btn btn-warning">Detalhes</a>
+                <a href="{{ portfolio.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
                 {% endif %}
             </div>
         </div>
@@ -151,18 +159,20 @@
 
 {% if cursos %}
 <!--CURSOS-->
-<div class="bg-opacity-10 bg-warning border-bottom border-warning pb-5 border-opacity-25">
-    <h3 class="text-center my-4">CURSOS</h3>
+<div class="pb-5">
+    <h3 class="text-center my-4 display-4">Cursos</h3>
     <div
         class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
         {% for curso in cursos %}
-        <div class="card p-0" style="width: 18rem; height: 26rem;">
+        <div class="card p-0" style="width: 18rem; min-height: 26rem;">
             <img src="{{ curso.img.url }}" class="card-img-top h-50" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{curso.nome}}</h5>
                 <p class="card-text">{{curso.descricao}}</p>
+            </div>
+            <div class="d-flex justify-content-end m-4">
                 {% if curso.link %}
-                <a href="{{ curso.link }}" class="btn btn-warning">Detalhes</a>
+                <a href="{{ curso.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
                 {% endif %}
             </div>
         </div>
@@ -181,7 +191,7 @@
 
 <!--EMPRESA-->
 {% if card.logotipo %}
-<div class="bg-dark py-5 d-flex justify-content-center">
+<div class="py-5 d-flex justify-content-center">
     <div class="col-12 col-lg-8">
         <div class="d-flex justify-content-center">
             <a href="{{ card.site }}">
@@ -194,36 +204,36 @@
 
 <!--QRCODE-->
 {% if card.qr_code %}
-<div class="d-flex justify-content-center py-3 bg-dark">
+<div class="d-flex justify-content-center py-3">
     <img class="qrcode" src="{{card.qr_code.url }}" alt="qrcode" />
 </div>
 {% endif %}
 
 <!--REDES SOCIAIS -->
-<div class="d-flex justify-content-around py-5 bg-dark" style="padding-bottom: 5em !important;">
+<div class="d-flex justify-content-around py-5" style="padding-bottom: 5em !important;">
     <!--INSTAGRAM-->
     {% if card.instagram %}
-    <a href="{{card.instagram}}" target="_blank"><i class="bi bi-instagram fs-1 text-white text-opacity-50"></i></a>
+    <a href="{{card.instagram}}" target="_blank"><i class="bi bi-instagram fs-1 text-dark text-opacity-50"></i></a>
     {% endif %}
 
     <!--FACEBOOK-->
     {% if card.facebook %}
-    <a href="{{card.facebook}}" target="_blank"><i class="bi bi-facebook fs-1 text-white text-opacity-50"></i></a>
+    <a href="{{card.facebook}}" target="_blank"><i class="bi bi-facebook fs-1 text-dark text-opacity-50"></i></a>
     {% endif %}
 
     <!--LINKEDIN-->
     {% if card.linkedin %}
-    <a href="{{card.linkedin}}" target="_blank"><i class="bi bi-linkedin fs-1 text-white text-opacity-50"></i></a>
+    <a href="{{card.linkedin}}" target="_blank"><i class="bi bi-linkedin fs-1 text-dark text-opacity-50"></i></a>
     {% endif %}
 
     <!--YOUTUBE-->
     {% if card.youtube %}
-    <a href="{{card.youtube}}" target="_blank"><i class="bi bi-youtube fs-1 text-white text-opacity-50"></i></a>
+    <a href="{{card.youtube}}" target="_blank"><i class="bi bi-youtube fs-1 text-dark text-opacity-50"></i></a>
     {% endif %}
 
     <!--TIKTOK-->
     {% if card.tik_tok %}
-    <a href="{{card.tik_tok}}" target="_blank"><i class="bi bi-tiktok fs-1 text-white text-opacity-50"></i></a>
+    <a href="{{card.tik_tok}}" target="_blank"><i class="bi bi-tiktok fs-1 text-dark text-opacity-50"></i></a>
     {% endif %}
 </div>
 

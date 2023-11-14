@@ -7,13 +7,15 @@
 {% include 'core/mensagens.html' %}
 <div class="d-flex flex-column align-items-center py-5">
 
+    <h2 class="text-center display-4 my-5">Editar conteúdo</h2>
+
     <!--LOGOTIPO DA EMPRESA-->
-    {% if card.logotipo %}
+    <!-- {% if card.logotipo %}
     <img src="{{card.logotipo.url}}" alt="logotipo" class="col col-lg-2 col-md-4 img-fluid my-3" loading="lazy">
     {% else %}
     <img src="{% static 'core/img/person.jpg' %}" alt="logotipo"
         class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
-    {% endif %}
+    {% endif %} -->
 
     {% if quantidade_conteudo < 10 %}
         <!--FORMULÁRIO PARA CRIAR CONTEÚDO-->
@@ -79,18 +81,18 @@
 <!--CONTEUDO EM CARDS-->
 {% if conteudos %}
 <div>
-    <h3 class="text-center my-45">LISTA DE CONTEÚDOS</h3>
+    <h2 class="text-center my-5 display-4">Lista de conteúdos</h2>
     <div
         class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center my-5">
         {% for conteudo in conteudos %}
-        <div class="card p-0" style="width: 18rem; height: 26rem;">
+        <div class="card p-0" style="width: 18rem; min-height: 26rem;">
             <img src="{{ conteudo.img.url }}" class="card-img-top h-50" alt="...">
             <div class="card-body">
 
                 <!--NOME-->
                 <div class="d-flex justify-content-between">
                     <h5 class="card-title" hx-target="this" id="nome-{{conteudo.id}}">{{conteudo.nome}}</h5>
-                    <a href="#" hx-get="{% url 'core:conteudo-editar-nome' card.slug_empresa conteudo.id %}"
+                    <a href="#" hx-get="{% url 'core:conteudo-editar-nome' card.slug_empresa conteudo.id 'editar' %}"
                         hx-target="#nome-{{conteudo.id}}">
                         <i class="bi bi-pencil-square text-warning"></i>
                     </a>
@@ -99,12 +101,27 @@
                 <!--DESCRICAO-->
                 <div class="d-flex justify-content-between">
                     <p class="card-text" hx-target="this" id="descricao-{{conteudo.id}}">{{conteudo.descricao}}</p>
-                    <a href="#" hx-get="{% url 'core:conteudo-editar-descricao' card.slug_empresa conteudo.id %}"
+                    <a href="#" hx-get="{% url 'core:conteudo-editar-descricao' card.slug_empresa conteudo.id 'editar' %}"
                         hx-target="#descricao-{{conteudo.id}}">
                         <i class="bi bi-pencil-square text-warning"></i>
                     </a>
                 </div>
 
+                <!--LINK-->
+                <div class="d-flex justify-content-between">
+                    {% if conteudo.link %}
+                    <p class="card-text" hx-target="this" id="link-{{conteudo.id}}">{{conteudo.link}}</p>
+                    {% else %}
+                    <p class="card-text" hx-target="this" id="link-{{conteudo.id}}">Sem link para o conteúdo</p>
+                    {% endif %}
+                    <a href="#" hx-get="{% url 'core:conteudo-editar-link' card.slug_empresa conteudo.id 'editar' %}"
+                        hx-target="#link-{{conteudo.id}}">
+                        <i class="bi bi-pencil-square text-warning"></i>
+                    </a>
+                </div>
+
+            </div>
+            <div class="bg-white border-0 card-footer text-end">
                 <!--MODAL EXCLUSAO-->
                 <a title="Deletar" href="#" class="text-decoration-none" data-bs-toggle="modal"
                     data-bs-target="#modalConfirmaExclusao{{ conteudo.id }}">

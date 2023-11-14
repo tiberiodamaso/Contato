@@ -32,13 +32,12 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
 
 
     def get(self, request, *args, **kwargs):
-        print('Entrou na views PAGAR')
         usuario = self.request.user
-        contexto = {'usuario': usuario,}
+        card = usuario.cards.all().first()
+        contexto = {'usuario': usuario, 'card': card}
         return render(request, 'assinaturas/pagar.html', contexto)
 
     def post(self, request, *args, **kwargs):
-        print('Entrou no método POST de PAGAR')
         usuario = self.request.user
         access_token = settings.MERCADOPAGO_ACCESS_TOKEN
         form_data = json.loads(self.request.body.decode('utf-8'))
@@ -141,7 +140,9 @@ class Cancelar(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
         if response.status_code == 200:
             data = response.json()
             context = self.get_context_data(**kwargs)
+            formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
             assinatura.status = data['status']
+            assinatura.last_modified = datetime.strptime(data['last_modified'], formato_da_string)
             assinatura.save()
             messages.success(self.request, 'Assinatura cancelada com sucesso!')
             return self.render_to_response(context=context)

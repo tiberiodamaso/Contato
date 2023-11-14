@@ -8,46 +8,47 @@
 {% include 'core/mensagens.html' %}
 
 <div>
-    <h2 class="text-center my-5 display-4">Minha conta</h2>
-    <p class="fs-4">Assinaturas</p>
-    {% if assinaturas %}
-    <table class="table my-5">
-        <thead>
-            <tr>
-                <th>Tipo</th>
-                <th>Status</th>
-                <th>Início</th>
-                <th>Mensalidade</th>
-                <th>Próxima cobrança</th>
-                <th class="text-center">Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for assinatura in assinaturas %}
-            <tr>
-                <td>Individual</td>
-                <td>{{assinatura.status|translate}}</td>
-                <td>{{assinatura.start_date}}</td>
-                <td>{{assinatura.valor}}</td>
-                <td>{{assinatura.next_payment_date}}</td>
-                {% if assinatura.status == 'authorized' %}
-                <td class="text-center">
-                    <a href="{% url 'assinaturas:cancelar' assinatura.id %}" class="btn text-danger"><i class="bi bi-trash3"></i></a>
-                    <a href="{% url 'assinaturas:atualizar-cartao' assinatura.id %}" class="btn text-success"><i class="bi bi-credit-card-fill"></i></a>
-                </td>
-                {% else %}
-                <td></td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p class="fs-5">Você ainda não possui nenhuma assinatura. </p>
-    {% endif %}
+    <div class="my-5">
+        <h2 class="text-center my-5 display-4">Minha conta</h2>
 
-    <p class="fs-4">Perfil</p>
-    <div>
+        <!--ASSINATURAS-->
+        {% if assinaturas %}
+        <div class="pb-5">
+            <h3 class="my-4 display-6">Assinaturas</h3>
+            <div class="row flex-md-row flex-column g-4 align-items-center">
+                {% for assinatura in assinaturas %}
+                <div class="card p-0 mx-3" style="width: 16rem; min-height: 16rem;">
+                    <!-- <img src="{{ curso.img.url }}" class="card-img-top h-50" alt="..."> -->
+                    <div class="card-body">
+                        <h5 class="card-title">Individual</h5>
+                        <ul class="lh-lg">
+                            <li class="card-text">Status: {{assinatura.status|translate}}</li>
+                            <li class="card-text">Início: {{assinatura.start_date|date:"D d/M/Y"}}</li>
+                            <li class="card-text">Valor: R$ {{assinatura.valor}}</li>
+                            {% if assinatura.status == 'authorized' %}
+                            <li class="card-text">Renova: {{assinatura.next_payment_date|date:"D d/M/Y"}}</li>
+                            {% else %}
+                            <li class="card-text">Fim: {{assinatura.last_modified|date:"D d/M/Y"}}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="d-flex justify-content-center m-4">
+                        {% if assinatura.status == 'authorized' %}
+                            <a href="{% url 'assinaturas:cancelar' assinatura.id %}" class="btn btn-danger mx-1">Cancelar</a>
+                            <a href="{% url 'assinaturas:atualizar-cartao' assinatura.id %}" class="btn btn-success mx-1">Atualizar</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <p class="fs-5">Você ainda não possui nenhuma assinatura. </p>
+        {% endif %}
+    </div>
+
+    <div class="my-5">
+        <p class="fs-4">Perfil</p>
         <p>Nome: {{usuario.first_name}} {{ usuario.last_name}}</p>
         <p>Email: {{usuario.email}}</p>
         <p><a href="{% url 'usuarios:trocar-senha' %}" class="text-decoration-none">Trocar senha</a></p>

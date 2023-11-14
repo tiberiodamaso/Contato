@@ -6,179 +6,401 @@
 
 {% include 'core/mensagens.html' %}
 
-{% if not user.cards.first %}
-<div class="d-flex flex-column align-items-center">
+{% if not card %}
+    <div class="d-flex flex-column align-items-center">
 
-    <div class="my-5">
-        <h4>Olá {{user.first_name}}, vamos criar seu card</h4>
+        <div class="my-5">
+            <h4>Olá {{user.first_name}}, vamos criar seu card</h4>
+        </div>
+
+        <!--IMAGEM DO PERFIL-->
+        <div class="text-center">
+            {% if card.img_perfil %}
+            <img src="{{card.img_perfil.url}}" alt="Foto do perfil"
+                class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+            {% else %}
+            <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
+                class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+            {% endif %}
+        </div>
+
+        <!--FORMULÁRIO PARA CRIAR NOVO CARD-->
+        <form action="{% url 'core:criar' %}" method="post" id="cardForm" class="col col-md-4 col-lg-4 p-4"
+            enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!--IMG_PERFIL-->
+            <div class="mb-3">
+                <label for="id_img_perfil">Foto: <span class="small text-danger">(máximo 1MB)</span></label>
+                {{form.img_perfil}}
+            </div>
+
+            <!--NOME DISPLAY-->
+            <div class="mb-3">
+                <label for="id_nome_display">Nome no card:</label>
+                {{form.nome_display}}
+            </div>
+
+            <!--EMPRESA-->
+            <div class="mb-3">
+                <label for="id_empresa">Empresa:</label>
+                {{form.empresa}}
+            </div>
+
+            <!--SITE-->
+            <div class="mb-3">
+                <label for="id_site">Site:</label>
+                {{form.site}}
+            </div>
+
+            <!--LOGOTIPO-->
+            <div class="mb-3">
+                <label for="id_empresa">Logotipo: <span class="small text-danger">(máximo 1MB)</span></label>
+                {{form.logotipo}}
+            </div>
+
+            <!--CARGO-->
+            <div class="mb-3">
+                <label for="id_cargo">Cargo:</label>
+                {{form.cargo}}
+            </div>
+
+            <!--CATEGORIA-->
+            <div class="mb-3">
+                <label for="id_categoria">Categoria:</label>
+                <select name="categoria" class="form-select" id="id_categoria" hx-get="{% url 'core:get-subcategorias'%}"
+                    hx-trigger="change" hx-target="#id_subcategoria">
+                    {% for categoria in categorias %}
+                    <option value="{{categoria.id}}">{{categoria.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!--SUBCATEGORIA-->
+            <div class="mb-3">
+                <label for="id_subcategoria">Subcategoria:</label>
+                <select name="subcategoria" class="form-select" id="id_subcategoria">
+                    {% for subcategoria in subcategorias %}
+                    <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!--ESTADO-->
+            <div class="mb-3">
+                <label for="id_estado">Estado:</label>
+                <select name="estado" class="form-select" id="id_estado" hx-get="{% url 'core:get-municipios'%}"
+                    hx-trigger="change" hx-target="#id_municipio">
+                    {% for estado in estados %}
+                    <option value="{{estado.id}}">{{estado.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!--MUNICIPIO-->
+            <div class="mb-3">
+                <label for="id_municipio">Município:</label>
+                <select name="municipio" class="form-select" id="id_municipio">
+                    {% for municipio in municipios %}
+                    <option value="{{municipio.id}}">{{municipio.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!--TELEFONE-->
+            <div class="mb-3">
+                <label for="id_telefone">Telefone:</label>
+                {{form.telefone}}
+                {% if form.telefone.errors %}
+                {% for error in form.telefone.errors %}
+                <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                    {{error}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <!--WHATSAPP-->
+            <div class="mb-3">
+                <label for="id_whatsapp">Whatsapp:</label>
+                {{form.whatsapp}}
+                {% if form.whatsapp.errors %}
+                {% for error in form.whatsapp.errors %}
+                <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                    {{error}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <!--FACEBOOK-->
+            <div class="mb-3">
+                <label for="id_facebook">Facebook:</label>
+                {{form.facebook}}
+            </div>
+
+            <!--INSTAGRAM-->
+            <div class="mb-3">
+                <label for="id_instagram">Instagram:</label>
+                {{form.instagram}}
+            </div>
+
+            <!--LINKEDIN-->
+            <div class="mb-3">
+                <label for="id_linkedin">LinkedIn:</label>
+                {{form.linkedin}}
+            </div>
+
+            <!--YOUTUBE-->
+            <div class="mb-3">
+                <label for="id_youtube">Youtube:</label>
+                {{form.youtube}}
+            </div>
+
+            <!--TIK TOK-->
+            <div class="mb-3">
+                <label for="id_tik_tok">Tik Tok:</label>
+                {{form.tik_tok}}
+            </div>
+
+            <button type="submit" class="btn btn-warning w-100">Salvar</button>
+        </form>
+    </div>
+{% else %}
+
+<!--PROPRIETÁRIO-->
+    <div class="row flex-column align-content-center my-5">
+        <div class="col-lg-8 col-12 text-center">
+            <!--FOTO PERFIL-->
+            {% if card.img_perfil %}
+            <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid"
+                loading="lazy" />
+            {% else %}
+            <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
+                class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy" />
+            {% endif %}
+
+            <!--NOMDE O USUÁRIO-->
+            <h2 class="fw-bold pt-3 pb-2">
+                {{card.nome_display}}
+            </h2>
+
+            <!--CARGO-->
+            {% if card.cargo %}
+            <h3 class="lead pb-3">{{ card.cargo }}</h3>
+            {% endif %}
+
+            <!--BOTÃO DE WHATSAPP-->
+            <div class="d-flex justify-content-center my-2 rounded bg-warning">
+                <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self"
+                    class="btn fs-4 w-100">Whatsapp</a>
+            </div>
+
+            <!--VCF-->
+            {% if card.vcf %}
+            <div class="d-flex justify-content-center my-2 rounded bg-warning">
+                <a href="{{ card.vcf.url }}" class="btn fs-4 w-100">Adicionar na agenda</a>
+            </div>
+            {% endif %}
+
+            <!--BOTÃO DE EDITAR CARD-->
+            {% if user.is_authenticated and user == card.proprietario %}
+            <div class="d-flex justify-content-center my-2 rounded">
+                <a href="{% url 'core:editar' card.slug_empresa card.slug %}"
+                    class="btn fs-5 w-100 bg-success text-white mx-1">Editar card</a>
+                <a href="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}"
+                    class="btn fs-5 w-100  bg-success text-white mx-1">Editar conteúdo</a>
+            </div>
+            {% endif %}
+
+            <!--CONTATO-->
+            <div class="d-flex justify-content-around py-4">
+                <a href="mailto:{{ card.proprietario.email }}"><i class="bi bi-envelope fs-1 text-black text-opacity-50"></i></a>
+                <a href="tel:+55{{ card.telefone }}"><i class="bi bi-telephone fs-1 text-black text-opacity-50"></i></a>
+            </div>
+
+        </div>
     </div>
 
-    <!--IMAGEM DO PERFIL-->
-    <div class="text-center">
-        {% if card.img_perfil %}
-        <img src="{{card.img_perfil.url}}" alt="Foto do perfil"
-            class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
-        {% else %}
-        <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
-            class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+
+    {% if produtos %}
+    <!--PRODUTOS-->
+    <div class="pb-5">
+        <h3 class="text-center my-4 display-4">Produtos</h3>
+        <div
+            class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+            {% for produto in produtos %}
+            <div class="card p-0" style="width: 18rem; height: 26rem;">
+                <img src="{{ produto.img.url }}" class="card-img-top h-50" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{produto.nome}}</h5>
+                    <p class="card-text">{{produto.descricao}}</p>
+                </div>
+                <div class="d-flex justify-content-end m-4">
+                    {% if produto.link %}
+                    <a href="{{ produto.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if servicos %}
+    <!--SERVIÇOS-->
+    <div class="pb-5">
+        <h3 class="text-center my-4 display-4">Serviços</h3>
+        <div
+            class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+            {% for servico in servicos %}
+            <div class="card p-0" style="width: 18rem; height: 26rem;">
+                <img src="{{ servico.img.url }}" class="card-img-top h-50" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{servico.nome}}</h5>
+                    <p class="card-text">{{servico.descricao}}</p>
+                </div>
+                <div class="d-flex justify-content-end m-4">
+                    {% if servico.link %}
+                    <a href="{{ servico.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if promocoes %}
+    <!--PROMOÇÕES-->
+    <div class="pb-5">
+        <h3 class="text-center my-4 display-4">Promoções</h3>
+        <div
+            class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+            {% for promocao in promocoes %}
+            <div class="card p-0" style="width: 18rem; height: 26rem;">
+                <img src="{{ promocao.img.url }}" class="card-img-top h-50" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{promocao.nome}}</h5>
+                    <p class="card-text">{{promocao.descricao}}</p>
+                </div>
+                <div class="d-flex justify-content-end m-4">
+                    {% if promocao.link %}
+                    <a href="{{ promocao.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if portfolios %}
+    <!--PORTFÓLIOS-->
+    <div class="pb-5">
+        <h3 class="text-center my-4 display-4">Portfólios</h3>
+        <div
+            class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+            {% for portfolio in portfolios %}
+            <div class="card p-0" style="width: 18rem; height: 26rem;">
+                <img src="{{ portfolio.img.url }}" class="card-img-top h-50" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{portfolio.nome}}</h5>
+                    <p class="card-text">{{portfolio.descricao}}</p>
+                </div>
+                <div class="d-flex justify-content-end m-4">
+                    {% if portfolio.link %}
+                    <a href="{{ portfolio.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if cursos %}
+    <!--CURSOS-->
+    <div class="pb-5">
+        <h3 class="text-center my-4 display-4">Cursos</h3>
+        <div
+            class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+            {% for curso in cursos %}
+            <div class="card p-0" style="width: 18rem; height: 26rem;">
+                <img src="{{ curso.img.url }}" class="card-img-top h-50" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{curso.nome}}</h5>
+                    <p class="card-text">{{curso.descricao}}</p>
+                </div>
+                <div class="d-flex justify-content-end m-4">
+                    {% if curso.link %}
+                    <a href="{{ curso.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!--WHATSAPP FLUTUANTE-->
+    <div class="align-items-center d-flex justify-content-center position-fixed roun rounded-5"
+        style="right: 20px; bottom: 20px; width: 50px; height: 50px; background-color: #25D366;">
+        <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_blank">
+            <i class="bi bi-whatsapp text-white" style="font-size: 2rem;"></i>
+        </a>
+    </div>
+
+    <!--EMPRESA-->
+    {% if card.logotipo %}
+    <div class="py-5 d-flex justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="d-flex justify-content-center">
+                <a href="{{ card.site }}">
+                    <img src="{{ card.logotipo.url }}" alt="" loading="lazy" class="logo" />
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!--QRCODE-->
+    {% if card.qr_code %}
+    <div class="d-flex justify-content-center py-3">
+        <img class="qrcode" src="{{card.qr_code.url }}" alt="qrcode" />
+    </div>
+    {% endif %}
+
+    <!--REDES SOCIAIS -->
+    <div class="d-flex justify-content-around py-5" style="padding-bottom: 5em !important;">
+        <!--INSTAGRAM-->
+        {% if card.instagram %}
+        <a href="{{card.instagram}}" target="_blank"><i class="bi bi-instagram fs-1 text-dark text-opacity-50"></i></a>
+        {% endif %}
+
+        <!--FACEBOOK-->
+        {% if card.facebook %}
+        <a href="{{card.facebook}}" target="_blank"><i class="bi bi-facebook fs-1 text-dark text-opacity-50"></i></a>
+        {% endif %}
+
+        <!--LINKEDIN-->
+        {% if card.linkedin %}
+        <a href="{{card.linkedin}}" target="_blank"><i class="bi bi-linkedin fs-1 text-dark text-opacity-50"></i></a>
+        {% endif %}
+
+        <!--YOUTUBE-->
+        {% if card.youtube %}
+        <a href="{{card.youtube}}" target="_blank"><i class="bi bi-youtube fs-1 text-dark text-opacity-50"></i></a>
+        {% endif %}
+
+        <!--TIKTOK-->
+        {% if card.tik_tok %}
+        <a href="{{card.tik_tok}}" target="_blank"><i class="bi bi-tiktok fs-1 text-dark text-opacity-50"></i></a>
         {% endif %}
     </div>
 
-    <!--FORMULÁRIO PARA CRIAR NOVO CARD-->
-    <form action="{% url 'core:criar' %}" method="post" id="cardForm" class="col col-md-4 col-lg-4 p-4"
-        enctype="multipart/form-data">
-        {% csrf_token %}
-
-        <!--IMG_PERFIL-->
-        <div class="mb-3">
-            <label for="id_img_perfil">Foto: <span class="small text-danger">(máximo 1MB)</span></label>
-            {{form.img_perfil}}
-        </div>
-
-        <!--NOME DISPLAY-->
-        <div class="mb-3">
-            <label for="id_nome_display">Nome no card:</label>
-            {{form.nome_display}}
-        </div>
-
-        <!--EMPRESA-->
-        <div class="mb-3">
-            <label for="id_empresa">Empresa:</label>
-            {{form.empresa}}
-        </div>
-
-        <!--SITE-->
-        <div class="mb-3">
-            <label for="id_site">Site:</label>
-            {{form.site}}
-        </div>
-
-        <!--LOGOTIPO-->
-        <div class="mb-3">
-            <label for="id_empresa">Logotipo: <span class="small text-danger">(máximo 1MB)</span></label>
-            {{form.logotipo}}
-        </div>
-
-        <!--CARGO-->
-        <div class="mb-3">
-            <label for="id_cargo">Cargo:</label>
-            {{form.cargo}}
-        </div>
-
-        <!--CATEGORIA-->
-        <div class="mb-3">
-            <label for="id_categoria">Categoria:</label>
-            <select name="categoria" class="form-select" id="id_categoria" hx-get="{% url 'core:get-subcategorias'%}"
-                hx-trigger="change" hx-target="#id_subcategoria">
-                {% for categoria in categorias %}
-                <option value="{{categoria.id}}">{{categoria.nome}}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <!--SUBCATEGORIA-->
-        <div class="mb-3">
-            <label for="id_subcategoria">Subcategoria:</label>
-            <select name="subcategoria" class="form-select" id="id_subcategoria">
-                {% for subcategoria in subcategorias %}
-                <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <!--ESTADO-->
-        <div class="mb-3">
-            <label for="id_estado">Estado:</label>
-            <select name="estado" class="form-select" id="id_estado" hx-get="{% url 'core:get-municipios'%}"
-                hx-trigger="change" hx-target="#id_municipio">
-                {% for estado in estados %}
-                <option value="{{estado.id}}">{{estado.nome}}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <!--MUNICIPIO-->
-        <div class="mb-3">
-            <label for="id_municipio">Município:</label>
-            <select name="municipio" class="form-select" id="id_municipio">
-                {% for municipio in municipios %}
-                <option value="{{municipio.id}}">{{municipio.nome}}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <!--TELEFONE-->
-        <div class="mb-3">
-            <label for="id_telefone">Telefone:</label>
-            {{form.telefone}}
-            {% if form.telefone.errors %}
-            {% for error in form.telefone.errors %}
-            <div class="alert alert-danger text-center alert-dismissible" role="alert">
-                {{error}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            {% endfor %}
-            {% endif %}
-        </div>
-
-        <!--WHATSAPP-->
-        <div class="mb-3">
-            <label for="id_whatsapp">Whatsapp:</label>
-            {{form.whatsapp}}
-            {% if form.whatsapp.errors %}
-            {% for error in form.whatsapp.errors %}
-            <div class="alert alert-danger text-center alert-dismissible" role="alert">
-                {{error}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            {% endfor %}
-            {% endif %}
-        </div>
-
-        <!--FACEBOOK-->
-        <div class="mb-3">
-            <label for="id_facebook">Facebook:</label>
-            {{form.facebook}}
-        </div>
-
-        <!--INSTAGRAM-->
-        <div class="mb-3">
-            <label for="id_instagram">Instagram:</label>
-            {{form.instagram}}
-        </div>
-
-        <!--LINKEDIN-->
-        <div class="mb-3">
-            <label for="id_linkedin">LinkedIn:</label>
-            {{form.linkedin}}
-        </div>
-
-        <!--YOUTUBE-->
-        <div class="mb-3">
-            <label for="id_youtube">Youtube:</label>
-            {{form.youtube}}
-        </div>
-
-        <!--TIK TOK-->
-        <div class="mb-3">
-            <label for="id_tik_tok">Tik Tok:</label>
-            {{form.tik_tok}}
-        </div>
-
-        <button type="submit" class="btn btn-warning w-100">Salvar</button>
-    </form>
-</div>
-{% else %}
-<div class="text-center my-5">
-    <h2>Por enquanto cada pessoa pode ter somente 1 card</h2>
-    <div class="fs-6 my-4">Você pode editar ou inserir informações no seu card utilizando os botões abaixo</div>
-    <div class="d-flex justify-content-center my-2 rounded">
-        <a href="{% url 'core:editar' user.cards.first.slug_empresa user.cards.first.slug %}"
-            class="btn fs-4 w-100 bg-success text-white mx-1">Editar card</a>
-        <a href="{% url 'core:conteudo-criar' user.cards.first.slug_empresa user.cards.first.slug %}"
-            class="btn fs-4 w-100  bg-success text-white mx-1">Conteúdo</a>
-    </div>
-</div>
 {% endif %}
 
 <!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->

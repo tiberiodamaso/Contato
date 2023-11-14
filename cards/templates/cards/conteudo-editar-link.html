@@ -1,0 +1,12 @@
+<form hx-post="{% url 'core:conteudo-editar-link' usuario.cards.first.slug_empresa conteudo.id 'alterar' %}"
+    hx-target="#link-{{conteudo.id}}">
+    {% csrf_token %}
+    <div>
+        {{ form.link }}
+    </div>
+    <button class="border-0 btn text-success" type="submit"><i class="bi bi-check-circle-fill"></i></button>
+    <button class="border-0 btn text-danger"
+        hx-get="{% url 'core:conteudo-editar-link' usuario.cards.first.slug_empresa conteudo.id 'cancelar' %}">
+        <i class="bi bi-x-circle-fill"></i>
+    </button>
+</form>

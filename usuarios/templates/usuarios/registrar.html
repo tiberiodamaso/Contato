@@ -10,7 +10,7 @@
     <form method="post" action="{% url 'usuarios:registrar' %}" class="col-10 col-lg-6 py-5 d-flex flex-column m-auto">
         {% csrf_token %}
 
-        <p class="text-center display-5 mb-5">CRIAR MINHA CONTA</p>
+        <p class="text-center display-5 mb-5">Criar minha conta</p>
 
         {% if form.errors %}
         <div class="alert alert-danger">

@@ -140,16 +140,18 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
 
     def get_context_data(self, form=None):
-       print('Entrou na views CRIAR card')
        context = super().get_context_data()
        estados = Estado.objects.all()
        municipios = Municipio.objects.all()
        categorias = Categoria.objects.all()
        subcategorias = Subcategoria.objects.all()
+       user = self.request.user
+       card = Card.objects.get(proprietario=user)
        context['categorias'] = categorias
        context['subcategorias'] = subcategorias
        context['estados'] = estados
        context['municipios'] = municipios
+       context['card'] = card
        return context
 
     def gera_qrcode(self, card, **kwargs):
@@ -385,18 +387,18 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
         return HttpResponseRedirect(self.get_success_url(card))
 
 
-class Detalhar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DetailView):
+class Detalhar(DetailView):
     model = Card
     template_name = 'cards/meu-card.html'
 
-    def test_func(self):
-        assinaturas = self.request.user.assinaturas.all()
-        for assinatura in assinaturas:
-            if assinatura.status == 'authorized':
-                return True
+    # def test_func(self):
+    #     assinaturas = self.request.user.assinaturas.all()
+    #     for assinatura in assinaturas:
+    #         if assinatura.status == 'authorized':
+    #             return True
 
-    def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada.html', status=403)
+    # def handle_no_permission(self):
+    #     return render(self.request, 'cards/permissao-negada.html', status=403)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -657,10 +659,17 @@ class ConteudoEditarNome(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
-        conteudo = self.get_object
+        conteudo = self.get_object()
         context['usuario'] = usuario
         context['conteudo'] = conteudo
         return context
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        botao = self.kwargs['botao']
+        if botao == 'cancelar':
+            return HttpResponse(self.object.nome)
+        return super().get(request, *args, **kwargs)
 
     def get_form(self, form_class=None):
         # Inicializa o formulário com a classe Bootstrap desejada
@@ -687,6 +696,13 @@ class ConteudoEditarDescricao(LoginRequiredMixin, UpdateView):
         context['conteudo'] = conteudo
         return context
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        botao = self.kwargs['botao']
+        if botao == 'cancelar':
+            return HttpResponse(self.object.descricao)
+        return super().get(request, *args, **kwargs)
+
     def get_form(self, form_class=None):
         # Inicializa o formulário com a classe Bootstrap desejada
         form = super().get_form(form_class)
@@ -696,6 +712,38 @@ class ConteudoEditarDescricao(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         conteudo = form.save()
         return HttpResponse(conteudo.descricao)
+
+
+class ConteudoEditarLink(LoginRequiredMixin, UpdateView):
+    model = Conteudo
+    fields = ['link']
+    template_name = 'cards/conteudo-editar-link.html'
+    success_url = '.'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        usuario = self.request.user
+        conteudo = self.get_object
+        context['usuario'] = usuario
+        context['conteudo'] = conteudo
+        return context
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        botao = self.kwargs['botao']
+        if botao == 'cancelar':
+            return HttpResponse(self.object.link)
+        return super().get(request, *args, **kwargs)
+
+    def get_form(self, form_class=None):
+        # Inicializa o formulário com a classe Bootstrap desejada
+        form = super().get_form(form_class)
+        form.fields['link'].widget.attrs.update({'class': 'form-control'})
+        return form
+
+    def form_valid(self, form):
+        conteudo = form.save()
+        return HttpResponse(conteudo.link)
 
 
 class CriarEmpresa(LoginRequiredMixin, SuccessMessageMixin, CreateView):
