@@ -10,7 +10,7 @@ from io import BytesIO
 from pathlib import Path
 from django.conf import settings
 from django.core.files import File
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.core.files.base import ContentFile
 from django.conf import settings
 from django.contrib import messages
@@ -140,19 +140,23 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
 
     def get_context_data(self, form=None):
-       context = super().get_context_data()
-       estados = Estado.objects.all()
-       municipios = Municipio.objects.all()
-       categorias = Categoria.objects.all()
-       subcategorias = Subcategoria.objects.all()
-       user = self.request.user
-       card = Card.objects.get(proprietario=user)
-       context['categorias'] = categorias
-       context['subcategorias'] = subcategorias
-       context['estados'] = estados
-       context['municipios'] = municipios
-       context['card'] = card
-       return context
+        context = super().get_context_data()
+        estados = Estado.objects.all()
+        municipios = Municipio.objects.all()
+        categorias = Categoria.objects.all()
+        subcategorias = Subcategoria.objects.all()
+        user = self.request.user
+        try:
+            card = Card.objects.get(proprietario=user)
+            context['card'] = card
+        except ObjectDoesNotExist as err:
+            print(err)
+            card = None
+        context['categorias'] = categorias
+        context['subcategorias'] = subcategorias
+        context['estados'] = estados
+        context['municipios'] = municipios
+        return context
 
     def gera_qrcode(self, card, **kwargs):
         host = self.request.get_host()
@@ -284,6 +288,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
         proprietario = self.request.user
         card.proprietario = proprietario
         empresa = form.cleaned_data['empresa']
+        nome_display = form.cleaned_data['nome_display']
         site = form.cleaned_data['site']
         telefone = form.cleaned_data['telefone']
         whatsapp = form.cleaned_data['whatsapp']
@@ -370,6 +375,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
             except FileNotFoundError as err:
                 print(err)
 
+        card.nome_display = nome_display
         card.empresa = empresa
         card.site = site
         card.facebook = facebook

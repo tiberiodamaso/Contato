@@ -21,6 +21,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
+from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import slugify
 from .models import Usuario
 from django.shortcuts import redirect, render
@@ -209,9 +210,18 @@ class MinhaConta(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        usuario = self.request.user
+        try:
+            card = Card.objects.get(proprietario=usuario)
+            context['card'] = card
+            context['conteudos'] = len(card.conteudos.all())
+        except ObjectDoesNotExist as err:
+            print(err)
+            card = None
         context['assinaturas'] = []
-        context['usuario'] = self.request.user
-        assinaturas = self.request.user.assinaturas.all().order_by('-date_created')
+        context['usuario'] = usuario
+        context['cards'] = len(usuario.cards.all())
+        assinaturas = usuario.assinaturas.all().order_by('-date_created')
         access_token = settings.MERCADOPAGO_ACCESS_TOKEN
 
         # Defina o cabeçalho com o token de acesso do 

@@ -17,8 +17,7 @@
             <h3 class="my-4 display-6">Assinaturas</h3>
             <div class="row flex-md-row flex-column g-4 align-items-center">
                 {% for assinatura in assinaturas %}
-                <div class="card p-0 mx-3" style="width: 16rem; min-height: 16rem;">
-                    <!-- <img src="{{ curso.img.url }}" class="card-img-top h-50" alt="..."> -->
+                <div class="card p-0 mx-2" style="width: 20rem; min-height: 20rem;">
                     <div class="card-body">
                         <h5 class="card-title">Individual</h5>
                         <ul class="lh-lg">
@@ -34,8 +33,31 @@
                     </div>
                     <div class="d-flex justify-content-center m-4">
                         {% if assinatura.status == 'authorized' %}
-                            <a href="{% url 'assinaturas:cancelar' assinatura.id %}" class="btn btn-danger mx-1">Cancelar</a>
-                            <a href="{% url 'assinaturas:atualizar-cartao' assinatura.id %}" class="btn btn-success mx-1">Atualizar</a>
+                            <a href="#" class="btn btn-danger mx-1" class="text-decoration-none" data-bs-toggle="modal"
+                            data-bs-target="#modalConfirmaCancelamento{{ assinatura.id }}">Cancelar</a>
+                            <a href="{% url 'assinaturas:atualizar-cartao' assinatura.id %}" class="btn btn-success mx-1">Atualizar cartão</a>
+
+                            <!--MODAL DE CANCELAMENTO DE ASSINATURA-->
+                                <div class="modal fade" tabindex="-1" id="modalConfirmaCancelamento{{ assinatura.id }}">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Confirma cancelamento</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Confirma a cancelamento da assinatura?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button> -->
+                                                <!-- <form action="{% url 'assinaturas:cancelar' assinatura.id %}" method="get">
+                                                    <button type="submit" class="btn btn-danger">Sim</button>
+                                                </form> -->
+                                                <a href="{% url 'assinaturas:cancelar' assinatura.id %}" class="btn btn-secondary mx-1">Sim</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                         {% endif %}
                     </div>
                 </div>
@@ -47,13 +69,33 @@
         {% endif %}
     </div>
 
-    <div class="my-5">
-        <p class="fs-4">Perfil</p>
-        <p>Nome: {{usuario.first_name}} {{ usuario.last_name}}</p>
-        <p>Email: {{usuario.email}}</p>
-        <p><a href="{% url 'usuarios:trocar-senha' %}" class="text-decoration-none">Trocar senha</a></p>
+    <div class="pb-5">
+        <h3 class="my-4 display-6">Perfil</h3>
+        <div class="row flex-md-row flex-column g-4 align-items-center">
+            <div class="card p-0 mx-2" style="width: 20rem; min-height: 20rem;">
+                <div class="align-items-center card-body d-flex flex-column">
+                    <!--FOTO PERFIL-->
+                    {% if card.img_perfil %}
+                    <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid mb-3"
+                        loading="lazy" />
+                    {% else %}
+                    <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
+                        class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy" />
+                    {% endif %}
+                    <ul class="lh-lg">
+                        <li class="card-text">Nome: {{usuario.first_name}} {{ usuario.last_name}}</li>
+                        <li class="card-text">Email: {{usuario.email}}</li>
+                        <li class="card-text">Cards: {{cards}}</li>
+                        {% if conteudos %}
+                        <li class="card-text">Conteúdos: {{conteudos}}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="d-flex justify-content-center m-4">
+                    <a href="{% url 'usuarios:trocar-senha' %}" class="btn btn-warning">Trocar senha</a>
+                </div>
+        </div>
     </div>
-
 </div>
 
 {% endblock %}
