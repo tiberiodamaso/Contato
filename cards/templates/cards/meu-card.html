@@ -60,6 +60,29 @@
     </div>
 </div>
 
+{% if promocoes %}
+<!--PROMOÇÕES-->
+<div class="pb-5">
+    <h3 class="text-center my-4 display-4">Promoções</h3>
+    <div
+        class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+        {% for promocao in promocoes %}
+        <div class="card p-0" style="width: 18rem; min-height: 26rem;">
+            <img src="{{ promocao.img.url }}" class="card-img-top h-50" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{promocao.nome}}</h5>
+                <p class="card-text">{{promocao.descricao}}</p>
+            </div>
+            <div class="d-flex justify-content-end m-4">
+                {% if promocao.link %}
+                <a href="{{ promocao.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
 
 {% if produtos %}
 <!--PRODUTOS-->
@@ -101,30 +124,6 @@
             <div class="d-flex justify-content-end m-4">
                 {% if servico.link %}
                 <a href="{{ servico.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
-                {% endif %}
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-{% endif %}
-
-{% if promocoes %}
-<!--PROMOÇÕES-->
-<div class="pb-5">
-    <h3 class="text-center my-4 display-4">Promoções</h3>
-    <div
-        class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
-        {% for promocao in promocoes %}
-        <div class="card p-0" style="width: 18rem; min-height: 26rem;">
-            <img src="{{ promocao.img.url }}" class="card-img-top h-50" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{promocao.nome}}</h5>
-                <p class="card-text">{{promocao.descricao}}</p>
-            </div>
-            <div class="d-flex justify-content-end m-4">
-                {% if promocao.link %}
-                <a href="{{ promocao.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
                 {% endif %}
             </div>
         </div>
