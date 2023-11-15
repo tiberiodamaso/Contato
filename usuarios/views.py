@@ -2,7 +2,7 @@ import requests
 from typing import Any, Dict
 from datetime import datetime
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import CreateView, TemplateView, View, ListView
+from django.views.generic import CreateView, TemplateView, View, ListView, DeleteView
 from django.views.generic.base import TemplateResponseMixin
 from django.conf import settings
 from django.http import HttpResponseRedirect, JsonResponse
@@ -78,9 +78,9 @@ class UsusarioLoginView(LoginView):
         form = self.get_form()
 
         # recupera usuário no banco de dados com base no e-mail inserido no formulário
-        usuario = Usuario.objects.filter(email=form['username'].value())
+        usuario = Usuario.objects.get(email=form['username'].value())
         if usuario:
-            usuario = usuario[0]
+            # usuario = usuario[0]
             status = self.verifica_status_assinatura(usuario)
         else:
             messages.error(self.request, "e-mail não encontrado.")
@@ -88,7 +88,7 @@ class UsusarioLoginView(LoginView):
 
         # se usuário existe e não está ativo, chama tela de reenviar email de ativação
         if usuario and not usuario.is_active:
-            return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao', kwargs={'username': usuario[0].username}))
+            return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao', kwargs={'username': usuario.username}))
         return super().post(self.request)
 
 
@@ -251,6 +251,17 @@ class MinhaConta(LoginRequiredMixin, ListView):
         
         return context
         
+
+class DesativarConta(LoginRequiredMixin, DeleteView):
+    model = Usuario
+    template_name = 'usuarios/minha-conta.html'
+
+    def get(self, request, *args, **kwargs):
+        usuario = Usuario.objects.get(id=kwargs['id'])
+        usuario.is_active = False
+        usuario.save()
+        return redirect(reverse_lazy('usuarios:logout'))
+
 
 def ativar_conta(request, uidb64, token):
     try:
