@@ -130,14 +130,11 @@ class RegistrarView(SuccessMessageMixin, CreateView):
 
         # Itere sobre os erros e adicione mensagens personalizadas
         for field, error_list in errors.items():
-             # Adicione mensagens de erro personalizadas
-                if field == 'email' and 'unique' in errors['email'][0].code:
-                    error_messages.append(form.error_messages['email_taken'])
-                elif field == 'password2' and 'password_mismatch' in errors['password2'][0].code:
-                    error_messages.append(form.error_messages['password_mismatch'])
+            for error in error_list:
+                if error.code in form.error_messages.keys():
+                    error_messages.append(form.error_messages[error.code])
                 else:
-                    # Adicione outras mensagens de erro conforme necessário
-                    error_messages.append(f"Campo '{form.fields[field].label}' é inválido: {error.message}")
+                    error_messages.append(f"Campo '{form.fields[field].label}' é inválido.")
 
         return self.render_to_response(self.get_context_data(form=form, error_messages=error_messages))
 

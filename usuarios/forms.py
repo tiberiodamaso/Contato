@@ -20,7 +20,13 @@ class UsuarioRegistrationForm(UserCreationForm):
     error_messages = {
         'password_mismatch': 'As senhas não coincidem.',
         'email_taken': 'Este email já está em uso.',
-        # Adicione mais mensagens de erro conforme necessário
+        'required': 'Este campo é obrigatório. Por favor, preencha.',
+        'invalid': 'Por favor, insira um endereço de e-mail válido.',
+        'unique': 'Este endereço de e-mail já está em uso. Por favor, escolha outro.',
+        'password_too_similar': 'A senha é muito parecida com Primeiro nome',     
+        'password_too_short': 'Sua senha deve ter pelo menos 8 caracteres.',
+        'password_too_common': 'Escolha uma senha mais segura. Evite senhas comuns.',
+        'password_entirely_numeric': 'Esta senha é inteiramente numérica.',
     }
 
     # def clean_username(self):
