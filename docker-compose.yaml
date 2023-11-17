@@ -42,14 +42,14 @@ services:
     volumes:
       - static_volume:/contato/static
       - media_volume:/contato/media
+      - /etc/letsencrypt/live/meucontato.app.br:/etc/nginx/ssl/meucontato.app.br
     depends_on:
       - django
     ports:
       - "80:80"
       - "443:443"
       - "8000:8000"
-      - "8443:8443"
-  
+
   # Banco de dados
   postgresql:
     container_name: postgresql
