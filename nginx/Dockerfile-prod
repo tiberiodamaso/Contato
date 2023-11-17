@@ -4,6 +4,8 @@ FROM nginx:latest
 
 RUN rm -f /etc/nginx/conf.d/*
 
+RUN mkdir /etc/nginx/ssl
+
 # Config
 COPY ./gzip.conf /etc/nginx/gzip.conf
 COPY ./nginx.conf /etc/nginx/nginx.conf
