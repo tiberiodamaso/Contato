@@ -42,7 +42,7 @@ services:
     volumes:
       - static_volume:/contato/static
       - media_volume:/contato/media
-      - /etc/letsencrypt/live/meucontato.app.br:/etc/nginx/ssl/
+      # - /etc/letsencrypt/live/meucontato.app.br:/etc/nginx/ssl/
     depends_on:
       - django
     ports:
