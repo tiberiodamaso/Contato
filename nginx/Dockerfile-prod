@@ -7,8 +7,8 @@ RUN rm -f /etc/nginx/conf.d/*
 # Config
 COPY ./gzip.conf /etc/nginx/gzip.conf
 COPY ./nginx.conf /etc/nginx/nginx.conf
-COPY /etc/letsencrypt/archive/meucontato.app.br/fullchain1.pem /etc/nginx/fullchain1.pem
-COPY /etc/letsencrypt/archive/meucontato.app.br/privkey1.pem /etc/nginx/privkey1.pem
+# COPY /etc/letsencrypt/archive/meucontato.app.br/fullchain1.pem /etc/nginx/fullchain1.pem
+# COPY /etc/letsencrypt/archive/meucontato.app.br/privkey1.pem /etc/nginx/privkey1.pem
 
 # make all files belong to the nginx user
 RUN chown nginx:nginx /usr/share/nginx/html
