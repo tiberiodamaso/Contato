@@ -294,46 +294,36 @@
 </script>
 
 <!--MÁSCARA DE TELEFONE-->
-<!-- <script>
-    function aplicarMascaraTelefone(inputElement) {
-        const valor = inputElement.value.replace(/\D/g, ""); // Remove todos os não dígitos
-        let mascara;
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function aplicarMascaraTelefone(inputElement) {
+            inputElement.addEventListener('input', function() {
+                let telefone = inputElement.value.replace(/\D/g, ''); // Remove caracteres não numéricos
 
-        if (valor.length === 11) {
-            mascara = "(##) #####-####";
-        } else if (valor.length === 10) {
-            mascara = "(##) ####-####";
-        } else {
-            // Se o número não tem 10 ou 11 dígitos, não aplicamos nenhuma máscara
-            mascara = "";
+                const regrasTelefone = [
+                    { digitos: 10, regex: /^(\d{2})(\d{4})(\d{4})$/, mascara: '($1) $2-$3' },
+                    { digitos: 11, regex: /^(\d{2})(\d{5})(\d{4})$/, mascara: '($1) $2-$3' }
+                    // Adicione outras regras conforme necessário para diferentes formatos de telefone
+                ];
+
+                for (const regra of regrasTelefone) {
+                    if (telefone.length === regra.digitos) {
+                        telefone = telefone.replace(regra.regex, regra.mascara);
+                        break;
+                    }
+                }
+
+                inputElement.value = telefone;
+            });
         }
 
-        let valorFormatado = "";
-        let j = 0;
+        const inputTelefone = document.getElementById("id_telefone");
+        const inputWhatsapp = document.getElementById("id_whatsapp");
 
-        for (let i = 0; i < mascara.length; i++) {
-            if (mascara[i] === "#") {
-            valorFormatado += valor[j];
-            j++;
-            } else {
-            valorFormatado += mascara[i];
-            }
-        }
-
-        inputElement.value = valorFormatado;
-    }
-
-    const inputTelefone = document.getElementById("id_telefone");
-    const inputWhatsapp = document.getElementById("id_whatsapp");
-
-    inputTelefone.addEventListener("input", function () {
-    aplicarMascaraTelefone(inputTelefone);
+        aplicarMascaraTelefone(inputTelefone);
+        aplicarMascaraTelefone(inputWhatsapp);
     });
 
-    inputWhatsapp.addEventListener("input", function () {
-    aplicarMascaraTelefone(inputWhatsapp);
-    });
-
-  </script> -->
+</script>
 
 {% endblock %}

@@ -1,5 +1,6 @@
 from django import template
 from datetime import date, timedelta
+from cards.utils import cleaner
 
 register = template.Library()
 
@@ -14,5 +15,11 @@ def translate(value):
         return 'cancelada'
     if value == 'authorized':
         return 'ativa'
+    return value
+
+
+@register.filter
+def formata_telefone(value):
+    value = cleaner(value)
     return value
 

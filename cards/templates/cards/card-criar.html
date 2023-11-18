@@ -430,5 +430,37 @@
     });
 </script>
 
+<!--MÁSCARA DE TELEFONE-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function aplicarMascaraTelefone(inputElement) {
+            inputElement.addEventListener('input', function() {
+                let telefone = inputElement.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+                const regrasTelefone = [
+                    { digitos: 10, regex: /^(\d{2})(\d{4})(\d{4})$/, mascara: '($1) $2-$3' },
+                    { digitos: 11, regex: /^(\d{2})(\d{5})(\d{4})$/, mascara: '($1) $2-$3' }
+                    // Adicione outras regras conforme necessário para diferentes formatos de telefone
+                ];
+
+                for (const regra of regrasTelefone) {
+                    if (telefone.length === regra.digitos) {
+                        telefone = telefone.replace(regra.regex, regra.mascara);
+                        break;
+                    }
+                }
+
+                inputElement.value = telefone;
+            });
+        }
+
+        const inputTelefone = document.getElementById("id_telefone");
+        const inputWhatsapp = document.getElementById("id_whatsapp");
+
+        aplicarMascaraTelefone(inputTelefone);
+        aplicarMascaraTelefone(inputWhatsapp);
+    });
+
+</script>
 
 {% endblock %}

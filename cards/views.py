@@ -174,7 +174,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         card.proprietario = proprietario
         pasta_usuario = card.proprietario.id.hex
         empresa = form.cleaned_data['empresa']
-        telefone = form.cleaned_data['telefone']
+        telefone= form.cleaned_data['telefone']
         whatsapp = form.cleaned_data['whatsapp']
         facebook = form.cleaned_data['facebook']
         instagram = form.cleaned_data['instagram']
@@ -290,6 +290,11 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
         empresa = form.cleaned_data['empresa']
         nome_display = form.cleaned_data['nome_display']
         site = form.cleaned_data['site']
+        cargo = form.cleaned_data['cargo']
+        categoria = form.cleaned_data['categoria']
+        subcategoria = form.cleaned_data['subcategoria']
+        estado = form.cleaned_data['estado']
+        municipio = form.cleaned_data['municipio']
         telefone = form.cleaned_data['telefone']
         whatsapp = form.cleaned_data['whatsapp']
         facebook = form.cleaned_data['facebook']
@@ -297,11 +302,6 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
         linkedin = form.cleaned_data['linkedin']
         youtube = form.cleaned_data['youtube']
         tik_tok = form.cleaned_data['tik_tok']
-        cargo = form.cleaned_data['cargo']
-        categoria = form.cleaned_data['categoria']
-        subcategoria = form.cleaned_data['subcategoria']
-        estado = form.cleaned_data['estado']
-        municipio = form.cleaned_data['municipio']
         img_perfil = self.request.FILES['img_perfil'] if 'img_perfil' in self.request.FILES else ''
         logotipo = self.request.FILES['logotipo'] if 'logotipo' in self.request.FILES else ''
         tamanho_maximo = 1 * 1024 * 1024
@@ -378,16 +378,18 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
         card.nome_display = nome_display
         card.empresa = empresa
         card.site = site
-        card.facebook = facebook
-        card.instagram = instagram
-        card.linkedin = linkedin
-        card.youtube = youtube
-        card.tik_tok = tik_tok
         card.cargo = cargo
         card.categoria = categoria
         card.subcategoria = subcategoria
         card.estado = estado
         card.municipio = municipio
+        card.telefone = telefone
+        card.whatsapp = whatsapp
+        card.facebook = facebook
+        card.instagram = instagram
+        card.linkedin = linkedin
+        card.youtube = youtube
+        card.tik_tok = tik_tok
         card.save()
 
         return HttpResponseRedirect(self.get_success_url(card))

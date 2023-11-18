@@ -22,12 +22,12 @@
                         <h5 class="card-title">Individual</h5>
                         <ul class="lh-lg">
                             <li class="card-text">Status: {{assinatura.status|translate}}</li>
-                            <li class="card-text">Início: {{assinatura.start_date|date:"D d/M/Y H:i"}}</li>
+                            <li class="card-text">Início: {{assinatura.start_date|date:"D d/m/y - H:i"}}</li>
                             <li class="card-text">Valor: R$ {{assinatura.valor}}</li>
                             {% if assinatura.status == 'authorized' %}
-                            <li class="card-text">Renova: {{assinatura.next_payment_date|date:"D d/M/Y H:i"}}</li>
+                            <li class="card-text">Renova: {{assinatura.next_payment_date|date:"D d/m/y - H:i"}}</li>
                             {% else %}
-                            <li class="card-text">Fim: {{assinatura.last_modified|date:"D d/M/Y"}}</li>
+                            <li class="card-text">Fim: {{assinatura.last_modified|date:"D d/m/y"}}</li>
                             {% endif %}
                         </ul>
                     </div>

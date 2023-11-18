@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load tags %}
 {% block title%} {{card.usuario.first_name}} {{card.usuario.last_name}} {% endblock %}
 {% block content %}
 
@@ -41,14 +42,12 @@
                         <h3 class="lead text-dark">{{ card.empresa }}</h3>
                         {% endif %}
                     </a>
-                    <div>
-                    </div>
                 </div>
                 {% endif %}
 
                 <!--BOTÃO DE WHATSAPP-->
                 <div class="d-flex justify-content-center my-2 rounded bg-warning">
-                    <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self"
+                    <a href="https://wa.me/{{card.whatsapp|formata_telefone}}" target="_self"
                         class="btn fs-4 w-100">Whatsapp</a>
                 </div>
 
@@ -73,7 +72,7 @@
                 <div class="d-flex justify-content-around py-4">
                     <a href="mailto:{{ card.proprietario.email }}"><i
                             class="bi bi-envelope fs-1 text-black text-opacity-50"></i></a>
-                    <a href="tel:+55{{ card.telefone }}"><i
+                    <a href="tel:+55{{ card.telefone|formata_telefone }}"><i
                             class="bi bi-telephone fs-1 text-black text-opacity-50"></i></a>
                 </div>
 
@@ -203,7 +202,7 @@
         <!--WHATSAPP FLUTUANTE-->
         <div class="align-items-center d-flex justify-content-center position-fixed roun rounded-5"
             style="right: 20px; bottom: 20px; width: 50px; height: 50px; background-color: #25D366;">
-            <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_blank">
+            <a href="https://wa.me/55{{card.whatsapp|formata_telefone}}" target="_blank">
                 <i class="bi bi-whatsapp text-white" style="font-size: 2rem;"></i>
             </a>
         </div>
