@@ -127,7 +127,7 @@
                 {% if user.is_authenticated %}
                     {% if user.cards.first %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'core:dashboard-card' user.cards.first.slug_empresa user.cards.first.slug %}">Dashboard</a>
+                            <a class="nav-link" href="{% url 'core:dashboard-card' user.cards.first.slug_empresa user.cards.first.slug %}">Relatórios</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"

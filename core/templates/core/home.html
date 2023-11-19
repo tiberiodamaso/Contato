@@ -4,344 +4,423 @@
 {% block content %}
 
 <style>
-  .accordion-button:not(.collapsed) {
-    color: black;
-    background-color: #ffc107;
-  }
+    .accordion-button:not(.collapsed) {
+        color: black;
+        background-color: #ffc107;
+    }
 </style>
 
-  {% include 'core/menu.html' %}
-  {% include 'core/mensagens.html' %}
+<!--LOTTIE FILES-->
+<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
-  <!--HERO-->
-  <div class="container col-xxl-8 px-4 py-5">
+{% include 'core/menu.html' %}
+{% include 'core/mensagens.html' %}
+
+<!--HERO-->
+<div class="container col-xxl-8 px-4 py-5">
     <div class="row flex-lg-row-reverse align-items-center g-5">
-      <div class="col-12 col-sm-8 col-lg-6">
-        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-        <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_ffkzpglj.json" background="transparent"
-          speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
-      </div>
-      <div class="col-lg-6">
-        <h1 class="display-5 fw-bold lh-1 mb-3">Impressione ao fazer networking</h1>
-        <p class="lead">Tenha um cartão de visitas moderno, online e editável. Insira os links das suas redes sociais,
-          slides de produtos, promoções, serviços e muito mais.</p>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <div class="col-12 col-sm-8 col-lg-6">
+            <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_ffkzpglj.json" background="transparent"
+                speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+        </div>
+        <div class="col-lg-6">
+            <h1 class="display-5 fw-bold lh-1 mb-3">Impressione ao fazer networking</h1>
+            <p class="lead">Tenha um cartão de visitas moderno, online e editável. Insira os links das suas redes
+                sociais,
+                slides de produtos, promoções, serviços e muito mais.</p>
+            <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-start">
           <a type="button" href="{% url 'usuarios:registrar' %}" class="btn btn-warning btn-lg px-4 me-md-2">Comprar</a>
+        </div> -->
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  <!--COMO FUNCIONA-->
-  <div class="bg-light">
+<!--COMO FUNCIONA-->
+<div class="bg-light">
     <div class="container col-xxl-8 px-4 py-5">
-      <div class="align-items-center flex-lg-row-reverse g-5 py-5 row">
+        <div class="align-items-center flex-lg-row-reverse g-5 py-5 row">
 
-        <!--TEXTO-->
-        <div class="col-lg-5 col-sm-8">
-          <h1 class="display-5 fw-bold lh-1 mb-3">Como funciona</h1>
-          <p class="lead">Crie sua conta, insira suas informações e comece a compartilhar.</p>
-        </div>
-
-        <!--CARDS EXPLICATIVOS-->
-        <div class="col-lg-7 col-sm-8">
-          <div class="g-3 justify-content-center row">
-
-            <!--CARD 1-->
-            <div class="border col-lg-5 col-10 rounded text-center mx-2">
-              <div
-                class="align-items-center bg-black bg-opacity-10 d-flex fs-1 justify-content-center m-auto my-3 rounded-circle"
-                style="height: 100px; width: 100px;">
-                <span>1</span>
-              </div>
-              <!-- <h2 class="fw-normal py-3">Passo 1</h2> -->
-              <p>Crie sua conta</p>
+            <!--TEXTO-->
+            <div class="col-lg-5 col-sm-8">
+                <h1 class="display-5 fw-bold lh-1 mb-3">Como funciona</h1>
+                <p class="lead">Crie sua conta, insira suas informações e comece a compartilhar.</p>
             </div>
 
-            <!--CARD 2-->
-            <div class="border col-lg-5 col-10 rounded text-center mx-2">
-              <div
-                class="align-items-center bg-black bg-opacity-10 d-flex fs-1 justify-content-center m-auto my-3 rounded-circle"
-                style="height: 100px; width: 100px;">
-                <span>2</span>
-              </div>
-              <!-- <h2 class="fw-normal py-3">Passo 2</h2> -->
-              <p>Insira as informações que deseja</p>
-            </div>
+            <!--CARDS EXPLICATIVOS-->
+            <div class="col-lg-7 col-sm-8">
+                <div class="g-3 justify-content-center row">
 
-            <!--CARD 3-->
-            <div class="border col-lg-5 col-10 rounded text-center mx-2">
-              <div
-                class="align-items-center bg-black bg-opacity-10 d-flex fs-1 justify-content-center m-auto my-3 rounded-circle"
-                style="height: 100px; width: 100px;">
-                <span>3</span>
-              </div>
-              <!-- <h2 class="fw-normal py-3">Passo 3</h2> -->
-              <p>Gere o QRCode do seu cartão</p>
-            </div>
+                    <!--CARD 1-->
+                    <div class="border col-lg-5 col-10 rounded text-center mx-2">
+                        <div class="align-items-center bg-black bg-opacity-10 d-flex fs-1 justify-content-center m-auto my-3 rounded-circle"
+                            style="height: 100px; width: 100px;">
+                            <span>1</span>
+                        </div>
+                        <!-- <h2 class="fw-normal py-3">Passo 1</h2> -->
+                        <p>Crie sua conta</p>
+                    </div>
 
-            <!--CARD 4-->
-            <div class="border col-lg-5 col-10 rounded text-center mx-2">
-              <div
-                class="align-items-center bg-black bg-opacity-10 d-flex fs-1 justify-content-center m-auto my-3 rounded-circle"
-                style="height: 100px; width: 100px;">
-                <span>4</span>
-              </div>
-              <!-- <h2 class="fw-normal py-3">Passo 4</h2> -->
-              <p>Compatilhe e atraia novos clientes</p>
-            </div>
+                    <!--CARD 2-->
+                    <div class="border col-lg-5 col-10 rounded text-center mx-2">
+                        <div class="align-items-center bg-black bg-opacity-10 d-flex fs-1 justify-content-center m-auto my-3 rounded-circle"
+                            style="height: 100px; width: 100px;">
+                            <span>2</span>
+                        </div>
+                        <!-- <h2 class="fw-normal py-3">Passo 2</h2> -->
+                        <p>Insira as informações que deseja</p>
+                    </div>
 
-          </div>
-        </div>
-        <div class="col-12 d-flex justify-content-center">
+                    <!--CARD 3-->
+                    <div class="border col-lg-5 col-10 rounded text-center mx-2">
+                        <div class="align-items-center bg-black bg-opacity-10 d-flex fs-1 justify-content-center m-auto my-3 rounded-circle"
+                            style="height: 100px; width: 100px;">
+                            <span>3</span>
+                        </div>
+                        <!-- <h2 class="fw-normal py-3">Passo 3</h2> -->
+                        <p>Gere o QRCode do seu cartão</p>
+                    </div>
+
+                    <!--CARD 4-->
+                    <div class="border col-lg-5 col-10 rounded text-center mx-2">
+                        <div class="align-items-center bg-black bg-opacity-10 d-flex fs-1 justify-content-center m-auto my-3 rounded-circle"
+                            style="height: 100px; width: 100px;">
+                            <span>4</span>
+                        </div>
+                        <!-- <h2 class="fw-normal py-3">Passo 4</h2> -->
+                        <p>Compatilhe e atraia novos clientes</p>
+                    </div>
+
+                </div>
+            </div>
+            <!-- <div class="col-12 d-flex justify-content-center">
           <a href="{% url 'usuarios:registrar' %}" type="button" class="btn btn-warning btn-lg px-4 me-md-2">Comprar agora</a>
+        </div> -->
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  <!--COMPRE AGORA-->
-  <div class="container col-xxl-8 px-4 py-5">
+<!--COMPRE AGORA-->
+<div class="container col-xxl-8 px-4 py-5">
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-      <h1 class="display-4 fw-normal">Compre agora</h1>
-      <p class="fs-5 text-muted">Comece agora sem necessidade de inserir dados de cartão de crédito. Crie sua conta no
-        plano básico e teste sem compromisso.</p>
+        <h1 class="display-4 fw-normal">Compre agora</h1>
+        <p class="fs-5 text-muted">Taxa única e sem mensalidade para o Plano Individual</p>
     </div>
 
     <!--PRODUTOS-->
     <section>
 
-      <div class="row row-cols-1 row-cols-md-3 mb-3 text-center justify-content-center">
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center justify-content-center">
 
-        <!--PRODUTO 1-->
-        <div class="col-10">
-          <div class="card mb-4 rounded-3 shadow-sm">
-            <div class="card-header py-3">
-              <h4 class="my-0 fw-normal">Básico</h4>
+            <!--PRODUTO 1-->
+            <div class="col-10">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Individual</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">R$ 29,90</h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Até 10 anúncios por cartão</li>
+                            <li>Suporte por email</li>
+                            <li class="text-decoration-line-through">Dashboard</li>
+                            <!-- <li>Google Analytics</li> -->
+                        </ul>
+                        <a type="button" href="{% url 'usuarios:registrar' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar esse</a>
+                        <!-- <a type="button" href="{% url 'assinaturas:criar' %}" class="w-100 btn btn-lg btn-warning">Comprar esse</a> -->
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-              <h1 class="card-title pricing-card-title">R$ 10<small class="text-muted fw-light">/mês</small></h1>
-              <ul class="list-unstyled mt-3 mb-4">
-                <li>Até 10 anúncios no seu card</li>
-                <li>Suporte por email</li>
-                <li>Google Analytics</li>
-                <li>Dashboard</li>
-              </ul>
-              <a type="button" href="{% url 'usuarios:registrar' %}" class="w-100 btn btn-lg btn-warning">Comprar esse</a>
-              <!-- <a type="button" href="{% url 'assinaturas:criar' %}" class="w-100 btn btn-lg btn-warning">Comprar esse</a> -->
+
+            <!--PRODUTO 2-->
+            <div class="col-10">
+                <div class="card mb-4 rounded-3 shadow-sm border-secondary">
+                    <div class="card-header py-3 text-bg-secondary border-secondary">
+                        <h4 class="my-0 fw-normal">Empresa</h4>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            Em breve
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">R$ 29<small class="text-muted fw-light">/mês</small>
+                        </h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Até 10 anúncios por cartão</li>
+                            <li>Suporte por email</li>
+                            <!-- <li>Google Analytics</li> -->
+                            <li>Dashboard</li>
+                        </ul>
+                        <a type="button" href="#" class="w-100 btn btn-lg btn-secondary" disabled>Comprar esse</a>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
 
-        <!--PRODUTO 2-->
-        <!-- <div class="col-10">
-          <div class="card mb-4 rounded-3 shadow-sm">
-            <div class="card-header py-3">
-              <h4 class="my-0 fw-normal">Pro</h4>
-            </div>
-            <div class="card-body">
-              <h1 class="card-title pricing-card-title">R$ 15<small class="text-muted fw-light">/mês</small></h1>
-              <ul class="list-unstyled mt-3 mb-4">
-                <li>Até 10 anúncios no seu card</li>
-                <li>Suporte por email e whatsapp</li>
-                <li>Google Analytics</li>
-                <li>Dashboard</li>
-              </ul>
-              <a type="button" href="{% url 'usuarios:registrar' %}" class="w-100 btn btn-lg btn-warning">Comprar esse</a>
-            </div>
-          </div>
-        </div> -->
+        <div class="text-center">Todos os valores são por usuário do cartão</div>
 
-        <!--PRODUTO 3-->
-        <div class="col-10">
-          <div class="card mb-4 rounded-3 shadow-sm border-secondary">
-            <div class="card-header py-3 text-bg-secondary border-secondary">
-              <h4 class="my-0 fw-normal">Empresa</h4>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                Em breve
-              </span>
-            </div>
-            <div class="card-body">
-              <h1 class="card-title pricing-card-title">R$ 29<small class="text-muted fw-light">/mês</small></h1>
-              <ul class="list-unstyled mt-3 mb-4">
-                <li>Até 10 anúncios por card</li>
-                <li>Suporte por email e whatsapp</li>
-                <li>Google Analytics</li>
-                <li>Dashboard</li>
-              </ul>
-              <a type="button" href="#" class="w-100 btn btn-lg btn-secondary" disabled>Comprar esse</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="text-center">Todos os valores são por usuário do cartão</div>
-
-      <!--COMPARE PRODUTOS-->
-      <!-- <h2 class="display-6 text-center mb-4">Compare os produtos</h2>
-
-      <div class="table-responsive">
-        <table class="table text-center">
-          <thead>
-            <tr>
-              <th style="width: 34%;"></th>
-              <th style="width: 22%;">Básico</th>
-              <th style="width: 22%;">Pro</th>
-              <th style="width: 22%;">Empresa</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row" class="text-start">Public</th>
-              <td><i class="bi bi-check-lg"></i></td>
-              <td><i class="bi bi-check-lg"></i></td>
-              <td><i class="bi bi-check-lg"></i></td>
-            </tr>
-            <tr>
-              <th scope="row" class="text-start">Private</th>
-              <td></td>
-              <td><i class="bi bi-check-lg"></i></td>
-              <td><i class="bi bi-check-lg"></i></td>
-            </tr>
-            <tr>
-              <th scope="row" class="text-start">Permissions</th>
-              <td><i class="bi bi-check-lg"></i></td>
-              <td><i class="bi bi-check-lg"></i></td>
-              <td><i class="bi bi-check-lg"></i></td>
-            </tr>
-            <tr>
-              <th scope="row" class="text-start">Sharing</th>
-              <td></td>
-              <td><i class="bi bi-check-lg"></i></td>
-              <td><i class="bi bi-check-lg"></i></td>
-            </tr>
-            <tr>
-              <th scope="row" class="text-start">Unlimited members</th>
-              <td></td>
-              <td><i class="bi bi-check-lg"></i></td>
-              <td><i class="bi bi-check-lg"></i></td>
-            </tr>
-            <tr>
-              <th scope="row" class="text-start">Extra security</th>
-              <td></td>
-              <td></td>
-              <td><i class="bi bi-check-lg"></i></td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
     </section>
 
-  </div>
+</div>
 
-  <!--TUDO EM UM LUGAR-->
-  <div class="bg-light">
+<!--TUDO EM UM LUGAR-->
+<div class="bg-light">
     <div class="container col-xxl-8 px-4 py-5">
-      <div class="row flex-lg-row-reverse align-items-center g-5">
-        <div class="col-12 col-sm-8 col-lg-6">
-          <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_HssWzpeh0E.json" background="transparent"
-            speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
-          <!-- <img src="https://via.placeholder.com/300" class="w-100" /> -->
-        </div>
-        <div class="col-lg-6">
-          <h1 class="display-5 fw-bold lh-1 mb-3">Tudo em um lugar</h1>
-          <p class="lead">Todas as informações do seu cartão em um único lugar. Imagens de produtos, promoções, logo da
-            empresa, redes sociais, telefones, e-mail e muito mais.
-          </p>
-          <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <div class="row flex-lg-row-reverse align-items-center g-5">
+            <div class="col-12 col-sm-8 col-lg-6">
+                <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_HssWzpeh0E.json"
+                    background="transparent" speed="1" style="width: 300px; height: 300px;" loop
+                    autoplay></lottie-player>
+                <!-- <img src="https://via.placeholder.com/300" class="w-100" /> -->
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold lh-1 mb-3">Tudo em um lugar</h1>
+                <p class="lead">Todas as informações do seu cartão em um único lugar. Imagens de produtos, promoções,
+                    logo da
+                    empresa, redes sociais, telefones, e-mail e muito mais.
+                </p>
+                <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-start">
             <button type="button" class="btn btn-warning btn-lg px-4 me-md-2">Comprar</button>
           </div> -->
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  <!--EDITE QUANDO QUISER-->
-  <div class="container col-xxl-8 px-4 py-5">
+<!--EDITE QUANDO QUISER-->
+<div class="container col-xxl-8 px-4 py-5">
     <div class="row align-items-center g-5">
-      <div class="col-12 col-sm-8 col-lg-6">
-        <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_8zzfnwv8.json" background="transparent"
-          speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
-        <!-- <img src="https://via.placeholder.com/300" class="w-100" /> -->
-      </div>
-      <div class="col-lg-6">
-        <h1 class="display-5 fw-bold lh-1 mb-3">Edite quando quiser</h1>
-        <p class="lead">Quer mudar a foto do seu cartão, o logo da empresa ou divulgar mais produtos ? Entre na sua
-            conta,
-            altere as informações que desejar e gere um novo QRCode para seu cartão.</p>
-        <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <button type="button" class="btn btn-warning btn-lg px-4 me-md-2">Comprar</button>
-        </div> -->
-      </div>
+        <div class="col-12 col-sm-8 col-lg-6">
+            <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_8zzfnwv8.json" background="transparent"
+                speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+        </div>
+        <div class="col-lg-6">
+            <h1 class="display-5 fw-bold lh-1 mb-3">Edite quando quiser</h1>
+            <p class="lead">Quer mudar a foto do seu cartão, o logo da empresa ou divulgar mais produtos ? Entre na sua
+                conta,
+                altere as informações que desejar e gere um novo QRCode para seu cartão.</p>
+        </div>
     </div>
-  </div>
+</div>
 
-  <!--DÚVIDAS FREQUENTES-->
-  <div class="bg-light">
+<!--LINK-->
+<div class="bg-light">
     <div class="container col-xxl-8 px-4 py-5">
-      <h1 class="display-4 fw-normal text-center pb-4 py-lg-5">Dúvidas frequentes</h1>
-      <div class="accordion lead" id="accordionExample">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-              aria-expanded="true" aria-controls="collapseOne">
-              Que informações posso inserir no meu cartão?
-            </button>
-          </h2>
-          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-            data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-              Atualmente você pode inserir:
-              <ul>
-                <li>Até 10 anúncios dos seus produtos, servicos, cursos, portfólio, promoções</li>
-                <li>Logo da empresa</li>
-                <li>Telefone</li>
-                <li>WhatsApp</li>
-                <li>Facebook</li>
-                <li>Instagram</li>
-                <li>Linkedin</li>
-                <li>E-mail</li>
-              </ul>
+        <div class="row flex-lg-row-reverse align-items-center g-5">
+            <div class="col-12 col-sm-8 col-lg-6">
+                <dotlottie-player src="https://lottie.host/237cbaae-d8b2-4b4c-b836-cda4be1cf84e/nQkuUFo6hH.json"
+                    background="transparent" speed="1" style="width: 300px; height: 300px;" loop
+                    autoplay></dotlottie-player>
             </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingTwo">
-            <button class="accordion-button collapsed fs-4" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              O que é a funcionalidade Google Analytics ?
-            </button>
-          </h2>
-          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-            data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-              Cada cartão recebe um endereço único de internet que pode ser compartilhado. O Google Analytics capta
-              quantas pessoas viu o seu cartão quando você o compartilha nas suas redes sociais e mostra gráficos com
-              informações sobre cidade onde houve mais visualizações, redes sociais que mais captaram usuários e muitas
-              outras informações.
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold lh-1 mb-3">Acesse o cartão por link</h1>
+                <p class="lead">Com o link do seu cartão você pode compartilhar em redes sociais, sites, blogs e muito
+                    mais. Uma forma moderna e interativa de se relacionar com seus clientes.
+                </p>
             </div>
-          </div>
         </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingThree">
-            <button class="accordion-button collapsed fs-4" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-              O que é a funcionalidade Dashboard?
-            </button>
-          </h2>
-          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-            data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-              O Dashobard permite você visualizar o desempenho do seu card como por exemplo: quantidade de visualizações,
-              cidade que mais visualizou seu card, em quais redes sociais seu card é mais popular, dentre outras informações.
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="my-5 d-md-flex justify-content-center">
-          <a type="button" href="{% url 'usuarios:registrar' %}" class="btn btn-warning btn-lg px-4 me-md-2 col-12">Comprar</a>
-      </div>
     </div>
-  </div>
+</div>
+
+<!--VCF-->
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-5">
+        <div class="col-12 col-sm-8 col-lg-6">
+            <dotlottie-player src="https://lottie.host/0f90784b-151b-4af3-bb9b-ec213e9a6a51/S3VEIOD1ar.json"
+                background="transparent" speed="1" style="width: 300px; height: 300px;" loop
+                autoplay></dotlottie-player>
+        </div>
+        <div class="col-lg-6">
+            <h1 class="display-5 fw-bold lh-1 mb-3">Botão Salvar na Agenda</h1>
+            <p class="lead">Insira seus dados de contato diretamente no celular do seu cliente. Eles podem salvar suas
+                informações com facilidade baixando um arquivo VCard, compatível com todos os tipos de telefones. Com
+                apenas um clique, isso permite que eles evitem o trabalho de digitar seus dados, economizando tempo para
+                seus clientes.</p>
+        </div>
+    </div>
+</div>
+
+<!--QRCode-->
+<div class="bg-light">
+    <div class="container col-xxl-8 px-4 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5">
+            <div class="col-12 col-sm-8 col-lg-6">
+                <dotlottie-player src="https://lottie.host/14e1223b-0551-470c-a1f6-d2197ab2e869/6dX2Jdckd4.json"
+                    background="transparent" speed="1" style="width: 300px; height: 300px;" loop
+                    autoplay></dotlottie-player>
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold lh-1 mb-3">Compartilhe por QRCode</h1>
+                <p class="lead">Você tem a opção de compartilhar seu cartão por meio de um QR Code, uma ferramenta eficiente e
+                    veloz de leitura, otimizando sua forma de se conectar com os clientes.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--ATALHO-->
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-5">
+        <div class="col-12 col-sm-8 col-lg-6">
+            <dotlottie-player src="https://lottie.host/bbe56502-2357-4571-964d-54bf1b4b32bb/ASecng16nv.json"
+                background="transparent" speed="1" style="width: 300px; height: 300px;" loop
+                autoplay></dotlottie-player>
+        </div>
+        <div class="col-lg-6">
+            <h1 class="display-5 fw-bold lh-1 mb-3">APP no Iphone ou Android</h1>
+            <p class="lead">No Android ou iPhone é possível adicionar um atalho do seu
+                cartão de visita digital diretamente na tela inicial do seu smartphone como seu fosse um aplicativo. No
+                Android, utilizando o Google
+                Chrome, e no iPhone, utilizando o Safari. <a href="#" class="text-decoration-none">Clique aqui e saiba
+                    mais</a></p>
+        </div>
+    </div>
+</div>
+
+<!--DADSHBOARD-->
+<div class="bg-light">
+    <div class="container col-xxl-8 px-4 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5">
+            <div class="col-12 col-sm-8 col-lg-6">
+                <dotlottie-player src="https://lottie.host/7c793052-fe66-4368-9708-de1b2964fd8b/T1vTPlqGJV.json"
+                    background="transparent" speed="1" style="width: 300px; height: 300px;" loop
+                    autoplay></dotlottie-player>
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold lh-1 mb-3">Relatórios</h1>
+                <p class="lead">Tenha acesso aos relatórios, uma poderosa ferramenta que oferece informações sobre o
+                    comportamento das pessoas que acessam o seu cartão.
+                    Você pode rastrear o tráfego, entender a origem e o comportamento dos
+                    visitantes, além de analisar métricas essenciais, como tempo de permanência, taxas de conversão e
+                    desempenho do cartão.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--COMPRE AGORA-->
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <h1 class="display-4 fw-normal">Compre agora</h1>
+        <p class="fs-5 text-muted">Taxa única e sem mensalidade para o Plano Individual</p>
+    </div>
+
+    <!--PRODUTOS-->
+    <section>
+
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center justify-content-center">
+
+            <!--PRODUTO 1-->
+            <div class="col-10">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Individual</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">R$ 29,90</h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Até 10 anúncios por cartão</li>
+                            <li>Suporte por email</li>
+                            <li class="text-decoration-line-through">Dashboard</li>
+                            <!-- <li>Google Analytics</li> -->
+                        </ul>
+                        <a type="button" href="{% url 'usuarios:registrar' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar esse</a>
+                        <!-- <a type="button" href="{% url 'assinaturas:criar' %}" class="w-100 btn btn-lg btn-warning">Comprar esse</a> -->
+                    </div>
+                </div>
+            </div>
+
+            <!--PRODUTO 2-->
+            <div class="col-10">
+                <div class="card mb-4 rounded-3 shadow-sm border-secondary">
+                    <div class="card-header py-3 text-bg-secondary border-secondary">
+                        <h4 class="my-0 fw-normal">Empresa</h4>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            Em breve
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">R$ 29<small class="text-muted fw-light">/mês</small>
+                        </h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Até 10 anúncios por cartão</li>
+                            <li>Suporte por email</li>
+                            <!-- <li>Google Analytics</li> -->
+                            <li>Dashboard</li>
+                        </ul>
+                        <a type="button" href="#" class="w-100 btn btn-lg btn-secondary" disabled>Comprar esse</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">Todos os valores são por usuário do cartão</div>
+
+    </section>
+
+</div>
+
+<!--DÚVIDAS FREQUENTES-->
+<div class="bg-light">
+    <div class="container col-xxl-8 px-4 py-5">
+        <h1 class="display-4 fw-normal text-center pb-4 py-lg-5">Dúvidas frequentes</h1>
+        <div class="accordion lead" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button fs-4" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Que informações posso inserir no meu cartão?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        Atualmente você pode inserir:
+                        <ul>
+                            <li>Nome</li>
+                            <li>Foto de perfil</li>
+                            <li>Cargo</li>
+                            <li>Nome da empresa</li>
+                            <li>Logo da empresa</li>
+                            <li>Total de 10 anúncios de produtos, servicos, cursos, portfólio ou promoções</li>
+                            <li>Telefone</li>
+                            <li>WhatsApp</li>
+                            <li>E-mail</li>
+                            <li>Redes sociais</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed fs-4" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        O que é a funcionalidade Relatórios ?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        Cada cartão recebe um endereço único de internet que pode ser compartilhado. Os relatórios
+                        captam
+                        quantas pessoas viram o seu cartão quando você o compartilha nas suas redes sociais e mostram
+                        gráficos com
+                        informações sobre cidade onde houveram mais visualizações, redes sociais que mais captaram usuários
+                        e muitas
+                        outras informações.
+                        <p class="fw-bold my-4">*** Serviço contratado a parte para o Plano Individual</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="my-5 d-md-flex justify-content-center">
+            <a type="button" href="{% url 'usuarios:registrar' %}"
+                class="btn btn-warning btn-lg px-4 me-md-2 col-12">Comprar</a>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
