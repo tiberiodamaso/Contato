@@ -8,6 +8,116 @@
         color: black;
         background-color: #ffc107;
     }
+
+    @media (min-width: 768px) {
+        .container-carousel {
+            width: 750px;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .container-carousel {
+            width: 970px;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .container-carousel {
+            width: 1170px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        #featureContainer .carousel-inner .carousel-item>div {
+            display: none;
+        }
+
+        #featureContainer .carousel-inner .carousel-item>div:first-child {
+            display: block;
+        }
+    }
+
+    #featureContainer .carousel-inner .carousel-item.active,
+    #featureContainer .carousel-inner .carousel-item-next,
+    #featureContainer .carousel-inner .carousel-item-prev {
+        display: flex;
+    }
+
+    @media (min-width: 768px) {
+
+        #featureContainer .carousel-inner .carousel-item-end.active,
+        #featureContainer .carousel-inner .carousel-item-next {
+            transform: translateX(25%);
+        }
+
+        #featureContainer .carousel-inner .carousel-item-start.active,
+        #featureContainer .carousel-inner .carousel-item-prev {
+            transform: translateX(-25%);
+        }
+
+        /* #featureContainer .card img {
+            width: 90%;
+            height: 40vh;
+        } */
+
+        #featureContainer .carousel-item {
+            justify-content: space-between;
+        }
+    }
+
+    @media (max-width: 767px) {
+        #featureContainer .card img {
+            width: 100%;
+            /* height: 75vh; */
+        }
+    }
+
+    #featureContainer .carousel-inner .carousel-item-end,
+    #featureContainer .carousel-inner .carousel-item-start {
+        transform: translateX(0);
+    }
+
+    #featureContainer .card {
+        border: 0;
+    }
+
+    #featureContainer .card {
+        position: relative;
+    }
+
+    #featureContainer .card .card-img-overlays {
+        position: absolute;
+        bottom: 15%;
+        left: 10%;
+    }
+
+    #featureContainer a {
+        text-decoration: none;
+    }
+
+    #featureContainer .indicator {
+        border: 1px solid rgb(202, 202, 202);
+        padding: 3px 6px 3px 6px;
+    }
+
+    #featureContainer .indicator:hover {
+        background-color: blue;
+        border: 1px solid blue;
+        transition: 200ms;
+    }
+
+    #featureContainer .indicator:hover {
+        color: white;
+        transition: 200ms;
+    }
+
+    #featureContainer .indicator {
+        color: lightgray;
+    }
+
+    #featureContainer .float-end {
+        padding-top: 10px;
+    }
 </style>
 
 <!--LOTTIE FILES-->
@@ -179,9 +289,6 @@
                     logo da
                     empresa, redes sociais, telefones, e-mail e muito mais.
                 </p>
-                <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-            <button type="button" class="btn btn-warning btn-lg px-4 me-md-2">Comprar</button>
-          </div> -->
             </div>
         </div>
     </div>
@@ -251,7 +358,8 @@
             </div>
             <div class="col-lg-6">
                 <h1 class="display-5 fw-bold lh-1 mb-3">Compartilhe por QRCode</h1>
-                <p class="lead">Você tem a opção de compartilhar seu cartão por meio de um QR Code, uma ferramenta eficiente e
+                <p class="lead">Você tem a opção de compartilhar seu cartão por meio de um QR Code, uma ferramenta
+                    eficiente e
                     veloz de leitura, otimizando sua forma de se conectar com os clientes.
                 </p>
             </div>
@@ -270,7 +378,7 @@
         <div class="col-lg-6">
             <h1 class="display-5 fw-bold lh-1 mb-3">APP no Iphone ou Android</h1>
             <p class="lead">No Android ou iPhone é possível adicionar um atalho do seu
-                cartão de visita digital diretamente na tela inicial do seu smartphone como seu fosse um aplicativo. No
+                cartão de visita digital diretamente na tela inicial do smartphone como seu fosse um aplicativo. No
                 Android, utilizando o Google
                 Chrome, e no iPhone, utilizando o Safari. <a href="#" class="text-decoration-none">Clique aqui e saiba
                     mais</a></p>
@@ -278,7 +386,7 @@
     </div>
 </div>
 
-<!--DADSHBOARD-->
+<!--RELATORIOS-->
 <div class="bg-light">
     <div class="container col-xxl-8 px-4 py-5">
         <div class="row flex-lg-row-reverse align-items-center g-5">
@@ -363,8 +471,89 @@
 
 </div>
 
-<!--DÚVIDAS FREQUENTES-->
+<!--PORTFOLIO-->
 <div class="bg-light">
+    <div class="container container-carousel col-xxl-8 px-4 py-5" id="featureContainer">
+        <h1 class="display-4 fw-normal text-center pb-4 py-lg-5">Portfólio</h1>
+        <div class="row mx-auto my-auto justify-content-center">
+            <div id="featureCarousel" class="carousel slide" data-bs-ride="carousel">
+                <!-- Add Slides To The Carousel -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item active">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <a href="#">
+                                    <div class="card-img">
+                                        <img src="{% static 'core/exemplo-card.jpg' %}" class="img-fluid">
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <a href="#">
+                                    <div class="card-img">
+                                        <img src="{% static 'core/exemplo-card.jpg' %}" class="img-fluid">
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <a href="#">
+                                    <div class="card-img">
+                                        <img src="{% static 'core/exemplo-card.jpg' %}" class="img-fluid">
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <a href="#">
+                                    <div class="card-img">
+                                        <img src="{% static 'core/exemplo-card.jpg' %}" class="img-fluid">
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <a href="#">
+                                    <div class="card-img">
+                                        <img src="{% static 'core/exemplo-card.jpg' %}" class="img-fluid">
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <a href="#">
+                                    <div class="card-img">
+                                        <img src="{% static 'core/exemplo-card.jpg' %}" class="img-fluid">
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--DÚVIDAS FREQUENTES-->
+<div>
     <div class="container col-xxl-8 px-4 py-5">
         <h1 class="display-4 fw-normal text-center pb-4 py-lg-5">Dúvidas frequentes</h1>
         <div class="accordion lead" id="accordionExample">
@@ -408,7 +597,8 @@
                         captam
                         quantas pessoas viram o seu cartão quando você o compartilha nas suas redes sociais e mostram
                         gráficos com
-                        informações sobre cidade onde houveram mais visualizações, redes sociais que mais captaram usuários
+                        informações sobre cidade onde houveram mais visualizações, redes sociais que mais captaram
+                        usuários
                         e muitas
                         outras informações.
                         <p class="fw-bold my-4">*** Serviço contratado a parte para o Plano Individual</p>
@@ -422,5 +612,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    let myCarousel = document.querySelectorAll('#featureContainer .carousel .carousel-item');
+    myCarousel.forEach((el) => {
+        const minPerSlide = 4
+        let next = el.nextElementSibling
+        for (var i = 1; i < minPerSlide; i++) {
+            if (!next) {
+                // wrap carousel by using first child
+                next = myCarousel[0]
+            }
+            let cloneChild = next.cloneNode(true)
+            el.appendChild(cloneChild.children[0])
+            next = next.nextElementSibling
+        }
+    })
+</script>
 
 {% endblock %}

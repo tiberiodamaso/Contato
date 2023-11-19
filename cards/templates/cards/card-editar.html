@@ -5,6 +5,13 @@
 {% include 'core/menu.html' %}
 
 {% include 'core/mensagens.html' %}
+<style>
+    .spinner {
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+
 <div class="d-flex flex-column align-items-center">
 
     <h2 class="text-center display-4 my-5">Editar card</h2>
@@ -137,7 +144,7 @@
         <div class="mb-3">
             <label for="id_estado">Estado:</label>
             <select name="estado" class="form-select" id="id_estado" hx-get="{% url 'core:get-municipios'%}"
-                hx-trigger="change" hx-target="#id_municipio">
+                hx-trigger="change" hx-target="#id_municipio" hx-indicator=".htmx-indicator">
                 {% for estado in estados %}
                 {% if estado == estado_atual %}
                 <option value="{{estado_atual.id}}" selected="{{estado_atual.id}}">{{estado.nome}}</option>
@@ -146,6 +153,12 @@
                 {% endif %}
                 {% endfor %}
             </select>
+            <div class="p-2 position-absolute rounded spinner">
+                <div class="spinner-border text-warning htmx-indicator" role="status" id="spinner"
+                    style="width: 4rem; height: 4rem;">
+                    <span class="visually-hidden">Carregando...</span>
+                </div>
+            </div>
         </div>
 
         <!--MUNICIPIO-->
@@ -295,9 +308,9 @@
 
 <!--MÁSCARA DE TELEFONE-->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         function aplicarMascaraTelefone(inputElement) {
-            inputElement.addEventListener('input', function() {
+            inputElement.addEventListener('input', function () {
                 let telefone = inputElement.value.replace(/\D/g, ''); // Remove caracteres não numéricos
 
                 const regrasTelefone = [
