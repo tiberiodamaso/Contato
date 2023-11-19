@@ -3,118 +3,225 @@
 {% block title %} Meu Contato | Termos de uso {% endblock %}
 {% block content %}
 
-    {% include 'core/menu.html' %}
+{% include 'core/menu.html' %}
 
-    <div>
-        <h2 class="text-center my-5 display-4">Termos e condições de uso Meu Contato</h2>
-        <p class="fs-4">
-            Olá. Seja bem-vindo aos nossos Termos e Condições de Uso (“Termos”).
-            Solicitamos que leia atentamente este documento, pois ele contém informações importantes sobre seus
-            direitos, deveres e obrigações ao navegar por este website (“Site”), e/ou ao adquirir o produto
-            disponibilizado por meio deste Site.
-            Ao acessar ou usar este Site você concorda em se vincular a estes Termos e em cumprir as suas regras.
-        </p>
-    </div>
-    <div>
-        <p class="display-6">Tópicos</p>
+<div>
+    <h2 class="text-center my-5 display-4">Termos e condições de uso Meu Contato</h2>
+    <p class="fs-4">
+        Solicitamos que leia atentamente este documento, pois ele contém informações importantes sobre seus
+        direitos, deveres e obrigações ao navegar por este site, e/ou ao adquirir os produtos
+        disponibilizados por meio dele.
+        Ao acessar ou usar este site você concorda em se vincular a estes Termos e em cumprir as suas regras.
+    </p>
+</div>
+<div>
+    <p class="display-6">Tópicos</p>
+    <ul>
+        <a href="#visao-geral" class="text-decoration-none fs-5">
+            <li>Visão geral</li>
+        </a>
+        <a href="#servicos-prestados" class="text-decoration-none fs-5">
+            <li>Serviços prestados</li>
+        </a>
+        <a href="#aquisicao-do-card" class="text-decoration-none fs-5">
+            <li>Aquisição do card</li>
+        </a>
+        <a href="#sua-conta" class="text-decoration-none fs-5">
+            <li>Sua conta</li>
+        </a>
+        <a href="#seus-compromissos" class="text-decoration-none fs-5">
+            <li>Seus compromissos</li>
+        </a>
+        <a href="#desistencia-de-compra" class="text-decoration-none fs-5">
+            <li>Desistência de compra</li>
+        </a>
+        <a href="#alteracoes" class="text-decoration-none fs-5">
+            <li>Alterações</li>
+        </a>
+        <a href="#disposicoes-finais" class="text-decoration-none fs-5">
+            <li>Disposições finais</li>
+        </a>
+    </ul>
+</div>
+<div id="visao-geral">
+    <h2 class="text-center my-5 display-6">Visão geral</h2>
+    <p class="fs-5">Estes Termos são destinados a todos os usuários do site, incluindo sem limitações,
+        usuários navegadores e/ou usuários compradores.</p>
+    <ol class="fs-5">
+        <!-- <li class="mb-3">Ao aceitar estes Termos e usar este site nas condições descritas no parágrafo anterior, a
+            empresa com quem você (“usuário”) está contratando é a EMPRESA Ltda., pessoa jurídica de direito privado,
+            inscrita no CNPJ/ME, sediada em CIDADE, Estado, na Rua, Bairro Sion, CEP. Essa empresa pode ser denominada
+            EMPRESA ao longo destes Termos.</li> -->
+        <li class="mb-3">Ao aceitar estes Termos, você declara que conhece e concorda integralmente com o seu conteúdo e
+            com as demais políticas do site aplicáveis, inclusive com a Política de Privacidade, regida pelas leis
+            brasileiras que dispõem sobre tratamento de dados pessoais.</li>
+        <li class="mb-3">Reservamos o direito de alterar estes Termos a qualquer tempo, sem consulta prévia,
+            e ao seu exclusivo critério. Em caso de alteração dos Termos, você, usuário comprador, será notificado, e os
+            termos revisados ficarão disponíveis no próprio site, informando a data da última atualização no seu
+            início (“versão atualizada em”). Você declara estar ciente e concorda expressamente que é seu dever ler e se
+            informar sobre eventuais alterações nestes Termos.</li>
+        <li class="mb-3">Ao continuar a acessar esse site ou utilizar os serviços após a data de entrada em vigor da
+            alteração dos Termos, você aceita e concorda estar vinculado à versão revisada dos Termos.</li>
+        <li class="mb-3">Se não exercermos imediatamente algum direito que nos é cabível na forma da lei ou
+            destes Termos, por qualquer motivo, ou mesmo se deixarmos de exercer algum direito em determinado caso, isso
+            não significa que estamos renunciando ao exercício desses direitos. Podemos exercer tais
+            direitos a qualquer tempo, ao nosso critério, e se renunciarmos ao exercício de qualquer um dos
+            direitos individualmente isso não significa que estamos renunciando ao exercício de tais direitos como um
+            todo.</li>
+        <li class="mb-3">Ao usar os serviços, ou adquirir um produto do site, você se responsabiliza por identificar,
+            compreender e cumprir todas as leis, regras e regulamentações aplicáveis. Isso pode incluir, entre outras,
+            normas de natureza cível, criminal, normas sobre propriedade intelectual, privacidade, uso de dados
+            pessoais.</li>
+        <li class="mb-3">Todo o conteúdo incluído como parte dos Termos, como texto, gráficos, logotipos, imagens, bem
+            como a compilação deles, e qualquer software usado no site, é propriedade do site ou de seus fornecedores
+            e está protegido por direitos autorais e outras leis que visam proteger a propriedade intelectual e os
+            direitos de propriedade.</li>
+    </ol>
+</div>
+<div id="servicos-prestados">
+    <h2 class="text-center my-5 display-6">Serviços prestados</h2>
+    <p class="fs-5">O site disponibiliza um conjunto de recursos online que possibilita a você que adquiriu um CARD o
+        compartilhamento de informações do card pela internet.</p>
+    <ol class="fs-5">
+        <li class="mb-3">As informações poderão ser compartilhadas por meio de:</li>
         <ul>
-            <a href="#visao-geral" class="text-decoration-none fs-5"><li>Visão geral</li></a>
-            <a href="#servicos-prestados" class="text-decoration-none fs-5"><li>Serviços prestados</li></a>
-            <a href="#aquisicao-do-card" class="text-decoration-none fs-5"><li>Aquisição do card</li></a>
-            <a href="#sua-conta" class="text-decoration-none fs-5"><li>Sua conta</li></a>
-            <a href="#seus-compromissos" class="text-decoration-none fs-5"><li>Seus compromissos</li></a>
-            <a href="#desistencia-de-compra" class="text-decoration-none fs-5"><li>Desistência de compra</li></a>
-            <a href="#alteracoes" class="text-decoration-none fs-5"><li>Alterações</li></a>
-            <a href="#disposicoes-finais" class="text-decoration-none fs-5"><li>Disposições finais</li></a>
+            <li>Leitura de QR code.</li>
+            <li>Envio do card online do usuário, por meio de um link.</li>
+            <!-- <li>Em caso de dúvidas sobre como compartilhar as informações contidas no seu CARD consulte
+                https://CARD.com.br/ajuda/compartilhando-um-CARD/.</li> -->
         </ul>
-    </div>
-    <div id="visao-geral">
-        <h2 class="text-center my-5 display-6">Visão geral</h2>
-        <p class="fs-5">Estes Termos são destinados a todos os usuários (“Usuários”) do Site, incluindo sem limitações, usuários navegadores e/ou usuários compradores.</p>
-            <ol class="fs-5">
-                <li class="mb-3">Ao aceitar estes Termos e usar este Site nas condições descritas no parágrafo anterior, a empresa com quem você (“Usuário”) está contratando é a EMPRESA Ltda., pessoa jurídica de direito privado, inscrita no CNPJ/ME, sediada em CIDADE, Estado, na Rua, Bairro Sion, CEP. Essa empresa pode ser denominada EMPRESA ao longo destes Termos.</li>
-                <li class="mb-3">Ao aceitar estes Termos, você declara que conhece e concorda integralmente com o seu conteúdo e com as demais Políticas da EMPRESA aplicáveis, inclusive com a Política de Privacidade, regida pelas leis brasileiras que dispõem sobre tratamento de dados pessoais.</li>
-                <li class="mb-3">A EMPRESA reserva-se no direito de alterar estes Termos a qualquer tempo, sem consulta prévia, e ao seu exclusivo critério. Em caso de alteração dos Termos, você, Usuário comprador, será notificado, e a EMPRESA deixará disponível em seu Site os Termos revisados, informando a data da última atualização no seu início (“versão atualizada em”). Você declara estar ciente e concorda expressamente que é seu dever ler e se informar sobre eventuais alterações nestes Termos.</li>
-                <li class="mb-3">Ao aceitar estes Termos e usar este Site nas condições descritas no parágrafo anterior, a empresa com quem você (“Usuário”) está contratando é a EMPRESA Ltda., pessoa jurídica de direito privado, inscrita no CNPJ/ME, sediada em CIDADE, Estado, na Rua, Bairro Sion, CEP. Essa empresa pode ser denominada EMPRESA ao longo destes Termos.</li>
-                <li class="mb-3">Ao continuar a acessar este Site ou utilizar os serviços após a data de entrada em vigor da alteração dos Termos, você aceita e concorda estar vinculado à versão revisada dos Termos.</li>
-                <li class="mb-3">Se a EMPRESA não exercer imediatamente algum direito que lhe seja cabível na forma da lei ou destes Termos, por qualquer motivo, ou mesmo se deixar de exercer algum direito em determinado caso, isso não significa que a EMPRESA estará renunciando ao exercício desses direitos. A EMPRESA pode exercer seus direitos a qualquer tempo, a seu critério, e se a EMPRESA renunciar ao exercício de qualquer um de seus direitos individualmente isso não significa que estará renunciando ao exercício de seus direitos como um todo.</li>
-                <li class="mb-3">Ao usar os serviços, ou adquirir um produto da EMPRESA, você se responsabiliza por identificar, compreender e cumprir todas as leis, regras e regulamentações aplicáveis.Isso pode incluir, entre outras, normas de natureza cível, criminal, normas sobre propriedade intelectual, privacidade, uso de dados pessoais.</li>
-                <li class="mb-3">Todo o conteúdo incluído como parte dos Termos, como texto, gráficos, logotipos, imagens, bem como a compilação deles, e qualquer software usado no Site, é propriedade da EMPRESA ou de seus fornecedores e está protegido por direitos autorais e outras leis que visam proteger a propriedade intelectual e os direitos de propriedade.</li>
-            </ol>
-    </div>
-    <div id="servicos-prestados">
-        <h2 class="text-center my-5 display-6">Serviços prestados</h2>
-        <p class="fs-5">A EMPRESA disponibiliza um conjunto de recursos online que possibilita a você que adquiriu um CARD o compartilhamento de informações acessíveis pela internet. As informações possíveis de compartilhamento por meio do CARD estão descritas no https://CARD.com.br/ajuda/aplicacoes-do-CARD/. Você escolherá dentre os módulos disponíveis quais informações pretende compartilhar.</p>
-            <ol class="fs-5">
-                <li class="mb-3">As informações poderão ser compartilhadas por meio de:</li>
-                <ul>
-                    <li>Leitura de QR code, https://CARD.com.br/ajuda/escaneando-o-CARD/.</li>
-                    <li>Envio do perfil online do Usuário, por meio de um link, https://CARD.com.br/ajuda/gerando-um-link-para-seu-cartao-virtual/.</li>
-                    <li>Em caso de dúvidas sobre como compartilhar as informações contidas no seu CARD consulte https://CARD.com.br/ajuda/compartilhando-um-CARD/.</li>
-                </ul>
-            </ol>
-    </div>
-    <div id="aquisicao-do-card">
-        <h2 class="text-center my-5 display-6">Aquisição do card</h2>
-        <p class="fs-5">Para fazer uso do Serviço e adquirir um CARD você deverá:</p>
-            <ol class="fs-5">
-                <li class="mb-3">Preencher corretamente a ficha cadastral, fornecendo todos os dados que lhe forem solicitados. Você é responsável pela veracidade dos dados indicados. A EMPRESA não se responsabiliza por dados indicados de forma errada ou inverídica.</li>
-                <li class="mb-3">Você irá escolher o seu login de acesso pessoal ao perfil do CARD, este também não poderá ser alterado posteriormente.</li>
-                <li class="mb-3">O arquivo da logo deve ser enviado com a qualidade alta, formato PNG com fundo vazado, a aplicação da logo deve ser de acordo com a cor do cartão escolhida (cartão preto = logo branca; cartão branco = logo preta). O corte do nosso cartão segue a padronização ISO / IEC 7810 que é o padrão usado pelos cartões de crédito convencionais. Para a impressão utilizamos a dimensão de 54 x 85 mm com uma margem interna de 4 mm para o conteúdo do cartão (nome, logo, QR code, etc). É ideal desenvolver a arte com um sangramento de 2 mm.</li>
-                <li class="mb-3">O cliente concorda que a logo é colocada de forma centralizada no cartão. Ao realizar a compra do seu CARD é só você marcar a opção de “incluir logo” e subir o arquivo. O site mesmo te mostra como ficará o seu CARD na primeira página de compra.</li>
-            </ol>
-    </div>
-    <div id="sua-conta">
-        <h2 class="text-center my-5 display-6">Sua conta</h2>
-        <p class="fs-5">Por meio do painel de controle de sua conta, você poderá visualizar suas compras, gerenciar seus endereços de entrega e faturamento, editar sua senha e detalhes da conta. Você poderá ainda editar seu CARD ou visualizá-lo.</p>
-            <ol class="fs-5">
-                <li class="mb-3">Seu perfil CARD será editado por você de acordo com as funcionalidades disponibilizadas pela EMPRESA. Verifique aqui as funcionalidades disponíveis https://CARD.com.br/ajuda/aplicacoes-do-CARD/.</li>
-                <li class="mb-3">Você poderá manter seu perfil de Usuário público ou privado.</li>
-                <ul>
-                    <li class="mb-3">Perfil Público: Ao tornar o seu perfil privado você criará uma senha, essa senha será solicitada para que as informações compartilhadas por meio do CARD sejam acessadas.</li>
-                    <li class="mb-3">Perfil Privado: No perfil público qualquer pessoa que possua o link da sua página CARD terá acesso às informações.</li>
-                    <li class="mb-3">A qualquer momento você poderá alterar o status do seu perfil, alterando-o de privado para público e vice e versa.</li>
-                    <li class="mb-3">Você, o único responsável pela precisão, veracidade e integridade das suas informações pessoais indicadas a EMPRESA e compartilhadas por meio do CARD. Você declara que os dados cadastrados são verídicos, corretos e que pertencem a você, sendo expressamente vedado o compartilhamento de dados de terceiros sem expressa autorização destes. A EMPRESA não possui qualquer responsabilidade pela veracidade dos dados fornecidos por você, bem como por eventuais danos decorrentes da inexatidão e/ou desatualização de tais informações.</li>
-                    <li class="mb-3">Ao adquirir um CARD você recebe uma licença não exclusiva, intransferível e revogável para acessar e usar https://CARD.com.br/ estritamente de acordo com estes Termos.</li>
-                    <li class="mb-3">Você é responsável por manter a confidencialidade de sua conta e senha e por restringir o acesso ao seu computador, e concorda em aceitar a responsabilidade por todas as atividades que ocorram com seu login e/ou senha. Você reconhece que a EMPRESA não é responsável pelo acesso de terceiros à sua conta que resulte de roubo, furto ou apropriação indébita de sua conta.</li>
-                </ul>
-            </ol>
-    </div>
-    <div id="seus-compromissos">
-        <h2 class="text-center my-5 display-6">Seus compromissos</h2>
-        <p class="fs-5">Obrigações Gerais dos Usuários: Você deve acessar este Site e utilizar os serviços disponibilizados pela EMPRESA apenas para fins lícitos. Você deve preservar a reputação da EMPRESA e evitar qualquer prática realizada por você (ou por terceiros relacionados a você) que possa, direta ou indiretamente, desabonar a EMPRESA, seus serviços, seus empregados, colaboradores, representantes, agentes, sócios ou parceiros.</p>
-            <ol class="fs-5">
-                <li class="mb-3">Direitos de Propriedade Intelectual da EMPRESA: As informações contidas neste Site, bem como as marcas, nomes empresariais, nomes de domínio, programas, bancos de dados, redes, arquivos, mídias em geral (áudio, texto, vídeo etc.) e qualquer outra propriedade intelectual relacionada aos Serviços da EMPRESA são de titularidade exclusiva da EMPRESA, ou foram regularmente cedidas ou licenciadas à EMPRESA. Esses elementos são protegidos pelas leis de propriedade intelectual. É proibido copiar, distribuir, usar ou publicar total ou parcialmente qualquer material, qualquer item do Site ou qualquer Produto ofertado no Site sem autorização expressa da EMPRESA.</li>
-                <li class="mb-3">O não cumprimento de quaisquer destas obrigações dará o direito a EMPRESA de cancelar imediatamente o Serviço, sem prejuízo dos recursos legais para se ressarcir por quaisquer danos e prejuízos causados a EMPRESA e/ou a terceiros.</li>
-                <li class="mb-3">Você concorda em manter a EMPRESA, seus diretores e empregados indenes de quaisquer danos, perdas, eventuais despesas que tiverem com reclamações administrativas e/ou judiciais, e/ou reivindicações de quaisquer terceiros com relação a e/ou em decorrência da utilização indevida do Serviço por parte do Usuário.</li>
-            </ol>
-    </div>
-    <div id="desistencia-de-compra">
-        <h2 class="text-center my-5 display-6">Desistência de compra</h2>
-        <p class="fs-5">Em caso de desistência, você pode ser reembolsado via transferência bancária ou estorno no cartão de crédito, de acordo com o meio de pagamento usado por você no momento da compra.</p>
-            <ol class="fs-5">
-                <li class="mb-3">O cliente concorda que os pagamentos são processados em forma gateway. A plataforma terceirizada que vai intermediar o pagamento perante a empresa CARD. Caso aconteça erro de processamento do pedido, o estorno será efetivado pela terceirizada, em conta aberta no ato da compra e em até 7 dias úteis após a abertura da solicitação o estorno será efetivado. Qualquer dificuldade entrar em contato pelo Sac ou e-mail.</li>
-            </ol>
-    </div>
-    <div id="alteracoes">
-        <h2 class="text-center my-5 display-6">Alterações</h2>
-        <p class="fs-5">Os preços dos serviços e/ou produtos disponibilizados pela EMPRESA podem ser alterados a qualquer tempo, sem aviso prévio.</p>
-            <ol class="fs-5">
-                <li class="mb-3">A EMPRESA reserva o direito de, a qualquer momento, alterar as funcionalidades disponibilizadas ao Usuário. Em caso de alteração nas funcionalidades, os Usuários Compradores serão notificados por e-mail. As alterações poderão ser visualizadas também no Site.</li>
-                <li class="mb-3">A CARD enviará através da plataforma e-mail as atualizações do termo uso, a não resposta do e-mail será um aceite das atualizações. A CARD se reserva no direito de atualizar a qualquer momento. Você concorda que a CARD poderá fornecer avisos (incluindo avisos relacionados a alterações nos Termos de Uso).</li>
-                <li class="mb-3">O cliente concorda com os envios de atualizações de novidades pela empresa CARD. Sendo que essas atualizações vão ser automaticamente, de tempos em tempos. Essas atualizações podem estar disponíveis em várias formas, incluindo correções, funções aprimoradas, novos módulos de software e versões completamente novas. Você concorda em receber tais atualizações (e permite que CARD forneça tais atualizações a você) como parte dos Serviços.</li>
-                <li class="mb-3">Ao obter consentimento a CARD poderá enviar e-mails de benfeitorias e formulários de possíveis parcerias futuras.</li>
-                <li class="mb-3">A EMPRESA reserva o direito de, a qualquer momento descontinuar o serviço (ou qualquer parte ou conteúdo dele) sem aviso prévio.</li>
-                <li class="mb-3">A EMPRESA não será responsável perante você ou terceiros por qualquer modificação, alteração de preço, suspensão ou descontinuação do serviço.</li>
-            </ol>
-    </div>
-    <div id="disposicoes-finais">
-        <h2 class="text-center my-5 display-6">Disposições finais</h2>
-        <p class="fs-5">A empresa CARD reserva o direito de estipular, fazer, criar, documentar, produzir ou gerar contratos com seus clientes conforme a lei brasileira.</p>
-            <ol class="fs-5">
-                <li class="mb-3">Foro e Lei Aplicável: O foro da Comarca de Ribeirão Preto/SP fica eleito como o único competente, com exclusão de qualquer outro, por mais vantajoso que seja, para dirimir quaisquer controvérsias referentes a estes Termos e às Políticas da CARD.</li>
-                <li class="mb-3">Dúvidas: o Site disponibiliza uma seção chamada “ajuda”, nela você pode encontrar, material instrutivo gratuito. Nenhum terceiro tem o direito ou autorização da EMPRESA para falar em nome dela, e todas as práticas estabelecidas ou sugeridas por essas pessoas devem ser consideradas não oficiais. Se as informações contidas no Site não forem suficientes para esclarecer suas dúvidas, entre em contato com a gente por meio deste canal https://CARD.com.br/contato/.</li>
-            </ol>
-    </div>
+    </ol>
+</div>
+<div id="aquisicao-do-card">
+    <h2 class="text-center my-5 display-6">Aquisição do card</h2>
+    <p class="fs-5">Para fazer uso do Serviço e adquirir um CARD você deverá:</p>
+    <ol class="fs-5">
+        <li class="mb-3">Preencher corretamente o formulário para criação de conta no site, fornecendo todos os dados
+            que lhe forem solicitados.
+            Você é responsável pela veracidade dos dados indicados. Não nos responsabilizamos por dados indicados
+            de forma errada ou inverídica.</li>
+        <li class="mb-3">Realizar o pagamento do valor correspondente ao serviço escolhido através do formulário
+            próprio.</li>
+        <!-- <li class="mb-3">Você irá escolher o seu login de acesso a sua conta, este também não poderá ser
+            alterado posteriormente.</li> -->
+        <!-- <li class="mb-3">O arquivo da logo deve ser enviado com a qualidade alta, formato PNG com fundo vazado, a
+            aplicação da logo deve ser de acordo com a cor do cartão escolhida (cartão preto = logo branca; cartão
+            branco = logo preta). O corte do nosso cartão segue a padronização ISO / IEC 7810 que é o padrão usado pelos
+            cartões de crédito convencionais. Para a impressão utilizamos a dimensão de 54 x 85 mm com uma margem
+            interna de 4 mm para o conteúdo do cartão (nome, logo, QR code, etc). É ideal desenvolver a arte com um
+            sangramento de 2 mm.</li> -->
+        <!-- <li class="mb-3">O cliente concorda que a logo é colocada de forma centralizada no cartão. Ao realizar a compra
+            do seu CARD é só você marcar a opção de “incluir logo” e subir o arquivo. O site mesmo te mostra como ficará
+            o seu CARD na primeira página de compra.</li> -->
+    </ol>
+</div>
+<div id="sua-conta">
+    <h2 class="text-center my-5 display-6">Sua conta</h2>
+    <p class="fs-5">Por meio do painel de controle de sua conta, você poderá visualizar suas compras, editar sua senha e
+        detalhes da conta. Você poderá ainda editar seu CARD ou
+        visualizá-lo.</p>
+    <ol class="fs-5">
+        <li class="mb-3">Seu perfil CARD será editado por você de acordo com as funcionalidades disponibilizadas pelo
+            Site.</li>
+        <li class="mb-3">Ao criar o seu card, você concorda que todas as informações inseridas nele por você sejam
+            públicas para quaisquer fins e indexadas por sites de busca.</li>
+        <ul>
+            <!-- <li class="mb-3">Perfil Público: Ao tornar o seu perfil privado você criará uma senha, essa senha será
+                solicitada para que as informações compartilhadas por meio do CARD sejam acessadas.</li>
+            <li class="mb-3">Perfil Privado: No perfil público qualquer pessoa que possua o link da sua página CARD terá
+                acesso às informações.</li>
+            <li class="mb-3">A qualquer momento você poderá alterar o status do seu perfil, alterando-o de privado para
+                público e vice e versa.</li> -->
+            <li class="mb-3">Você, o único responsável pela precisão, veracidade e integridade das suas informações
+                pessoais indicadas e compartilhadas por meio do CARD. Você declara que os dados cadastrados
+                são verídicos, corretos e que pertencem a você, sendo expressamente vedado o compartilhamento de dados
+                de terceiros sem expressa autorização destes. Não possuímos qualquer responsabilidade pela
+                veracidade dos dados fornecidos por você, bem como por eventuais danos decorrentes da inexatidão e/ou
+                desatualização de tais informações.</li>
+            <li class="mb-3">Ao adquirir um CARD você recebe uma licença não exclusiva, intransferível e revogável para
+                acessar e usar https://meucontato.app.br/ estritamente de acordo com estes Termos.</li>
+            <li class="mb-3">Você é responsável por manter a confidencialidade de sua conta e senha e por restringir o
+                acesso ao seu computador, e concorda em aceitar a responsabilidade por todas as atividades que ocorram
+                com seu login e/ou senha. Você reconhece que não somos responsáveis pelo acesso de terceiros a sua
+                conta que resulte de roubo, furto ou apropriação indébita de sua conta.</li>
+        </ul>
+    </ol>
+</div>
+<div id="seus-compromissos">
+    <h2 class="text-center my-5 display-6">Seus compromissos</h2>
+    <p class="fs-5">Obrigações gerais dos usuários: você deve acessar este site e utilizar os serviços disponibilizados
+        apenas para fins lícitos. Você deve preservar a reputação do Site e evitar qualquer prática
+        realizada por você (ou por terceiros relacionados a você) que possa, direta ou indiretamente, desabonar o
+        Site, seus serviços, seus empregados, colaboradores, representantes, agentes, sócios ou parceiros.</p>
+    <ol class="fs-5">
+        <li class="mb-3">Direitos de Propriedade Intelectual: as informações contidas neste site, bem como as
+            marcas, nomes empresariais, nomes de domínio, programas, bancos de dados, redes, arquivos, mídias em geral
+            (áudio, texto, vídeo etc.) e qualquer outra propriedade intelectual relacionada aos serviços do Site são
+            de titularidade exclusiva do Site, ou foram regularmente cedidas ou licenciadas ao Site. Esses
+            elementos são protegidos pelas leis de propriedade intelectual. É proibido copiar, distribuir, usar ou
+            publicar total ou parcialmente qualquer material, qualquer item do site ou qualquer produto ofertado no site
+            sem autorização expressa do mesmo.</li>
+        <li class="mb-3">O não cumprimento de quaisquer destas obrigações nos dará o direito de cancelar
+            imediatamente o serviço, sem prejuízo dos recursos legais para se ressarcir por quaisquer danos e prejuízos
+            causados ao Site e/ou a terceiros.</li>
+        <li class="mb-3">Você concorda em manter o Site, seus diretores e empregados indenes de quaisquer danos,
+            perdas, eventuais despesas que tiverem com reclamações administrativas e/ou judiciais, e/ou reivindicações
+            de quaisquer terceiros com relação a e/ou em decorrência da utilização indevida do serviço por parte do
+            usuário.</li>
+    </ol>
+</div>
+<div id="desistencia-de-compra">
+    <h2 class="text-center my-5 display-6">Desistência de compra</h2>
+    <p class="fs-5">Em caso de desistência, você pode ser reembolsado via estorno no cartão de
+        crédito usado por você no momento da compra.</p>
+    <ol class="fs-5">
+        <li class="mb-3">O cliente concorda que os pagamentos são processados em forma de gateway. A plataforma
+            terceirizada que vai intermediar o pagamento. Caso aconteça erro de processamento do
+            pedido, o estorno será efetivado pela terceirizada, em conta aberta no ato da compra e em até 7 dias úteis
+            após a abertura da solicitação o estorno será efetivado. Qualquer dificuldade entrar em contato pelo e-mail
+            <a href="mailto:contato@meucontato.app.br" class="text-decoration-none">clicando aqui</a></li>
+    </ol>
+</div>
+<div id="alteracoes">
+    <h2 class="text-center my-5 display-6">Alterações</h2>
+    <p class="fs-5">Os preços dos serviços e/ou produtos disponibilizados podem ser alterados a qualquer
+        tempo, sem aviso prévio.</p>
+    <ol class="fs-5">
+        <li class="mb-3">Reservamos o direito de, a qualquer momento, alterar as funcionalidades disponibilizadas
+            ao usuário. Em caso de alteração nas funcionalidades, os usuários compradores serão notificados por e-mail.
+            As alterações poderão ser visualizadas também no site.</li>
+        <li class="mb-3">Enviaremos através da plataforma e-mail as atualizações do termo uso, a não resposta do
+            e-mail será um aceite das atualizações. Reservamos o direito de atualizar a qualquer momento. Você
+            concorda que poderemos fornecer avisos (incluindo avisos relacionados a alterações nos Termos de Uso).
+        </li>
+        <li class="mb-3">O cliente concorda com os envios de atualizações de novidades. Sendo que
+            essas atualizações vão ser automaticamente, de tempos em tempos. Essas atualizações podem estar disponíveis
+            em várias formas, incluindo correções, funções aprimoradas, novos módulos de software e versões
+            completamente novas. Você concorda em receber tais atualizações e permite que forneçamos tais
+            atualizações a você como parte dos Serviços.</li>
+        <li class="mb-3">Ao obter consentimento poderemos enviar e-mails de benfeitorias e formulários de possíveis
+            parcerias futuras.</li>
+        <li class="mb-3">Reservamos o direito de, a qualquer momento, descontinuar o serviço ou qualquer parte ou
+            conteúdo dele sem aviso prévio.</li>
+        <li class="mb-3">Não seremos responsáveis perante você ou terceiros por qualquer modificação, alteração de
+            preço, suspensão ou descontinuação do serviço.</li>
+    </ol>
+</div>
+<div id="disposicoes-finais" class="mb-5">
+    <h2 class="text-center my-5 display-6">Disposições finais</h2>
+    <p class="fs-5">Reservamos o direito de estipular, fazer, criar, documentar, produzir ou gerar contratos
+        com nossos clientes conforme a lei brasileira.</p>
+    <ol class="fs-5">
+        <li class="mb-3">Foro e Lei Aplicável: O foro da Comarca de Ribeirão Preto/SP fica eleito como o único
+            competente, com exclusão de qualquer outro, por mais vantajoso que seja, para dirimir quaisquer
+            controvérsias referentes a estes Termos e às Políticas do Site.</li>
+        <li class="mb-3">Dúvidas: o site disponibiliza uma seção chamada “ajuda”, nela você pode encontrar, material
+            instrutivo gratuito. Nenhum terceiro tem o direito ou nossa autorização para falar nosso nome, e
+            todas as práticas estabelecidas ou sugeridas por essas pessoas devem ser consideradas não oficiais. Se as
+            informações contidas no site não forem suficientes para esclarecer suas dúvidas, entre em contato com a
+            gente por meio deste <a href="mailto:contato@meucontato.app.br"
+                class="text-decoration-none">email</a>.</li>
+    </ol>
+</div>
 
 {% endblock %}

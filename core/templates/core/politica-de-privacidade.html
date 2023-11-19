@@ -3,210 +3,337 @@
 {% block title %} Meu Contato | Política de privacidade {% endblock %}
 {% block content %}
 
-    {% include 'core/menu.html' %}
+{% include 'core/menu.html' %}
 
-    <div>
-        <h2 class="text-center my-5 display-4">Política de privacidade</h2>
-        <p class="fs-4">
-            Olá. Sejam bem-vindos a nossa Política de Privacidade.
-            A sua privacidade é muito importante para nós. É da política da Empresa LTDA respeitá-lo em qualquer relação a
-            qualquer informação que possamos coletar em nosso site. Quando armazenamos dados, os protegemos dentro dos meios
-            comercialmente aceitáveis para evitar perdas e roubos, bem como acessos, divulgação, cópia, uso de modificação
-            não autorizada.  
-            Solicitamos que leia atentamente este documento, pois ele contém informações importantes sobre a privacidade e a
-            proteção dos seus dados pessoais. Esta política descreve como os seus Dados Pessoais são coletados, tratados,
-            compartilhados e armazenados quando você acessa nosso Site e/ou utiliza nossos Serviços.
-            O tratamento dos Dados Pessoais é condição para utilizar os serviços prestados pela Empresa. Não é possível
-            oferecer os Serviços sem ter acesso a esses dados.
-            Para os fins desta Política, “Dados Pessoais” significa qualquer informação relacionada a um indivíduo
-            identificado ou identificável (Significado contido na legislação em vigor no Brasil sobre proteção de dados
-            pessoais – Lei 13.709/2018). O presente documento foi elaborado em conformidade com a Lei de Proteção de Dados
-            Pessoais Lei 13.709/2018 e Marco Civil da Internet Lei 12.965/14. Ainda, o documento poderá ser atualizado
-            em decorrência de eventual atualização normativa, razão pela qual convida o usuário a consultar periodicamente
-            esta opção.
-            Esta Política e suas respectivas atualizações devem prevalecer sobre todas as políticas, contratos,
-            entendimentos anteriores e acordos, orais ou escritos, eventualmente existentes entre as partes referindo-se,
-            direta ou indiretamente, sobre o tema de privacidade.
-            Além desta Política, o uso de nossos Serviços também está sujeito aos nossos <a href="{% url 'core:termos-de-uso' %}" class="text-decoration-none">Termos de Uso.</a>
-        </p>
-    </div>
-    <div>
-        <p class="display-6">Tópicos</p>
-        <ul>
-            <a href="#visao-geral" class="text-decoration-none fs-5"><li>Visão geral</li></a>
-            <a href="#consentimento" class="text-decoration-none fs-5"><li>Consentimento</li></a>
-            <a href="#dados-pessoais-que-tratamos" class="text-decoration-none fs-5"><li>Dados pessoais que tratamos</li></a>
-            <a href="#finalidade-e-tratamento" class="text-decoration-none fs-5"><li>Finalidade da coleta e tratamento dos dados pessoais</li></a>
-            <a href="#cookies" class="text-decoration-none fs-5"><li>Cookies</li></a>
-            <a href="#spam" class="text-decoration-none fs-5"><li>Spam</li></a>
-            <a href="#compartilhamento" class="text-decoration-none fs-5"><li>Compartilhamento de dados pessoais</li></a>
-            <a href="#exclusao-de-dados-pessoais" class="text-decoration-none fs-5"><li>Exclusão de dados pessoais</li></a>
-            <a href="#seguranca-da-informacao" class="text-decoration-none fs-5"><li>Segurança da informação</li></a>
-            <a href="#seus-direitos" class="text-decoration-none fs-5"><li>Seus direitos em relação aos seus dados pessoais</li></a>
-            <a href="#alteracoes" class="text-decoration-none fs-5"><li>Alterações</li></a>
-            <a href="#informacoes-e-duvidas" class="text-decoration-none fs-5"><li>Informações e dúvidas</li></a>
+<div>
+    <h2 class="text-center my-5 display-4">Política de privacidade</h2>
+    <p class="fs-4">
+        A sua privacidade é muito importante. É nossa política respeitá-la em relação a
+        qualquer informação que possamos coletar em nosso site. Quando armazenamos dados, os protegemos dentro dos meios
+        comercialmente aceitáveis para evitar perdas e roubos, bem como acessos, divulgação, cópia, uso de modificação
+        não autorizados.
+    </p>
+    <p class="fs-4">
+        Solicitamos que leia atentamente este documento, pois ele contém informações importantes sobre a privacidade e a
+        proteção dos seus dados pessoais. Esta política descreve como os seus Dados Pessoais são coletados, tratados,
+        compartilhados e armazenados quando você acessa nosso Site e/ou utiliza nossos Serviços.
+    </p>
+        
+    <p class="fs-4">
+        O tratamento dos Dados Pessoais é condição para utilizar os serviços prestados pela Empresa. Não é possível
+        oferecer os Serviços sem ter acesso a esses dados.
+    </p>
+    <p class="fs-4">
+        Para os fins desta Política, “Dados Pessoais” significa qualquer informação relacionada a um indivíduo
+        identificado ou identificável (Significado contido na legislação em vigor no Brasil sobre proteção de dados
+        pessoais – Lei 13.709/2018). O presente documento foi elaborado em conformidade com a Lei de Proteção de Dados
+        Pessoais Lei 13.709/2018 e Marco Civil da Internet Lei 12.965/14. Ainda, o documento poderá ser atualizado
+        em decorrência de eventual atualização normativa, razão pela qual convida o usuário a consultar periodicamente
+        esta opção.
+    </p>
+    <p class="fs-4">
+        Esta Política e suas respectivas atualizações devem prevalecer sobre todas as políticas, contratos,
+        entendimentos anteriores e acordos, orais ou escritos, eventualmente existentes entre as partes referindo-se,
+        direta ou indiretamente, sobre o tema de privacidade.
+    </p>
+    <p class="fs-4">
+        Além desta Política, o uso de nossos Serviços também está sujeito aos nossos
+        <a href="{% url 'core:termos-de-uso' %}" class="text-decoration-none">Termos de Uso.</a>
+    </p>
+</div>
+<div>
+    <p class="display-6">Tópicos</p>
+    <ul>
+        <a href="#visao-geral" class="text-decoration-none fs-5">
+            <li>Visão geral</li>
+        </a>
+        <a href="#consentimento" class="text-decoration-none fs-5">
+            <li>Consentimento</li>
+        </a>
+        <a href="#dados-pessoais-que-tratamos" class="text-decoration-none fs-5">
+            <li>Dados pessoais que tratamos</li>
+        </a>
+        <a href="#finalidade-e-tratamento" class="text-decoration-none fs-5">
+            <li>Finalidade da coleta e tratamento dos dados pessoais</li>
+        </a>
+        <a href="#cookies" class="text-decoration-none fs-5">
+            <li>Cookies</li>
+        </a>
+        <a href="#spam" class="text-decoration-none fs-5">
+            <li>Spam</li>
+        </a>
+        <a href="#compartilhamento" class="text-decoration-none fs-5">
+            <li>Compartilhamento de dados pessoais</li>
+        </a>
+        <a href="#exclusao-de-dados-pessoais" class="text-decoration-none fs-5">
+            <li>Exclusão de dados pessoais</li>
+        </a>
+        <a href="#seguranca-da-informacao" class="text-decoration-none fs-5">
+            <li>Segurança da informação</li>
+        </a>
+        <a href="#seus-direitos" class="text-decoration-none fs-5">
+            <li>Seus direitos em relação aos seus dados pessoais</li>
+        </a>
+        <a href="#alteracoes" class="text-decoration-none fs-5">
+            <li>Alterações</li>
+        </a>
+        <a href="#informacoes-e-duvidas" class="text-decoration-none fs-5">
+            <li>Informações e dúvidas</li>
+        </a>
+    </ul>
+</div>
+<div id="visao-geral">
+    <h2 class="text-center my-5 display-6">Visão geral</h2>
+    <ol class="fs-5">
+        <li class="mb-3">Esta Política é destinada a todos os usuários do Site, incluindo sem limitações, usuários
+            navegadores e/ou usuários compradores.</li>
+        <!-- <li class="mb-3">Ao estar de acordo com esta Política e usar este Site nas condições descritas no parágrafo
+            anterior, a empresa com quem você (“Usuário”) está contratando é a EMPRESA Ltda., pessoa jurídica de direito
+            privado, inscrita no CNPJ/ME sob o nº. 40.203.159/0001-28, sediada em Cidade, Estado, na Rua, Bairro , CEP.
+            Essa empresa pode ser denominada Empresa ao longo desta Política.</li> -->
+        <li class="mb-3">Reservamos o direito de alterar esta Política a qualquer tempo, atualizando seu
+            conteúdo conforme as necessidades de aperfeiçoamento tecnológico ou de suas funcionalidades.</li>
+        <li class="mb-3">Quando houver alteração nesta Política, comunicaremos por e-mail ou por
+            qualquer outra forma que permita a comunicação com você. Igualmente, você deverá verificar a versão
+            atualizada desta Política toda vez que visitar este Site.</li>
+        <li class="mb-3">Caso você não concorde com os novos termos da Política de Privacidade, você deverá cessar o uso
+            deste Site, bem como interromper a utilização dos serviços contratados.</li>
+    </ol>
+</div>
+<div id="consentimento">
+    <h2 class="text-center my-5 display-6">Consentimento</h2>
+    <ol class="fs-5">
+        <li class="mb-3">Ao utilizar os serviços e fornecer as informações pessoais no site o usuário está
+            consentindo com a presente Política de Privacidade listados no item 2 desta Política. Seus dados só serão
+            coletados, tratados e armazenados mediante prévio consentimento.</li>
+        <li class="mb-3">O consentimento é a manifestação livre, informada e inequívoca pela qual você nos autoriza 
+            a tratar seus dados em consonância com a Lei Geral de Proteção de Dados. O seu consentimento será
+            obtido de forma específica para cada finalidade descrita no item 3 desta Política, evidenciando nosso
+            compromisso de transparência e boa-fé com nossos Usuários, seguindo as regulações legislativas
+            pertinentes.</li>
+        <li class="mb-3">Ao utilizar nossos serviços e fornecer seus dados pessoais, você está ciente e
+            consentindo com as disposições desta Política de Privacidade, além de conhecer seus direitos e como
+            exercê-los.</li>
+    </ol>
+</div>
+<div id="dados-pessoais-que-tratamos">
+    <h2 class="text-center my-5 display-6">Dados pessoais que tratamos</h2>
+    <ol class="fs-5">
+        <li class="mb-3">Dados de Cadastro de Usuários Compradores: (a) Nome completo; (b) CPF; (c) E-mail; (d)
+            Endereço; (e) Número de Telefone; (f) Senha.</li>
+        <li class="mb-3">Dados de Pagamento: (a) Dados de cartão de crédito (incluindo número do cartão, nome do
+            titular, validade e código CVV); (b) CPF. Os dados de cartão de crédito coletados não ficam, de forma
+            alguma, armazenados conosco, tampouco poderão ser repassados a terceiros que não estejam diretamente
+            ligados a operacionalização dos pagamentos.</li>
+        <li class="mb-3">Dados Para Atendimento: (a) Nome; (b) E-mail; (c) Número de telefone; (d) Nome da Empresa; (e)
+            Cargo ocupado; (f) Mensagem. Podemos solicitar informações/documentos complementares que auxiliarão
+            no atendimento.</li>
+        <li class="mb-3">Dados de Atividades: (a) Frequência de utilização do Site; (b) Informação sobre o Navegador;
+            (c) Dados de Conexão; (d) Histórico de compras; (e) Histórico de navegação.</li>
+        <li class="mb-3">Dados Opcionais: Ao usar nossos Serviços, você pode optar por fornecer certas informações
+            pessoais, incluindo suas informações de contato, links de mídia social, dentre outros. Por não serem
+            informações obrigatórias, caso você opte por fornecê-las, você está consentindo que estes dados sejam
+            tratados e armazenados por nós.</li>
+    </ol>
+</div>
+<div id="finalidade-e-tratamento">
+    <h2 class="text-center my-5 display-6">Finalidade da coleta e tratamento dos dados pessoais</h2>
+    <ol class="fs-5">
+        <li class="mb-3">Os dados pessoais do usuário e do visitante coletados e armazenados pelo site tem por
+            finalidade: bem-estar do usuário e visitante, aprimorar o produto e serviço oferecido, facilitar e agilizar
+            cumprir os compromissos estabelecidos entre nós e os usuários, melhorando sempre a experiência dos
+            nossos usuários e fornecer funcionalidades específicas.</li>
+        <li class="mb-3">Melhorias do site: compreender como usuário utiliza os serviços do site, para
+            ajudar no desenvolvimento de negócios e técnicas.</li>
+        <li class="mb-3">Previsão do perfil do usuário: tratamento automatizado de dados pessoais para aliviar o uso na
+            plataforma.</li>
+        <li class="mb-3">Dados de cadastro: para permitir o acesso do usuário a determinados conteúdos do site,
+            exclusivos para usuários cadastrados.</li>
+        <li class="mb-3">Dados de contratos: conferir às partes segurança jurídica e facilitar a conclusão do negócios.
+        </li>
+        <li class="mb-3">Dados de Cadastro de Usuários Compradores:</li>
+        <ul class="mb-3">
+            <li>Realizar o cadastro</li>
+            <li>Vincular sua conta de usuário com redes sociais terceiras</li>
+            <li>Realizar identificação dos Usuários junto ao Site</li>
+            <li>Realizar compras de produtos e/ou serviços oferecidos</li>
+            <li>Permitir o acesso a sua conta de usuário</li>
+            <li>Fazer gestão do pagamento</li>
+            <li>Comunicar com o Usuário via e-mail ou SMS, encaminhando informações transacionais como: confirmação de
+                pagamento, link de ativação do produto, entre outros</li>
+            <li>Realizar atividades de suporte</li>
+            <li>Realizar atividades de análise de prevenção à fraude no Site</li>
+            <li>Arquivar histórico de compras</li>
+            <li>Realizar a autenticação do Usuário mediante apresentação de documentos comprobatórios</li>
         </ul>
-    </div>
-    <div id="visao-geral">
-        <h2 class="text-center my-5 display-6">Visão geral</h2>
-            <ol class="fs-5">
-                <li class="mb-3">Esta Política é destinada a todos os usuários (“Usuários”) do Site, incluindo sem limitações, usuários navegadores e/ou usuários compradores.</li>
-                <li class="mb-3">Ao estar de acordo com esta Política e usar este Site nas condições descritas no parágrafo anterior, a empresa com quem você (“Usuário”) está contratando é a EMPRESA Ltda., pessoa jurídica de direito privado, inscrita no CNPJ/ME sob o nº. 40.203.159/0001-28, sediada em Cidade, Estado, na Rua, Bairro , CEP. Essa empresa pode ser denominada Empresa ao longo desta Política.</li>
-                <li class="mb-3">A EMPRESA reserva-se no direito de alterar esta Política a qualquer tempo, atualizando seu conteúdo conforme as necessidades de aperfeiçoamento tecnológico ou de suas funcionalidades.</li>
-                <li class="mb-3">Quando houver alteração nesta Política, a EMPRESA comunicará a seus Usuários, por e-mail ou por qualquer outra forma que permita a comunicação com você. Igualmente, você deverá verificar a versão atualizada desta Política toda vez que visitar este Site.</li>
-                <li class="mb-3">Caso você não concorde com os novos termos da Política de Privacidade, você deverá cessar o uso deste Site, bem como interromper a utilização dos serviços prestados pela EMPRESA.</li>
-            </ol>
-    </div>
-    <div id="consentimento">
-        <h2 class="text-center my-5 display-6">Consentimento</h2>
-            <ol class="fs-5">
-                <li class="mb-3">Ao utilizar os serviços e fornecer as informações pessoais na plataforma o usuário está consentindo com a presente Política de Privacidade listados no item 2 desta Política. Seus dados só serão coletados, tratados e armazenados mediante prévio consentimento.</li>
-                <li class="mb-3">O consentimento é a manifestação livre, informada e inequívoca pela qual você autoriza a EMPRESA a tratar seus dados em consonância com a Lei Geral de Proteção de Dados. O seu consentimento será obtido de forma específica para cada finalidade descrita no item 3 desta Política, evidenciando o compromisso de transparência e boa-fé da EMPRESA para com seus Usuários, seguindo as regulações legislativas pertinentes.</li>
-                <li class="mb-3">Ao utilizar os serviços da EMPRESA e fornecer seus dados pessoais, você está ciente e consentindo com as disposições desta Política de Privacidade, além de conhecer seus direitos e como exercê-los.</li>
-            </ol>
-    </div>
-    <div id="dados-pessoais-que-tratamos">
-        <h2 class="text-center my-5 display-6">Dados pessoais que tratamos</h2>
-            <ol class="fs-5">
-                <li class="mb-3">Dados de Cadastro de Usuários Compradores: (a) Nome completo; (b) CPF; (c) E-mail; (d) Endereço; (e) Número de Telefone; (f) Senha.</li>
-                <li class="mb-3">Dados de Pagamento: (a) Dados de cartão de crédito (incluindo número do cartão, nome do titular, validade e código CVV); (b) CPF. Os dados de cartão de crédito coletados não ficam, de forma alguma, armazenados na EMPRESA, tampouco poderão ser repassados a terceiros que não estejam diretamente ligados a operacionalização dos pagamentos.</li>
-                <li class="mb-3">Dados Para Atendimento: (a) Nome; (b) E-mail; (c) Número de telefone; (d) Nome da Empresa; (e) Cargo ocupado; (f) Mensagem. A EMPRESA poderá solicitar informações/documentos complementares que auxiliarão no atendimento.</li>
-                <li class="mb-3">Dados de Atividades: (a) Frequência de utilização do Site; (b) Informação sobre o Navegador; (c) Dados de Conexão; (d) Histórico de compras; (e) Histórico de navegação.</li>
-                <li class="mb-3">Dados Opcionais: Ao usar nossos Serviços, você pode optar por fornecer certas informações pessoais, incluindo suas informações de contato, links de mídia social, dentre outros. Por não serem informações obrigatórias, caso você opte por fornecê-las, você está consentindo que estes dados sejam tratados e armazenados pela EMPRESA.</li>
-            </ol>
-    </div>
-    <div id="finalidade-e-tratamento">
-        <h2 class="text-center my-5 display-6">Finalidade da coleta e tratamento dos dados pessoais</h2>
-            <ol class="fs-5">
-                <li class="mb-3">Os dados pessoais do usuário e do visitante coletados e armazenados pela plataforma tem por finalidade: bem-estar do usuário e visitante, aprimorar o produto e serviço oferecido, facilitar e agilizar cumprir os compromissos estabelecidos entre os usuários e a empresa, melhorando sempre sua experiência dos nossos usuários e fornecer funcionalidades específicas.</li>
-                <li class="mb-3">Melhorias da plataforma: compreender como usuário utiliza os serviços da plataforma, para ajudar no desenvolvimento de negócios e técnicas.</li>
-                <li class="mb-3">Previsão do perfil do usuário: tratamento automatizado de dados pessoais para aliviar o uso na plataforma.</li>
-                <li class="mb-3">Dados de cadastro: para permitir o acesso do usuário a determinados conteúdos da plataforma, exclusivos para usuários cadastrados.</li>
-                <li class="mb-3">Dados de contratos: conferir às partes segurança jurídica e facilitar a conclusão do negócios.</li>
-                <li class="mb-3">Dados de Cadastro de Usuários Compradores:</li>
-                <ul>
-                    <li>Realizar o cadastro</li>
-                    <li>Vincular sua conta de usuário com redes sociais terceiras</li>
-                    <li>Realizar identificação dos Usuários junto ao Site</li>
-                    <li>Realizar compras de produtos e/ou serviços oferecidos pela EMPRESA</li>
-                    <li>Permitir o acesso a sua conta de usuário</li>
-                    <li>Fazer gestão do pagamento</li>
-                    <li>Comunicar com o Usuário via e-mail ou SMS, encaminhando informações transacionais como: confirmação de pagamento, link de ativação do produto, entre outros</li>
-                    <li>Realizar atividades de suporte</li>
-                    <li>Realizar atividades de análise de prevenção à fraude no Site</li>
-                    <li>Arquivar histórico de compras</li>
-                    <li>Realizar a autenticação do Usuário mediante apresentação de documentos comprobatórios</li>
-                </ul>
-                <li class="mb-3">Dados de Pagamento:</li>
-                <ul>
-                    <li>Operacionalizar os pagamentos</li>
-                    <li>Realizar a autenticação do Usuário mediante apresentação de documentos comprobatórios</li>
-                    <li>Realizar atividades de análise de prevenção à fraude</li>
-                    <li>Permitir o acesso a sua conta de usuário</li>
-                </ul>
-                <li class="mb-3">Dados Para Atendimento:</li>
-                <ul>
-                    <li>Realizar atividades de suporte ao Usuário no intuito de sanar eventuais dúvidas e atender às questões solicitadas</li>
-                    <li>Verificação de cadastro</li>
-                    <li>Verificação de identidade do Usuário</li>
-                </ul>
-                <li class="mb-3">Dados de Atividade:</li>
-                <ul>
-                    <li>Personalização do Site de acordo com a experiência dos Usuários</li>
-                    <li>Realização de análises e estudos relacionados ao comportamento, interesse e demografia dos Usuários</li>
-                    <li>Envio de comunicação, tais como e-mail marketing, remarketing e outras campanhas de publicidade nos canais de mídia</li>
-                    <li>Realizar a autenticação do Usuário mediante apresentação de documentos comprobatórios</li>
-                    <li>Melhorias constantes no Site e nos Produtos e Serviços</li>
-                    <li>Arquivar histórico de compra</li>
-                    <li>Análise de navegação, inclusive no Display, para otimização do Site e oferta de Produtos e Serviços</li>
-                </ul>
-            </ol>
-    </div>
-    <div id="cookies">
-        <h2 class="text-center my-5 display-6">Cookies</h2>
-            <ol class="fs-5">
-                <li class="mb-3">“Cookies” são pequenos arquivos de texto transferidos para o computador ou dispositivo móvel do usuário. Os cookies referem-se a arquivos de textos enviados pela plataforma ao computador do usuário e visitante e que nele ficam armazenados, com informações relacionadas à navegação do site. Essas informações são relacionadas aos dados de acesso como local e horários de acesso e são armazenadas pelo navegador do usuário e visitantes para que o servidor da plataforma possa lê-las posteriormente a fim de personalizar os serviços da plataforma.</li>
-                <li class="mb-3">Utilização de “Cookies”: Ao acessar este Site, nós podemos utilizar “Cookies” para reconhecer o perfil do Usuário e personalizar sua experiência em nosso Site, bem como os Serviços e demais conteúdos disponibilizados pela EMPRESA. A utilização de cookies é rotineiro nos meios de plataforma eletrônicas o seu uso não prejudica os dispositivos (celulares, computadores e etc ) dos usuários em que são armazenados.</li>
-            </ol>
-    </div>
-    <div id="spam">
-        <h2 class="text-center my-5 display-6">Spam</h2>
-            <ol class="fs-5">
-                <li class="mb-3">A EMPRESA é contra toda e qualquer prática que promova spam de qualquer espécie. Assim, se compromete a assegurar que as mensagens enviadas por ela são sempre de interesse ou importância para os respectivos destinatários.</li>
-                <li class="mb-3">O Usuário, a qualquer momento, poderá optar por receber ou não, e-mails de promoção da EMPRESA. Para isto, basta que ele ajuste suas preferências para recebimento de e-mails.</li>
-                <li class="mb-3">Caso seja verificado que os Usuários estão utilizando do envio de spam, a EMPRESA, a seu único e exclusivo critério e, independentemente de notificação e/ou comunicação prévia, poderá excluir a conta do Usuário.</li>
-            </ol>
-    </div>
-    <div id="compartilhamento">
-        <h2 class="text-center my-5 display-6">Compartilhamento dos dados pessoais</h2>
-            <ol class="fs-5">
-                <li class="mb-3">Você autoriza expressamente que a EMPRESA compartilhe algumas das suas informações com terceiros, conforme descrito abaixo.</li>
-                <li class="mb-3">Dados de Cadastro e Dados de Atividade dos Usuários: Podem ser compartilhados com funcionários da EMPRESA visando a prestação dos Serviços oferecidos por ela, bem como o aprimoramento das funcionalidades e Serviços prestados pela EMPRESA.</li>
-                <li class="mb-3">Dados de Pagamento e Dados de Cadastro de Usuários Compradores: podem ser compartilhados com a empresa responsável pelo processamento do pagamento.</li>
-                <li class="mb-3">Dados de Cadastro de Usuários; Dados de Pagamento; Dados de Atendimento Dados de Atividade: Podem ser compartilhados com autoridades judiciais ou governamentais visando cumprir eventuais solicitações feitas por autoridades judiciais ou governamentais, conforme disposto em lei ou regulamentação aplicável.</li>
-                <li class="mb-3">Dados de Cadastro, Dados de Pagamento e Dados de Atividade de Usuários e Visitantes: podem ser
-                    compartilhados com prestadores de serviços no intuito de permitir o desenvolvimento das atividades da EMPRESA,
-                    possibilitar a melhoria dos serviços e operações do Site, serviços de prevenção de fraude para evitar atividades
-                    ilegais, ou qualquer indício de ilícito cometido pelos Usuários, incluindo disseminação de SPAM e situações
-                    envolvendo ameaças em potencial à segurança física de alguém. Em determinados casos, se considerar necessário, a
-                    EMPRESA poderá fornecer os dados coletados aos órgãos e entidades que intervenham na investigação. Os dados poderão
-                    ser compartilhados ainda para tratamento e armazenamento dos dados pessoais e envio de
-                    comunicação, tais como e-mail marketing, remarketing e outras campanhas de publicidade.</li>
-                <li class="mb-3">Exceto conforme descrito nesta Política, não divulgaremos suas informações que coletamos em nossos Serviços a terceiros sem o seu consentimento.</li>
-                <li class="mb-3">Os dados incluídos por você em seu perfil poderão ser compartilhados a toda e qualquer pessoa que se aproximar de seu cartão, em qualquer situação, seja com a sua anuência ou não, caso você deixe seu perfil público. Caso seja de seu interesse filtrar esse compartilhamento basta optar pelo perfil privado.</li>
-            </ol>
-    </div>
-    <div id="exclusao-de-dados-pessoais">
-        <h2 class="text-center my-5 display-6">Exclusão de dados pessoais</h2>
-            <ol class="fs-5">
-                <li class="mb-3">Período de Retenção dos Dados: os dados pessoais dos Usuários tratados conforme disposto nesta Política serão mantidos pela EMPRESA pelo tempo que for necessário para as respectivas finalidades. Também podemos reter informações conforme exigido por lei ou regulamento ou para exercício regular de direitos, ou ainda em circunstâncias em que haja uma finalidade legítima da EMPRESA ou de terceiros.</li>
-                <li class="mb-3">Pedidos de Exclusão: Você poderá excluir sua conta de Usuário a qualquer momento, acessando o Painel de Controle da sua Conta, sendo ineficaz a utilização de qualquer outro meio para atingir tal objetivo. Nesse caso, podemos reter informações conforme exigido por lei ou regulamento ou para exercício regular de direitos, ou ainda em circunstâncias em que haja uma finalidade legítima da EMPRESA ou de terceiros.</li>
-            </ol>
-    </div>
-    <div id="segurança-da-informacao">
-        <h2 class="text-center my-5 display-6">Segurança da informação</h2>
-            <ol class="fs-5">
-                <li class="mb-3">Os dados pessoais coletados pela EMPRESA serão armazenados em bancos de dados seguros, dentro das melhores práticas, com acesso restrito apenas a funcionários com as devidas credenciais, os quais são obrigados a manter a confidencialidade das informações e não as utilizar inadequadamente.</li>
-                <li class="mb-3">A plataforma se compromete a aplicar as medidas técnicas e organizativas aptas a proteger os dados pessoais dos usuários.</li>
-                <li class="mb-3">Os dados pessoais armazenados são tratados com confidencialidade, dentro dos limites legais. No entanto, podemos divulgar suas informações pessoais caso sejamos obrigados pela Lei para fazê-lo ou sendo violado os nossos Termos e Serviços.</li>
-            </ol>
-    </div>
-    <div id="seus-direitos">
-        <h2 class="text-center my-5 display-6">Seus direitos em relação aos seus dados pessoais</h2>
-            <ol class="fs-5">
-                <li class="mb-3">O Usuário tem direitos e garantias em relação aos seus dados pessoais. A EMPRESA disponibiliza mecanismos, detalhados abaixo, para que os Usuários tenham clareza e transparência no exercício de seus direitos. Sempre que necessário, estaremos prontos para avaliar eventuais solicitações.</li>
-                <li class="mb-3">Direitos Previstos na LGPD: nos termos da Lei Geral de Proteção de Dados (Lei 13.709/2018) (“LGPD”), você tem direito de:</li>
-                <ul>
-                    <li>confirmar que realizamos o tratamento dos seus dados pessoais</li>
-                    <li>acessar seus dados pessoais</li>
-                    <li>requerer a correção de dados pessoais que estejam incompletos, inexatos ou desatualizados</li>
-                    <li>requerer a anonimização, o bloqueio ou a eliminação de dados pessoais desnecessários, excessivos ou tratados em desconformidade com o disposto na LGPD</li>
-                    <li>requerer a portabilidade dos seus dados pessoais a outro fornecedor de serviço ou produto, observados os nossos segredos comerciais e industriais, após a regulamentação pela Autoridade Nacional de Proteção de Dados</li>
-                    <li>requerer a eliminação dos dados pessoais tratados com base no seu consentimento, exceto nas hipóteses de conservação de dados pessoais previstas na LGPD</li>
-                    <li>requerer informações sobre com quem compartilhamos os seus dados pessoais</li>
-                    <li>requerer informações sobre a possibilidade de não fornecer o seu consentimento e as consequências</li>
-                    <li>revogar o seu consentimento para o tratamento de seus dados pessoais, quando houver tratamento realizado com base no seu consentimento</li>
-                    <li>manifestar oposição a tratamento que viole a LGPD</li>
-                </ul>
-            </ol>
-    </div>
-    <div id="alteracoes">
-        <h2 class="text-center my-5 display-6">Alterações</h2>
-            <ol class="fs-5">
-                <li class="mb-3">A EMPRESA poderá a qualquer momento alterar esta Política</li>
-                <li class="mb-3">Quaisquer alterações que forem feitas nesta Política nesta página serão publicadas neste Site, e a versão revisada entrará em vigor na data de publicação. Caso seja alterado materialmente a forma de uso ou compartilhamento dos Dados Pessoais previamente coletados de você por meio de nossos Serviços, iremos notificá-lo, por e-mail ou outra forma de comunicação.</li>
-                <li class="mb-3">Diante de fusão ou venda da plataforma à outra empresa os dados do usuários podem ser transferidas para novos proprietários para permanência dos serviços oferecidos</li>
-            </ol>
-    </div>
-    <div id="informacoes-e-duvidas">
-        <h2 class="text-center my-5 display-6">Informações e dúvidas</h2>
-            <ol class="fs-5">
-                <li class="mb-3">Sempre que você tiver alguma dúvida sobre a nossa Política de privacidade, mesmo após sua leitura ou precisar interagir conosco sobre assuntos envolvendo os seus dados pessoais poderá fazê-lo por meio dos nossos canais de atendimento disponíveis ou em contato@meucontato.com.br.
-                    Recomendamos que verifique a versão atualizada desta Política de Privacidade sempre que navegarem pelo nosso site.
-                    Estamos sempre à disposição para tirar as dúvidas e colocar você no controle dos seus dados pessoais.
-                    Contem conosco para mantê-los informados.
-                    EMPRESA LTDA</li>
-            </ol>
-    </div>
+
+        <li class="mb-3">Dados de Pagamento:</li>
+
+        <ul class="mb-3">
+            <li>Operacionalizar os pagamentos</li>
+            <li>Realizar a autenticação do Usuário mediante apresentação de documentos comprobatórios</li>
+            <li>Realizar atividades de análise de prevenção à fraude</li>
+            <li>Permitir o acesso a sua conta de usuário</li>
+        </ul>
+
+        <li class="mb-3">Dados Para Atendimento:</li>
+
+        <ul class="mb-3">
+            <li>Realizar atividades de suporte ao Usuário no intuito de sanar eventuais dúvidas e atender às questões
+                solicitadas</li>
+            <li>Verificação de cadastro</li>
+            <li>Verificação de identidade do Usuário</li>
+        </ul>
+
+        <li class="mb-3">Dados de Atividade:</li>
+
+        <ul class="mb-3">
+            <li>Personalização do Site de acordo com a experiência dos Usuários</li>
+            <li>Realização de análises e estudos relacionados ao comportamento, interesse e demografia dos Usuários</li>
+            <li>Envio de comunicação, tais como e-mail marketing, remarketing e outras campanhas de publicidade nos
+                canais de mídia</li>
+            <li>Realizar a autenticação do Usuário mediante apresentação de documentos comprobatórios</li>
+            <li>Melhorias constantes no Site e nos Produtos e Serviços</li>
+            <li>Arquivar histórico de compra</li>
+            <li>Análise de navegação, inclusive no Display, para otimização do Site e oferta de Produtos e Serviços</li>
+        </ul>
+    </ol>
+</div>
+<div id="cookies">
+    <h2 class="text-center my-5 display-6">Cookies</h2>
+    <ol class="fs-5">
+        <li class="mb-3">“Cookies” são pequenos arquivos de texto transferidos para o computador ou dispositivo móvel do
+            usuário. Os cookies referem-se a arquivos de textos enviados pelo site ao computador do usuário e
+            visitante e que nele ficam armazenados, com informações relacionadas à navegação do site. Essas informações
+            são relacionadas aos dados de acesso como local e horários de acesso e são armazenadas pelo navegador do
+            usuário e visitantes para que o servidor do site possa lê-las posteriormente a fim de personalizar os
+            serviços do site.</li>
+        <li class="mb-3">Utilização de “Cookies”: Ao acessar este Site, nós podemos utilizar “Cookies” para reconhecer o
+            perfil do Usuário e personalizar sua experiência em nosso Site, bem como os Serviços e demais conteúdos
+            disponibilizados pela EMPRESA. A utilização de cookies é rotineiro nos meios de plataforma eletrônicas o seu
+            uso não prejudica os dispositivos (celulares, computadores e etc ) dos usuários em que são armazenados.</li>
+    </ol>
+</div>
+<div id="spam">
+    <h2 class="text-center my-5 display-6">Spam</h2>
+    <ol class="fs-5">
+        <li class="mb-3">Somos contra toda e qualquer prática que promova spam de qualquer espécie. Assim, nos
+            comprometemos a assegurar que as mensagens enviadas serão sempre de interesse ou importância para os
+            respectivos destinatários.</li>
+        <li class="mb-3">O usuário, a qualquer momento, poderá optar por receber ou não, e-mails de promoção.
+            Para isto, basta que ele ajuste suas preferências para recebimento de e-mails.</li>
+        <li class="mb-3">Caso seja verificado que os Usuários estão utilizando do envio de spam, ao nosso único
+            e exclusivo critério e, independentemente de notificação e/ou comunicação prévia, poderemos excluir a conta do
+            Usuário.</li>
+    </ol>
+</div>
+<div id="compartilhamento">
+    <h2 class="text-center my-5 display-6">Compartilhamento dos dados pessoais</h2>
+    <ol class="fs-5">
+        <li class="mb-3">Você autoriza expressamente o compartilhamento do seu CARD com
+            terceiros e que seja tornado público na internet, inclusive para indexação por sites de busca.</li>
+        <li class="mb-3">Dados de Cadastro e Dados de Atividade dos Usuários: Podem ser compartilhados com funcionários
+            do Site visando a prestação dos Serviços oferecidos, bem como o aprimoramento das funcionalidades
+            e Serviços prestados.</li>
+        <li class="mb-3">Dados de Pagamento e Dados de Cadastro de Usuários Compradores: podem ser compartilhados com a
+            empresa responsável pelo processamento do pagamento.</li>
+        <li class="mb-3">Dados de Cadastro de Usuários; Dados de Pagamento; Dados de Atendimento Dados de Atividade:
+            Podem ser compartilhados com autoridades judiciais ou governamentais visando cumprir eventuais solicitações
+            feitas por autoridades judiciais ou governamentais, conforme disposto em lei ou regulamentação aplicável.
+        </li>
+        <li class="mb-3">Dados de Cadastro, Dados de Pagamento e Dados de Atividade de Usuários e Visitantes: podem ser
+            compartilhados com prestadores de serviços no intuito de permitir o desenvolvimento das atividades do
+            site, possibilitar a melhoria dos serviços e operações do Site, serviços de prevenção de fraude para evitar
+            atividades ilegais, ou qualquer indício de ilícito cometido pelos Usuários, incluindo disseminação de SPAM e situações
+            envolvendo ameaças em potencial à segurança física de alguém. Em determinados casos, se considerarmos
+            necessário, poderemos fornecer os dados coletados aos órgãos e entidades que intervenham na investigação. Os dados
+            poderão ser compartilhados ainda para tratamento e armazenamento dos dados pessoais e envio de
+            comunicação, tais como e-mail marketing, remarketing e outras campanhas de publicidade.</li>
+        <li class="mb-3">Exceto conforme descrito nesta Política, não divulgaremos suas informações que coletamos em
+            nossos Serviços a terceiros sem o seu consentimento.</li>
+        <li class="mb-3">Os dados incluídos por você em seu CARD serão PÚBLICOS a toda e qualquer pessoa
+            em qualquer situação, seja com a sua anuência ou não.
+        </li>
+    </ol>
+</div>
+<div id="exclusao-de-dados-pessoais">
+    <h2 class="text-center my-5 display-6">Exclusão de dados pessoais</h2>
+    <ol class="fs-5">
+        <li class="mb-3">Período de Retenção dos Dados: os dados pessoais dos Usuários tratados conforme disposto nesta
+            Política serão mantidos pelo tempo que for necessário para as respectivas finalidades. Também
+            podemos reter informações conforme exigido por lei ou regulamento ou para exercício regular de direitos, ou
+            ainda em circunstâncias em que haja uma finalidade legítima nossa ou de terceiros.</li>
+        <li class="mb-3">Pedidos de Exclusão: Você poderá excluir sua conta de Usuário a qualquer momento, acessando o
+            Painel de Controle da sua Conta, sendo ineficaz a utilização de qualquer outro meio para atingir tal
+            objetivo. Nesse caso, podemos reter informações conforme exigido por lei ou regulamento ou para exercício
+            regular de direitos, ou ainda em circunstâncias em que haja uma finalidade legítima nossa ou de
+            terceiros.</li>
+    </ol>
+</div>
+<div id="segurança-da-informacao">
+    <h2 class="text-center my-5 display-6">Segurança da informação</h2>
+    <ol class="fs-5">
+        <li class="mb-3">Os dados pessoais coletados serão armazenados em bancos de dados seguros, dentro
+            das melhores práticas, com acesso restrito apenas a funcionários com as devidas credenciais, os quais são
+            obrigados a manter a confidencialidade das informações e não as utilizar inadequadamente.</li>
+        <li class="mb-3">O site se compromete a aplicar as medidas técnicas e organizativas aptas a proteger os
+            dados pessoais dos usuários.</li>
+        <li class="mb-3">Os dados pessoais armazenados são tratados com confidencialidade, dentro dos limites legais. No
+            entanto, podemos divulgar suas informações pessoais caso sejamos obrigados pela Lei para fazê-lo ou sendo
+            violado os nossos Termos e Serviços.</li>
+    </ol>
+</div>
+<div id="seus-direitos">
+    <h2 class="text-center my-5 display-6">Seus direitos em relação aos seus dados pessoais</h2>
+    <ol class="fs-5">
+        <li class="mb-3">O Usuário tem direitos e garantias em relação aos seus dados pessoais. Disponibilizamos
+            mecanismos, detalhados abaixo, para que os Usuários tenham clareza e transparência no exercício de seus
+            direitos. Sempre que necessário, estaremos prontos para avaliar eventuais solicitações.</li>
+        <li class="mb-3">Direitos Previstos na LGPD: nos termos da Lei Geral de Proteção de Dados (Lei 13.709/2018)
+            (“LGPD”), você tem direito de:</li>
+        <ul>
+            <li>confirmar que realizamos o tratamento dos seus dados pessoais</li>
+            <li>acessar seus dados pessoais</li>
+            <li>requerer a correção de dados pessoais que estejam incompletos, inexatos ou desatualizados</li>
+            <li>requerer a anonimização, o bloqueio ou a eliminação de dados pessoais desnecessários, excessivos ou
+                tratados em desconformidade com o disposto na LGPD</li>
+            <li>requerer a portabilidade dos seus dados pessoais a outro fornecedor de serviço ou produto, observados os
+                nossos segredos comerciais e industriais, após a regulamentação pela Autoridade Nacional de Proteção de
+                Dados</li>
+            <li>requerer a eliminação dos dados pessoais tratados com base no seu consentimento, exceto nas hipóteses de
+                conservação de dados pessoais previstas na LGPD</li>
+            <li>requerer informações sobre com quem compartilhamos os seus dados pessoais</li>
+            <li>requerer informações sobre a possibilidade de não fornecer o seu consentimento e as consequências</li>
+            <li>revogar o seu consentimento para o tratamento de seus dados pessoais, quando houver tratamento realizado
+                com base no seu consentimento</li>
+            <li>manifestar oposição a tratamento que viole a LGPD</li>
+        </ul>
+    </ol>
+</div>
+<div id="alteracoes">
+    <h2 class="text-center my-5 display-6">Alterações</h2>
+    <ol class="fs-5">
+        <li class="mb-3">Podemos a qualquer momento alterar esta Política</li>
+        <li class="mb-3">Quaisquer alterações que forem feitas nesta Política nesta página serão publicadas neste Site,
+            e a versão revisada entrará em vigor na data de publicação. Caso seja alterado materialmente a forma de uso
+            ou compartilhamento dos Dados Pessoais previamente coletados de você por meio de nossos Serviços, iremos
+            notificá-lo, por e-mail ou outra forma de comunicação.</li>
+        <li class="mb-3">Diante de fusão ou venda do site à outra empresa os dados do usuários podem ser
+            transferidas para novos proprietários para permanência dos serviços oferecidos</li>
+    </ol>
+</div>
+<div id="informacoes-e-duvidas" class="mb-5">
+    <h2 class="text-center my-5 display-6">Informações e dúvidas</h2>
+    <ol class="fs-5">
+        <li class="mb-3">Sempre que você tiver alguma dúvida sobre a nossa Política de privacidade, mesmo após sua
+            leitura ou precisar interagir conosco sobre assuntos envolvendo os seus dados pessoais poderá fazê-lo por
+            meio dos nossos canais de atendimento disponíveis ou por <a href="mailto:contato@meucontato.app.br" class="text-decoration-none">email</a>
+            Recomendamos que verifique a versão atualizada desta Política de Privacidade sempre que navegarem pelo nosso
+            site.
+            Estamos sempre à disposição para tirar as dúvidas e colocar você no controle dos seus dados pessoais.
+            Contem conosco para mantê-los informados.
+        </li>
+    </ol>
+</div>
 
 {% endblock %}
