@@ -121,6 +121,9 @@ class Dashboard(LoginRequiredMixin, TemplateView):
         return context
 
 
+class Modelos(LoginRequiredMixin, TemplateView):
+    template_name = 'cards/modelos.html'
+
 class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Card
     form_class = CardEditForm
@@ -137,10 +140,17 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         return render(self.request, 'cards/permissao-negada.html', status=403)
 
     def get_success_url(self, card):
-        return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
+        success_url = reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
+        return f'{success_url}?modelo={self.request.POST.get("modelo")}'
+        # return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
+
+    def get(self, *args, **kwargs):
+        modelo = self.request.GET.get('modelo')
+        return super().get(*args, **kwargs)
 
     def get_context_data(self, form=None):
         context = super().get_context_data()
+        modelo = self.request.GET.get('modelo')
         estados = Estado.objects.all()
         municipios = Municipio.objects.all()
         categorias = Categoria.objects.all()
@@ -152,6 +162,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         except ObjectDoesNotExist as err:
             print(err)
             card = None
+        context['modelo'] = modelo
         context['categorias'] = categorias
         context['subcategorias'] = subcategorias
         context['estados'] = estados
@@ -397,7 +408,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
 
 class Detalhar(DetailView):
     model = Card
-    template_name = 'cards/meu-card.html'
+    # template_name = 'cards/meu-card-A.html'
 
     # def test_func(self):
     #     assinaturas = self.request.user.assinaturas.all()
@@ -407,6 +418,23 @@ class Detalhar(DetailView):
 
     # def handle_no_permission(self):
     #     return render(self.request, 'cards/permissao-negada.html', status=403)
+
+    def get(self, *args, **kwargs):
+        modelo = self.request.GET.get('modelo')
+        return super().get(*args, **kwargs)
+
+    def get_template_names(self):
+        template_name = super().get_template_names()
+        
+        # Verifica se o parâmetro 'template' está na query string
+        modelo = self.request.GET.get('modelo')
+        if modelo == 'A':
+            template_name = ['cards/meu-card-A.html']
+        elif modelo == 'B':
+            template_name = ['cards/meu-card-B.html']
+        # Adicione mais condições conforme necessário para outros templates
+
+        return template_name
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -441,10 +469,10 @@ class Deletar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
     model = Card
     success_message = 'Card apagado com sucesso!'
-    template_name = 'cards/card-criar.html'
+    template_name = 'cards/modelos.html'
 
     def get_success_url(self):
-        return reverse('core:criar')
+        return reverse('core:modelos')
 
     def post(self, request, *args, **kwargs):
         card = self.get_object()

@@ -1,10 +1,83 @@
-<nav class="navbar navbar-expand-lg border-bottom">
-    <div class="container py-2">
+<!doctype html>
+<html lang="pt-br" class="h-100">
+{% load static %}
 
-        <!--LOGOTIPO-->
-        <div>
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GNYKWBYJT9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-GNYKWBYJT9');
+    </script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" href="{% static 'core/img/favicon.svg' %}" type="image/svg+xml">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'core/img/icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="96x96" href="{% static 'core/img/icon-96x96.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'core/img/icon-144x144.png' %}">
+    <link rel="apple-touch-icon" sizes="192x192" href="{% static 'core/img/icon-192x192.png' %}">
+    <link rel="apple-touch-icon" sizes="512x512" href="{% static 'core/img/icon-512x512.png' %}">
+
+    <!--WEBAPP MANIFEST-->
+    <link rel="manifest" href="{% static 'core/manifest.json' %}">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <!-- HTMX-->
+    <script src="https://unpkg.com/htmx.org@1.9.2"
+        integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous">
+        </script>
+
+    <style>
+        @media (min-width: 576px) {
+            /* .logo {
+                max-width: 3vw !important;
+            }
+
+            .qrcode {
+                max-width: 10vw !important;
+            } */
+        }
+
+        @media (max-width: 575.98px) {
+            /* .logo {
+                max-height: 5vh;
+            }
+
+            .qrcode {
+                max-height: 10vh;
+            } */
+        }
+
+        .custom-tooltip {
+            --bs-tooltip-bg: var(--bs-warning);
+            --bs-tooltip-color: var(--bs-dark);
+        }
+    </style>
+
+
+</head>
+
+
+<body class="container d-flex flex-column h-100">
+    {% block content %}
+    {% endblock %}
+    
+    <!--FOOTER-->
+    <footer class="row justify-content-center">
+        <div class="align-items-baseline bg-dark col-12 col-lg-8 d-flex justify-content-center py-1 text-white">
+            <h6 class="text-white">Criado com</h6>
             <a href="{% url 'core:home' %}">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200"
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="150"
                     zoomAndPan="magnify" viewBox="0 0 150 37.5" height="50" preserveAspectRatio="xMidYMid meet"
                     version="1.0">
                     <defs>
@@ -18,7 +91,7 @@
                             </g>
                         </g>
                     </g>
-                    <g fill="#30323d" fill-opacity="1">
+                    <g fill="#fffffc" fill-opacity="1">
                         <g transform="translate(19.532108, 26.644737)">
                             <g>
                                 <path
@@ -26,7 +99,7 @@
                             </g>
                         </g>
                     </g>
-                    <g fill="#30323d" fill-opacity="1">
+                    <g fill="#fffffc" fill-opacity="1">
                         <g transform="translate(47.97246, 24.054276)">
                             <g>
                                 <path
@@ -34,7 +107,7 @@
                             </g>
                         </g>
                     </g>
-                    <g fill="#30323d" fill-opacity="1">
+                    <g fill="#fffffc" fill-opacity="1">
                         <g transform="translate(61.158843, 24.054276)">
                             <g>
                                 <path
@@ -42,7 +115,7 @@
                             </g>
                         </g>
                     </g>
-                    <g fill="#30323d" fill-opacity="1">
+                    <g fill="#fffffc" fill-opacity="1">
                         <g transform="translate(69.29156, 24.054276)">
                             <g>
                                 <path
@@ -50,12 +123,12 @@
                             </g>
                         </g>
                     </g>
-                    <g fill="#30323d" fill-opacity="1">
+                    <g fill="#fffffc" fill-opacity="1">
                         <g transform="translate(78.394853, 24.054276)">
                             <g />
                         </g>
                     </g>
-                    <g fill="#30323d" fill-opacity="1">
+                    <g fill="#fffffc" fill-opacity="1">
                         <g transform="translate(81.540841, 24.054276)">
                             <g>
                                 <path
@@ -63,7 +136,7 @@
                             </g>
                         </g>
                     </g>
-                    <g fill="#30323d" fill-opacity="1">
+                    <g fill="#fffffc" fill-opacity="1">
                         <g transform="translate(88.636046, 24.054276)">
                             <g>
                                 <path
@@ -71,7 +144,7 @@
                             </g>
                         </g>
                     </g>
-                    <g fill="#30323d" fill-opacity="1">
+                    <g fill="#fffffc" fill-opacity="1">
                         <g transform="translate(97.220582, 24.054276)">
                             <g>
                                 <path
@@ -79,7 +152,7 @@
                             </g>
                         </g>
                     </g>
-                    <g fill="#30323d" fill-opacity="1">
+                    <g fill="#fffffc" fill-opacity="1">
                         <g transform="translate(106.441012, 24.054276)">
                             <g>
                                 <path
@@ -87,7 +160,7 @@
                             </g>
                         </g>
                     </g>
-                    <g fill="#30323d" fill-opacity="1">
+                    <g fill="#fffffc" fill-opacity="1">
                         <g transform="translate(112.599115, 24.054276)">
                             <g>
                                 <path
@@ -95,7 +168,7 @@
                             </g>
                         </g>
                     </g>
-                    <g fill="#30323d" fill-opacity="1">
+                    <g fill="#fffffc" fill-opacity="1">
                         <g transform="translate(121.250588, 24.054276)">
                             <g>
                                 <path
@@ -103,7 +176,7 @@
                             </g>
                         </g>
                     </g>
-                    <g fill="#30323d" fill-opacity="1">
+                    <g fill="#fffffc" fill-opacity="1">
                         <g transform="translate(127.408691, 24.054276)">
                             <g>
                                 <path
@@ -114,57 +187,11 @@
                 </svg>
             </a>
         </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
-            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav fs-4 ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url 'core:pesquisar' %}">Pesquisar</a>
-                </li>
+    </footer>
+</body>
 
-                {% if user.is_authenticated %}
-                    {% if user.cards.first %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'core:dashboard-card' user.cards.first.slug_empresa user.cards.first.slug %}">Relatórios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                                href="{% url 'core:detalhe' user.cards.first.slug_empresa user.cards.first.slug %}">Meu card</a>
-                        </li>
-                        <li>
-                            <a class="nav-link"
-                                href="{% url 'core:conteudo-criar' user.cards.first.slug_empresa user.cards.first.slug %}">Conteúdo</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'core:modelos' %}">Criar meu card</a>
-                        </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'usuarios:minha-conta' user.username %}">Minha conta</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>
-                    </li>
-                {% endif %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+</script>
 
-                {% if not user.is_authenticated %}
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="#">Para empresas</a>
-                </li> -->
-                <!-- <li class="nav-item">
-                    <a class="nav-link">Ajuda</a>
-                </li> -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'usuarios:login' %}">Minha conta</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-warning" href="{% url 'usuarios:registrar' %}">Comprar</a>
-                </li>
-            </ul>
-            {% endif %}
-        </div>
-    </div>
-</nav>
+</html>
