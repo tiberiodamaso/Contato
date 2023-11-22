@@ -97,6 +97,8 @@ class Card(models.Model):
     # dados de perfil do usuario proprietario do card
     proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.CASCADE, related_name='cards')
     cargo = models.CharField(verbose_name='Cargo', max_length=50, blank=True)
+    modelo = models.CharField(verbose_name='Modelo', max_length=1)
+    endereco = models.CharField(verbose_name='Endereço', max_length=500, blank=True)
     telefone = models.CharField(verbose_name='Telefone', max_length=15, unique=True)
     whatsapp = models.CharField(verbose_name='Whatsapp', max_length=15)
     estado = models.ForeignKey(Estado, verbose_name='Estado', on_delete=models.CASCADE, related_name='cards')

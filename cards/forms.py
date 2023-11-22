@@ -10,6 +10,7 @@ class CardEditForm(forms.ModelForm):
             'img_perfil': forms.FileInput(attrs={'class': 'form-control', 'label': 'Foto'}),
             'logotipo': forms.FileInput(attrs={'class': 'form-control', 'label': 'Logotipo'}),
             'cargo': forms.TextInput(attrs={'class': 'form-control'}),
+            'endereco': forms.TextInput(attrs={'class': 'form-control'}),
             'whatsapp': forms.TextInput(attrs={'class': 'form-control'}),
             'site': forms.URLInput(attrs={'class': 'form-control'}),
             'facebook': forms.URLInput(attrs={'class': 'form-control'}),

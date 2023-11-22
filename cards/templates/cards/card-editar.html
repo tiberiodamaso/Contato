@@ -18,11 +18,11 @@
 
     <!--FOTO PERFIL-->
     {% if card.img_perfil %}
-    <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3"
+    <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="mb-4 rounded-circle col-6 col-md-3 col-lg-3 img-fluid"
         loading="lazy">
     {% else %}
     <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
-        class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+        class="mb-4 rounded-circle col-6 col-md-3 col-lg-3 img-fluid" loading="lazy">
     {% endif %}
 
     <!-- Button trigger modal -->
@@ -57,6 +57,9 @@
     <form id="editCard" action="{% url 'core:editar' card.slug_empresa card.slug %}" method="post"
         class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
         {% csrf_token %}
+
+        <!--MODELO DO CARD-->
+        <input type="hidden" value="{{modelo}}" name="modelo"/>
 
         <!--IMG PERFIL-->
         <div class="mb-3">
@@ -173,6 +176,15 @@
                 {% endif %}
                 {% endfor %}
             </select>
+        </div>
+
+        <!--ENDERECO-->
+        <div class="mb-3">
+            <label for="id_endereco">Endereço:</label>
+            <div class="input-group mb-3">
+                {{form.endereco}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
         </div>
 
         <!--TELEFONE-->

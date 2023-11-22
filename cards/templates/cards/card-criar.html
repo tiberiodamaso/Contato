@@ -35,6 +35,8 @@
         <form action="{% url 'core:criar' %}" method="post" id="cardForm" class="col col-md-4 col-lg-4 p-4"
             enctype="multipart/form-data">
             {% csrf_token %}
+
+            <!--MODELO DO CARD-->
             <input type="hidden" value="{{modelo}}" name="modelo"/>
 
             <!--IMG_PERFIL-->
@@ -119,6 +121,12 @@
                     <option value="{{municipio.id}}">{{municipio.nome}}</option>
                     {% endfor %}
                 </select>
+            </div>
+
+            <!--CARGO-->
+            <div class="mb-3">
+                <label for="id_endereco">Endereço:</label>
+                {{form.endereco}}
             </div>
 
             <!--TELEFONE-->

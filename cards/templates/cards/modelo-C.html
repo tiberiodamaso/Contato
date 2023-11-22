@@ -13,13 +13,25 @@
 <div class="row flex-column align-content-center">
 
     <!--DADOS DO PROPRIETÁRIO E EMPRESA-->
-    <div class="col-lg-8 col-12 text-center py-5 bg-dark">
+    <div class="col-lg-8 col-12 text-center py-3 bg-dark">
+
+        <!--LOGOTIPO EMPRESA-->
+        {% if card.logotipo %}
+        <div class="pb-1">
+            <a href="{{ card.site }}" class="align-items-center d-flex justify-content-center text-decoration-none">
+                <img src="{{ card.logotipo.url }}" alt="" loading="lazy" class="logo" style="width: 12rem;" />
+            </a>
+        </div>
+        {% endif %}
 
         <!--FOTO PERFIL-->
         {% if card.img_perfil %}
         <div>
-            <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class=" pb-1 rounded-circle col-6 col-md-3 col-lg-3 img-fluid"
+            <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="mb-4 rounded-circle col-4 col-md-3 col-lg-3 img-fluid"
                 loading="lazy" />
+            <h2 class="text-white display-6">
+                {{card.nome_display}}
+            </h2>
         </div>
         {% else %}
         <div>
@@ -29,35 +41,21 @@
         {% endif %}
         
         <!--CARGO-->
-        <!-- {% if card.cargo %}
+        {% if card.cargo %}
         <h3 class="lead pb-1 text-white">{{ card.cargo }}</h3>
-        {% endif %} -->
-        
-        <!--EMPRESA-->
-        {% if card.logotipo %}
-        <div class="pb-1">
-            <a href="{{ card.site }}" class="align-items-center d-flex justify-content-center text-decoration-none">
-                <!--LOGOTIPO EMPRESA-->
-                <img src="{{ card.logotipo.url }}" alt="" loading="lazy" class="logo" style="width: 8rem;" />
-                <!--NOME DISPLAY-->
-                <h2 class="text-white">
-                    {{card.nome_display}}
-                </h2>
-            </a>
-        </div>
         {% endif %}
 
         <!--NOMDE EMPRESA-->
-        {% if card.empresa %}
+        <!-- {% if card.empresa %}
         <div>
             <h3 class="lead text-white pb-1">{{ card.empresa }}</h3>
         </div>
-        {% endif %}
+        {% endif %} -->
     
         <!--BOTÃO DE EDITAR CARD-->
         {% if user.is_authenticated and user == card.proprietario %}
-        <div class="d-flex justify-content-center my-2 rounded">
-            <a href="{% url 'core:editar' card.slug_empresa card.slug %}"
+        <div class="d-flex justify-content-center my-5 rounded">
+            <a href="{% url 'core:editar' card.slug_empresa card.slug %}" id="editarUrl"
                 class="btn fs-5 w-100 bg-warning text-white mx-1">Editar card</a>
             <a href="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}"
                 class="btn fs-5 w-100  bg-warning text-white mx-1">Editar conteúdo</a>
@@ -67,32 +65,34 @@
     </div>
 
     <!--LINKS-->
-    <div class="col-lg-8 col-12 text-center py-5 bg-dark">
+    <div class="col-lg-8 col-12 text-center pb-5 bg-dark">
 
         <!--LINHA 1-->
         <div class="d-flex justify-content-evenly mb-5">
 
-            <!--BOTÃO DE WHATSAPP-->
-            <a href="https://wa.me/{{card.whatsapp|formata_telefone}}" class="btn rounded-circle bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
-                <i class="bi bi-whatsapp fs-1 text-black text-opacity-75"></i>
-            </a>
-        
             <!--ADICIONAR VCF AGENDA-->
             {% if card.vcf %}
-            <a href="{{ card.vcf.url}}" class="btn rounded-circle bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
+            <a href="{{ card.vcf.url}}" class="btn bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
                 <i class="bi bi-person-fill-add fs-1 text-black text-opacity-75"></i>
             </a>
             {% endif %}
-
+            
             <!--EMAIL-->
-            <a href="mailto:{{ card.proprietario.email }}" class="btn rounded-circle bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
-                <i class="bi bi-envelope fs-1 text-black text-opacity-75"></i>
+            <a href="mailto:{{ card.proprietario.email }}" class="btn bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
+                <i class="bi bi-envelope-fill fs-1 text-black text-opacity-75"></i>
             </a>
 
             <!--TELEFONE-->
-            <a href="tel:+55{{ card.telefone|formata_telefone }}" class="btn rounded-circle bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
-                <i class="bi bi-telephone fs-1 text-black text-opacity-75"></i>
+            <a href="tel:+55{{ card.telefone|formata_telefone }}" class="btn bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
+                <i class="bi bi-telephone-outbound-fill fs-1 text-black text-opacity-75"></i>
             </a>
+
+            <!--SITE-->
+            {% if card.tik_tok %}
+            <a href="{{card.site}}" target="_blank" class="btn bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
+                <i class="bi bi-globe2 fs-1 text-dark text-opacity-75"></i>
+            </a>
+            {% endif %}
 
         </div>
 
@@ -100,27 +100,27 @@
         <div class="d-flex justify-content-evenly mb-5">
 
             <!--ENDEREÇO-->
-            <a href="tel:+55{{ card.telefone|formata_telefone }}" class="btn rounded-circle bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
+            <a href="https://google.com/maps/search/{{ card.endereco }}" target="_blank" class="btn bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
                 <i class="bi bi-geo-alt-fill fs-1 text-black text-opacity-75"></i>
             </a>
-
-            <!--SITE-->
+            
+            <!--CATALOGO-->
             {% if card.tik_tok %}
-            <a href="{{card.tik_tok}}" target="_blank" class="btn rounded-circle bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
-                <i class="bi bi-globe2 fs-1 text-dark text-opacity-75"></i>
+            <a href="{{card.tik_tok}}" target="_blank" class="btn bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
+                <i class="bi bi-bag-check-fill fs-1 text-dark text-opacity-75"></i>
             </a>
             {% endif %}
-
-            <!--COMPARTILHAR-->
-            {% if card.tik_tok %}
-            <a href="{{card.tik_tok}}" target="_blank" class="btn rounded-circle bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
-                <i class="bi bi-share-fill fs-1 text-dark text-opacity-75"></i>
+            
+            <!--LINKEDIN-->
+            {% if card.linkedin %}
+            <a href="{{card.linkedin}}" target="_blank" class="btn bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
+                <i class="bi bi-linkedin fs-1 text-dark text-opacity-75"></i>
             </a>
             {% endif %}
 
             <!--TIKTOK-->
             {% if card.tik_tok %}
-            <a href="{{card.tik_tok}}" target="_blank" class="btn rounded-circle bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
+            <a href="{{card.tik_tok}}" target="_blank" class="btn bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
                 <i class="bi bi-tiktok fs-1 text-dark text-opacity-75"></i>
             </a>
             {% endif %}
@@ -132,38 +132,36 @@
 
             <!--INSTAGRAM-->
             {% if card.instagram %}
-            <a href="{{card.instagram}}" target="_blank" class="btn rounded-circle bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
+            <a href="{{card.instagram}}" target="_blank" class="btn bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
                 <i class="bi bi-instagram fs-1 text-dark text-opacity-75"></i>
             </a>
             {% endif %}
 
             <!--FACEBOOK-->
             {% if card.facebook %}
-            <a href="{{card.facebook}}" target="_blank" class="btn rounded-circle bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
+            <a href="{{card.facebook}}" target="_blank" class="btn bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
                 <i class="bi bi-facebook fs-1 text-dark text-opacity-75"></i>
-            </a>
-            {% endif %}
-
-            <!--LINKEDIN-->
-            {% if card.linkedin %}
-            <a href="{{card.linkedin}}" target="_blank" class="btn rounded-circle bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
-                <i class="bi bi-linkedin fs-1 text-dark text-opacity-75"></i>
             </a>
             {% endif %}
 
             <!--YOUTUBE-->
             {% if card.youtube %}
-            <a href="{{card.youtube}}" target="_blank" class="btn rounded-circle bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
+            <a href="{{card.youtube}}" target="_blank" class="btn bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
                 <i class="bi bi-youtube fs-1 text-dark text-opacity-75"></i>
             </a>
             {% endif %}
+
+            <!--WHATSAPP-->
+            <a href="https://wa.me/{{card.whatsapp|formata_telefone}}" class="btn bg-body-secondary d-flex justify-content-center align-items-center" style="width: 4em; height: 4em;">
+                <i class="bi bi-whatsapp fs-1 text-black text-opacity-75"></i>
+            </a>
 
         </div>
 
     </div>
 
     <!--ANÚNCIOS-->
-    <div class="col-lg-8 col-12 text-center py-5 bg-dark">
+    <div class="col-lg-8 col-12 text-center pb-5 bg-dark">
 
         {% if promocoes %}
         <!--PROMOÇÕES-->
@@ -294,7 +292,10 @@
             </a>
         </div> -->
 
-        <!--QRCODE-->
+    </div>
+
+    <!--QRCODE E COMPARTILHAR-->
+    <div class="col-lg-8 col-12 text-center pb-5 bg-dark">
         {% if card.qr_code %}
         <div class="d-flex justify-content-center py-3">
             <img class="qrcode" src="{{card.qr_code.url }}" alt="qrcode" style="width: 8rem;" />
@@ -308,19 +309,18 @@
                 <span class="text-white">compartilhar cartão</span>
             </div>
         </a>
-
     </div>
 
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('shareWhatsapp').addEventListener('click', function() {
-        var url = encodeURIComponent(window.location.href);
-        var whatsappLink = 'https://api.whatsapp.com/send?text=Acesse%20aqui%20meu%20cartão%20virtual:%20' + url;
-        
-        window.location.href = whatsappLink;
-      });
+        document.getElementById('shareWhatsapp').addEventListener('click', function() {
+            var url = encodeURIComponent(window.location.href);
+            var whatsappLink = 'https://api.whatsapp.com/send?text=Acesse%20aqui%20meu%20cartão%20virtual:%20' + url;
+            
+            window.location.href = whatsappLink;
+        });
     });
 </script>
 

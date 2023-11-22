@@ -140,13 +140,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         return render(self.request, 'cards/permissao-negada.html', status=403)
 
     def get_success_url(self, card):
-        success_url = reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
-        return f'{success_url}?modelo={self.request.POST.get("modelo")}'
-        # return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
-
-    def get(self, *args, **kwargs):
-        modelo = self.request.GET.get('modelo')
-        return super().get(*args, **kwargs)
+        return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
 
     def get_context_data(self, form=None):
         context = super().get_context_data()
@@ -184,6 +178,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         proprietario = self.request.user
         card.proprietario = proprietario
         pasta_usuario = card.proprietario.id.hex
+        modelo = form.cleaned_data['modelo']
         empresa = form.cleaned_data['empresa']
         telefone= form.cleaned_data['telefone']
         whatsapp = form.cleaned_data['whatsapp']
@@ -196,6 +191,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         subcategoria = form.cleaned_data['subcategoria']
         estado = form.cleaned_data['estado']
         municipio = form.cleaned_data['municipio']
+        endereco = form.cleaned_data['endereco']
         img_perfil = form.cleaned_data.get('img_perfil')
         logotipo = form.cleaned_data.get('logotipo')
         tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
@@ -266,6 +262,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
 
     def get_context_data(self, form=None):
        context = super().get_context_data()
+       modelo = self.get_object().modelo
        estados = Estado.objects.all()
        categorias = Categoria.objects.all()
        subcategorias = Subcategoria.objects.all()
@@ -273,6 +270,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
        subcategoria_atual = self.object.subcategoria
        estado_atual = self.object.estado
        municipio_atual = self.object.municipio
+       context['modelo'] = modelo
        context['categorias'] = categorias
        context['subcategorias'] = subcategorias
        context['estados'] = estados
@@ -299,6 +297,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
         proprietario = self.request.user
         card.proprietario = proprietario
         empresa = form.cleaned_data['empresa']
+        modelo = form.cleaned_data['modelo']
         nome_display = form.cleaned_data['nome_display']
         site = form.cleaned_data['site']
         cargo = form.cleaned_data['cargo']
@@ -306,6 +305,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
         subcategoria = form.cleaned_data['subcategoria']
         estado = form.cleaned_data['estado']
         municipio = form.cleaned_data['municipio']
+        endereco = form.cleaned_data['endereco']
         telefone = form.cleaned_data['telefone']
         whatsapp = form.cleaned_data['whatsapp']
         facebook = form.cleaned_data['facebook']
@@ -408,43 +408,24 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
 
 class Detalhar(DetailView):
     model = Card
-    # template_name = 'cards/meu-card-A.html'
-
-    # def test_func(self):
-    #     assinaturas = self.request.user.assinaturas.all()
-    #     for assinatura in assinaturas:
-    #         if assinatura.status == 'authorized':
-    #             return True
-
-    # def handle_no_permission(self):
-    #     return render(self.request, 'cards/permissao-negada.html', status=403)
-
-    def get(self, *args, **kwargs):
-        modelo = self.request.GET.get('modelo')
-        return super().get(*args, **kwargs)
 
     def get_template_names(self):
         template_name = super().get_template_names()
-        
-        # Verifica se o parâmetro 'template' está na query string
-        modelo = self.request.GET.get('modelo')
-        if modelo == 'A':
-            template_name = ['cards/meu-card-A.html']
-        elif modelo == 'B':
-            template_name = ['cards/meu-card-B.html']
-        # Adicione mais condições conforme necessário para outros templates
-
+        modelo = self.get_object().modelo
+        template_name = [f'cards/modelo-{modelo}.html']
         return template_name
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         card = self.get_object()
+        card_atributos = card.__dict__
         conteudos = card.conteudos.all()
         produtos = []
         servicos = []
         portfolios = []
         promocoes = []
         cursos = []
+        atributos = []
         for conteudo in conteudos:
             if conteudo.tipo.nome == 'Produto':
                 produtos.append(conteudo)
@@ -456,12 +437,15 @@ class Detalhar(DetailView):
                 portfolios.append(conteudo)
             if conteudo.tipo.nome == 'Curso':
                 cursos.append(conteudo)
+        for atributo in card_atributos:
+            atributos.append(atributo)
 
         context['produtos'] = produtos
         context['servicos'] = servicos
         context['portfolios'] = portfolios
         context['promocoes'] = promocoes
         context['cursos'] = cursos
+        context['atributos'] = atributos
         return context
 
 

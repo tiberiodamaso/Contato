@@ -32,6 +32,7 @@ class MunicipioAdmin(admin.ModelAdmin):
 class CardAdmin(admin.ModelAdmin):
     list_display = [
         'id',
+        'modelo',
         'nome_display',
         'slug',
         'cargo',
