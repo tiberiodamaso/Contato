@@ -38,7 +38,7 @@ class UsuarioRegistrationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': 'será o email do card', 'hx-trigger': 'change', 'hx-get': '/usuarios/verificar-email', 'hx-target': '#verificar_email'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': 'será o email do cartão', 'hx-trigger': 'change', 'hx-get': '/usuarios/verificar-email', 'hx-target': '#verificar_email'})
         self.fields['first_name'].widget.attrs.update({'class': 'form-control'})
         self.fields['last_name'].widget.attrs.update({'class': 'form-control'})
         self.fields['password1'].widget.attrs.update({'class': 'form-control'})

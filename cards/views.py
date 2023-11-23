@@ -124,16 +124,23 @@ class Dashboard(LoginRequiredMixin, TemplateView):
 class Modelos(LoginRequiredMixin, TemplateView):
     template_name = 'cards/modelos.html'
 
+
 class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Card
     form_class = CardEditForm
     template_name = 'cards/card-criar.html'
     success_message = 'Card criado com sucesso.'
 
+    # def test_func(self):
+    #     assinaturas = self.request.user.assinaturas.all()
+    #     for assinatura in assinaturas:
+    #         if assinatura.status == 'authorized':
+    #             return True
+
     def test_func(self):
-        assinaturas = self.request.user.assinaturas.all()
-        for assinatura in assinaturas:
-            if assinatura.status == 'authorized':
+        cartoes_comprados = self.request.user.cartoes.all()
+        for cartao in cartoes_comprados:
+            if cartao.status == 'authorized':
                 return True
 
     def handle_no_permission(self):
@@ -247,9 +254,9 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
     success_message = 'Card atualizado com sucesso!'
 
     def test_func(self):
-        assinaturas = self.request.user.assinaturas.all()
-        for assinatura in assinaturas:
-            if assinatura.status == 'authorized':
+        relatorios = self.request.user.relatorios.all()
+        for relatorio in relatorios:
+            if relatorio.status == 'authorized':
                 return True
 
     def handle_no_permission(self):
@@ -613,9 +620,9 @@ class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin
     success_message = 'Conteúdo criado com sucesso!'
 
     def test_func(self):
-        assinaturas = self.request.user.assinaturas.all()
-        for assinatura in assinaturas:
-            if assinatura.status == 'authorized':
+        relatorios = self.request.user.relatorios.all()
+        for relatorio in relatorios:
+            if relatorio.status == 'authorized':
                 return True
 
     def handle_no_permission(self):
