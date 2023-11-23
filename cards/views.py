@@ -419,7 +419,7 @@ class Detalhar(DetailView):
         elif len(lst) == 9:
             return [lst[:3], lst[3:6], lst[6:]]
         else:
-            return [lst[:4], lst[4:7], lst[8:]]
+            return [lst[:4], lst[4:8], lst[8:]]
 
     def get_template_names(self):
         template_name = super().get_template_names()
@@ -437,26 +437,34 @@ class Detalhar(DetailView):
         portfolios = []
         promocoes = []
         cursos = []
+        has_catalogo = False
         for conteudo in conteudos:
             if conteudo.tipo.nome == 'Produto':
                 produtos.append(conteudo)
+                has_catalogo = True
             if conteudo.tipo.nome == 'Serviço':
                 servicos.append(conteudo)
+                has_catalogo = True
             if conteudo.tipo.nome == 'Promoção':
                 promocoes.append(conteudo)
+                has_catalogo = True
             if conteudo.tipo.nome == 'Portfólio':
                 portfolios.append(conteudo)
+                has_catalogo = True
             if conteudo.tipo.nome == 'Curso':
                 cursos.append(conteudo)
+                has_catalogo = True
 
-        nomes_atributos = ['telefone', 'whatsapp', 'vcf', 'site',
-                           'endereco', 'tik_tok', 'linkedin', 'instagram',
-                           'facebook', 'youtube',
+        nomes_atributos = ['telefone', 'vcf','endereco', 
+                           'site', 'instagram', 'whatsapp', 'tik_tok', 
+                           'linkedin', 'facebook', 'youtube',
                            ]
-        atributos = ['email']  # inicia lista com 'email' pq ele não é atributo direto de card
+        atributos = ['email']
         for atributo in card_atributos:
             if atributo in nomes_atributos and card.__getattribute__(atributo):
                     atributos.append(atributo)
+        if has_catalogo:
+            atributos.append('catalogo')
         linhas = self.chunk_list(atributos)
 
         context['produtos'] = produtos

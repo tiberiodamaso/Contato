@@ -68,6 +68,7 @@ class Municipio(models.Model):
 
 class Card(models.Model):
     # info do card
+    telefone = models.CharField(verbose_name='Telefone', max_length=15, unique=True)
     vcf = models.FileField(
         verbose_name='VCF',
         upload_to=get_path,
@@ -75,6 +76,8 @@ class Card(models.Model):
         null=True,
         validators=[FileExtensionValidator(allowed_extensions=['vcf'])],
     )
+    endereco = models.CharField(verbose_name='Endereço', max_length=500, blank=True)
+    site = models.URLField(verbose_name='Site', blank=True, validators=[URLValidator(schemes=['http', 'https'])])
     qr_code = models.ImageField(
         verbose_name='QR Code',
         upload_to=get_path,
@@ -98,9 +101,38 @@ class Card(models.Model):
     proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.CASCADE, related_name='cards')
     cargo = models.CharField(verbose_name='Cargo', max_length=50, blank=True)
     modelo = models.CharField(verbose_name='Modelo', max_length=1)
-    endereco = models.CharField(verbose_name='Endereço', max_length=500, blank=True)
-    telefone = models.CharField(verbose_name='Telefone', max_length=15, unique=True)
+    # redes sociais do usuario proprietário do card
+    instagram = models.URLField(
+        verbose_name='Instagram',
+        max_length=200,
+        blank=True,
+        validators=[URLValidator(schemes=['http', 'https'])],
+    )
     whatsapp = models.CharField(verbose_name='Whatsapp', max_length=15)
+    tik_tok = models.URLField(
+        verbose_name='Tik_tok',
+        max_length=200,
+        blank=True,
+        validators=[URLValidator(schemes=['http', 'https'])],
+    )
+    linkedin = models.URLField(
+        verbose_name='Linkedin',
+        max_length=200,
+        blank=True,
+        validators=[URLValidator(schemes=['http', 'https'])],
+    )
+    facebook = models.URLField(
+        verbose_name='Facebook',
+        max_length=200,
+        blank=True,
+        validators=[URLValidator(schemes=['http', 'https'])],
+    )
+    youtube = models.URLField(
+        verbose_name='Youtube',
+        max_length=200,
+        blank=True,
+        validators=[URLValidator(schemes=['http', 'https'])],
+    )
     estado = models.ForeignKey(Estado, verbose_name='Estado', on_delete=models.CASCADE, related_name='cards')
     municipio = models.ForeignKey(Municipio, verbose_name='Município', on_delete=models.CASCADE, related_name='cards')
     empresa = models.CharField(verbose_name='Empresa', max_length=200, blank=True)
@@ -114,39 +146,7 @@ class Card(models.Model):
             allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
     )
     slug_empresa = models.SlugField(verbose_name='Slug da Empresa', max_length=200, editable=False, unique=True)
-    site = models.URLField(verbose_name='Site', blank=True, validators=[URLValidator(schemes=['http', 'https'])])
 
-    # redes sociais do usuario proprietário do card
-    facebook = models.URLField(
-        verbose_name='Facebook',
-        max_length=200,
-        blank=True,
-        validators=[URLValidator(schemes=['http', 'https'])],
-    )
-    instagram = models.URLField(
-        verbose_name='Instagram',
-        max_length=200,
-        blank=True,
-        validators=[URLValidator(schemes=['http', 'https'])],
-    )
-    linkedin = models.URLField(
-        verbose_name='Linkedin',
-        max_length=200,
-        blank=True,
-        validators=[URLValidator(schemes=['http', 'https'])],
-    )
-    youtube = models.URLField(
-        verbose_name='Youtube',
-        max_length=200,
-        blank=True,
-        validators=[URLValidator(schemes=['http', 'https'])],
-    )
-    tik_tok = models.URLField(
-        verbose_name='Tik_tok',
-        max_length=200,
-        blank=True,
-        validators=[URLValidator(schemes=['http', 'https'])],
-    )
 
     # histórico
     criado = models.DateField(verbose_name='Criado', auto_now_add=True)
