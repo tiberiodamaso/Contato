@@ -26,7 +26,7 @@ from django.template.defaultfilters import slugify
 from .models import Usuario
 from django.shortcuts import redirect, render
 from cards.models import Card
-from assinaturas.models import Assinatura
+from compras.models import Relatorio, Cartao
 
 class UsusarioLoginView(LoginView):
     template_name = 'usuarios/login.html'
@@ -37,40 +37,40 @@ class UsusarioLoginView(LoginView):
         card = usuario.cards.first()
         return reverse('core:home')
 
-    def verifica_status_assinatura(self, usuario):
-        # usuario = self.request.user
-        assinatura = usuario.assinaturas.all().last()
+    # def verifica_status_cartao(self, usuario):
+    #     # usuario = self.request.user
+    #     cartao = usuario.cartoes.all().last()
 
-        if not assinatura:
-            return 'pendente'
+    #     if not cartao:
+    #         return 'pendente'
 
-        assinatura_id = assinatura.assinatura_id
-        access_token = settings.MERCADOPAGO_ACCESS_TOKEN
+    #     assinatura_id = assinatura.assinatura_id
+    #     access_token = settings.MERCADOPAGO_ACCESS_TOKEN
 
-        # Defina a URL da API do MercadoPago
-        url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
+    #     # Defina a URL da API do MercadoPago
+    #     url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
 
-        # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
-        headers = {
-            'Authorization': f'Bearer {access_token}',
-        }
+    #     # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
+    #     headers = {
+    #         'Authorization': f'Bearer {access_token}',
+    #     }
 
-        if assinatura:
-            # Faça a solicitação GET para a API do MercadoPago
-            response = requests.get(url, headers=headers)
+    #     if assinatura:
+    #         # Faça a solicitação GET para a API do MercadoPago
+    #         response = requests.get(url, headers=headers)
 
-        # Verifique se a solicitação foi bem-sucedida
-            if response.status_code == 200:
-                data = response.json()
-                context = {}
-                assinatura.status = data['status']
-                assinatura.save()
-                return assinatura.status
-                # return self.render_to_response(context=context)
-            else:
-                # Lidar com erros de solicitação, se necessário
-                error_message = response.text
-                return JsonResponse({'error': error_message}, status=response.status_code)
+    #     # Verifique se a solicitação foi bem-sucedida
+    #         if response.status_code == 200:
+    #             data = response.json()
+    #             context = {}
+    #             assinatura.status = data['status']
+    #             assinatura.save()
+    #             return assinatura.status
+    #             # return self.render_to_response(context=context)
+    #         else:
+    #             # Lidar com erros de solicitação, se necessário
+    #             error_message = response.text
+    #             return JsonResponse({'error': error_message}, status=response.status_code)
     
     def post(self, request):
 
@@ -79,12 +79,12 @@ class UsusarioLoginView(LoginView):
 
         # recupera usuário no banco de dados com base no e-mail inserido no formulário
         usuario = Usuario.objects.get(email=form['username'].value())
-        if usuario:
-            # usuario = usuario[0]
-            status = self.verifica_status_assinatura(usuario)
-        else:
-            messages.error(self.request, "e-mail não encontrado.")
-            super().form_invalid(form)
+        # if usuario:
+        #     # usuario = usuario[0]
+        #     status = self.verifica_status_assinatura(usuario)
+        # else:
+        #     messages.error(self.request, "e-mail não encontrado.")
+        #     super().form_invalid(form)
 
         # se usuário existe e não está ativo, chama tela de reenviar email de ativação
         if usuario and not usuario.is_active:
@@ -201,8 +201,8 @@ class ReenviarEmailAtivacao(TemplateView):
 class MinhaConta(LoginRequiredMixin, ListView):
 
     template_name = 'usuarios/minha-conta.html'
-    model = Assinatura
-    context_object_name = 'assinaturas'
+    model = Relatorio
+    context_object_name = 'relatorios'
 
 
     def get_context_data(self, **kwargs):
@@ -215,10 +215,10 @@ class MinhaConta(LoginRequiredMixin, ListView):
         except ObjectDoesNotExist as err:
             print(err)
             card = None
-        context['assinaturas'] = []
+        context['relatorios'] = []
         context['usuario'] = usuario
         context['cards'] = len(usuario.cards.all())
-        assinaturas = usuario.assinaturas.all().order_by('-date_created')
+        relatorios = usuario.relatorios.all().order_by('-date_created')
         access_token = settings.MERCADOPAGO_ACCESS_TOKEN
 
         # Defina o cabeçalho com o token de acesso do 
@@ -226,8 +226,8 @@ class MinhaConta(LoginRequiredMixin, ListView):
             'Authorization': f'Bearer {access_token}',
         }
 
-        for assinatura in assinaturas:
-            url = f'https://api.mercadopago.com/preapproval/{assinatura.assinatura_id}'
+        for relatorio in relatorios:
+            url = f'https://api.mercadopago.com/preapproval/{relatorio.assinatura_id}'
 
             # Faça a solicitação GET para a API do MercadoPago
             response = requests.get(url, headers=headers)
@@ -236,11 +236,11 @@ class MinhaConta(LoginRequiredMixin, ListView):
             if response.status_code == 200:
                 data = response.json()
                 formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
-                assinatura.status = data['status']
-                assinatura.start_date = datetime.strptime(data['date_created'], formato_da_string)
-                assinatura.next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string)
-                assinatura.save()
-                context['assinaturas'].append(assinatura)
+                relatorio.status = data['status']
+                relatorio.start_date = datetime.strptime(data['date_created'], formato_da_string)
+                relatorio.next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string)
+                relatorio.save()
+                context['relatorios'].append(relatorio)
             else:
                 # Lidar com erros de solicitação, se necessário
                 error_message = response.text

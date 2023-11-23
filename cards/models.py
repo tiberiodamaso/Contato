@@ -147,7 +147,6 @@ class Card(models.Model):
     )
     slug_empresa = models.SlugField(verbose_name='Slug da Empresa', max_length=200, editable=False, unique=True)
 
-
     # histórico
     criado = models.DateField(verbose_name='Criado', auto_now_add=True)
     atualizado = models.DateField(verbose_name='Atualizado', auto_now=True)

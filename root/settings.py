@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'usuarios.apps.UsuariosConfig',
     'core.apps.CoreConfig',
     'cards.apps.CardsConfig',
-    'assinaturas.apps.AssinaturasConfig',
+    'compras.apps.ComprasConfig',
     'debug_toolbar',
     'django_extensions',
 ]

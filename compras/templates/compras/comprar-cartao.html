@@ -24,8 +24,7 @@
                         <ul class="text-start lead">
                             <li>Até 10 anúncios no seu card</li>
                             <li>Suporte por email</li>
-                            <li>Google Analytics</li>
-                            <li>Dashboard</li>
+                            <li class="text-decoration-line-through">Dashboard</li>
                         </ul>
                     </div>
                 </div>
@@ -64,30 +63,36 @@
 
     <!--INICIALIZA FORM DE PAGAMENTO-->
     <script>
-        const mp = new MercadoPago('APP_USR-1f68dd69-e308-43d3-9eeb-dc30958d5db9', {
+        const mp = new MercadoPago('APP_USR-c0a9d32c-bfb6-426a-867f-8161812c38e9', {
           locale: 'pt-BR'
         });
         const bricksBuilder = mp.bricks();
         const renderCardPaymentBrick = async (bricksBuilder) => {
           const settings = {
             initialization: {
-              amount: 10, // valor total a ser pago
+              amount: 29.90, // valor total a ser pago
               payer: {
                 email: "",
               },
             },
             customization: {
               visual: {
+                style: {
+                    customVariables:{
+                        theme: 'bootstrap',
+                        baseColor: '#ffc108',
+                    }
+                },
                 texts: {
                     formTitle: "Cartão de crédito",
                   },
-              },
                 paymentMethods: {
-                  types: {
-                    excluded: ['debit_card']
-                  }, 
-                  maxInstallments: 1,
+                    types: {
+                        excluded: ['debit_card']
+                    }, 
+                    maxInstallments: 1,
                 }
+              },
             },
             callbacks: {
               onReady: () => {
@@ -97,7 +102,7 @@
                 //  callback chamado o usuário clicar no botão de submissão dos dados
                 //  exemplo de envio dos dados coletados pelo Brick para seu servidor
                 return new Promise((resolve, reject) => {
-                  fetch("/assinaturas/pagar/", {
+                  fetch("/compras/comprar-cartao/", {
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json",

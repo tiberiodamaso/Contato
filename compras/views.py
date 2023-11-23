@@ -16,26 +16,25 @@ from django.views.generic.edit import DeletionMixin
 from django.views.generic import View, CreateView, UpdateView, TemplateView
 from django.http import JsonResponse
 
-
-from .models import Assinatura
+from .models import Relatorio, Cartao
 from cards.views import Criar
 
-class Criar(LoginRequiredMixin, View):
+# class CriarRelatorio(LoginRequiredMixin, View):
 
-    def get(self, request):
-        usuario = self.request.user
-        return redirect('assinaturas:pagar')
+#     def get(self, request):
+#         usuario = self.request.user
+#         return redirect('compras:comprar-relatorio')
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
+class ComprarRelatorio(LoginRequiredMixin, SuccessMessageMixin, View):
 
 
     def get(self, request, *args, **kwargs):
         usuario = self.request.user
         card = usuario.cards.all().first()
         contexto = {'usuario': usuario, 'card': card}
-        return render(request, 'assinaturas/pagar.html', contexto)
+        return render(request, 'compras/comprar-relatorio.html', contexto)
 
     def post(self, request, *args, **kwargs):
         usuario = self.request.user
@@ -74,7 +73,7 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
         if response.status_code == 201:
             data = response.json()
             formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
-            assinatura = Assinatura.objects.create(
+            relatorio = Relatorio.objects.create(
                 usuario=usuario,
                 assinatura_id = data['id'],
                 payer_id = data['payer_id'],
@@ -100,7 +99,7 @@ class Pagar(LoginRequiredMixin, SuccessMessageMixin, View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class Cancelar(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
+class CancelarRelatorio(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
 
     template_name = 'usuarios/minha-conta.html'
 
@@ -110,13 +109,13 @@ class Cancelar(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['assinaturas'] = self.request.user.assinaturas.all()
+        context['relatorios'] = self.request.user.relatorios.all()
         return context
 
     def get(self, request, *args, **kwargs):    
         # usuario = self.request.user
-        assinatura = Assinatura.objects.get(id=self.kwargs['pk'])
-        assinatura_id = assinatura.assinatura_id
+        relatorio = Relatorio.objects.get(id=self.kwargs['pk'])
+        assinatura_id = relatorio.assinatura_id
         access_token = settings.MERCADOPAGO_ACCESS_TOKEN
 
         # Defina a URL da API do MercadoPago
@@ -141,9 +140,9 @@ class Cancelar(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
             data = response.json()
             context = self.get_context_data(**kwargs)
             formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
-            assinatura.status = data['status']
-            assinatura.last_modified = datetime.strptime(data['last_modified'], formato_da_string)
-            assinatura.save()
+            relatorio.status = data['status']
+            relatorio.last_modified = datetime.strptime(data['last_modified'], formato_da_string)
+            relatorio.save()
             messages.success(self.request, 'Assinatura cancelada com sucesso!')
             return self.render_to_response(context=context)
         else:
@@ -153,22 +152,22 @@ class Cancelar(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
+class AtualizarCartaoRelatorio(LoginRequiredMixin, SuccessMessageMixin, View):
 
 
     def get(self, request, *args, **kwargs):
         usuario = self.request.user
-        assinatura = Assinatura.objects.get(id=self.kwargs['pk'])
-        assinatura_id = assinatura.assinatura_id
+        relatorio = Relatorio.objects.get(id=self.kwargs['pk'])
+        assinatura_id = relatorio.assinatura_id
         pk = assinatura.id
         card = usuario.cards.all().first()
         contexto = {'usuario': usuario, 'pk': pk, 'card': card}
-        return render(request, 'assinaturas/atualizar-cartao.html', contexto)
+        return render(request, 'compras/atualizar-cartao-relatorio.html', contexto)
 
     def post(self, request, *args, **kwargs):
         usuario = self.request.user
-        assinatura = Assinatura.objects.get(id=self.kwargs['pk'])
-        assinatura_id = assinatura.assinatura_id
+        relatorio = Relatorio.objects.get(id=self.kwargs['pk'])
+        assinatura_id = relatorio.assinatura_id
         access_token = settings.MERCADOPAGO_ACCESS_TOKEN
         form_data = json.loads(self.request.body.decode('utf-8'))
 
@@ -186,8 +185,6 @@ class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
             "reason": "Plano individual",
             "back_url": "https://meucontato.pythonanywhere.com",
             "auto_recurring": {
-                # "frequency": 1,
-                # "frequency_type": "months",
                 "transaction_amount": 10,
                 "currency_id": "BRL"
             },
@@ -211,4 +208,127 @@ class AtualizarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
         else:
             # Lidar com erros de solicitação, se necessário
             error_message = response.text
+            return JsonResponse({'error': error_message}, status=response.status_code)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ComprarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
+
+
+    def get(self, request, *args, **kwargs):
+        usuario = self.request.user
+        card = usuario.cards.all().first()
+        contexto = {'usuario': usuario, 'card': card}
+        return render(request, 'compras/comprar-cartao.html', contexto)
+
+    def post(self, request, *args, **kwargs):
+        usuario = self.request.user
+        access_token = settings.MERCADOPAGO_ACCESS_TOKEN
+        form_data = json.loads(self.request.body.decode('utf-8'))
+
+        # Defina a URL da API do MercadoPago
+        url = 'https://api.mercadopago.com/v1/payments'
+
+        # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
+        headers = {
+            'Content-Type': 'application/json',
+            'X-Idempotency-Key': '0d5020ed-1af6-469c-ae06-c3bec19954bb',
+            'Authorization': f'Bearer {access_token}',
+        }
+
+        # Defina os dados da solicitação em formato JSON
+        data = {
+            # "additional_info": {
+            #     "items": [
+            #         {
+            #             # "id": "MLB2907679857",
+            #             # "title": "Point Mini",
+            #             "description": "Cartão de visitas virtual individual",
+            #             # "picture_url": "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium2x.png",
+            #             # "category_id": "electronics",
+            #             "quantity": 1,
+            #             "unit_price": 29.9,
+            #             "type": "electronics",
+            #             "event_date": "2023-12-31T09:37:52.000-04:00",
+            #             "warranty": False,
+            #             "category_descriptor": {
+            #                 "passenger": {},
+            #                 "route": {}
+            #             }
+            #         }
+            #     ],
+            #     "payer": {
+            #         "first_name": "Test",
+            #         "last_name": "Test",
+            #         "phone": {
+            #             "area_code": 11,
+            #             "number": "987654321"
+            #         },
+            #         "address": {
+            #             "street_number": None
+            #         }
+            #     },
+            #     "shipments": {
+            #         "receiver_address": {
+            #             "zip_code": "12312-123",
+            #             "state_name": "Rio de Janeiro",
+            #             "city_name": "Buzios",
+            #             "street_name": "Av das Nacoes Unidas",
+            #             "street_number": 3003
+            #         },
+            #         "width": None,
+            #         "height": None
+            #     }
+            # },
+            # "application_fee": None,
+            # "binary_mode": False,
+            # "campaign_id": None,
+            # "capture": False,
+            # "coupon_amount": None,
+            "description": "Cartão de visitas virtual individual",
+            # "differential_pricing_id": None,
+            # "external_reference": "MP0001",
+            "installments": 1,
+            "issuer_id": form_data.get('issuer_id'),
+            # "metadata": None,
+            "payer": {
+                "entity_type": "individual",
+                "type": "customer",
+                "email": form_data.get('payer')['email'],
+                "identification": {
+                    "type": form_data.get('payer')['identification']['type'],
+                    "number": form_data.get('payer')['identification']['number']
+                }
+            },
+            "payment_method_id": form_data.get('payment_method_id'),
+            "token": form_data.get('token'),
+            "transaction_amount": form_data.get('transaction_amount')
+        }
+
+        # Faça a solicitação POST para a API do MercadoPago
+        response = requests.post(url, json=data, headers=headers)
+
+        # Verifique se a solicitação foi bem-sucedida
+        if response.status_code == 201:
+            data = response.json()
+            formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
+            cartao = Cartao.objects.create(
+                usuario=usuario,
+                pagamento_id = data['id'],
+                payer_id = data['payer_id'],
+                date_created = datetime.strptime(data['date_created'], formato_da_string),
+                valor = float(data['auto_recurring']['transaction_amount']),
+                status = data['status'],
+            )
+            messages.success(self.request, 'Pagamento realizado com sucesso!')
+            mensagem = 'Pagamento realizado com sucesso!'
+            response_data = {
+                'status_code': response.status_code,
+                'message': mensagem,
+            }
+            return JsonResponse(response_data, status=response.status_code)
+        else:
+            # Lidar com erros de solicitação, se necessário
+            error_message = response.text
+            print(f'response.status_code != 201, error_message = {error_message}')
             return JsonResponse({'error': error_message}, status=response.status_code)
