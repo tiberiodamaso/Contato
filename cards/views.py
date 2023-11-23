@@ -409,6 +409,18 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
 class Detalhar(DetailView):
     model = Card
 
+    def chunk_list(self, lst):
+        if len(lst) <= 4:
+            return [lst]
+        elif len(lst) in [5, 6]:
+            return [lst[:3], lst[3:]]
+        elif len(lst) in [7, 8]:
+            return [lst[:4], lst[4:]]
+        elif len(lst) == 9:
+            return [lst[:3], lst[3:6], lst[6:]]
+        else:
+            return [lst[:4], lst[4:7], lst[8:]]
+
     def get_template_names(self):
         template_name = super().get_template_names()
         modelo = self.get_object().modelo
@@ -425,7 +437,6 @@ class Detalhar(DetailView):
         portfolios = []
         promocoes = []
         cursos = []
-        atributos = []
         for conteudo in conteudos:
             if conteudo.tipo.nome == 'Produto':
                 produtos.append(conteudo)
@@ -437,8 +448,16 @@ class Detalhar(DetailView):
                 portfolios.append(conteudo)
             if conteudo.tipo.nome == 'Curso':
                 cursos.append(conteudo)
+
+        nomes_atributos = ['telefone', 'whatsapp', 'vcf', 'site',
+                           'endereco', 'tik_tok', 'linkedin', 'instagram',
+                           'facebook', 'youtube',
+                           ]
+        atributos = ['email']  # inicia lista com 'email' pq ele não é atributo direto de card
         for atributo in card_atributos:
-            atributos.append(atributo)
+            if atributo in nomes_atributos and card.__getattribute__(atributo):
+                    atributos.append(atributo)
+        linhas = self.chunk_list(atributos)
 
         context['produtos'] = produtos
         context['servicos'] = servicos
@@ -446,6 +465,7 @@ class Detalhar(DetailView):
         context['promocoes'] = promocoes
         context['cursos'] = cursos
         context['atributos'] = atributos
+        context['linhas'] = linhas
         return context
 
 
