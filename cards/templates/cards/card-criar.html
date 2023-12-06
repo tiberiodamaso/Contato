@@ -45,10 +45,28 @@
                 {{form.img_perfil}}
             </div>
 
+            <!--COR DE FUNDO-->
+            <div class="mb-3">
+                <label for="id_img_perfil">Cor de fundo:</label>
+                {{form.cor}}
+            </div>
+
             <!--NOME DISPLAY-->
             <div class="mb-3">
-                <label for="id_nome_display">Nome no card:</label>
+                <label for="id_nome_display">Nome no cartão:</label>
                 {{form.nome_display}}
+            </div>
+
+            <!--CARGO-->
+            <div class="mb-3">
+                <label for="id_cargo">Cargo:</label>
+                {{form.cargo}}
+            </div>
+
+            <!--LOGOTIPO-->
+            <div class="mb-3">
+                <label for="id_empresa">Logotipo: <span class="small text-danger">(máximo 1MB)</span></label>
+                {{form.logotipo}}
             </div>
 
             <!--EMPRESA-->
@@ -61,18 +79,6 @@
             <div class="mb-3">
                 <label for="id_site">Site:</label>
                 {{form.site}}
-            </div>
-
-            <!--LOGOTIPO-->
-            <div class="mb-3">
-                <label for="id_empresa">Logotipo: <span class="small text-danger">(máximo 1MB)</span></label>
-                {{form.logotipo}}
-            </div>
-
-            <!--CARGO-->
-            <div class="mb-3">
-                <label for="id_cargo">Cargo:</label>
-                {{form.cargo}}
             </div>
 
             <!--CATEGORIA-->

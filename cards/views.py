@@ -131,16 +131,10 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
     template_name = 'cards/card-criar.html'
     success_message = 'Card criado com sucesso.'
 
-    # def test_func(self):
-    #     assinaturas = self.request.user.assinaturas.all()
-    #     for assinatura in assinaturas:
-    #         if assinatura.status == 'authorized':
-    #             return True
-
     def test_func(self):
         cartoes_comprados = self.request.user.cartoes.all()
         for cartao in cartoes_comprados:
-            if cartao.status == 'authorized':
+            if cartao.status == 'approved':
                 return True
 
     def handle_no_permission(self):
@@ -254,9 +248,9 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
     success_message = 'Card atualizado com sucesso!'
 
     def test_func(self):
-        relatorios = self.request.user.relatorios.all()
-        for relatorio in relatorios:
-            if relatorio.status == 'authorized':
+        cartoes_comprados = self.request.user.cartoes.all()
+        for cartao in cartoes_comprados:
+            if cartao.status == 'approved':
                 return True
 
     def handle_no_permission(self):
@@ -305,6 +299,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
         card.proprietario = proprietario
         empresa = form.cleaned_data['empresa']
         modelo = form.cleaned_data['modelo']
+        cor = form.cleaned_data['cor']
         nome_display = form.cleaned_data['nome_display']
         site = form.cleaned_data['site']
         cargo = form.cleaned_data['cargo']
@@ -394,6 +389,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
                 print(err)
 
         card.nome_display = nome_display
+        card.cor = cor
         card.empresa = empresa
         card.site = site
         card.cargo = cargo

@@ -11,6 +11,7 @@ class CardEditForm(forms.ModelForm):
             'logotipo': forms.FileInput(attrs={'class': 'form-control', 'label': 'Logotipo'}),
             'cargo': forms.TextInput(attrs={'class': 'form-control'}),
             'endereco': forms.TextInput(attrs={'class': 'form-control'}),
+            'cor': forms.TextInput(attrs={'class': 'form-control', 'type': 'color'}),
             'whatsapp': forms.TextInput(attrs={'class': 'form-control'}),
             'site': forms.URLInput(attrs={'class': 'form-control'}),
             'facebook': forms.URLInput(attrs={'class': 'form-control'}),
