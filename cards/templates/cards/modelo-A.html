@@ -10,10 +10,10 @@
 
 {% include 'core/mensagens.html' %}
 
-<div class="row flex-column align-content-center">
+<div class="align-items-center d-flex flex-column" style="background-color: {{card.cor}}">
 
     <!--DADOS DO PROPRIETÁRIO E EMPRESA-->
-    <div class="col-lg-8 col-12 text-center py-3 bg-dark">
+    <div class="col-lg-8 col-12 text-center py-3">
 
         <!--FOTO PERFIL-->
         {% if card.img_perfil %}
@@ -33,7 +33,18 @@
         <div class="pb-1">
             <a href="{{ card.site }}" class="align-items-center d-flex justify-content-center text-decoration-none">
                 <!--LOGOTIPO EMPRESA-->
-                <img src="{{ card.logotipo.url }}" alt="" loading="lazy" class="logo" style="width: 8rem;" />
+                <img src="{{ card.logotipo.url }}" alt="" loading="lazy" class="logo mx-2" style="width: 5rem;" />
+                <!--NOME DISPLAY-->
+                <h2 class="text-white display-6">
+                    {{card.nome_display}}
+                </h2>
+            </a>
+        </div>
+        {% else %}
+        <div class="pb-1">
+            <a href="{{ card.site }}" class="align-items-center d-flex justify-content-center text-decoration-none">
+                <!--LOGOTIPO EMPRESA-->
+                <img src="https://placehold.co/100x100" alt="" loading="lazy" class="logo mx-2" style="width: 2rem;" />
                 <!--NOME DISPLAY-->
                 <h2 class="text-white display-6">
                     {{card.nome_display}}
@@ -67,7 +78,7 @@
     </div>
 
     <!--LINKS-->
-    <div class="col-lg-8 col-12 text-center pb-3 bg-dark">
+    <div class="col-lg-8 col-12 text-center pb-3">
         {% for linha in linhas %}
         <div class="d-flex justify-content-evenly mb-5">
             {% for atributo in linha %}
@@ -172,7 +183,7 @@
     </div> 
 
     <!--ANÚNCIOS-->
-    <div class="col-lg-8 col-12 text-center pb-3 bg-dark">
+    <div class="col-lg-8 col-12 text-center pb-3">
 
         {% if promocoes %}
         <!--PROMOÇÕES-->
@@ -306,7 +317,7 @@
     </div>
 
     <!--QRCODE E COMPARTILHAR-->
-    <div class="col-lg-8 col-12 text-center pb-5 bg-dark">
+    <div class="col-lg-8 col-12 text-center pb-5">
         {% if card.qr_code %}
         <div class="d-flex justify-content-center py-3">
             <img class="qrcode" src="{{card.qr_code.url }}" alt="qrcode" style="width: 8rem;" />

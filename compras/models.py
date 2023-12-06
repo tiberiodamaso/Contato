@@ -27,6 +27,7 @@ class Cartao(models.Model):
     payer_id = models.CharField(verbose_name='Payer ID', max_length=20)
     date_created = models.DateField(verbose_name='Criado', max_length=50)
     valor = models.DecimalField(verbose_name='Valor', max_digits=10, decimal_places=2)
+    authorization_code = models.CharField(verbose_name='Códito de autorização', max_length=100)
     status = models.CharField(verbose_name='Status', max_length=20, default='pendente')
 
     class Meta:

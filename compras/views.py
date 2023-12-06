@@ -4,6 +4,7 @@ import hashlib
 
 from datetime import datetime
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponseBadRequest
+from django.urls import reverse, reverse_lazy
 from django.conf import settings
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
@@ -238,59 +239,9 @@ class ComprarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
 
         # Defina os dados da solicitação em formato JSON
         data = {
-            # "additional_info": {
-            #     "items": [
-            #         {
-            #             # "id": "MLB2907679857",
-            #             # "title": "Point Mini",
-            #             "description": "Cartão de visitas virtual individual",
-            #             # "picture_url": "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium2x.png",
-            #             # "category_id": "electronics",
-            #             "quantity": 1,
-            #             "unit_price": 29.9,
-            #             "type": "electronics",
-            #             "event_date": "2023-12-31T09:37:52.000-04:00",
-            #             "warranty": False,
-            #             "category_descriptor": {
-            #                 "passenger": {},
-            #                 "route": {}
-            #             }
-            #         }
-            #     ],
-            #     "payer": {
-            #         "first_name": "Test",
-            #         "last_name": "Test",
-            #         "phone": {
-            #             "area_code": 11,
-            #             "number": "987654321"
-            #         },
-            #         "address": {
-            #             "street_number": None
-            #         }
-            #     },
-            #     "shipments": {
-            #         "receiver_address": {
-            #             "zip_code": "12312-123",
-            #             "state_name": "Rio de Janeiro",
-            #             "city_name": "Buzios",
-            #             "street_name": "Av das Nacoes Unidas",
-            #             "street_number": 3003
-            #         },
-            #         "width": None,
-            #         "height": None
-            #     }
-            # },
-            # "application_fee": None,
-            # "binary_mode": False,
-            # "campaign_id": None,
-            # "capture": False,
-            # "coupon_amount": None,
             "description": "Cartão de visitas virtual individual",
-            # "differential_pricing_id": None,
-            # "external_reference": "MP0001",
             "installments": 1,
             "issuer_id": form_data.get('issuer_id'),
-            # "metadata": None,
             "payer": {
                 "entity_type": "individual",
                 "type": "customer",
@@ -309,15 +260,16 @@ class ComprarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
         response = requests.post(url, json=data, headers=headers)
 
         # Verifique se a solicitação foi bem-sucedida
-        if response.status_code == 201:
+        if response.status_code == 200:
             data = response.json()
             formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
             cartao = Cartao.objects.create(
                 usuario=usuario,
                 pagamento_id = data['id'],
-                payer_id = data['payer_id'],
+                payer_id = data['payer']['id'],
                 date_created = datetime.strptime(data['date_created'], formato_da_string),
-                valor = float(data['auto_recurring']['transaction_amount']),
+                valor = float(data['transaction_amount']),
+                authorization_code = data['authorization_code'],
                 status = data['status'],
             )
             messages.success(self.request, 'Pagamento realizado com sucesso!')
@@ -326,7 +278,8 @@ class ComprarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
                 'status_code': response.status_code,
                 'message': mensagem,
             }
-            return JsonResponse(response_data, status=response.status_code)
+            # return JsonResponse(response_data, status=response.status_code)
+            return HttpResponseRedirect(reverse('core:criar'))
         else:
             # Lidar com erros de solicitação, se necessário
             error_message = response.text

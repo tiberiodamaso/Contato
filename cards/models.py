@@ -101,6 +101,8 @@ class Card(models.Model):
     proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.CASCADE, related_name='cards')
     cargo = models.CharField(verbose_name='Cargo', max_length=50, blank=True)
     modelo = models.CharField(verbose_name='Modelo', max_length=1)
+    cor = models.CharField(verbose_name='Cor de fundo', max_length=7, default='#212529')
+
     # redes sociais do usuario proprietário do card
     instagram = models.URLField(
         verbose_name='Instagram',
