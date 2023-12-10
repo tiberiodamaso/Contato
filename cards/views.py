@@ -56,8 +56,20 @@ class Listar(LoginRequiredMixin, ListView):
         return context
 
 
-class Dashboard(LoginRequiredMixin, TemplateView):
+class Dashboard(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, TemplateView):
     template_name = 'cards/dashboard-card.html'
+
+    def test_func(self):
+        relatorios_comprados = self.request.user.relatorios.all()
+        for relatorio in relatorios_comprados:
+            if relatorio.status == 'approved':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-relatorio.html', status=403)
+
+    def get_success_url(self, card):
+        return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
 
     def process_request(self):
         self.request.mobile = False
@@ -152,7 +164,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         subcategorias = Subcategoria.objects.all()
         user = self.request.user
         try:
-            card = Card.objects.get(proprietario=user)
+            card = Card.objects.filter(proprietario=user)
             context['card'] = card
         except ObjectDoesNotExist as err:
             print(err)
@@ -616,13 +628,13 @@ class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin
     success_message = 'Conteúdo criado com sucesso!'
 
     def test_func(self):
-        relatorios = self.request.user.relatorios.all()
-        for relatorio in relatorios:
-            if relatorio.status == 'authorized':
+        anuncios = self.request.user.anuncios.all()
+        for anuncio in anuncios:
+            if anuncio.status == 'approved':
                 return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada.html', status=403)
+        return render(self.request, 'cards/permissao-negada-conteudo.html', status=403)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

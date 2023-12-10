@@ -22,4 +22,3 @@ def translate(value):
 def formata_telefone(value):
     value = cleaner(value)
     return value
-

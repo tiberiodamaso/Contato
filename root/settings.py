@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'cards.apps.CardsConfig',
     'compras.apps.ComprasConfig',
-    'debug_toolbar',
+    # 'debug_toolbar',
     'django_extensions',
 ]
 
@@ -60,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'django.middleware.locale.LocaleMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'root.urls'

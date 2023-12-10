@@ -208,17 +208,24 @@ class MinhaConta(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         usuario = self.request.user
+        card = Card.objects.filter(proprietario=usuario).first()
+        conteudos = card.conteudos.all() if card else None
         try:
-            card = Card.objects.get(proprietario=usuario)
-            context['card'] = card
-            context['conteudos'] = len(card.conteudos.all())
+            cartoes = usuario.cartoes.all()
+            relatorios = usuario.relatorios.all().order_by('-date_created')
+            cards = usuario.cards.all()
+            context['usuario'] = usuario
+            context['cartoes'] = cartoes
+            context['cards'] = cards
+            context['conteudos'] = conteudos
+            context['relatorios'] = relatorios
+            context['n_cards'] = len(cards)
+            context['n_conteudos'] = len(conteudos) if conteudos else 0
+            context['n_relatorios'] = len(relatorios)
         except ObjectDoesNotExist as err:
             print(err)
             card = None
-        context['relatorios'] = []
-        context['usuario'] = usuario
-        context['cards'] = len(usuario.cards.all())
-        relatorios = usuario.relatorios.all().order_by('-date_created')
+        # context['relatorios'] = []
         access_token = settings.MERCADOPAGO_ACCESS_TOKEN
 
         # Defina o cabeçalho com o token de acesso do 
@@ -226,25 +233,25 @@ class MinhaConta(LoginRequiredMixin, ListView):
             'Authorization': f'Bearer {access_token}',
         }
 
-        for relatorio in relatorios:
-            url = f'https://api.mercadopago.com/preapproval/{relatorio.assinatura_id}'
+        # for relatorio in relatorios:
+        #     url = f'https://api.mercadopago.com/preapproval/{relatorio.assinatura_id}'
 
-            # Faça a solicitação GET para a API do MercadoPago
-            response = requests.get(url, headers=headers)
+        #     # Faça a solicitação GET para a API do MercadoPago
+        #     response = requests.get(url, headers=headers)
 
-            # Verifique se a solicitação foi bem-sucedida
-            if response.status_code == 200:
-                data = response.json()
-                formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
-                relatorio.status = data['status']
-                relatorio.start_date = datetime.strptime(data['date_created'], formato_da_string)
-                relatorio.next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string)
-                relatorio.save()
-                context['relatorios'].append(relatorio)
-            else:
-                # Lidar com erros de solicitação, se necessário
-                error_message = response.text
-                return JsonResponse({'error': error_message}, status=response.status_code)
+        #     # Verifique se a solicitação foi bem-sucedida
+        #     if response.status_code == 200:
+        #         data = response.json()
+        #         formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
+        #         relatorio.status = data['status']
+        #         relatorio.start_date = datetime.strptime(data['date_created'], formato_da_string)
+        #         relatorio.next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string)
+        #         relatorio.save()
+        #         context['relatorios'].append(relatorio)
+        #     else:
+        #         # Lidar com erros de solicitação, se necessário
+        #         error_message = response.text
+        #         return JsonResponse({'error': error_message}, status=response.status_code)
         
         return context
         

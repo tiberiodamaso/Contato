@@ -1,4 +1,4 @@
-{% extends 'core/base.html' %}
+`{% extends 'core/base.html' %}
 {% load static %}
 {% block content %}
     {% include 'core/menu.html' %}
@@ -19,12 +19,12 @@
                     <h2 class="fw-normal">Seu nome</h2>
                     <h4 class="lead">Seu cargo</h4>
                     <h4 class="lead">Sua empresa</h4>
-                    <h6 class="lead">Sua profissião</h6>
                     <div class="d-flex justify-content-center py-3">
                         <ul class="text-start lead">
-                            <li>Até 10 anúncios no seu card</li>
-                            <li>Suporte por email</li>
-                            <li class="text-decoration-line-through">Dashboard</li>
+                            <li>Seu whatsapp</li>
+                            <li>Seu email</li>
+                            <li>Seu site</li>
+                            <li>Suas redes sociais</li>
                         </ul>
                     </div>
                 </div>
@@ -46,10 +46,10 @@
                     {% endif %}
                     <div class="d-flex justify-content-center py-3">
                         <ul class="text-start lead">
-                            <li>Até 10 anúncios no seu card</li>
-                            <li>Suporte por email</li>
-                            <li>Google Analytics</li>
-                            <li>Dashboard</li>
+                            <li>Seu whatsapp</li>
+                            <li>Seu email</li>
+                            <li>Seu site</li>
+                            <li>Suas redes sociais</li>
                         </ul>
                     </div>
                 </div>
@@ -113,10 +113,10 @@
                         // Verifica o resultado do pagamento
                         console.log(response)
                         console.log(response.status)
-                        if (response.status === 201) {
+                        if (response.status === 200) {
                             // Pagamento bem-sucedido, redirecione para a página de sucesso
                             console.log('Pagamento bem-sucedido, redirecione para a página de sucesso')
-                            window.location.href = "/card/criar/";
+                            window.location.href = "/card/modelos/";
                         } else {
                             // Trate outros cenários de resposta aqui, como erros
                             // Pode redirecionar para uma página de erro, se aplicável

@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+{% include 'core/menu.html' %}
+
+{% include 'core/mensagens.html' %}
+<div class="d-flex flex-column align-items-center py-5">
+    <!--PLANOS-->
+    <div class="container col-xxl-8 px-4 py-5">
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal">Comprar pacote de anúncios</h1>
+            <h5 class="dis">Anuncie seus produtos, serviços, promoções e muito mais no seu cartão</h5>
+        </div>
+
+        <!--PRODUTOS-->
+        <section>
+
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center justify-content-center">
+
+                <!--PRODUTO 1-->
+                <div class="col-10 col-md-auto">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">Pacote de 10 anúncios</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">R$ 9,90</h1>
+                            <ul class="text-start mt-3 mb-4">
+                                <li>10 anúncios no seu cartão</li>
+                                <li>Insira foto e descrição do anúncio</li>
+                                <li>Anuncie produtos, serviços...</li>
+                            </ul>
+                            <a type="button" href="{% url 'compras:comprar-anuncio' %}"
+                                class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+</div>
+    {% endblock %}

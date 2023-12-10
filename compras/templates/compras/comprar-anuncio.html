@@ -13,7 +13,7 @@
             <!--INFORMAÇÕES DO PRODUTO-->
             {% if not card %}
             <div class="col-md-4 mb-4">
-                <h4>Relatório</h4>
+                <h4>Pacote de 10 anúncios</h4>
                 <div class="border rounded-2 shadow text-center">
                     <img src="{% static 'core/img/person.jpg'%}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
                     <h2 class="fw-normal">Seu nome</h2>
@@ -22,16 +22,16 @@
                     <h6 class="lead">Sua profissião</h6>
                     <div class="d-flex justify-content-center py-3">
                         <ul class="text-start lead">
-                            <li>Estatísticas de acesso</li>
-                            <li>Monitore o tráfego</li>
-                            <li>Divulgue melhor</li>
+                            <li>10 anúncios no seu cartão</li>
+                            <li>Insira foto e descrição do anúncio</li>
+                            <li>Anuncie produtos, serviços...</li>
                         </ul>
                     </div>
                 </div>
             </div>
             {% else %}
             <div class="col-md-4 mb-4">
-                <h4>Relatório</h4>
+                <h4>Pacote de 10 anúncios</h4>
                 <div class="border rounded-2 shadow text-center">
                     <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
                     <h2 class="fw-normal">{{card.nome_display}}</h2>
@@ -46,9 +46,9 @@
                     {% endif %}
                     <div class="d-flex justify-content-center py-3">
                         <ul class="text-start lead">
-                            <li>Estatísticas de acesso</li>
-                            <li>Monitore o tráfego</li>
-                            <li>Divulgue melhor</li>
+                            <li>10 anúncios no seu cartão</li>
+                            <li>Insira foto e descrição do anúncio</li>
+                            <li>Anuncie produtos, serviços...</li>
                         </ul>
                     </div>
                 </div>
@@ -62,7 +62,11 @@
 
     <!--INICIALIZA FORM DE PAGAMENTO-->
     <script>
-        const mp = new MercadoPago('APP_USR-c0a9d32c-bfb6-426a-867f-8161812c38e9', {
+        const slug_empresa = '{{card.slug_empresa}}';
+        const slug_card = '{{card.slug}}';
+        const slugEmpresa = slug_empresa.replace(/\u002D/g, '-');
+        const slugCard = slug_card.replace(/\u002D/g, '-');
+        const mp = new MercadoPago('TEST-48846299-8708-4dac-9c0d-60825bde2f46', {
           locale: 'pt-BR'
         });
         const bricksBuilder = mp.bricks();
@@ -101,7 +105,7 @@
                 //  callback chamado o usuário clicar no botão de submissão dos dados
                 //  exemplo de envio dos dados coletados pelo Brick para seu servidor
                 return new Promise((resolve, reject) => {
-                  fetch("/compras/comprar-relatorio/", {
+                  fetch("/compras/comprar-anuncio/", {
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json",
@@ -112,10 +116,10 @@
                         // Verifica o resultado do pagamento
                         console.log(response)
                         console.log(response.status)
-                        if (response.status === 201) {
+                        if (response.status === 200) {
                             // Pagamento bem-sucedido, redirecione para a página de sucesso
                             console.log('Pagamento bem-sucedido, redirecione para a página de sucesso')
-                            window.location.href = "/card/criar/";
+                            window.location.href = "/" + slugEmpresa + "/card/conteudo/" + slugCard + "/";
                         } else {
                             // Trate outros cenários de resposta aqui, como erros
                             // Pode redirecionar para uma página de erro, se aplicável

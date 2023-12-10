@@ -7,110 +7,220 @@
 {% include 'core/menu.html' %}
 {% include 'core/mensagens.html' %}
 
-<div>
-    <div class="my-5">
-        <h2 class="text-center my-5 display-4">Minha conta</h2>
+<h2 class="text-center my-5 display-4">Minha conta</h2>
 
-        <!--RELATORIOS-->
-        {% if relatorios %}
-        <div class="pb-5">
-            <h3 class="my-4 display-6">Assinaturas</h3>
-            <div class="row flex-md-row flex-column g-4 align-items-center">
-                {% for relatorio in relatorios %}
-                <div class="card p-0 mx-2" style="width: 20rem; min-height: 20rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Individual</h5>
-                        <ul class="lh-lg">
-                            <li class="card-text">Status: {{relatorio.status|translate}}</li>
-                            <li class="card-text">Início: {{relatorio.start_date|date:"D d/m/y - H:i"}}</li>
-                            <li class="card-text">Valor: R$ {{relatorio.valor}}</li>
-                            {% if relatorio.status == 'authorized' %}
-                            <li class="card-text">Renova: {{relatorio.next_payment_date|date:"D d/m/y - H:i"}}</li>
-                            {% else %}
-                            <li class="card-text">Fim: {{relatorio.last_modified|date:"D d/m/y"}}</li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                    <div class="d-flex justify-content-center m-4">
-                        {% if relatorio.status == 'authorized' %}
-                            <a href="#" class="btn btn-danger mx-1" class="text-decoration-none" data-bs-toggle="modal"
-                            data-bs-target="#modalConfirmaCancelamento{{ relatorio.id }}">Cancelar</a>
-                            <a href="{% url 'compras:atualizar-cartao-relatorio' relatorio.id %}" class="btn btn-success mx-1">Atualizar cartão</a>
-
-                            <!--MODAL DE CANCELAMENTO DE ASSINATURA-->
-                                <div class="modal fade" tabindex="-1" id="modalConfirmaCancelamento{{ relatorio.id }}">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Confirma cancelamento</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Confirma a cancelamento da assinatura?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a href="{% url 'compras:cancelar-relatorio' relatorio.id %}" class="btn btn-secondary mx-1">Sim</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        {% else %}
-        <p class="fs-5">Você ainda não possui nenhuma assinatura. </p>
-        {% endif %}
-    </div>
-
-    <!--PERFIIL-->
-    <div class="pb-5">
-        <h3 class="my-4 display-6">Perfil</h3>
-        <div class="row flex-md-row flex-column g-4 align-items-center">
-            <div class="card p-0 mx-2" style="width: 20rem; min-height: 20rem;">
-                <div class="align-items-center card-body d-flex flex-column">
-                    <!--FOTO PERFIL-->
+<!--CARTÃO-->
+{% if cards %}
+<div class="pb-5 px-3">
+    <h3 class="my-4 display-6">Cartões</h3>
+    <div class="row flex-md-row flex-column g-4 align-items-center">
+        {% for card in cards %}
+        {% if card.proprietario.is_active %}
+        <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <a href="{% url 'core:detalhe' card.slug_empresa card.slug %}" class="text-decoration-none text-black">
+                <div class="border rounded-2 shadow mx-3 mx-lg-0 mx-md-0">
                     {% if card.img_perfil %}
-                    <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid mb-3"
-                        loading="lazy" />
+                    <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
                     {% else %}
-                    <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
-                        class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy" />
+                    <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
                     {% endif %}
-                    <ul class="lh-lg">
-                        <li class="card-text">Nome: {{usuario.first_name}} {{ usuario.last_name}}</li>
-                        <li class="card-text">Email: {{usuario.email}}</li>
-                        <li class="card-text">Cards: {{cards}}</li>
-                        {% if conteudos %}
-                        <li class="card-text">Conteúdos: {{conteudos}}</li>
-                        {% endif %}
-                    </ul>
+                    <h2 class="fw-normal">{{card.nome_display}}</h2>
+                    {% if card.cargo %}
+                    <h4 class="lead">{{ card.cargo }}</h4>
+                    <h4 class="lead">{{ card.empresa }}</h4>
+                    {% endif %}
+                    <h6 class="lead">{{ card.subcategoria }} - {{ card.municipio }}</h6>
+                    <div class="d-flex justify-content-center py-3 mx-2">
+                    </div>
                 </div>
-                <div class="d-flex justify-content-center m-4">
-                    <a href="{% url 'usuarios:trocar-senha' %}" class="btn btn-warning">Trocar senha</a>
-                    <a href="#" class="btn btn-danger mx-1" data-bs-toggle="modal"
-                    data-bs-target="#modalConfirmaDesativação">Desativar conta</a>
+            </a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% elif cartoes and not cards %}
+<div class="pb-5 px-3">
+    <h3 class="my-4 display-6">Cartões</h3>
+    <p class="fs-5">Você ainda não criou seu cartão.</p>
+    <a href="{% url 'core:modelos' %}" type="button" class="btn btn-warning">Criar cartão</a>
+</div>
+{% else %}
+<div class="pb-5 px-3">
+    <h3 class="my-4 display-6">Cartões</h3>
+    <p class="fs-5">Você ainda não comprou nenhum cartão. Compre agora e comece a melhorar seu networking!</p>
+    <a href="{% url 'compras:comprar-cartao' %}" type="button" class="btn btn-warning">Comprar cartão</a>
+</div>
+{% endif %}
 
-                    <!--MODAL DE DESATIVAÇÃO DE CONTA-->
-                    <div class="modal fade" tabindex="-1" id="modalConfirmaDesativação">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Confirma desativação</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Confirma a desativação da conta?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <a href="{% url 'usuarios:desativar-conta' usuario.id %}" class="btn btn-secondary mx-1">Sim</a>
-                                </div>
+<!--ANUNCIOS-->
+{% if conteudos %}
+<div class="pb-5 px-3">
+    <h3 class="my-4 display-6">Conteúdos</h3>
+    <div class="row flex-md-row flex-column g-4 align-items-center">
+        {% for cartao in cartoes %}
+        <div class="card p-0 mx-2" style="width: 20rem; min-height: 20rem;">
+            <div class="card-body">
+                <h5 class="card-title">Individual</h5>
+                <ul class="lh-lg">
+                    <li class="card-text">Status: {{relatorio.status|translate}}</li>
+                    <li class="card-text">Início: {{relatorio.start_date|date:"D d/m/y - H:i"}}</li>
+                    <li class="card-text">Valor: R$ {{relatorio.valor}}</li>
+                    {% if relatorio.status == 'authorized' %}
+                    <li class="card-text">Renova: {{relatorio.next_payment_date|date:"D d/m/y - H:i"}}</li>
+                    {% else %}
+                    <li class="card-text">Fim: {{relatorio.last_modified|date:"D d/m/y"}}</li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="d-flex justify-content-center m-4">
+                {% if relatorio.status == 'authorized' %}
+                <a href="#" class="btn btn-danger mx-1" class="text-decoration-none" data-bs-toggle="modal"
+                    data-bs-target="#modalConfirmaCancelamento{{ relatorio.id }}">Cancelar</a>
+                <a href="{% url 'compras:atualizar-cartao-relatorio' relatorio.id %}"
+                    class="btn btn-success mx-1">Atualizar cartão</a>
+
+                <!--MODAL DE CANCELAMENTO DE ASSINATURA-->
+                <div class="modal fade" tabindex="-1" id="modalConfirmaCancelamento{{ relatorio.id }}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirma cancelamento</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Confirma a cancelamento da assinatura?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{% url 'compras:cancelar-relatorio' relatorio.id %}"
+                                    class="btn btn-secondary mx-1">Sim</a>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="pb-5 px-3">
+    <h3 class="my-4 display-6">Anúncios</h3>
+    <p class="fs-5">Tenha 10 anúncios no seu cartão e divulgue seus produtos, serviços, promoções muito mais.</p>
+    <a href="{% url 'compras:comprar-anuncio' %}" type="button" class="btn btn-warning">Comprar pacote</a>
+</div>
+{% endif %}
+
+<!--RELATORIOS-->
+{% if relatorios %}
+<div class="pb-5 px-3">
+    <h3 class="my-4 display-6">Relatórios</h3>
+    <div class="row flex-md-row flex-column g-4 align-items-center">
+        {% for relatorio in relatorios %}
+        <div class="card p-0 mx-2" style="width: 20rem; min-height: 20rem;">
+            <div class="card-body">
+                <h5 class="card-title">Individual</h5>
+                <ul class="lh-lg">
+                    <li class="card-text">Status: {{relatorio.status|translate}}</li>
+                    <li class="card-text">Início: {{relatorio.start_date|date:"D d/m/y - H:i"}}</li>
+                    <li class="card-text">Valor: R$ {{relatorio.valor}}</li>
+                    {% if relatorio.status == 'authorized' %}
+                    <li class="card-text">Renova: {{relatorio.next_payment_date|date:"D d/m/y - H:i"}}</li>
+                    {% else %}
+                    <li class="card-text">Fim: {{relatorio.last_modified|date:"D d/m/y"}}</li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="d-flex justify-content-center m-4">
+                {% if relatorio.status == 'authorized' %}
+                <a href="#" class="btn btn-danger mx-1" class="text-decoration-none" data-bs-toggle="modal"
+                    data-bs-target="#modalConfirmaCancelamento{{ relatorio.id }}">Cancelar</a>
+                <a href="{% url 'compras:atualizar-cartao-relatorio' relatorio.id %}"
+                    class="btn btn-success mx-1">Atualizar cartão</a>
+
+                <!--MODAL DE CANCELAMENTO DE ASSINATURA-->
+                <div class="modal fade" tabindex="-1" id="modalConfirmaCancelamento{{ relatorio.id }}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirma cancelamento</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Confirma a cancelamento do relatório?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{% url 'compras:cancelar-relatorio' relatorio.id %}"
+                                    class="btn btn-secondary mx-1">Sim</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="pb-5 px-3">
+    <h3 class="my-4 display-6">Relatórios</h3>
+    <p class="fs-5">Os relatórios permitem analisar o desempenho do seu cartão.
+        Quais cidades mais acessam, quantos usuários acessaram o seu cartão e muito mais.</p>
+    <a href="{% url 'compras:comprar-relatorio' %}" type="button" class="btn btn-warning">Comprar relatório</a>
+</div>
+{% endif %}
+
+<!--PERFIIL-->
+<div class="pb-5 px-3">
+    <h3 class="my-4 display-6">Perfil</h3>
+    <div class="row flex-md-row flex-column g-4 align-items-center">
+        <div class="card p-0 mx-2" style="width: 20rem; min-height: 20rem;">
+            <div class="align-items-center card-body d-flex flex-column">
+                <!--FOTO PERFIL-->
+                {% if card.img_perfil %}
+                <img src="{{card.img_perfil.url}}" alt="Foto do perfil"
+                    class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid mb-3" loading="lazy" />
+                {% else %}
+                <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
+                    class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy" />
+                {% endif %}
+                <ul class="lh-lg">
+                    <li class="card-text">Nome: {{usuario.first_name}} {{ usuario.last_name}}</li>
+                    <li class="card-text">Email: {{usuario.email}}</li>
+                    <li class="card-text">Cartões: {{n_cards}}</li>
+                    <li class="card-text">Anúncios: {{n_conteudos}}</li>
+                    <li class="card-text">Relatórios: {{n_relatorios}}</li>
+                </ul>
+            </div>
+            <div class="d-flex justify-content-center m-4">
+                <a href="{% url 'usuarios:trocar-senha' %}" class="btn btn-warning">Trocar senha</a>
+                <a href="#" class="btn btn-danger mx-1" data-bs-toggle="modal"
+                    data-bs-target="#modalConfirmaDesativação">Desativar conta</a>
+
+                <!--MODAL DE DESATIVAÇÃO DE CONTA-->
+                <div class="modal fade" tabindex="-1" id="modalConfirmaDesativação">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirma desativação</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Confirma a desativação da conta?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{% url 'usuarios:desativar-conta' usuario.id %}"
+                                    class="btn btn-secondary mx-1">Sim</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

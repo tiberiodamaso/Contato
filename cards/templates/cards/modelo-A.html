@@ -69,7 +69,7 @@
         {% if user.is_authenticated and user == card.proprietario %}
         <div class="d-flex justify-content-center my-5 rounded">
             <a href="{% url 'core:editar' card.slug_empresa card.slug %}" id="editarUrl"
-                class="btn fs-5 w-100 bg-warning text-white mx-1">Editar card</a>
+                class="btn fs-5 w-100 bg-warning text-white mx-1">Editar cartão</a>
             <a href="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}"
                 class="btn fs-5 w-100  bg-warning text-white mx-1">Editar conteúdo</a>
         </div>
