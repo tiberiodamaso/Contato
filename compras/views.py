@@ -35,8 +35,7 @@ class ComprarRelatorio(LoginRequiredMixin, SuccessMessageMixin, View):
 
     def post(self, request, *args, **kwargs):
         usuario = self.request.user
-        # access_token = settings.MERCADOPAGO_AT_RELATORIO
-        access_token = 'APP_USR-6064065821527745-112317-ca4a87d7993c253077877c09ca51cfb7-1483587883'
+        access_token = settings.MERCADOPAGO_ACCESS_TOKEN_RELATORIO
         form_data = json.loads(self.request.body.decode('utf-8'))
 
         # Defina a URL da API do MercadoPago
@@ -57,7 +56,7 @@ class ComprarRelatorio(LoginRequiredMixin, SuccessMessageMixin, View):
             "auto_recurring": {
                 "frequency": 1,
                 "frequency_type": "months",
-                "transaction_amount": 9.90,
+                "transaction_amount": 10.00,
                 "currency_id": "BRL"
             },
             "back_url": "https://meucontato.pythonanywhere.com/",
