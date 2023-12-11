@@ -5,13 +5,10 @@
 
 {% include 'core/mensagens.html' %}
 <div class="d-flex flex-column align-items-center py-5">
-    <h4 class="fw-semibold text-center">Parece que você ainda não realizou o pagamento</h4>
-    <!--PLANOS-->
     <div class="container col-xxl-8 px-4 py-5">
         <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-            <h1 class="display-4 fw-normal">Planos</h1>
-            <h5 class="dis">Após selecinar o plano, você será redirecionado para o Mercado Pago para realizar o
-                pagamento.</h5>
+            <h1 class="display-4 fw-normal">Comprar cartão</h1>
+            <h5 class="dis">Crie seu cartão de negócios virtual e comece a compartilhar com seus clientes</h5>
         </div>
 
         <!--PRODUTOS-->
@@ -28,17 +25,18 @@
                         <div class="card-body">
                             <h1 class="card-title pricing-card-title">R$ 29,90</h1>
                             <ul class="list-unstyled mt-3 mb-4">
-                                <li>Até 10 anúncios no seu card</li>
-                                <li>Suporte por email</li>
-                                <li class="text-decoration-line-through">Dashboard</li>
+                                <li>Seu whatsapp</li>
+                                <li>Seu email</li>
+                                <li>Seu site</li>
+                                <li>Suas redes sociais</li>
                             </ul>
                             <a type="button" href="{% url 'compras:comprar-cartao' %}"
-                                class="w-100 btn btn-lg btn-warning">Comprar esse</a>
+                                class="w-100 btn btn-lg btn-warning">Comprar</a>
                         </div>
                     </div>
                 </div>
 
-                <!--PRODUTO 2-->
+                <!-- PRODUTO 2
                 <div class="col-10">
                     <div class="card mb-4 rounded-3 shadow-sm border-secondary">
                         <div class="card-header py-3 text-bg-secondary border-secondary">
@@ -52,17 +50,18 @@
                             <h1 class="card-title pricing-card-title">R$ 29<small
                                     class="text-muted fw-light">/mês</small></h1>
                             <ul class="list-unstyled mt-3 mb-4">
-                                <li>Até 10 anúncios por card</li>
-                                <li>Suporte por whatsapp</li>
-                                <li>Dashboard</li>
+                                <li>Seu whatsapp</li>
+                                <li>Seu email</li>
+                                <li>Seu site</li>
+                                <li>Suas redes sociais</li>
                             </ul>
                             <a type="button" href="#" class="w-100 btn btn-lg btn-secondary" disabled>Comprar esse</a>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
-            <div class="text-center">Todos os valores são por usuário do cartão</div>
+            <!-- <div class="text-center">Todos os valores são por usuário do cartão</div>  -->
 
         </section>
 

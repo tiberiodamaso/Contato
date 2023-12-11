@@ -7,7 +7,7 @@
 {% include 'core/mensagens.html' %}
 <div class="d-flex flex-column align-items-center py-5">
 
-    <h2 class="text-center display-4 my-5">Editar conteúdo</h2>
+    <h2 class="text-center display-4 my-5">Criar anúncios</h2>
 
     <!--LOGOTIPO DA EMPRESA-->
     <!-- {% if card.logotipo %}
@@ -81,7 +81,7 @@
 <!--CONTEUDO EM CARDS-->
 {% if conteudos %}
 <div>
-    <h2 class="text-center my-5 display-4">Lista de conteúdos</h2>
+    <h2 class="text-center my-5 display-4">Seus anúncios</h2>
     <div
         class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center my-5">
         {% for conteudo in conteudos %}
@@ -112,7 +112,7 @@
                     {% if conteudo.link %}
                     <p class="card-text" hx-target="this" id="link-{{conteudo.id}}">{{conteudo.link}}</p>
                     {% else %}
-                    <p class="card-text" hx-target="this" id="link-{{conteudo.id}}">Sem link para o conteúdo</p>
+                    <p class="card-text" hx-target="this" id="link-{{conteudo.id}}">Sem link para o anúncio</p>
                     {% endif %}
                     <a href="#" hx-get="{% url 'core:conteudo-editar-link' card.slug_empresa conteudo.id 'editar' %}"
                         hx-target="#link-{{conteudo.id}}">
@@ -139,7 +139,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Confirma a exclusão do conteúdo?</p>
+                        <p>Confirma a exclusão do anúncio?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>

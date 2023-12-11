@@ -213,7 +213,7 @@
 <!--COMPRE AGORA-->
 <div class="container col-xxl-8 px-4 py-5">
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-        <h1 class="display-4 fw-normal">Compre agora</h1>
+        <h1 class="display-4 fw-normal">Comprar cartão</h1>
         <p class="fs-5 text-muted">Taxa única e sem mensalidade para o Plano Individual</p>
     </div>
 
@@ -231,19 +231,19 @@
                     <div class="card-body">
                         <h1 class="card-title pricing-card-title">R$ 29,90</h1>
                         <ul class="list-unstyled mt-3 mb-4">
-                            <li>Até 10 anúncios por cartão</li>
-                            <li>Suporte por email</li>
-                            <li class="text-decoration-line-through">Dashboard</li>
-                            <!-- <li>Google Analytics</li> -->
+                            <li>Seu whatsapp</li>
+                            <li>Seu email</li>
+                            <li>Seu site</li>
+                            <li>Suas redes sociais</li>
                         </ul>
                         <a type="button" href="{% url 'usuarios:registrar' %}"
-                            class="w-100 btn btn-lg btn-warning">Comprar esse</a>
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
                     </div>
                 </div>
             </div>
 
             <!--PRODUTO 2-->
-            <div class="col-10">
+            <!-- <div class="col-10">
                 <div class="card mb-4 rounded-3 shadow-sm border-secondary">
                     <div class="card-header py-3 text-bg-secondary border-secondary">
                         <h4 class="my-0 fw-normal">Empresa</h4>
@@ -255,15 +255,15 @@
                         <h1 class="card-title pricing-card-title">R$ 29<small class="text-muted fw-light">/mês</small>
                         </h1>
                         <ul class="list-unstyled mt-3 mb-4">
-                            <li>Até 10 anúncios por cartão</li>
-                            <li>Suporte por email</li>
-                            <!-- <li>Google Analytics</li> -->
-                            <li>Dashboard</li>
+                            <li>Seu whatsapp</li>
+                            <li>Seu email</li>
+                            <li>Seu site</li>
+                            <li>Suas redes sociais</li>
                         </ul>
                         <a type="button" href="#" class="w-100 btn btn-lg btn-secondary" disabled>Comprar esse</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <div class="text-center">Todos os valores são por usuário do cartão</div>
@@ -410,7 +410,7 @@
 <!--COMPRE AGORA-->
 <div class="container col-xxl-8 px-4 py-5">
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-        <h1 class="display-4 fw-normal">Compre agora</h1>
+        <h1 class="display-4 fw-normal">Comprar cartão</h1>
         <p class="fs-5 text-muted">Taxa única e sem mensalidade para o Plano Individual</p>
     </div>
 
@@ -428,19 +428,19 @@
                     <div class="card-body">
                         <h1 class="card-title pricing-card-title">R$ 29,90</h1>
                         <ul class="list-unstyled mt-3 mb-4">
-                            <li>Até 10 anúncios por cartão</li>
-                            <li>Suporte por email</li>
-                            <li class="text-decoration-line-through">Dashboard</li>
-                            <!-- <li>Google Analytics</li> -->
+                            <li>Seu whatsapp</li>
+                            <li>Seu email</li>
+                            <li>Seu site</li>
+                            <li>Suas redes sociais</li>
                         </ul>
                         <a type="button" href="{% url 'usuarios:registrar' %}"
-                            class="w-100 btn btn-lg btn-warning">Comprar esse</a>
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
                     </div>
                 </div>
             </div>
 
             <!--PRODUTO 2-->
-            <div class="col-10">
+            <!-- <div class="col-10">
                 <div class="card mb-4 rounded-3 shadow-sm border-secondary">
                     <div class="card-header py-3 text-bg-secondary border-secondary">
                         <h4 class="my-0 fw-normal">Empresa</h4>
@@ -454,29 +454,98 @@
                         <ul class="list-unstyled mt-3 mb-4">
                             <li>Até 10 anúncios por cartão</li>
                             <li>Suporte por email</li>
-                            <!-- <li>Google Analytics</li> -->
+                            <li>Google Analytics</li>
                             <li>Dashboard</li>
                         </ul>
                         <a type="button" href="#" class="w-100 btn btn-lg btn-secondary" disabled>Comprar esse</a>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
-        <div class="text-center">Todos os valores são por usuário do cartão</div>
+        <!-- <div class="text-center">Todos os valores são por usuário do cartão</div> -->
 
     </section>
 
 </div>
 
-<!--PORTFOLIO-->
+<!--MODELOS-->
 <div class="bg-light">
+    <div class="container container-carousel col-xxl-8 px-4 py-5" id="featureContainer">
+        <h1 class="display-4 fw-normal text-center">Modelos</h1>
+        <h4 class="fw-normal text-center pb-4 py-lg-5">Todos os modelos possuem QRCode e você pode escolher a cor de fundo</h4>
+        <div class="row mx-auto my-auto justify-content-center">
+            <div id="featureCarousel" class="carousel slide" data-bs-ride="carousel">
+                <!-- Add Slides To The Carousel -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item active">
+                        <div class="col-md-3">
+                            <div class="card mx-1">
+                                <div class="card-img">
+                                    <img src="{% static 'core/modelo-A.jpg' %}" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="col-md-3">
+                            <div class="card mx-1">
+                                <div class="card-img">
+                                    <img src="{% static 'core/modelo-B.jpg' %}" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="col-md-3">
+                            <div class="card mx-1">
+                                <div class="card-img">
+                                    <img src="{% static 'core/modelo-C.jpg' %}" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="col-md-3">
+                            <div class="card mx-1">
+                                <div class="card-img">
+                                    <img src="{% static 'core/modelo-D.jpg' %}" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="col-md-3">
+                            <div class="card mx-1">
+                                <div class="card-img">
+                                    <img src="{% static 'core/modelo-E.jpg' %}" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="col-md-3">
+                            <div class="card mx-1">
+                                <div class="card-img">
+                                    <img src="{% static 'core/modelo-F.jpg' %}" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--PORTFOLIO-->
+<!-- <div class="bg-light">
     <div class="container container-carousel col-xxl-8 px-4 py-5" id="featureContainer">
         <h1 class="display-4 fw-normal text-center pb-4 py-lg-5">Portfólio</h1>
         <div class="row mx-auto my-auto justify-content-center">
             <div id="featureCarousel" class="carousel slide" data-bs-ride="carousel">
                 <!-- Add Slides To The Carousel -->
-                <div class="carousel-inner" role="listbox">
+                <!-- <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active">
                         <div class="col-md-3">
                             <div class="card">
@@ -546,8 +615,8 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </div> -->
+<!-- </div> -->
 
 
 <!--DÚVIDAS FREQUENTES-->
@@ -572,7 +641,6 @@
                             <li>Cargo</li>
                             <li>Nome da empresa</li>
                             <li>Logo da empresa</li>
-                            <li>Total de 10 anúncios de produtos, servicos, cursos, portfólio ou promoções</li>
                             <li>Telefone</li>
                             <li>WhatsApp</li>
                             <li>E-mail</li>

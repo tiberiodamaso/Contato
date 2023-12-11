@@ -133,8 +133,17 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Te
         return context
 
 
-class Modelos(LoginRequiredMixin, TemplateView):
+class Modelos(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     template_name = 'cards/modelos.html'
+
+    def test_func(self):
+        cartoes_comprados = self.request.user.cartoes.all()
+        for cartao in cartoes_comprados:
+            if cartao.status == 'approved':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-cartao.html', status=403)
 
 
 class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
@@ -150,7 +159,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
                 return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada.html', status=403)
+        return render(self.request, 'cards/permissao-negada-cartao.html', status=403)
 
     def get_success_url(self, card):
         return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
