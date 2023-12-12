@@ -212,11 +212,14 @@ class MinhaConta(LoginRequiredMixin, ListView):
         conteudos = card.conteudos.all() if card else None
         try:
             cartoes = usuario.cartoes.all()
+            anuncio = usuario.anuncios.all().last()
             relatorios = usuario.relatorios.all().order_by('-date_created')
             cards = usuario.cards.all()
             context['usuario'] = usuario
             context['cartoes'] = cartoes
+            context['anuncio'] = anuncio
             context['cards'] = cards
+            context['card'] = card
             context['conteudos'] = conteudos
             context['relatorios'] = relatorios
             context['n_cards'] = len(cards)
