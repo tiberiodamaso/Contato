@@ -44,7 +44,8 @@ class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
 
     def post(self, request, *args, **kwargs):
         usuario = self.request.user
-        access_token = settings.MERCADOPAGO_ACCESS_TOKEN_RELATORIO
+        # access_token = settings.MERCADOPAGO_ACCESS_TOKEN_RELATORIO
+        access_token = settings.MERCADOPAGO_ACCESS_TOKEN
         form_data = json.loads(self.request.body.decode('utf-8'))
 
         # Defina a URL da API do MercadoPago
@@ -58,10 +59,6 @@ class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
 
         # Defina os dados da solicitação em formato JSON
         data = {
-            "preapproval_plan_id": "2c9380848af2eac7018af6be15ce0310",
-            "reason": "Plano individual",
-            "payer_email": form_data.get('payer')['email'],
-            "card_token_id": form_data.get('token'),
             "auto_recurring": {
                 "frequency": 1,
                 "frequency_type": "months",
@@ -69,6 +66,10 @@ class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
                 "currency_id": "BRL"
             },
             "back_url": "https://meucontato.pythonanywhere.com/",
+            "card_token_id": form_data.get('token'),
+            "payer_email": form_data.get('payer')['email'],
+            # "preapproval_plan_id": "2c9380848af2eac7018af6be15ce0310",
+            "reason": "Plano individual",
             "status": "authorized"
         }
 

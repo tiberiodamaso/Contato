@@ -362,6 +362,15 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
             card.img_perfil = img_perfil
             card.img_perfil.save(name=img_perfil.name, content=img_perfil.file)
 
+        if 'sem_foto' in self.request.POST:
+            if card.img_perfil:
+                try:
+                    os.remove(card.img_perfil.path)
+                    card.img_perfil.delete()
+                except FileNotFoundError as err:
+                    print(err)
+
+
         # APAGA LOGOTIPO ANTIGO E SALVA NOVO
         if logotipo:
             if card.logotipo:
@@ -384,6 +393,14 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
             card.logotipo.save(name=logotipo.name, content=temp_file, save=True)
             temp_file.close()
             os.remove(temp_file.name)
+
+        if 'sem_logo' in self.request.POST:
+            if card.logotipo:
+                try:
+                    os.remove(card.logotipo.path)
+                    card.logotipo.delete()
+                except FileNotFoundError as err:
+                    print(err)
 
         # APAGA VCF ANTIGO SALVA NOVO
         if card.vcf:
