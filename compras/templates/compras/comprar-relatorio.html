@@ -11,29 +11,10 @@
     <div class="container mt-5">
         <div class="row justify-content-md-center justify-content-lg-center">
             <!--INFORMAÇÕES DO PRODUTO-->
-            {% if not card %}
             <div class="col-md-4 mb-4">
-                <h4>Relatório</h4>
+                <h4>Relatório do cartão</h4>
                 <div class="border rounded-2 shadow text-center">
-                    <img src="{% static 'core/img/person.jpg'%}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
-                    <h2 class="fw-normal">Seu nome</h2>
-                    <h4 class="lead">Seu cargo</h4>
-                    <h4 class="lead">Sua empresa</h4>
-                    <div class="d-flex justify-content-center py-3">
-                        <ul class="text-start lead">
-                            <li>Estatísticas de acesso</li>
-                            <li>Monitore o tráfego</li>
-                            <li>Divulgue melhor</li>
-                        </ul>
-                    </div>
-                    <h4>R$ 9,90/mês</h4>
-                </div>
-            </div>
-            {% else %}
-            <div class="col-md-4 mb-4">
-                <h4>Relatório</h4>
-                <div class="border rounded-2 shadow text-center">
-                    <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
+                    <img src="{% static 'core/img/relatorios.jpg'%}" alt="Foto do perfil" class="rounded-circle w-50 my-3 border-2 border">
                     <h2 class="fw-normal">{{card.nome_display}}</h2>
                     {% if card.cargo %}
                     <h4 class="lead">{{ card.cargo }}</h4>
@@ -51,10 +32,9 @@
                             <li>Divulgue melhor</li>
                         </ul>
                     </div>
-                    <h4 class="display-6 lead pb-4">R$ 9,90/mês</h4>
+                    <h4 class="fs-4 lead pb-4">R$ 9,90/mês</h4>
                 </div>
             </div>
-            {% endif %}
 
             <!--FORMULÁRIO DE PAGAMENTO-->
             <div id="cardPaymentBrick_container" class="col-6"></div>

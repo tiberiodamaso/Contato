@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.base import TemplateResponseMixin
 from django.views.generic.edit import DeletionMixin
@@ -24,7 +24,16 @@ from cards.views import Criar
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class ComprarRelatorio(LoginRequiredMixin, SuccessMessageMixin, View):
+class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
+
+    def test_func(self):
+        cartoes = self.request.user.cartoes.all()
+        for cartao in cartoes:
+            if cartao.status == 'approved':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-sem-cartao.html', status=403)
 
 
     def get(self, request, *args, **kwargs):
@@ -156,8 +165,8 @@ class AtualizarCartaoRelatorio(LoginRequiredMixin, SuccessMessageMixin, View):
         usuario = self.request.user
         relatorio = Relatorio.objects.get(id=self.kwargs['pk'])
         assinatura_id = relatorio.assinatura_id
-        pk = assinatura.id
-        card = usuario.cards.all().first()
+        pk = relatorio.id
+        card = usuario.cards.all().last()
         contexto = {'usuario': usuario, 'pk': pk, 'card': card}
         return render(request, 'compras/atualizar-cartao-relatorio.html', contexto)
 
@@ -283,7 +292,16 @@ class ComprarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class ComprarAnuncio(LoginRequiredMixin, SuccessMessageMixin, View):
+class ComprarAnuncio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
+
+    def test_func(self):
+        cartoes = self.request.user.cartoes.all()
+        for cartao in cartoes:
+            if cartao.status == 'approved':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-sem-cartao.html', status=403)
 
 
     def get(self, request, *args, **kwargs):

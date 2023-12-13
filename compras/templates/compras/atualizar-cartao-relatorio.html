@@ -1,122 +1,128 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% block content %}
-    {% include 'core/menu.html' %}
-    {% include 'core/mensagens.html' %}
+{% include 'core/menu.html' %}
+{% include 'core/mensagens.html' %}
 
-    <!--MERCADO PAGO SDK-->
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
+<!--MERCADO PAGO SDK-->
+<script src="https://sdk.mercadopago.com/js/v2"></script>
 
-    <!--INFORMAÇÕES DO PRODUTO E FORMULÁRIO PARA PAGAMENTO-->
-    <div class="container mt-5">
-        <div class="row justify-content-md-center justify-content-lg-center">
-            <!--INFORMAÇÕES DO PRODUTO-->
-            <div class="col-md-4 mb-4">
-                <h4>Plano individual</h4>
-                <div class="border rounded-2 shadow text-center">
-                    <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
-                    <h2 class="fw-normal">{{card.nome_display}}</h2>
-                    {% if card.cargo %}
-                    <h4 class="lead">{{ card.cargo }}</h4>
-                    {% endif %}
-                    {% if card.empresa %}
-                    <h4 class="lead">{{ card.empresa }}</h4>
-                    {% endif %}
-                    {% if card.subcategoria %}
-                    <h6 class="lead">{{card.subcategoria}}</h6>
-                    {% endif %}
-                    <div class="d-flex justify-content-center py-3">
-                        <ul class="text-start lead">
-                            <li>Até 10 anúncios no seu cartão</li>
-                            <li>Suporte por email</li>
-                            <li>Google Analytics</li>
-                            <li>Dashboard</li>
-                        </ul>
-                    </div>
+<!--INFORMAÇÕES DO PRODUTO E FORMULÁRIO PARA PAGAMENTO-->
+<div class="container mt-5">
+    <div class="row justify-content-md-center justify-content-lg-center">
+        <!--INFORMAÇÕES DO PRODUTO-->
+        <div class="col-md-4 mb-4">
+            <h4>Relatório</h4>
+            <div class="border rounded-2 shadow text-center">
+                <img src="{% static 'core/img/relatorios.jpg'%}" alt="ícone de relatório"
+                    class="rounded-circle w-50 my-3 border-2 border">
+                <h2 class="fw-normal">{{card.nome_display}}</h2>
+                {% if card.cargo %}
+                <h4 class="lead">{{ card.cargo }}</h4>
+                {% endif %}
+                {% if card.empresa %}
+                <h4 class="lead">{{ card.empresa }}</h4>
+                {% endif %}
+                {% if card.subcategoria %}
+                <h6 class="lead">{{card.subcategoria}}</h6>
+                {% endif %}
+                <div class="d-flex justify-content-center py-3">
+                    <ul class="text-start lead">
+                        <li>Estatísticas de acesso</li>
+                        <li>Monitore o tráfego</li>
+                        <li>Divulgue melhor</li>
+                    </ul>
                 </div>
             </div>
-
-            <!--FORMULÁRIO DE PAGAMENTO-->
-            <div id="cardPaymentBrick_container" class="col-6"></div>
         </div>
+
+        <!--FORMULÁRIO DE PAGAMENTO-->
+        <div id="cardPaymentBrick_container" class="col-6"></div>
     </div>
+</div>
 
-    {{pk|json_script:'pk'}}
+{{pk|json_script:'pk'}}
 
-    <!--INICIALIZA FORM DE PAGAMENTO-->
-    <script>
-        const pk = JSON.parse(document.querySelector("#pk").textContent);
-        const mp = new MercadoPago('APP_USR-1f68dd69-e308-43d3-9eeb-dc30958d5db9', {
-          locale: 'pt-BR'
-        });
-        const bricksBuilder = mp.bricks();
-        const renderCardPaymentBrick = async (bricksBuilder) => {
-          const settings = {
+<!--INICIALIZA FORM DE PAGAMENTO-->
+<script>
+    const pk = JSON.parse(document.querySelector("#pk").textContent);
+    const mp = new MercadoPago('APP_USR-1f68dd69-e308-43d3-9eeb-dc30958d5db9', {
+        locale: 'pt-BR'
+    });
+    const bricksBuilder = mp.bricks();
+    const renderCardPaymentBrick = async (bricksBuilder) => {
+        const settings = {
             initialization: {
-              amount: 10, // valor total a ser pago
-              payer: {
-                email: "",
-              },
+                amount: 10, // valor total a ser pago
+                payer: {
+                    email: "",
+                },
             },
             customization: {
-              visual: {
-                  texts: {
-                    formTitle: "Cartão de crédito",
-                    formSubmit: "Atualizar",
-                  },
-              },
-                paymentMethods: {
-                  types: {
-                    excluded: ['debit_card']
-                  }, 
-                  maxInstallments: 1,
-                }
+                visual: {
+                    style: {
+                        customVariables: {
+                            theme: 'bootstrap',
+                            baseColor: '#ffc108',
+                        }
+                    },
+                    texts: {
+                        formTitle: "Cartão de crédito",
+                        formSubmit: "Atualizar",
+                    },
+                    paymentMethods: {
+                        types: {
+                            excluded: ['debit_card']
+                        },
+                        maxInstallments: 1,
+                    }
+                },
             },
             callbacks: {
-              onReady: () => {
-                // callback chamado quando o Brick estiver pronto
-              },
-              onSubmit: (cardFormData) => {
-                //  callback chamado o usuário clicar no botão de submissão dos dados
-                //  exemplo de envio dos dados coletados pelo Brick para seu servidor
-                return new Promise((resolve, reject) => {
-                  fetch(`/compras/atualizar-cartao-relatorio/${pk}/`, {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(cardFormData)
-                  })
-                    .then((response) => {
-                        // Verifica o resultado do pagamento
-                        console.log(response)
-                        console.log(response.status)
-                        if (response.status === 201) {
-                            // Pagamento bem-sucedido, redirecione para a página de sucesso
-                            console.log('Pagamento bem-sucedido, redirecione para a página de sucesso')
-                            window.location.href = "/card/criar/";
-                        } else {
-                            // Trate outros cenários de resposta aqui, como erros
-                            // Pode redirecionar para uma página de erro, se aplicável
-                            console.log('Pagamento falhou')
-                            window.location.href = "/";
-    }
-                      resolve();
-                    })
-                    .catch((error) => {
-                      // lidar com a resposta de erro ao tentar criar o pagamento
-                      reject();
-                    })
-                });
-              },
-              onError: (error) => {
-                // callback chamado para todos os casos de erro do Brick
-              },
+                onReady: () => {
+                    // callback chamado quando o Brick estiver pronto
+                },
+                onSubmit: (cardFormData) => {
+                    //  callback chamado o usuário clicar no botão de submissão dos dados
+                    //  exemplo de envio dos dados coletados pelo Brick para seu servidor
+                    return new Promise((resolve, reject) => {
+                        fetch(`/compras/atualizar-cartao-relatorio/${pk}/`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(cardFormData)
+                        })
+                            .then((response) => {
+                                // Verifica o resultado do pagamento
+                                console.log(response)
+                                console.log(response.status)
+                                if (response.status === 201) {
+                                    // Pagamento bem-sucedido, redirecione para a página de sucesso
+                                    console.log('Pagamento bem-sucedido, redirecione para a página de sucesso')
+                                    window.location.href = "/card/criar/";
+                                } else {
+                                    // Trate outros cenários de resposta aqui, como erros
+                                    // Pode redirecionar para uma página de erro, se aplicável
+                                    console.log('Pagamento falhou')
+                                    window.location.href = "/";
+                                }
+                                resolve();
+                            })
+                            .catch((error) => {
+                                // lidar com a resposta de erro ao tentar criar o pagamento
+                                reject();
+                            })
+                    });
+                },
+                onError: (error) => {
+                    // callback chamado para todos os casos de erro do Brick
+                },
             },
-          };
-          window.cardPaymentBrickController = await bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', settings);
         };
-        renderCardPaymentBrick(bricksBuilder);
-    </script>
+        window.cardPaymentBrickController = await bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', settings);
+    };
+    renderCardPaymentBrick(bricksBuilder);
+</script>
 
 {% endblock %}

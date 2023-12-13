@@ -213,7 +213,7 @@ class MinhaConta(LoginRequiredMixin, ListView):
         try:
             cartoes = usuario.cartoes.all()
             anuncio = usuario.anuncios.all().last()
-            relatorios = usuario.relatorios.all().order_by('-date_created')
+            relatorio = usuario.relatorios.all().last()
             cards = usuario.cards.all()
             context['usuario'] = usuario
             context['cartoes'] = cartoes
@@ -221,10 +221,9 @@ class MinhaConta(LoginRequiredMixin, ListView):
             context['cards'] = cards
             context['card'] = card
             context['conteudos'] = conteudos
-            context['relatorios'] = relatorios
+            context['relatorio'] = relatorio
             context['n_cards'] = len(cards)
             context['n_conteudos'] = len(conteudos) if conteudos else 0
-            context['n_relatorios'] = len(relatorios)
         except ObjectDoesNotExist as err:
             print(err)
             card = None
