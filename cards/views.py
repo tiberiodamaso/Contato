@@ -14,7 +14,7 @@ from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.core.files.base import ContentFile
 from django.conf import settings
 from django.contrib import messages
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -157,6 +157,27 @@ class TrocarModelo(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
     def handle_no_permission(self):
         return render(self.request, 'cards/permissao-negada-cartao.html', status=403)
+
+    def get_success_url(self, card):
+        return reverse('core:detalhe', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        usuario = self.request.user
+        card = usuario.cards.last()
+        context['card'] = card
+        return context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        usuario = self.request.user
+        card = usuario.cards.last()
+        modelo = self.request.GET.get('modelo')
+        if modelo:
+            card.modelo = modelo
+            card.save()
+            return HttpResponseRedirect(self.get_success_url(card))
+        return self.render_to_response(context)
 
 
 class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):

@@ -227,33 +227,6 @@ class MinhaConta(LoginRequiredMixin, ListView):
         except ObjectDoesNotExist as err:
             print(err)
             card = None
-        # context['relatorios'] = []
-        # access_token = settings.MERCADOPAGO_ACCESS_TOKEN
-
-        # # Defina o cabeçalho com o token de acesso do 
-        # headers = {
-        #     'Authorization': f'Bearer {access_token}',
-        # }
-
-        # for relatorio in relatorios:
-        #     url = f'https://api.mercadopago.com/preapproval/{relatorio.assinatura_id}'
-
-        #     # Faça a solicitação GET para a API do MercadoPago
-        #     response = requests.get(url, headers=headers)
-
-        #     # Verifique se a solicitação foi bem-sucedida
-        #     if response.status_code == 200:
-        #         data = response.json()
-        #         formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
-        #         relatorio.status = data['status']
-        #         relatorio.start_date = datetime.strptime(data['date_created'], formato_da_string)
-        #         relatorio.next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string)
-        #         relatorio.save()
-        #         context['relatorios'].append(relatorio)
-        #     else:
-        #         # Lidar com erros de solicitação, se necessário
-        #         error_message = response.text
-        #         return JsonResponse({'error': error_message}, status=response.status_code)
         
         return context
         
