@@ -43,18 +43,20 @@
 </div>
 
 {{pk|json_script:'pk'}}
+{{usuario.username|json_script:'username'}}
 
 <!--INICIALIZA FORM DE PAGAMENTO-->
 <script>
     const pk = JSON.parse(document.querySelector("#pk").textContent);
-    const mp = new MercadoPago('APP_USR-1f68dd69-e308-43d3-9eeb-dc30958d5db9', {
+    const username = JSON.parse(document.querySelector("#username").textContent);
+    const mp = new MercadoPago('APP_USR-72e10a48-ad95-4d14-ab60-3bc1f66861ee', {
         locale: 'pt-BR'
     });
     const bricksBuilder = mp.bricks();
     const renderCardPaymentBrick = async (bricksBuilder) => {
         const settings = {
             initialization: {
-                amount: 10, // valor total a ser pago
+                amount: 9.90, // valor total a ser pago
                 payer: {
                     email: "",
                 },
@@ -98,10 +100,10 @@
                                 // Verifica o resultado do pagamento
                                 console.log(response)
                                 console.log(response.status)
-                                if (response.status === 201) {
+                                if (response.status === 200) {
                                     // Pagamento bem-sucedido, redirecione para a página de sucesso
                                     console.log('Pagamento bem-sucedido, redirecione para a página de sucesso')
-                                    window.location.href = "/card/criar/";
+                                    window.location.href = "/usuarios/minha-conta/" + username  + "/";
                                 } else {
                                     // Trate outros cenários de resposta aqui, como erros
                                     // Pode redirecionar para uma página de erro, se aplicável

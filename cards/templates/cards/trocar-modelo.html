@@ -1,0 +1,97 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} Meu Contato {% endblock %}
+{% block content %}
+
+{% include 'core/menu.html' %}
+{% include 'core/mensagens.html' %}
+
+
+<!--MODELOS-->
+<div class="row text-center justify-content-center flex-column flex-md-row flex-lg-row">
+    <h1 class="display-4 fw-normal text-center pt-lg-5">Escolha o modelo</h1>
+    <h1 class="display-6 fw-normal text-center pb-4 py-lg-5">Todos os modelos possuem QRCode e você pode escolher a cor de fundo</h1>
+
+    <!--MODELO 1-->
+    <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
+        <a href="{% url 'core:criar' %}?modelo=A" class="text-decoration-none text-black">
+            <div class="card-img">
+                <img src="{% static 'core/modelo-A.jpg' %}" class="img-fluid">
+            </div>
+        </a>
+    </div>
+
+    <!--MODELO 2-->
+    <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
+        <a href="{% url 'core:criar' %}?modelo=B" class="text-decoration-none text-black">
+            <div class="card-img">
+                <img src="{% static 'core/modelo-B.jpg' %}" class="img-fluid">
+            </div>
+        </a>
+    </div>
+
+    <!--MODELO 3-->
+    <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
+        <a href="{% url 'core:criar' %}?modelo=C" class="text-decoration-none text-black">
+            <div class="card-img">
+                <img src="{% static 'core/modelo-C.jpg' %}" class="img-fluid">
+            </div>
+        </a>
+    </div>
+
+</div>
+<div class="row text-center justify-content-center flex-column flex-md-row flex-lg-row">
+    <!--MODELO 4-->
+    <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
+        <a href="{% url 'core:criar' %}?modelo=D" class="text-decoration-none text-black">
+            <div class="card-img">
+                <img src="{% static 'core/modelo-D.jpg' %}" class="img-fluid">
+            </div>
+        </a>
+    </div>
+    <!--MODELO 5-->
+    <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
+        <a href="{% url 'core:criar' %}?modelo=E" class="text-decoration-none text-black">
+            <div class="card-img">
+                <img src="{% static 'core/modelo-E.jpg' %}" class="img-fluid">
+            </div>
+        </a>
+    </div>
+    <!--MODELO 6-->
+    <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
+        <a href="{% url 'core:criar' %}?modelo=F" class="text-decoration-none text-black">
+            <div class="card-img">
+                <img src="{% static 'core/modelo-F.jpg' %}" class="img-fluid">
+            </div>
+        </a>
+    </div>
+    
+</div>
+<!-- <div class="row text-center justify-content-center flex-column flex-md-row flex-lg-row"> -->
+    <!--MODELO 7-->
+    <!-- <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
+        <a href="{% url 'core:criar' %}?modelo=G" class="text-decoration-none text-black">
+            <div class="card-img">
+                <img src="{% static 'core/modelo-G.jpg' %}" class="img-fluid">
+            </div>
+        </a>
+    </div> -->
+    <!--MODELO 8-->
+    <!-- <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
+        <a href="{% url 'core:criar' %}?modelo=H" class="text-decoration-none text-black">
+            <div class="card-img">
+                <img src="{% static 'core/modelo-H.jpg' %}" class="img-fluid">
+            </div>
+        </a>
+    </div> -->
+    <!--MODELO 9-->
+    <!-- <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
+        <a href="{% url 'core:criar' %}?modelo=I" class="text-decoration-none text-black">
+            <div class="card-img">
+                <img src="{% static 'core/modelo-I.jpg' %}" class="img-fluid">
+            </div>
+        </a>
+    </div>
+</div> -->
+
+{% endblock %}

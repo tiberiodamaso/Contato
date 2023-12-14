@@ -228,12 +228,12 @@ class MinhaConta(LoginRequiredMixin, ListView):
             print(err)
             card = None
         # context['relatorios'] = []
-        access_token = settings.MERCADOPAGO_ACCESS_TOKEN
+        # access_token = settings.MERCADOPAGO_ACCESS_TOKEN
 
-        # Defina o cabeçalho com o token de acesso do 
-        headers = {
-            'Authorization': f'Bearer {access_token}',
-        }
+        # # Defina o cabeçalho com o token de acesso do 
+        # headers = {
+        #     'Authorization': f'Bearer {access_token}',
+        # }
 
         # for relatorio in relatorios:
         #     url = f'https://api.mercadopago.com/preapproval/{relatorio.assinatura_id}'

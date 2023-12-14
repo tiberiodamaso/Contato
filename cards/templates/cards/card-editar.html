@@ -26,9 +26,15 @@
     {% endif %}
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Apagar cartão
-    </button>
+    
+    <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Apagar cartão
+        </button>
+        <a href="{% url 'core:trocar-modelo' %}" type="button" class="btn btn-warning mx-2">
+            Trocar modelo
+        </a>
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"

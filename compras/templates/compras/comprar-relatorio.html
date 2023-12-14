@@ -43,7 +43,11 @@
 
     <!--INICIALIZA FORM DE PAGAMENTO-->
     <script>
-        const mp = new MercadoPago('TEST-0d8e93b6-c7c7-465d-a76c-7a752c52b857', {
+        const slug_empresa = '{{card.slug_empresa}}';
+        const slug_card = '{{card.slug}}';
+        const slugEmpresa = slug_empresa.replace(/\u002D/g, '-');
+        const slugCard = slug_card.replace(/\u002D/g, '-');
+        const mp = new MercadoPago('APP_USR-72e10a48-ad95-4d14-ab60-3bc1f66861ee', {
           locale: 'pt-BR'
         });
         const bricksBuilder = mp.bricks();
@@ -96,7 +100,7 @@
                         if (response.status === 201) {
                             // Pagamento bem-sucedido, redirecione para a página de sucesso
                             console.log('Pagamento bem-sucedido, redirecione para a página de sucesso')
-                            window.location.href = "/card/criar/";
+                            window.location.href = "/" + slugEmpresa + "/dashboard/" + slugCard + "/";;
                         } else {
                             // Trate outros cenários de resposta aqui, como erros
                             // Pode redirecionar para uma página de erro, se aplicável

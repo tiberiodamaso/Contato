@@ -62,7 +62,7 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Te
     def test_func(self):
         relatorios_comprados = self.request.user.relatorios.all()
         for relatorio in relatorios_comprados:
-            if relatorio.status == 'approved':
+            if relatorio.status == 'authorized':
                 return True
 
     def handle_no_permission(self):
@@ -135,6 +135,19 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Te
 
 class Modelos(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     template_name = 'cards/modelos.html'
+
+    def test_func(self):
+        cartoes_comprados = self.request.user.cartoes.all()
+        for cartao in cartoes_comprados:
+            if cartao.status == 'approved':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-cartao.html', status=403)
+
+
+class TrocarModelo(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+    template_name = 'cards/trocar-modelo.html'
 
     def test_func(self):
         cartoes_comprados = self.request.user.cartoes.all()

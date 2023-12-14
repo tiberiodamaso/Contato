@@ -44,8 +44,7 @@ class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
 
     def post(self, request, *args, **kwargs):
         usuario = self.request.user
-        # access_token = settings.MERCADOPAGO_ACCESS_TOKEN_RELATORIO
-        access_token = settings.MERCADOPAGO_ACCESS_TOKEN
+        access_token = settings.MERCADOPAGO_ACCESS_TOKEN_RELATORIO
         form_data = json.loads(self.request.body.decode('utf-8'))
 
         # Defina a URL da API do MercadoPago
@@ -62,13 +61,13 @@ class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
             "auto_recurring": {
                 "frequency": 1,
                 "frequency_type": "months",
-                "transaction_amount": 10.00,
+                "transaction_amount": 9.90,
                 "currency_id": "BRL"
             },
             "back_url": "https://meucontato.pythonanywhere.com/",
             "card_token_id": form_data.get('token'),
             "payer_email": form_data.get('payer')['email'],
-            # "preapproval_plan_id": "2c9380848af2eac7018af6be15ce0310",
+            "preapproval_plan_id": "2c9380848af2eac7018af6be15ce0310",
             "reason": "Plano individual",
             "status": "authorized"
         }
@@ -87,7 +86,7 @@ class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
                 date_created = datetime.strptime(data['date_created'], formato_da_string),
                 valor = float(data['auto_recurring']['transaction_amount']),
                 status = data['status'],
-                start_date = datetime.strptime(data['auto_recurring']['start_date'], formato_da_string),
+                start_date = datetime.strptime(data['date_created'], formato_da_string),
                 next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string),
                 last_modified = datetime.strptime(data['last_modified'], formato_da_string),
             )
@@ -120,10 +119,10 @@ class CancelarRelatorio(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
         return context
 
     def get(self, request, *args, **kwargs):    
-        # usuario = self.request.user
+        usuario = self.request.user
         relatorio = Relatorio.objects.get(id=self.kwargs['pk'])
         assinatura_id = relatorio.assinatura_id
-        access_token = settings.MERCADOPAGO_ACCESS_TOKEN
+        access_token = settings.MERCADOPAGO_ACCESS_TOKEN_RELATORIO
 
         # Defina a URL da API do MercadoPago
         url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
@@ -175,7 +174,7 @@ class AtualizarCartaoRelatorio(LoginRequiredMixin, SuccessMessageMixin, View):
         usuario = self.request.user
         relatorio = Relatorio.objects.get(id=self.kwargs['pk'])
         assinatura_id = relatorio.assinatura_id
-        access_token = settings.MERCADOPAGO_ACCESS_TOKEN
+        access_token = settings.MERCADOPAGO_ACCESS_TOKEN_RELATORIO
         form_data = json.loads(self.request.body.decode('utf-8'))
 
         # Defina a URL da API do MercadoPago
@@ -192,7 +191,7 @@ class AtualizarCartaoRelatorio(LoginRequiredMixin, SuccessMessageMixin, View):
             "reason": "Plano individual",
             "back_url": "https://meucontato.pythonanywhere.com",
             "auto_recurring": {
-                "transaction_amount": 10,
+                "transaction_amount": 9.90,
                 "currency_id": "BRL"
             },
             "card_token_id": form_data.get('token'),
