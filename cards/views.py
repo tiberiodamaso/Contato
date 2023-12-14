@@ -502,9 +502,22 @@ class Detalhar(DetailView):
         template_name = [f'cards/modelo-{modelo}.html']
         return template_name
 
+    def luminosidade(self, cor_de_fundo):
+        # Converte a cor hexadecimal para RGB
+        cor = cor_de_fundo.lstrip('#')
+        rgb = tuple(int(cor[i:i+2], 16) for i in (0, 2, 4))
+        
+        # Fórmula de luminosidade para determinar o contraste
+        luminosidade = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255
+        
+        # Retorna 'claro' se a luminosidade for maior que 0.5, senão 'escuro'
+        return 'claro' if luminosidade > 0.5 else 'escuro'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         card = self.get_object()
+        cor_de_fundo = card.cor
+        luminosidade = self.luminosidade(cor_de_fundo)
         card_atributos = card.__dict__
         conteudos = card.conteudos.all()
         produtos = []
@@ -549,6 +562,11 @@ class Detalhar(DetailView):
         context['cursos'] = cursos
         context['atributos'] = atributos
         context['linhas'] = linhas
+        if luminosidade == 'escuro':
+            context['cor_da_fonte'] = '#fff'
+        else:
+            context['cor_da_fonte'] = '#212529'
+
         return context
 
 

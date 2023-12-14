@@ -37,12 +37,12 @@
                 class="rounded-circle col-4 col-md-3 col-lg-3 img-fluid" loading="lazy" />
             <div>
                 <!--NOME-->
-                <h2 class="text-white display-6">
+                <h2 class="display-6" style="color: {{cor_da_fonte}} !important;">
                     {{card.nome_display}}
                 </h2>
                 <!--CARGO-->
                 {% if card.cargo %}
-                <h3 class="lead pb-1 text-white">{{ card.cargo }}</h3>
+                <h3 class="lead pb-1" style="color: {{cor_da_fonte}} !important;">{{ card.cargo }}</h3>
                 {% endif %}
             </div>
         </div>
@@ -56,7 +56,7 @@
         <!--NOMDE EMPRESA-->
         <!-- {% if card.empresa %}
         <div>
-            <h3 class="lead text-white pb-1">{{ card.empresa }}</h3>
+            <h3 class="lead pb-1" style="color: {{cor_da_fonte}} !important;">{{ card.empresa }}</h3>
         </div>
         {% endif %} -->
     
@@ -64,9 +64,9 @@
         {% if user.is_authenticated and user == card.proprietario %}
         <div class="d-flex justify-content-center my-5 rounded">
             <a href="{% url 'core:editar' card.slug_empresa card.slug %}" id="editarUrl"
-                class="btn fs-5 w-100 bg-warning text-white mx-1">Editar cartão</a>
+                class="btn fs-5 w-100 bg-warning mx-1" style="color: {{cor_da_fonte}} !important;">Editar cartão</a>
             <a href="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}"
-                class="btn fs-5 w-100  bg-warning text-white mx-1">Editar anúncios</a>
+                class="btn fs-5 w-100  bg-warning mx-1" style="color: {{cor_da_fonte}} !important;">Editar anúncios</a>
         </div>
         {% endif %}
 
@@ -305,7 +305,7 @@
         <!-- <div class="align-items-center d-flex justify-content-center position-fixed roun rounded-5"
             style="right: 20px; bottom: 200px; width: 50px; height: 50px; background-color: #25D366;">
             <a href="https://wa.me/55{{card.whatsapp|formata_telefone}}" target="_blank">
-                <i class="bi bi-whatsapp text-white" style="font-size: 2rem;"></i>
+                <i class="bi bi-whatsapp" style="font-size: 2rem; color: {{cor_da_fonte}} !important;"></i>
             </a>
         </div> -->
     </div>
@@ -322,8 +322,8 @@
         <!--COMPARTILHAR CARTÃO-->
         <a href="#" id="shareWhatsapp" class="text-decoration-none">
             <div class="d-flex justify-content-center align-items-center pt-5">
-                <i class="bi bi-file-arrow-up fs-1 text-white mx-2"></i>
-                <span class="text-white">compartilhar cartão</span>
+                <i class="bi bi-file-arrow-up fs-1 mx-2" style="color: {{cor_da_fonte}} !important;"></i>
+                <span style="color: {{cor_da_fonte}} !important;">compartilhar cartão</span>
             </div>
         </a>
 
