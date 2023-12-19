@@ -16,7 +16,7 @@
 
     <h2 class="text-center display-4 my-5">Editar cartão</h2>
 
-    <!--FOTO PERFIL-->
+    <!--IMAGEM DO PERFIL-->
     {% if card.img_perfil %}
     <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="mb-4 rounded-circle col-6 col-md-3 col-lg-3 img-fluid"
         loading="lazy">
@@ -97,20 +97,11 @@
             </div>
         </div>
 
-        <!--EMPRESA-->
+        <!--CARGO-->
         <div>
-            <label for="id_empresa">Empresa:</label>
+            <label for="id_cargo">Cargo:</label>
             <div class="input-group mb-3">
-                {{form.empresa}}
-                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
-            </div>
-        </div>
-
-        <!--SITE-->
-        <div>
-            <label for="id_site">Site:</label>
-            <div class="input-group mb-3">
-                {{form.site}}
+                {{form.cargo}}
                 <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
             </div>
         </div>
@@ -126,11 +117,20 @@
             {% endif %}
         </div>
 
-        <!--CARGO-->
+        <!--EMPRESA-->
         <div>
-            <label for="id_cargo">Cargo:</label>
+            <label for="id_empresa">Empresa:</label>
             <div class="input-group mb-3">
-                {{form.cargo}}
+                {{form.empresa}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
+        </div>
+
+        <!--SITE-->
+        <div>
+            <label for="id_site">Site:</label>
+            <div class="input-group mb-3">
+                {{form.site}}
                 <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
             </div>
         </div>
@@ -168,35 +168,17 @@
         <!--ESTADO-->
         <div class="mb-3">
             <label for="id_estado">Estado:</label>
-            <select name="estado" class="form-select" id="id_estado" hx-get="{% url 'core:get-municipios'%}"
-                hx-trigger="change" hx-target="#id_municipio" hx-indicator=".htmx-indicator">
+            <select name="estado" class="form-select" id="id_estado">
                 {% for estado in estados %}
-                {% if estado == estado_atual %}
-                <option value="{{estado_atual.id}}" selected="{{estado_atual.id}}">{{estado.nome}}</option>
-                {% else %}
                 <option value="{{estado.id}}">{{estado.nome}}</option>
-                {% endif %}
                 {% endfor %}
             </select>
-            <div class="p-2 position-absolute rounded spinner">
-                <div class="spinner-border text-warning htmx-indicator" role="status" id="spinner"
-                    style="width: 4rem; height: 4rem;">
-                    <span class="visually-hidden">Carregando...</span>
-                </div>
-            </div>
         </div>
 
         <!--MUNICIPIO-->
         <div class="mb-3">
             <label for="id_municipio">Município:</label>
             <select name="municipio" class="form-select" id="id_municipio">
-                {% for municipio in municipios %}
-                {% if municipio == municipio_atual %}
-                <option value="{{municipio_atual.id}}" selected="{{municipio_atual.id}}">{{municipio.nome}}</option>
-                {% else %}
-                <option value="{{municipio.id}}">{{municipio.nome}}</option>
-                {% endif %}
-                {% endfor %}
             </select>
         </div>
 
@@ -298,6 +280,7 @@
     </form>
 </div>
 
+<!--LIMPA CAMPO-->
 <script>
     function limpaCampo(e) {
         let input = e.previousElementSibling;
@@ -371,6 +354,43 @@
         aplicarMascaraTelefone(inputWhatsapp);
     });
 
+</script>
+
+<!--CARREGA MUNICIPIOS DE ACORDO COM ESTADO-->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const estadosSelect = document.getElementById('id_estado');
+        const municipiosSelect = document.getElementById('id_municipio');
+
+        estadosSelect.addEventListener('change', function() {
+            const estadoSelecionado = estadosSelect.value;
+
+            fetch(`/get-municipios/?estado_id=${estadoSelecionado}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Limpa as opções anteriores exceto a selecionada, se houver
+                    const selectedOption = municipiosSelect.value;
+                    municipiosSelect.innerHTML = '';
+
+                    data.forEach(municipio => {
+                        const option = document.createElement('option');
+                        option.value = municipio.id;
+                        option.text = municipio.nome;
+                        municipiosSelect.appendChild(option);
+                    });
+
+                    // Mantém a opção selecionada, se ela estiver presente no novo conjunto de opções
+                    if (selectedOption && [...municipiosSelect.options].some(option => option.value === selectedOption)) {
+                        municipiosSelect.value = selectedOption;
+                    }
+                });
+        });
+
+        // Ao carregar a página, preenche os municípios do estado inicial, se necessário
+        if (estadosSelect.value) {
+            estadosSelect.dispatchEvent(new Event('change'));
+        }
+    });
 </script>
 
 {% endblock %}

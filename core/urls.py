@@ -28,8 +28,8 @@ urlpatterns = [
     path('pagamento/', Pagamento.as_view(), name='pagamento'),
 
     # POPULAR FORMS
-    path('get_municipios/', GetMunicipios.as_view(), name='get-municipios'),
-    path('get_subcategorias/', GetSubcategorias.as_view(), name='get-subcategorias'),
+    path('get-municipios/', GetMunicipios.as_view(), name='get-municipios'),
+    path('get-subcategorias/', GetSubcategorias.as_view(), name='get-subcategorias'),
 
     # TERMOS
     path('termos-de-uso/', TermosDeUso.as_view(), name='termos-de-uso'),

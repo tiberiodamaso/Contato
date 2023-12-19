@@ -18,14 +18,12 @@ class HomeView(TemplateView):
     template_name = 'core/home.html'
 
 
-class GetMunicipios(LoginRequiredMixin, ListView):
-    model = Municipio
-    template_name = 'core/municipios.html'
+class GetMunicipios(LoginRequiredMixin, View):
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data()
-        context['municipios'] = Municipio.objects.filter(estado=self.request.GET.get('estado'))
-        return context
+    def get(self, request, *args, **kwargs):
+        estado_id = request.GET.get('estado_id')  # Obtém o ID do estado selecionado
+        municipios = Municipio.objects.filter(estado_id=estado_id).values('id', 'nome', 'estado')
+        return JsonResponse(list(municipios), safe=False)
 
 
 class GetSubcategorias(ListView):

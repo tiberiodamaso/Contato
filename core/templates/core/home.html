@@ -138,7 +138,7 @@
             <h1 class="display-5 fw-bold lh-1 mb-3">Impressione ao fazer networking</h1>
             <p class="lead">Tenha um cartão de visitas moderno, online e editável. Insira os links das suas redes
                 sociais,
-                slides de produtos, promoções, serviços e muito mais.</p>
+                fotos e descrição de produtos, promoções, serviços e muito mais.</p>
             <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-start">
           <a type="button" href="{% url 'usuarios:registrar' %}" class="btn btn-warning btn-lg px-4 me-md-2">Comprar</a>
         </div> -->
@@ -154,7 +154,7 @@
             <!--TEXTO-->
             <div class="col-lg-5 col-sm-8">
                 <h1 class="display-5 fw-bold lh-1 mb-3">Como funciona</h1>
-                <p class="lead">Crie sua conta, insira suas informações e comece a compartilhar.</p>
+                <p class="lead">Crie sua conta, escolha o modelo, insira suas informações e comece a compartilhar.</p>
             </div>
 
             <!--CARDS EXPLICATIVOS-->
@@ -213,8 +213,8 @@
 <!--COMPRE AGORA-->
 <div class="container col-xxl-8 px-4 py-5">
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-        <h1 class="display-4 fw-normal">Comprar cartão</h1>
-        <p class="fs-5 text-muted">Taxa única e sem mensalidade para o Plano Individual</p>
+        <h1 class="display-4 fw-normal">Comprar</h1>
+        <p class="fs-5 text-muted">Taxa única e sem mensalidade para cartão e anúncios</p>
     </div>
 
     <!--PRODUTOS-->
@@ -226,10 +226,10 @@
             <div class="col-10">
                 <div class="card mb-4 rounded-3 shadow-sm">
                     <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">Individual</h4>
+                        <h4 class="my-0 fw-normal">Cartão</h4>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title pricing-card-title">R$ 29,90</h1>
+                        <h1 class="card-title pricing-card-title fs-2">R$ 29,90</h1>
                         <ul class="list-unstyled mt-3 mb-4">
                             <li>Seu whatsapp</li>
                             <li>Seu email</li>
@@ -243,30 +243,44 @@
             </div>
 
             <!--PRODUTO 2-->
-            <!-- <div class="col-10">
-                <div class="card mb-4 rounded-3 shadow-sm border-secondary">
-                    <div class="card-header py-3 text-bg-secondary border-secondary">
-                        <h4 class="my-0 fw-normal">Empresa</h4>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            Em breve
-                        </span>
+            <div class="col-10">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Anúncios</h4>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title pricing-card-title">R$ 29<small class="text-muted fw-light">/mês</small>
-                        </h1>
+                        <h1 class="card-title pricing-card-title fs-2">R$ 9,90</h1>
                         <ul class="list-unstyled mt-3 mb-4">
-                            <li>Seu whatsapp</li>
-                            <li>Seu email</li>
-                            <li>Seu site</li>
-                            <li>Suas redes sociais</li>
+                            <li>10 anúncios no seu cartão</li>
+                            <li>Insira foto e descrição do anúncio</li>
+                            <li>Anuncie produtos, serviços...</li>
                         </ul>
-                        <a type="button" href="#" class="w-100 btn btn-lg btn-secondary" disabled>Comprar esse</a>
+                        <a type="button" href="{% url 'usuarios:registrar' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
                     </div>
                 </div>
-            </div> -->
-        </div>
+            </div>
 
-        <div class="text-center">Todos os valores são por usuário do cartão</div>
+            <!--PRODUTO 3-->
+            <div class="col-10">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Relatórios</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title fs-2">R$ 9,90/mês</h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Estatísticas de acesso</li>
+                            <li>Monitore o tráfego</li>
+                            <li>Divulgue melhor</li>
+                            <li>Conquiste mais clientes</li>
+                        </ul>
+                        <a type="button" href="{% url 'usuarios:registrar' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </section>
 
@@ -320,8 +334,9 @@
             </div>
             <div class="col-lg-6">
                 <h1 class="display-5 fw-bold lh-1 mb-3">Acesse o cartão por link</h1>
-                <p class="lead">Com o link do seu cartão você pode compartilhar em redes sociais, sites, blogs e muito
-                    mais. Uma forma moderna e interativa de se relacionar com seus clientes.
+                <p class="lead">Uma vez que seu cartão de negócios virtual esteja pronto, compartilhe-o nas suas redes
+                    sociais, inclua-o no seu site ou adicione-o à sua assinatura de e-mail. Isso ajudará a aumentar sua
+                    visibilidade online e a atrair mais clientes em potencial.
                 </p>
             </div>
         </div>
@@ -407,11 +422,18 @@
     </div>
 </div>
 
+<!--OBJETIVO-->
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <h1 class="display-6 fw-lighter">Promova seus produtos, serviços ou habilidades de uma maneira moderna e acessível.</h1>
+    </div>
+</div>
+
 <!--COMPRE AGORA-->
 <div class="container col-xxl-8 px-4 py-5">
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-        <h1 class="display-4 fw-normal">Comprar cartão</h1>
-        <p class="fs-5 text-muted">Taxa única e sem mensalidade para o Plano Individual</p>
+        <h1 class="display-4 fw-normal">Comprar</h1>
+        <p class="fs-5 text-muted">Taxa única e sem mensalidade para cartão e anúncios</p>
     </div>
 
     <!--PRODUTOS-->
@@ -423,10 +445,10 @@
             <div class="col-10">
                 <div class="card mb-4 rounded-3 shadow-sm">
                     <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">Individual</h4>
+                        <h4 class="my-0 fw-normal">Cartão</h4>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title pricing-card-title">R$ 29,90</h1>
+                        <h1 class="card-title pricing-card-title fs-2">R$ 29,90</h1>
                         <ul class="list-unstyled mt-3 mb-4">
                             <li>Seu whatsapp</li>
                             <li>Seu email</li>
@@ -440,32 +462,49 @@
             </div>
 
             <!--PRODUTO 2-->
-            <!-- <div class="col-10">
-                <div class="card mb-4 rounded-3 shadow-sm border-secondary">
-                    <div class="card-header py-3 text-bg-secondary border-secondary">
-                        <h4 class="my-0 fw-normal">Empresa</h4>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            Em breve
-                        </span>
+            <div class="col-10">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Anúncios</h4>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title pricing-card-title">R$ 29<small class="text-muted fw-light">/mês</small>
-                        </h1>
+                        <h1 class="card-title pricing-card-title fs-2">R$ 9,90</h1>
                         <ul class="list-unstyled mt-3 mb-4">
-                            <li>Até 10 anúncios por cartão</li>
-                            <li>Suporte por email</li>
-                            <li>Google Analytics</li>
-                            <li>Dashboard</li>
+                            <li>10 anúncios no seu cartão</li>
+                            <li>Insira foto e descrição do anúncio</li>
+                            <li>Anuncie produtos, serviços...</li>
                         </ul>
-                        <a type="button" href="#" class="w-100 btn btn-lg btn-secondary" disabled>Comprar esse</a>
+                        <a type="button" href="{% url 'usuarios:registrar' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
                     </div>
-                </div> -->
+                </div>
+            </div>
+
+            <!--PRODUTO 3-->
+            <div class="col-10">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Relatórios</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title fs-2">R$ 9,90/mês</h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Estatísticas de acesso</li>
+                            <li>Monitore o tráfego</li>
+                            <li>Divulgue melhor</li>
+                            <li>Conquiste mais clientes</li>
+                        </ul>
+                        <a type="button" href="{% url 'usuarios:registrar' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
+                    </div>
+                </div>
             </div>
         </div>
+</div>
 
-        <!-- <div class="text-center">Todos os valores são por usuário do cartão</div> -->
+<!-- <div class="text-center">Todos os valores são por usuário do cartão</div> -->
 
-    </section>
+</section>
 
 </div>
 
@@ -473,7 +512,8 @@
 <div class="bg-light">
     <div class="container container-carousel col-xxl-8 px-4 py-5" id="featureContainer">
         <h1 class="display-4 fw-normal text-center">Modelos</h1>
-        <h4 class="fw-normal text-center pb-4 py-lg-5">Todos os modelos possuem QRCode e você pode escolher a cor de fundo</h4>
+        <h4 class="fw-normal text-center pb-4 py-lg-5">Todos os modelos possuem QRCode e você pode escolher a cor de
+            fundo</h4>
         <div class="row mx-auto my-auto justify-content-center">
             <div id="featureCarousel" class="carousel slide" data-bs-ride="carousel">
                 <!-- Add Slides To The Carousel -->
@@ -545,7 +585,7 @@
         <div class="row mx-auto my-auto justify-content-center">
             <div id="featureCarousel" class="carousel slide" data-bs-ride="carousel">
                 <!-- Add Slides To The Carousel -->
-                <!-- <div class="carousel-inner" role="listbox">
+<!-- <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active">
                         <div class="col-md-3">
                             <div class="card">
@@ -659,15 +699,32 @@
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                     data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        Cada cartão recebe um endereço único de internet que pode ser compartilhado. Os relatórios
-                        captam
-                        quantas pessoas viram o seu cartão quando você o compartilha nas suas redes sociais e mostram
-                        gráficos com
-                        informações sobre cidade onde houveram mais visualizações, redes sociais que mais captaram
-                        usuários
-                        e muitas
-                        outras informações.
-                        <p class="fw-bold my-4">*** Serviço contratado a parte para o Plano Individual</p>
+                        <p>Cada cartão recebe um endereço único de internet que pode ser compartilhado. Os relatórios
+                            captam quantas pessoas viram o seu cartão quando você o compartilha nas suas redes sociais e
+                            mostram gráficos com informações sobre cidade onde houveram mais visualizações, redes
+                            sociais que mais captaram
+                            usuários e muitas outras informações.</p>
+                        <p class="fw-bold my-4">*** Serviço contratado a parte</p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed fs-4" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        O que é a funcionalidade Anúncios ?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <p>Você tem a liberdade de apresentar até 10 itens distintos. Isso pode incluir seus principais
+                            produtos, ofertas promocionais, cursos que você oferece ou exemplos do seu portfólio de
+                            trabalho.</p>
+                        <p>Aproveite ao máximo as 10 áreas disponíveis para garantir que os visitantes vejam os aspectos
+                            mais atraentes do seu negócio. Destaque os produtos mais vendidos, as melhores promoções
+                            atuais, os cursos mais populares ou os trabalhos mais impressionantes do seu portfólio.</p>
+                        <p class="fw-bold my-4">*** Serviço contratado a parte</p>
                     </div>
                 </div>
             </div>
@@ -679,6 +736,33 @@
     </div>
 </div>
 
+<!--COOKIE MENSAGEM-->
+<div class="position-fixed d-flex d-none text-white py-3 justify-content-end container bg-primary align-items-center w-50 align-self-center" style="top: 90vh;" id="cookieConsent">
+    Este site utiliza cookies para garantir a melhor experiência. Ao continuar, você concorda com o uso deles.
+    <button onclick="aceitarCookies()" class="btn btn-warning mx-2">Entendi</button>
+</div>
+
+<!--COOKIE CONSENT-->
+<script>
+    // Função para definir o consentimento e esconder o aviso
+    function aceitarCookies() {
+        // Defina um cookie ou armazene no localStorage para registrar o consentimento
+        // Exemplo usando localStorage:
+        localStorage.setItem('cookiesAceitos', 'true');
+
+        // Esconda o aviso após o consentimento
+        document.getElementById('cookieConsent').classList.add('d-none');
+    }
+
+    // Verifique se o consentimento já foi dado antes de mostrar o aviso
+    window.addEventListener("load", function() {
+        if (!localStorage.getItem('cookiesAceitos')) {
+            document.getElementById('cookieConsent').classList.remove('d-none');
+        }
+    });
+</script>
+
+<!--CARROSSEL-->
 <script>
     let myCarousel = document.querySelectorAll('#featureContainer .carousel .carousel-item');
     myCarousel.forEach((el) => {

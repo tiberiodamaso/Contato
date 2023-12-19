@@ -75,38 +75,11 @@
 
     {% endblock %}
     {% include 'core/footer.html' %}
-    <div class="position-fixed d-flex text-white py-3 justify-content-end container bg-primary align-items-center w-50 align-self-center" style="top: 90vh;"" id="cookieConsent">
-        Este site utiliza cookies para garantir a melhor experiência. Ao continuar, você concorda o uso deles.
-        <button onclick="aceitarCookies()" class="btn btn-secondary mx-2">Entendi!</button>
-    </div>
-    <!-- <div id="mensagemCookies" class="position-fixed d-flex text-white py-3 justify-content-end container bg-primary align-items-center w-50 align-self-center" style="top: 90vh;"></div> -->
+
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-</script>
-
-<script>
-    // Função para definir o consentimento e esconder o aviso
-    function aceitarCookies() {
-        // Defina um cookie ou armazene no localStorage para registrar o consentimento
-        // Exemplo usando localStorage:
-        localStorage.setItem('cookiesAceitos', 'true');
-
-        // Esconda o aviso após o consentimento
-        document.getElementById('cookieConsent').classList.add('d-none');
-    }
-
-    // Verifique se o consentimento já foi dado antes de mostrar o aviso
-    window.addEventListener("load", function() {
-        if (!localStorage.getItem('cookiesAceitos')) {
-            document.getElementById('cookieConsent').classList.add('d-block');
-        }
-    });
-</script>
-
-    // Exibir a mensagem de cookies quando a página carrega
-    window.onload = exibirMensagemCookies;
 </script>
 
 </html>

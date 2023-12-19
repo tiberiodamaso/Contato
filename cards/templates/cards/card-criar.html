@@ -105,31 +105,21 @@
             <!--ESTADO-->
             <div class="mb-3">
                 <label for="id_estado">Estado:</label>
-                <select name="estado" class="form-select" id="id_estado" hx-get="{% url 'core:get-municipios'%}"
-                    hx-trigger="change" hx-target="#id_municipio" hx-indicator=".htmx-indicator">
+                <select name="estado" class="form-select" id="id_estado">
                     {% for estado in estados %}
                     <option value="{{estado.id}}">{{estado.nome}}</option>
                     {% endfor %}
                 </select>
-                <div class="p-2 position-absolute rounded spinner">
-                    <div class="spinner-border text-warning htmx-indicator" role="status" id="spinner"
-                        style="width: 4rem; height: 4rem;">
-                        <span class="visually-hidden">Carregando...</span>
-                    </div>
-                </div>
             </div>
 
             <!--MUNICIPIO-->
             <div class="mb-3">
                 <label for="id_municipio">Município:</label>
                 <select name="municipio" class="form-select" id="id_municipio">
-                    {% for municipio in municipios %}
-                    <option value="{{municipio.id}}">{{municipio.nome}}</option>
-                    {% endfor %}
                 </select>
             </div>
 
-            <!--CARGO-->
+            <!--ENDERECO-->
             <div class="mb-3">
                 <label for="id_endereco">Endereço:</label>
                 {{form.endereco}}
@@ -490,5 +480,43 @@
     });
 
 </script>
+
+<!--CARREGA MUNICIPIOS DE ACORDO COM ESTADO-->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const estadosSelect = document.getElementById('id_estado');
+        const municipiosSelect = document.getElementById('id_municipio');
+
+        estadosSelect.addEventListener('change', function() {
+            const estadoSelecionado = estadosSelect.value;
+
+            fetch(`/get-municipios/?estado_id=${estadoSelecionado}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Limpa as opções anteriores exceto a selecionada, se houver
+                    const selectedOption = municipiosSelect.value;
+                    municipiosSelect.innerHTML = '';
+
+                    data.forEach(municipio => {
+                        const option = document.createElement('option');
+                        option.value = municipio.id;
+                        option.text = municipio.nome;
+                        municipiosSelect.appendChild(option);
+                    });
+
+                    // Mantém a opção selecionada, se ela estiver presente no novo conjunto de opções
+                    if (selectedOption && [...municipiosSelect.options].some(option => option.value === selectedOption)) {
+                        municipiosSelect.value = selectedOption;
+                    }
+                });
+        });
+
+        // Ao carregar a página, preenche os municípios do estado inicial, se necessário
+        if (estadosSelect.value) {
+            estadosSelect.dispatchEvent(new Event('change'));
+        }
+    });
+</script>
+
 
 {% endblock %}
