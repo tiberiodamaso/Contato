@@ -67,7 +67,7 @@ class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
             "back_url": "https://meucontato.pythonanywhere.com/",
             "card_token_id": form_data.get('token'),
             "payer_email": form_data.get('payer')['email'],
-            "preapproval_plan_id": "2c9380848af2eac7018af6be15ce0310",
+            "preapproval_plan_id": "2c9380848c885e45018c88639c710001",
             "reason": "Plano individual",
             "status": "authorized"
         }
@@ -348,7 +348,7 @@ class ComprarAnuncio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         response = requests.post(url, json=data, headers=headers)
 
         # Verifique se a solicitação foi bem-sucedida
-        if response.status_code == 200:
+        if response.status_code == 201:
             data = response.json()
             formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
             anuncio = Anuncio.objects.create(

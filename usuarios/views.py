@@ -37,59 +37,26 @@ class UsusarioLoginView(LoginView):
         card = usuario.cards.first()
         return reverse('core:home')
 
-    # def verifica_status_cartao(self, usuario):
-    #     # usuario = self.request.user
-    #     cartao = usuario.cartoes.all().last()
+    def post(self, request, *args, **kwargs):
+        # Obtendo os dados do formulário de login
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-    #     if not cartao:
-    #         return 'pendente'
+        # Verificando se o usuário com o email existe
+        try:
+            user = Usuario.objects.get(email=username)
+            if not user.is_active:
+                # Se o usuário existe, mas não está ativo
+                # Redirecionar para o template de reenvio de email de ativação
+                return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao', kwargs={'username': user.username}))
+                # return TemplateResponse(request, 'resend_activation_email.html')
 
-    #     assinatura_id = assinatura.assinatura_id
-    #     access_token = settings.MERCADOPAGO_ACCESS_TOKEN
-
-    #     # Defina a URL da API do MercadoPago
-    #     url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
-
-    #     # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
-    #     headers = {
-    #         'Authorization': f'Bearer {access_token}',
-    #     }
-
-    #     if assinatura:
-    #         # Faça a solicitação GET para a API do MercadoPago
-    #         response = requests.get(url, headers=headers)
-
-    #     # Verifique se a solicitação foi bem-sucedida
-    #         if response.status_code == 200:
-    #             data = response.json()
-    #             context = {}
-    #             assinatura.status = data['status']
-    #             assinatura.save()
-    #             return assinatura.status
-    #             # return self.render_to_response(context=context)
-    #         else:
-    #             # Lidar com erros de solicitação, se necessário
-    #             error_message = response.text
-    #             return JsonResponse({'error': error_message}, status=response.status_code)
-    
-    def post(self, request):
-
-        # recupera formulário
-        form = self.get_form()
-
-        # recupera usuário no banco de dados com base no e-mail inserido no formulário
-        usuario = Usuario.objects.get(email=form['username'].value())
-        # if usuario:
-        #     # usuario = usuario[0]
-        #     status = self.verifica_status_assinatura(usuario)
-        # else:
-        #     messages.error(self.request, "e-mail não encontrado.")
-        #     super().form_invalid(form)
-
-        # se usuário existe e não está ativo, chama tela de reenviar email de ativação
-        if usuario and not usuario.is_active:
-            return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao', kwargs={'username': usuario.username}))
-        return super().post(self.request)
+            # Se o usuário existe e está ativo, tentar fazer login
+            return super().post(request, *args, **kwargs)
+        except Usuario.DoesNotExist:
+            # Se o usuário não existe, retornar mensagem de erro
+            messages.error(self.request, "Usuário não encontrado. Por favor, verifique o email.")
+            return HttpResponseRedirect(reverse('usuarios:login'))
 
 
 class LogoutView(LogoutView):
