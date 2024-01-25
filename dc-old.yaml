@@ -1,0 +1,71 @@
+services:
+
+  django:
+    container_name: contato
+    # Tell Docker Compose that the django service must use an image that is built from the current directory, 
+    # therefore looking for our Dockerfile.
+    build:
+      context: .
+      dockerfile: Dockerfile-prod
+    volumes:
+    # Criar uma pasta no HOST no diretório /var/lib/docker/volumes/
+    # como o nome da seguinte forma: <NOME_DO_CONTAINER>_<NOME_DO_VOLUME>
+    # No caso abaixo, o nome do diretório seria /var/lib/docker/volumes/contato_static_volume
+    # Esse diretório está sendo mapeado para a pasta /contato/static no container
+      - static_volume:/contato/static
+      - media_volume:/contato/media
+    # Mapeia o diretório /log na raiz do workdir com o diretório /log fora do container, dessa forma, 
+    # os arquivos de log serão persistidos fora do container docker
+      - ./log:/contato/log
+    env_file:
+      - .env
+    command: >
+      bash -c "
+      python manage.py collectstatic --no-input 
+      && gunicorn --bind 0.0.0.0:8000 root.wsgi:application --timeout 900 --workers=4
+      "
+    restart: always
+    environment:
+      - TZ=America/Sao_Paulo
+    
+    # Se quiséssemos acessar nossa aplicação Django pelo Gunicorn, deveríamos deixar a diretiva PORTS expondo a porta 8000.
+    # Como acessaremos nossa aplicação pelo NGINX, deixamos essa diretiva desativada.
+    expose:
+      - "8000"
+
+  nginx:
+    container_name: nginx
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-prod
+    volumes:
+      - static_volume:/contato/static
+      - media_volume:/contato/media
+      # - /etc/letsencrypt/live/meucontato.app.br:/etc/nginx/ssl/
+    depends_on:
+      - django
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8000:8000"
+
+  # Banco de dados
+  postgresql:
+    container_name: postgresql
+    build:
+      context: ./postgresql
+      dockerfile: Dockerfile
+    env_file:
+      - ./postgresql/postgresql.env
+    restart: always
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+      - "3306:5432"
+
+volumes:
+  static_volume:  # <-- declare the static volume
+  media_volume:  # <-- declare the media volume
+  postgresql_data:
