@@ -269,3 +269,4 @@ dmypy.json
 
 # postgresql env
 /postgresql/postgresql.env
+.env_deploy

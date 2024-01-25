@@ -3,6 +3,7 @@ version: '3'
 services:
   django:
     image: python:3.10-buster
+    container_name: contato
     environment:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
@@ -20,6 +21,7 @@ services:
 
   nginx:
     image: nginx:latest
+    container_name: nginx
     ports:
       - "80:80"
       - "443:443"
@@ -37,3 +39,18 @@ services:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
     command: certonly --webroot -w /var/www/certbot --force-renewal --email contato@meucontato.app.br -d meucontato.app.br --agree-tos
+
+  postgresql:
+    image: postgres:15.3
+    container_name: postgresql
+    env_file:
+      - ./postgresql/postgresql.env
+    restart: always
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+      - "3306:5432"
+
+  volumes:
+    postgresql_data:
