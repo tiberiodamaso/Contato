@@ -12,7 +12,7 @@ services:
       bash -c "
         apt-get update &&
         pip install pip --upgrade &&
-        cp /contato/requirements.txt /tmp/requirements.txt &&
+        cp ./Contato/requirements.txt /tmp/requirements.txt &&
         pip install -r /tmp/requirements.txt --no-cache-dir &&
         mkdir log"
     volumes:
