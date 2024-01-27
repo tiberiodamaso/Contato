@@ -41,16 +41,17 @@ services:
     command: certonly --webroot -w /var/www/certbot --force-renewal --email contato@meucontato.app.br -d meucontato.app.br --agree-tos
 
   postgresql:
-    image: postgres:15.3
+    image: postgres:latest
     container_name: postgresql
-    env_file:
-      - ./postgresql/postgresql.env
     restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgresql_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-      - "3306:5432"
 
   volumes:
     postgresql_data:
