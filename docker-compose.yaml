@@ -25,10 +25,6 @@ services:
     image: nginx:latest
     restart: always
     container_name: nginx
-    command: >
-      bash -c "
-        # rm -f /etc/nginx/conf.d/* &&
-        chown nginx:nginx /usr/share/nginx/html"
     ports:
       - "80:80"
       - "443:443"
