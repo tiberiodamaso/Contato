@@ -4,6 +4,7 @@ services:
   django:
     image: python:3.10-buster
     container_name: contato
+    restart: always
     environment:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
@@ -12,21 +13,26 @@ services:
       bash -c "
         apt-get update &&
         pip install pip --upgrade &&
-        pip install -r requirements.txt --no-cache-dir "
+        pip install -r requirements.txt --no-cache-dir &&
+        python manage.py collectstatic --no-input && 
+        gunicorn --bind 0.0.0.0:8000 root.wsgi:application --timeout 900 --workers=4"
     volumes:
       - .:/contato
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
 
   nginx:
     image: nginx:latest
+    restart: always
     container_name: nginx
     command: >
       bash -c "
-        rm -f /etc/nginx/conf.d/*"
+        rm -f /etc/nginx/conf.d/* &&
+        chown nginx:nginx /usr/share/nginx/html"
     ports:
       - "80:80"
       - "443:443"
+      - "8000:8000"
     volumes:
       - ./nginx/:/etc/nginx/
       - ./certbot/conf:/etc/letsencrypt
