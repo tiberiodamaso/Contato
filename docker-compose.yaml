@@ -13,8 +13,7 @@ services:
         apt-get update &&
         pip install pip --upgrade &&
         # cp ./Contato/requirements.txt /tmp/requirements.txt &&
-        pip install -r requirements.txt --no-cache-dir &&
-        mkdir log"
+        pip install -r requirements.txt --no-cache-dir &&"
     volumes:
       - .:/contato
     ports:
