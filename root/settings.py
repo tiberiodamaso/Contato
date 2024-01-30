@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'secret_key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.getenv('DEBUG', '0')))
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'meucontato.app.br', '13.58.249.200', 'meucontato.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'meucontato.app.br', '3.19.142.221',  'meucontato.pythonanywhere.com']
 
 
 # Application definition
@@ -194,3 +194,11 @@ GRAPH_MODELS = {
   'app_labels': ["cards", "usuarios", "core"],
   'exclude_models': ['AbstractUser', 'Permission', 'Group']
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:8000',
+    'https://meucontato.app.br/',
+    'http://meucontato.app.br/',
+    'https://meucontato.app.br/:8000',
+    'http://meucontato.app.br/:8000',
+]
