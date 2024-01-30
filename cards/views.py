@@ -33,6 +33,7 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.db.models import Count
+from django import forms
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 
 
@@ -408,6 +409,10 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
 
         # APAGA LOGOTIPO ANTIGO E SALVA NOVO
         if logotipo:
+            if not logotipo.name.endswith(('.jpg', '.jpeg', '.png')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o logotipo.')
+                return self.form_invalid(form)
+
             if card.logotipo:
                 try:
                     os.remove(card.logotipo.path)
@@ -420,6 +425,8 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
             altura_desejada = 300
             _, extensao = os.path.splitext(logotipo.name)
             extensao = extensao.lstrip('.').upper()
+            if extensao == 'JPG':
+                extensao = 'JPEG'
             logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
 
             # Crie um arquivo temporário para a imagem redimensionada
@@ -699,6 +706,7 @@ class DashboardEmpresa(TemplateView):
         return context
 
 
+# VIEWS DE CONTEÚDO
 class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Conteudo
     form_class = ConteudoEditForm
@@ -744,9 +752,12 @@ class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin
 
         # Valida tamanho da imagem
         if img:
+            if not img.name.endswith(('.jpg', '.jpeg', '.png')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o conteúdo.')
+                return self.form_invalid(form)
+
             if img.size > tamanho_maximo:
-                messages.error(
-                    self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
+                messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
                 return self.form_invalid(form)
             
             extensao = slugify(os.path.splitext(img.name)[1])
