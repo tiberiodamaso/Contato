@@ -196,9 +196,9 @@ GRAPH_MODELS = {
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1:8000',
-    'https://meucontato.app.br/',
-    'http://meucontato.app.br/',
-    'https://meucontato.app.br/:8000',
-    'http://meucontato.app.br/:8000',
+    'http://127.0.0.1:8000'
+    'https://meucontato.app.br',
+    'http://meucontato.app.br',
+    'https://meucontato.app.br:8000',
+    'http://meucontato.app.br:8000',
 ]
