@@ -202,3 +202,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://meucontato.app.br:8000',
     'http://meucontato.app.br:8000',
 ]
+
+CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
