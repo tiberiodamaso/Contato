@@ -6,7 +6,7 @@ services:
   django:
     image: python:3.10-buster # Debian 
     container_name: contato # Define o nome do contêiner para este serviço
-    restart: always # Indica que o contêiner deve ser reiniciado sempre que parar inesperadamente
+    restart: unless-stopped # Indica que o contêiner deve ser reiniciado sempre que parar inesperadamente
     environment: # Define variáveis de ambiente que são passadas para o contêiner
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
@@ -19,8 +19,7 @@ services:
         python manage.py collectstatic --no-input && 
         gunicorn --bind 0.0.0.0:8000 root.wsgi:application --timeout 900 --workers=4"
     volumes: # Mapeia os volumes do host para o contêiner
-      # - .:/contato/ # mapeando o diretório atual para /contato no contêiner
-      - ./requirements.txt:/contato/requirements.txt
+      - .:/contato/ # mapeando o diretório atual para /contato no contêiner
       - static:/contato/static/
       - media:/contato/media/
     expose:
@@ -28,7 +27,7 @@ services:
 
   nginx:
     image: nginx:latest
-    restart: always
+    restart: unless-stopped
     container_name: nginx
     ports: # Mapeia as portas do host para as portas do contêiner
       - "80:80"
@@ -54,7 +53,7 @@ services:
   postgresql:
     image: postgres:15.3
     container_name: postgresql
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
