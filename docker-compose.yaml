@@ -20,8 +20,8 @@ services:
         gunicorn --bind 0.0.0.0:8000 root.wsgi:application --timeout 900 --workers=4"
     volumes: # Mapeia os volumes do host para o contêiner
       - .:/contato/ # mapeando o diretório atual para /contato no contêiner
-      - static:/contato/static/
-      - media:/contato/media/
+      - static_files:/contato/static/
+      - media_files:/contato/media/
     expose:
       - "8000" # Expõe a porta 8000 do contêiner para outros contêineres na mesma rede
 
@@ -37,8 +37,8 @@ services:
       - ./nginx/:/etc/nginx/
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-      - static:/contato/static/
-      - media:/contato/media/
+      - static_files:/contato/static/
+      - media_files:/contato/media/
     depends_on: # Especifica que este serviço depende do serviço Django para iniciar
       - django
 
@@ -65,5 +65,5 @@ services:
 
 volumes: # Define volumes que podem ser usados por qualquer serviço no Compose. O volume postgresql_data é usado para armazenar os dados do PostgreSQL.
   postgresql_data:
-  static:
-  media:
+  static_files:
+  media_files:
