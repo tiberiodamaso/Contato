@@ -37,8 +37,8 @@ services:
       - ./nginx/:/etc/nginx/
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-      - static_files:/contato/static/
-      - media_files:/contato/media/
+      - static:/contato/static/
+      - media:/contato/media/
     depends_on: # Especifica que este serviço depende do serviço Django para iniciar
       - django
 
@@ -65,5 +65,5 @@ services:
 
 volumes: # Define volumes que podem ser usados por qualquer serviço no Compose. O volume postgresql_data é usado para armazenar os dados do PostgreSQL.
   postgresql_data:
-  static_files:
-  media_files:
+  static:
+  media:
