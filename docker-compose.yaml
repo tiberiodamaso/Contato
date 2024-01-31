@@ -12,9 +12,9 @@ services:
       - PYTHONUNBUFFERED=1
     working_dir: /contato # Define o diretório de trabalho dentro do contêiner
     volumes: # Mapeia os volumes do host para o contêiner
-      - .:/contato # mapeando o diretório atual para /contato no contêiner
-      - static:/contato/static
-      - media:/contato/media
+      # - .:/contato # mapeando o diretório atual para /contato no contêiner
+      - static:/contato/static/
+      - media:/contato/media/
     command: > # Especifica o comando a ser executado quando o contêiner iniciar
       bash -c "
         apt-get update &&
