@@ -20,8 +20,8 @@ services:
         gunicorn --bind 0.0.0.0:8000 root.wsgi:application --timeout 900 --workers=4"
     volumes: # Mapeia os volumes do host para o contêiner
       - .:/contato/ # mapeando o diretório atual para /contato no contêiner
-      - static_files:/contato/static/
-      - media_files:/contato/media/
+      - static:/contato/static/
+      - media:/contato/media/
     expose:
       - "8000" # Expõe a porta 8000 do contêiner para outros contêineres na mesma rede
 
