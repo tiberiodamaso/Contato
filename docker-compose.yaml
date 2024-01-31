@@ -35,8 +35,8 @@ services:
       - ./nginx/:/etc/nginx/
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-      - ./static/:/contato/static
-      - ./media/:/contato/media
+      - ./static/:/contato/static/
+      - ./media/:/contato/media/
     depends_on: # Especifica que este serviço depende do serviço Django para iniciar
       - django
 
