@@ -12,30 +12,25 @@ types {
     application/atom+xml                  atom;
     application/rss+xml                   rss;
 
-    // Arquivos de fonte
     font/woff                              woff;
     font/woff2                             woff2;
     application/vnd.ms-fontobject          eot;
     application/x-font-ttf                 ttc ttf;
 
-    // Arquivos de vídeo
     video/mp4                              mp4;
     video/mpeg                             mpeg mpg;
     video/ogg                              ogv;
     video/webm                             webm;
 
-    // Arquivos de áudio
     audio/midi                             mid midi;
     audio/mpeg                             mp3;
     audio/ogg                              ogg;
     audio/wav                              wav;
 
-    // Tipos de arquivo de dados
     application/json                       json;
     application/ld+json                    jsonld;
     application/xml                        xsl;
 
-    // Outros tipos de arquivo
     application/pdf                        pdf;
     application/zip                        zip;
     application/x-gzip                     gz tar;
