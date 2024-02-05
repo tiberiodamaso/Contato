@@ -193,6 +193,11 @@ CSRF_TRUSTED_ORIGINS = [
     'http://meucontato.app.br',
     'https://meucontato.app.br:8000',
     'http://meucontato.app.br:8000',
+    'http://3.19.142.221',
+    'http://3.19.142.221:8000',
+    'https://3.19.142.221',
+    'https://3.19.142.221:8000',
+    'http://0.0.0.0:8000',
 ]
 
 # SECURE_SSL_REDIRECT = True
