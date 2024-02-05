@@ -12,7 +12,7 @@ urlpatterns = [
     path('compras/', include('compras.urls')),
 ] 
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if bool(int(os.environ.get('TOOLBAR', 1))):
   urlpatterns += [
