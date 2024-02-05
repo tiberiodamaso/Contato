@@ -32,7 +32,7 @@ SECRET_KEY = get_random_secret_key()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.getenv('DEBUG', '0')))
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'meucontato.app.br', '3.19.142.221',  'meucontato.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'meucontato.app.br', '3.19.142.221']
 
 
 # Application definition
