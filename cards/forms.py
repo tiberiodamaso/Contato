@@ -8,7 +8,7 @@ class CardEditForm(forms.ModelForm):
         exclude = ['proprietario', 'vcf', 'qr_code']
         widgets = {
             'img_perfil': forms.FileInput(attrs={'class': 'form-control', 'label': 'Foto'}),
-            'logotipo': forms.FileInput(attrs={'class': 'form-control', 'label': 'Logotipo'}),
+            'logotipo': forms.FileInput(attrs={'class': 'form-control', 'label': 'Logotipo', 'accept': 'image/jpeg, image/png'}),
             'cargo': forms.TextInput(attrs={'class': 'form-control'}),
             'endereco': forms.TextInput(attrs={'class': 'form-control'}),
             'cor': forms.TextInput(attrs={'class': 'form-control', 'type': 'color'}),
@@ -37,7 +37,7 @@ class ConteudoEditForm(forms.ModelForm):
         model = Conteudo
         exclude = ['card']
         widgets = {
-            'img': forms.FileInput(attrs={'class': 'form-control', 'required': 'required'}),
+            'img': forms.FileInput(attrs={'class': 'form-control', 'required': 'required', 'accept': 'image/jpeg, image/png'}),
             'link': forms.URLInput(attrs={'class': 'form-control'}),
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
             'descricao': forms.Textarea(attrs={'class': 'form-control', 'rows': '3'}),
