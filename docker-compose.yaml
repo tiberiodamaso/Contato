@@ -1,33 +1,43 @@
 version: '3'
 
+# Define os diferentes serviços que compõem sua aplicação.
 services:
+
   django:
-    image: python:3.10-buster
-    environment:
+    image: python:3.10-buster # Debian 
+    container_name: contato # Define o nome do contêiner para este serviço
+    restart: unless-stopped # Indica que o contêiner deve ser reiniciado sempre que parar inesperadamente
+    environment: # Define variáveis de ambiente que são passadas para o contêiner
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
-    working_dir: /contato
-    command: >
+    working_dir: /contato # Define o diretório de trabalho dentro do contêiner
+    command: > # Especifica o comando a ser executado quando o contêiner iniciar
       bash -c "
         apt-get update &&
         pip install pip --upgrade &&
         pip install -r requirements.txt --no-cache-dir &&
-        mkdir log"
-    volumes:
-      - ./contato:/contato
-    ports:
-      - "8000:8000"
+        python manage.py collectstatic --no-input && 
+        gunicorn --bind 0.0.0.0:8000 root.wsgi:application --timeout 900 --workers=4"
+    volumes: # Mapeia os volumes do host para o contêiner
+      - .:/contato/ # mapeando o diretório atual para /contato no contêiner
+    expose:
+      - "8000" # Expõe a porta 8000 do contêiner para outros contêineres na mesma rede
 
   nginx:
     image: nginx:latest
-    ports:
+    restart: unless-stopped
+    container_name: nginx
+    ports: # Mapeia as portas do host para as portas do contêiner
       - "80:80"
       - "443:443"
+      - "8000:8000"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/:/etc/nginx/
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    depends_on:
+      - ./static:/contato/static/
+      - ./media:/contato/media/
+    depends_on: # Especifica que este serviço depende do serviço Django para iniciar
       - django
 
   certbot:
@@ -36,4 +46,20 @@ services:
     volumes: 
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    command: certonly --webroot -w /var/www/certbot --force-renewal --email contato@meucontato.app.br -d meucontato.app.br --agree-tos
+    # command: certonly --webroot -w /var/www/certbot --force-renewal --email contato@meucontato.app.br -d meucontato.app.br --agree-tos
+
+  postgresql:
+    image: postgres:15.3
+    container_name: postgresql
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes: # Define volumes que podem ser usados por qualquer serviço no Compose. O volume postgresql_data é usado para armazenar os dados do PostgreSQL.
+  postgresql_data:

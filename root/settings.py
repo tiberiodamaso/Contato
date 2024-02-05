@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import environ
 from django.contrib.messages import constants as messages
+from django.core.management.utils import get_random_secret_key
 
 environ.Env.read_env('.env')
 
@@ -26,12 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'secret_key')
+SECRET_KEY = get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.getenv('DEBUG', '0')))
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'meucontato.app.br', '13.58.249.200', 'meucontato.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'meucontato.app.br', '3.19.142.221',  'meucontato.pythonanywhere.com']
 
 
 # Application definition
@@ -144,11 +145,11 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
@@ -186,11 +187,14 @@ INTERNAL_IPS = [
   '127.0.0.1'
 ]
 
-# django-extensions graph models para criar PNG da modelagem
-# comando: python manage.py graph_models --arrow-shape normal -o models.png
-GRAPH_MODELS = {
-  'all_applications': False,
-  'group_models': True,
-  'app_labels': ["cards", "usuarios", "core"],
-  'exclude_models': ['AbstractUser', 'Permission', 'Group']
-}
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:8000',
+    'https://meucontato.app.br',
+    'http://meucontato.app.br',
+    'https://meucontato.app.br:8000',
+    'http://meucontato.app.br:8000',
+]
+
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
