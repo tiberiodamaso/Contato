@@ -348,7 +348,7 @@ class ComprarAnuncio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         response = requests.post(url, json=data, headers=headers)
 
         # Verifique se a solicitação foi bem-sucedida
-        if response.status_code == 201:
+        if response.status_code == 200:
             data = response.json()
             formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
             anuncio = Anuncio.objects.create(
