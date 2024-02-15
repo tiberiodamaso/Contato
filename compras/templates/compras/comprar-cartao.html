@@ -1,4 +1,4 @@
-`{% extends 'core/base.html' %}
+{% extends 'core/base.html' %}
 {% load static %}
 {% block content %}
     {% include 'core/menu.html' %}
@@ -11,7 +11,7 @@
     <div class="container mt-5">
         <div class="row justify-content-md-center justify-content-lg-center">
             <!--INFORMAÇÕES DO PRODUTO-->
-            {% if not card %}
+            {% if not compra %}
             <div class="col-md-4 mb-4">
                 <h4>Cartão Individual</h4>
                 <div class="border rounded-2 shadow text-center">
@@ -30,10 +30,22 @@
                     <h4 class="fs-4 lead pb-4">R$ 29,90</h4>
                 </div>
             </div>
+
+            <!--FORMULÁRIO DE PAGAMENTO-->
+            <div id="cardPaymentBrick_container" class="col-6"></div>
+
             {% else %}
             <div class="col-md-4 mb-4">
-                <h4>Plano individual</h4>
-                <div class="border rounded-2 shadow text-center">
+                {% if not card %}
+                <h4 class="text-center">Você já comprou um cartão. Clique abaixo para criá-lo</h4>
+                <a href="{% url 'core:modelos' %}"
+                class="btn fs-5 w-100 bg-warning text-white mt-3">Criar cartão</a>
+                {% else %}
+                <h4 class="text-center">Você já criou um cartão. Clique abaixo para editá-lo</h4>
+                <a href="{% url 'core:editar' card.slug_empresa card.slug %}"
+                class="btn fs-5 w-100 bg-warning text-white mt-3">Editar cartão</a>
+                {% endif %}
+                <!-- <div class="border rounded-2 shadow text-center">
                     <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
                     <h2 class="fw-normal">{{card.nome_display}}</h2>
                     {% if card.cargo %}
@@ -53,12 +65,9 @@
                             <li>Suas redes sociais</li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
             </div>
             {% endif %}
-
-            <!--FORMULÁRIO DE PAGAMENTO-->
-            <div id="cardPaymentBrick_container" class="col-6"></div>
         </div>
     </div>
 

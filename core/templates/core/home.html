@@ -236,8 +236,13 @@
                             <li>Seu site</li>
                             <li>Suas redes sociais</li>
                         </ul>
-                        <a type="button" href="{% url 'usuarios:registrar' %}"
-                            class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% if not user.is_authenticated %}
+                            <a type="button" href="{% url 'usuarios:registrar' %}"
+                                class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% else %}
+                            <a type="button" href="{% url 'compras:comprar-cartao' %}"
+                                class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -255,8 +260,13 @@
                             <li>Insira foto e descrição do anúncio</li>
                             <li>Anuncie produtos, serviços...</li>
                         </ul>
+                        {% if not user.is_authenticated %}
                         <a type="button" href="{% url 'usuarios:registrar' %}"
                             class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% else %}
+                        <a type="button" href="{% url 'compras:comprar-anuncio' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -275,8 +285,13 @@
                             <li>Divulgue melhor</li>
                             <li>Conquiste mais clientes</li>
                         </ul>
+                        {% if not user.is_authenticated %}
                         <a type="button" href="{% url 'usuarios:registrar' %}"
                             class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% else %}
+                        <a type="button" href="{% url 'compras:comprar-relatorio' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -437,9 +452,7 @@
     </div>
 
     <!--PRODUTOS-->
-    <section>
-
-        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center justify-content-center">
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center justify-content-center">
 
             <!--PRODUTO 1-->
             <div class="col-10">
@@ -455,8 +468,13 @@
                             <li>Seu site</li>
                             <li>Suas redes sociais</li>
                         </ul>
-                        <a type="button" href="{% url 'usuarios:registrar' %}"
-                            class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% if not user.is_authenticated %}
+                            <a type="button" href="{% url 'usuarios:registrar' %}"
+                                class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% else %}
+                            <a type="button" href="{% url 'compras:comprar-cartao' %}"
+                                class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -474,8 +492,13 @@
                             <li>Insira foto e descrição do anúncio</li>
                             <li>Anuncie produtos, serviços...</li>
                         </ul>
+                        {% if not user.is_authenticated %}
                         <a type="button" href="{% url 'usuarios:registrar' %}"
                             class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% else %}
+                        <a type="button" href="{% url 'compras:comprar-anuncio' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -494,18 +517,17 @@
                             <li>Divulgue melhor</li>
                             <li>Conquiste mais clientes</li>
                         </ul>
+                        {% if not user.is_authenticated %}
                         <a type="button" href="{% url 'usuarios:registrar' %}"
                             class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% else %}
+                        <a type="button" href="{% url 'compras:comprar-relatorio' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-        </div>
-</div>
-
-<!-- <div class="text-center">Todos os valores são por usuário do cartão</div> -->
-
-</section>
-
+    </div>
 </div>
 
 <!--MODELOS-->
@@ -664,6 +686,7 @@
     <div class="container col-xxl-8 px-4 py-5">
         <h1 class="display-4 fw-normal text-center pb-4 py-lg-5">Dúvidas frequentes</h1>
         <div class="accordion lead" id="accordionExample">
+            <!--DÚVIDA 1-->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button fs-4" type="button" data-bs-toggle="collapse"
@@ -689,6 +712,7 @@
                     </div>
                 </div>
             </div>
+            <!--DÚVIDA 2-->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingTwo">
                     <button class="accordion-button collapsed fs-4" type="button" data-bs-toggle="collapse"
@@ -704,10 +728,11 @@
                             mostram gráficos com informações sobre cidade onde houveram mais visualizações, redes
                             sociais que mais captaram
                             usuários e muitas outras informações.</p>
-                        <p class="fw-bold my-4">*** Serviço contratado a parte</p>
+                        <p class="fw-bold my-4">*** Serviço contratado à parte</p>
                     </div>
                 </div>
             </div>
+            <!--DÚVIDA 3-->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingThree">
                     <button class="accordion-button collapsed fs-4" type="button" data-bs-toggle="collapse"
@@ -724,14 +749,19 @@
                         <p>Aproveite ao máximo as 10 áreas disponíveis para garantir que os visitantes vejam os aspectos
                             mais atraentes do seu negócio. Destaque os produtos mais vendidos, as melhores promoções
                             atuais, os cursos mais populares ou os trabalhos mais impressionantes do seu portfólio.</p>
-                        <p class="fw-bold my-4">*** Serviço contratado a parte</p>
+                        <p class="fw-bold my-4">*** Serviço contratado à parte</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="my-5 d-md-flex justify-content-center">
-            <a type="button" href="{% url 'usuarios:registrar' %}"
-                class="btn btn-warning btn-lg px-4 me-md-2 col-12">Comprar</a>
+            {% if not user.is_authenticated %}
+                <a type="button" href="{% url 'usuarios:registrar' %}"
+                    class="btn btn-warning btn-lg px-4 me-md-2 col-12">Comprar</a>
+            {% else %}
+                <a type="button" href="{% url 'compras:comprar-cartao' %}"
+                    class="btn btn-warning btn-lg px-4 me-md-2 col-12">Comprar</a>
+            {% endif %}
         </div>
     </div>
 </div>

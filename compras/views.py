@@ -38,8 +38,9 @@ class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
 
     def get(self, request, *args, **kwargs):
         usuario = self.request.user
+        compra = usuario.relatorios.last()
         card = usuario.cards.all().first()
-        contexto = {'usuario': usuario, 'card': card}
+        contexto = {'usuario': usuario, 'card': card, 'compra': compra}
         return render(request, 'compras/comprar-relatorio.html', contexto)
 
     def post(self, request, *args, **kwargs):
@@ -223,8 +224,9 @@ class ComprarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
 
     def get(self, request, *args, **kwargs):
         usuario = self.request.user
+        compra = usuario.cartoes.last()
         card = usuario.cards.all().first()
-        contexto = {'usuario': usuario, 'card': card}
+        contexto = {'usuario': usuario, 'card': card, 'compra': compra}
         return render(request, 'compras/comprar-cartao.html', contexto)
 
     def post(self, request, *args, **kwargs):
@@ -306,8 +308,13 @@ class ComprarAnuncio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 
     def get(self, request, *args, **kwargs):
         usuario = self.request.user
+        compra = usuario.anuncios.last()
         card = usuario.cards.all().first()
-        contexto = {'usuario': usuario, 'card': card}
+        if card:
+            anuncios = card.conteudos.all()
+        else:
+            anuncios = None
+        contexto = {'usuario': usuario, 'card': card, 'compra': compra, 'anuncios': anuncios}
         return render(request, 'compras/comprar-anuncio.html', contexto)
 
     def post(self, request, *args, **kwargs):

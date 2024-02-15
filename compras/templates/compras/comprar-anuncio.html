@@ -11,6 +11,7 @@
     <div class="container mt-5">
         <div class="row justify-content-md-center justify-content-lg-center">
             <!--INFORMAÇÕES DO PRODUTO-->
+            {% if not compra %}
             <div class="col-md-4 mb-4">
                 <h4>Pacote de 10 anúncios</h4>
                 <div class="border rounded-2 shadow text-center">
@@ -38,7 +39,21 @@
 
             <!--FORMULÁRIO DE PAGAMENTO-->
             <div id="cardPaymentBrick_container" class="col-6"></div>
+
+            {% else %}
+            <div class="col-md-4 mb-4">
+                {% if not card %}
+                <h4 class="text-center">Parece que você ainda não criou ou seu cartão.</h4>
+                <a href="{% url 'core:modelos' %}"
+                class="btn fs-5 w-100 bg-warning text-white mt-3">Criar cartão</a>
+                {% else %}
+                <h4 class="text-center">Você já comprou um pacote de anúncios. Clique abaixo para criá-los.</h4>
+                <a href="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}"
+                class="btn fs-5 w-100 bg-warning text-white mt-3">Criar anúncios</a>
+                {% endif %}
+            </div>
         </div>
+        {% endif %}
     </div>
 
     <!--INICIALIZA FORM DE PAGAMENTO-->
