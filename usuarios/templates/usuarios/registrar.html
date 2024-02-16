@@ -41,15 +41,21 @@
 
         <div class="mb-3">
             <label for="id_password1">Senha:</label>
-            {{ form.password1 }}
-            <small id="passwordHelp" class="form-text text-muted"></small>
+            <div class="input-group">
+                {{ form.password1 }}
+                <span class="input-group-text" onclick="togglePasswordVisibility(this.previousElementSibling.id)"><i class="bi bi-eye-fill"></i></span>
+            </div>
         </div>
+        <small id="passwordHelp" class="form-text text-muted"></small>
 
         <div class="mb-3">
             <label for="id_password2">Confirmação de senha:</label>
-            {{ form.password2 }}
-            <small id="passwordMatchHelp" class="form-text text-danger font-weight-bold"></small>
+            <div class="input-group">
+                {{ form.password2 }}
+                <span class="input-group-text" onclick="togglePasswordVisibility(this.previousElementSibling.id)"><i class="bi bi-eye-fill"></i></span>
+            </div>
         </div>
+        <small id="passwordMatchHelp" class="form-text text-danger font-weight-bold"></small>
 
         <div class="mb-3">
             Ao se registrar você aceita os <a href="{% url 'core:termos-de-uso' %}" class="text-decoration-none">Termos
@@ -61,10 +67,28 @@
 
     </form>
     <script>
+        function togglePasswordVisibility(passwordId) {
+            var passwordInput = document.getElementById(passwordId);
+            var icon = passwordInput.nextElementSibling.firstChild;
+
+            // Alterna entre o tipo "password" e "text"
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.classList.remove('bi-eye-fill');
+                icon.classList.add('bi-eye-slash-fill');
+            } else {
+                passwordInput.type = "password";
+                icon.classList.remove('bi-eye-slash-fill');
+                icon.classList.add('bi-eye-fill');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             var passwordInput = document.getElementById('id_password1');
-            var confirmPasswordInput = document.getElementById('id_password2');
             var passwordHelp = document.getElementById('passwordHelp');
+
+            var confirmPasswordInput = document.getElementById('id_password2');
+            var passwordMatchHelp = document.getElementById('passwordMatchHelp');
 
             passwordInput.addEventListener('input', function () {
                 var password = passwordInput.value;
