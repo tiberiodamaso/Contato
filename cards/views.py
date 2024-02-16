@@ -186,7 +186,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
     model = Card
     form_class = CardEditForm
     template_name = 'cards/card-criar.html'
-    success_message = 'Card criado com sucesso.'
+    success_message = 'Cartão criado com sucesso.'
 
     def test_func(self):
         cartoes_comprados = self.request.user.cartoes.all()
