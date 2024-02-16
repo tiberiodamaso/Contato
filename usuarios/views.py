@@ -27,6 +27,8 @@ from .models import Usuario
 from django.shortcuts import redirect, render
 from cards.models import Card
 from compras.models import Relatorio, Cartao
+from django.contrib.auth.hashers import check_password
+
 
 class UsusarioLoginView(LoginView):
     template_name = 'usuarios/login.html'
@@ -39,16 +41,24 @@ class UsusarioLoginView(LoginView):
 
     def post(self, request, *args, **kwargs):
         # Obtendo os dados do formulário de login
-        username = request.POST.get('username')
+        email = request.POST.get('username')
         password = request.POST.get('password')
 
         # Verificando se o usuário com o email existe
         try:
-            user = Usuario.objects.get(email=username)
+            user = Usuario.objects.get(email=email)
+            # Verifica se senha está correta
+            if not check_password(password, user.password):
+                messages.error(request, 'Falha na autenticação - Senha incorreta')
+                return HttpResponseRedirect(reverse('usuarios:login'))
+            
+            #verifica se usuario não é ativo para redirecionar para reenviar e-mail
             if not user.is_active:
                 # Se o usuário existe, mas não está ativo
                 # Redirecionar para o template de reenvio de email de ativação
-                return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao', kwargs={'username': user.username}))
+                request.session['email'] = email
+                return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao'))
+                # return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao', kwargs={'username': user.username}))
                 # return TemplateResponse(request, 'resend_activation_email.html')
 
             # Se o usuário existe e está ativo, tentar fazer login
@@ -142,13 +152,25 @@ class ReenviarEmailAtivacao(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['username'] = kwargs['username']
+        # context['username'] = kwargs['username']
         return context
 
     def post(self, request, **kwargs):
-        username = kwargs['username']
+        email = request.session.pop('email')
         
-        usuario = Usuario.objects.get(username=username)
+        # Verifique se o usuário existe no banco de dados
+        try:
+            usuario = Usuario.objects.get(email=email)
+        except Usuario.DoesNotExist:
+            # Usuário não encontrado
+            messages.error(request, 'Usuário não encontrado')
+            return self.render_to_response(self.get_context_data())
+
+        except Usuario.MultipleObjectsReturned:
+            # Mais de um usuário encontrado
+            messages.error(request, 'Mais de um usuário encontrado. Entre em contato com o suporte.')
+            return self.render_to_response(self.get_context_data())
+
 
         # Envia email para ativação da conta com o password
         current_site = get_current_site(self.request)
@@ -162,6 +184,7 @@ class ReenviarEmailAtivacao(TemplateView):
         msg.content_subtype = "html"  # Main content is now text/html
         msg.send()
 
+        messages.success(request, 'E-mail enviado com sucesso')
         return self.get_success_url()
 
 

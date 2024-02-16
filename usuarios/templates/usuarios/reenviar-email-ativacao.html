@@ -7,7 +7,7 @@
         <h2>Sua conta ainda não foi ativada.</h2>
         <p>Por favor, verifique a caixa de entrada do seu endereço de e-mail.</p>
         <p>Caso não tenha recebido, clique no botão abaixo para receber um novo e-mail.</p>
-        <form method="post" action="{% url 'usuarios:reenviar-email-ativacao' username %}">
+        <form method="post" action="{% url 'usuarios:reenviar-email-ativacao' %}">
             {% csrf_token %}
             <button class="btn btn-warning">Receber e-mail</button>
         </form>
