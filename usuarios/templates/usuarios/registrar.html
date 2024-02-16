@@ -42,11 +42,13 @@
         <div class="mb-3">
             <label for="id_password1">Senha:</label>
             {{ form.password1 }}
+            <small id="passwordHelp" class="form-text text-muted"></small>
         </div>
 
         <div class="mb-3">
             <label for="id_password2">Confirmação de senha:</label>
             {{ form.password2 }}
+            <small id="passwordMatchHelp" class="form-text text-danger font-weight-bold"></small>
         </div>
 
         <div class="mb-3">
@@ -58,5 +60,46 @@
         <button type="submit" class="btn btn-warning">Criar</button>
 
     </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var passwordInput = document.getElementById('id_password1');
+            var confirmPasswordInput = document.getElementById('id_password2');
+            var passwordHelp = document.getElementById('passwordHelp');
+
+            passwordInput.addEventListener('input', function () {
+                var password = passwordInput.value;
+
+                // Verifique as regras da senha
+                var lengthRule = password.length >= 8;
+                var lowercaseRule = /[a-z]/.test(password);
+                var uppercaseRule = /[A-Z]/.test(password);
+                var numberRule = /\d/.test(password);
+                var symbolRule = /[-!$%^&*()_+|~=`{}\[\]:;'"<>?,.@#\/\\]/.test(password);
+
+                // Atualize a mensagem de ajuda
+                var message = 'As seguintes regras devem ser atendidas:';
+                message += lengthRule ? '<br>✅ Pelo menos 8 caracteres' : '<br>❌ Pelo menos 8 caracteres';
+                message += lowercaseRule ? '<br>✅ Pelo menos uma letra minúscula' : '<br>❌ Pelo menos uma letra minúscula';
+                message += uppercaseRule ? '<br>✅ Pelo menos uma letra maiúscula' : '<br>❌ Pelo menos uma letra maiúscula';
+                message += numberRule ? '<br>✅ Pelo menos um número' : '<br>❌ Pelo menos um número';
+                message += symbolRule ? '<br>✅ Pelo menos um símbolo' : '<br>❌ Pelo menos um símbolo';
+
+                // Atualize o texto da mensagem
+                passwordHelp.innerHTML = message;
+            });
+
+            confirmPasswordInput.addEventListener('input', function () {
+                var password = passwordInput.value;
+                var confirmPassword = confirmPasswordInput.value;
+
+                // Verificar se as senhas são iguais
+                if (password !== confirmPassword) {
+                    passwordMatchHelp.textContent = 'As senhas não coincidem.';
+                } else {
+                    passwordMatchHelp.textContent = '';
+                }
+            });
+        });
+    </script>
 </div>
 {% endblock %}
