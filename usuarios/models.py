@@ -30,6 +30,22 @@ class Usuario(AbstractUser):
 
     def __str__(self):
         return self.get_full_name()
+    
+    def save(self, *args, **kwargs):
+        # Verificar se o username já existe
+        if not self.username:
+            base_username = slugify(f'{self.first_name}-{self.last_name}')
+            username = base_username
+            count = 1
+
+            # Certificar-se de que o username é único
+            while Usuario.objects.filter(username=username).exists():
+                username = f'{base_username}-{count}'
+                count += 1
+
+            self.username = username
+
+        super().save(*args, **kwargs)
 
 
 class Perfil(models.Model):

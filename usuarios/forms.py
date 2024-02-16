@@ -48,7 +48,7 @@ class UsuarioRegistrationForm(UserCreationForm):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         user.is_active = False
-        user.username = slugify(f'{user.first_name}-{user.last_name}')
+        # user.username = slugify(f'{user.first_name}-{user.last_name}')
         if commit:
             user.save()
         return user
