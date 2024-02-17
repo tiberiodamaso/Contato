@@ -37,7 +37,7 @@ class UsusarioLoginView(LoginView):
     def get_success_url(self):
         usuario = self.request.user
         card = usuario.cards.first()
-        return reverse('core:home')
+        return reverse('usuarios:minha-conta', kwargs={'username': usuario.username})
 
     def post(self, request, *args, **kwargs):
         # Obtendo os dados do formulário de login
