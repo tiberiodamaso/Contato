@@ -6,18 +6,11 @@
 
 {% include 'core/mensagens.html' %}
 
-<style>
-    .spinner {
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-</style>
-
 {% if not card %}
     <div class="d-flex flex-column align-items-center">
 
         <div class="my-5">
-            <h4>Olá {{user.first_name}}, vamos criar seu card</h4>
+            <h4>Olá {{user.first_name}}, vamos criar seu cartão</h4>
         </div>
 
         <!--IMAGEM DO PERFIL-->
@@ -41,7 +34,16 @@
 
             <!--IMG_PERFIL-->
             <div class="mb-3">
-                <label for="id_img_perfil">Foto do cartão e perfil: <span class="small text-danger">(máximo 1MB)</span></label>
+                <div class="d-flex justify-content-between">
+                    <label for="id_img_perfil">Foto do cartão e perfil:</label>
+                    <div>
+                        <span class="ms-4 text-secondary">instruções </span>
+                        <button type="button" class="btn p-0" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+                            data-bs-html="true" data-bs-title="Tamanho máximo de 1MB, dimensões recomendadas de 500x500 pixels e formatos JPG ou PNG apenas">
+                        <i class="bi bi-info-circle-fill text-warning"></i>
+                        </button>
+                    </div>
+                </div>
                 {{form.img_perfil}}
             </div>
 
@@ -53,7 +55,13 @@
 
             <!--NOME DISPLAY-->
             <div class="mb-3">
-                <label for="id_nome_display">Nome no cartão:</label>
+                <div class="d-flex justify-content-between">
+                    <label for="id_nome_display">Nome que aparecerá no cartão:</label>
+                    <button type="button" class="btn p-0" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+                        data-bs-html="true" data-bs-title="Servirá como referência para as estatísticas dos Relatórios">
+                        <i class="bi bi-info-circle-fill text-warning"></i>
+                    </button>
+                </div>
                 {{form.nome_display}}
             </div>
 
@@ -65,7 +73,15 @@
 
             <!--LOGOTIPO-->
             <div class="mb-3">
-                <label for="id_empresa">Logotipo: <span class="small text-danger">(máximo 1MB)</span></label>
+                <div class="d-flex justify-content-between">
+                    <label for="id_empresa">Logotipo:</label>
+                    <div>
+                        <span class="ms-4 text-secondary">instruções </span><button type="button" class="btn p-0" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+                        data-bs-html="true" data-bs-title="Tamanho máximo de 1MB, dimensões recomendadas de 500x500 pixels e formatos JPG ou PNG apenas">
+                        <i class="bi bi-info-circle-fill text-warning"></i>
+                        </button>
+                    </div>
+                </div>
                 {{form.logotipo}}
             </div>
 
@@ -86,6 +102,7 @@
                 <label for="id_categoria">Categoria:</label>
                 <select name="categoria" class="form-select" id="id_categoria" hx-get="{% url 'core:get-subcategorias'%}"
                     hx-trigger="change" hx-target="#id_subcategoria">
+                    <option value="0">Seleciona uma categoria</option>
                     {% for categoria in categorias %}
                     <option value="{{categoria.id}}">{{categoria.nome}}</option>
                     {% endfor %}
@@ -96,6 +113,7 @@
             <div class="mb-3">
                 <label for="id_subcategoria">Subcategoria:</label>
                 <select name="subcategoria" class="form-select" id="id_subcategoria">
+                    <option value="0">Seleciona uma subcategoria</option>
                     {% for subcategoria in subcategorias %}
                     <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
                     {% endfor %}
@@ -515,6 +533,14 @@
         if (estadosSelect.value) {
             estadosSelect.dispatchEvent(new Event('change'));
         }
+    });
+</script>
+
+<!--TOOLTIPS-->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     });
 </script>
 

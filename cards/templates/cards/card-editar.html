@@ -5,12 +5,6 @@
 {% include 'core/menu.html' %}
 
 {% include 'core/mensagens.html' %}
-<style>
-    .spinner {
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-</style>
 
 <div class="d-flex flex-column align-items-center">
 
@@ -69,7 +63,16 @@
 
         <!--IMG PERFIL-->
         <div class="mb-3">
-            <label for="id_img_perfil">Foto do cartão e do perfil: <span class="small text-danger">(máximo 1MB)</span></label>
+            <div class="d-flex justify-content-between">
+                <label for="id_img_perfil">Foto do cartão e perfil:</label>
+                <div>
+                    <span class="ms-4 text-secondary">instruções </span>
+                    <button type="button" class="btn p-0" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+                        data-bs-html="true" data-bs-title="Tamanho máximo de 1MB, dimensões recomendadas de 500x500 pixels e formatos JPG ou PNG apenas">
+                    <i class="bi bi-info-circle-fill text-warning"></i>
+                    </button>
+                </div>
+            </div>
             {{form.img_perfil}}
             {% if card.img_perfil %}
             <div class="my-2">
@@ -86,11 +89,13 @@
 
         <!--NOME DISPLAY-->
         <div>
-            <label for="id_nome_display">Nome que aparecerá no cartão:</label>
-            <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
-                data-bs-html="true" data-bs-title="Servirá como referência para as estatísticas do Dashboard">
-                <i class="bi bi-info-circle-fill text-warning"></i>
-            </button>
+            <div class="d-flex justify-content-between">
+                <label for="id_nome_display">Nome que aparecerá no cartão:</label>
+                <button type="button" class="btn p-0" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+                    data-bs-html="true" data-bs-title="Servirá como referência para as estatísticas dos Relatórios">
+                    <i class="bi bi-info-circle-fill text-warning"></i>
+                </button>
+            </div>
             <div class="input-group mb-3">
                 {{form.nome_display}}
                 <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
@@ -108,7 +113,15 @@
 
         <!--LOGOTIPO-->
         <div class="mb-3">
-            <label for="id_logotipo">Logotipo: <span class="small text-danger">(máximo 1MB)</span></label>
+            <div class="d-flex justify-content-between">
+                <label for="id_empresa">Logotipo:</label>
+                <div>
+                    <span class="ms-4 text-secondary">instruções </span><button type="button" class="btn p-0" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+                    data-bs-html="true" data-bs-title="Tamanho máximo de 1MB, dimensões recomendadas de 500x500 pixels e formatos JPG ou PNG apenas">
+                    <i class="bi bi-info-circle-fill text-warning"></i>
+                    </button>
+                </div>
+            </div>
             {{form.logotipo}}
             {% if card.logotipo %}
             <div class="my-2">
