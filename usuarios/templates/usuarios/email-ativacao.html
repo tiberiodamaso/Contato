@@ -40,7 +40,7 @@
 
 <body>
     <div style="display:flex; justify-content: center; margin-bottom: 2rem; margin-top: 2rem;">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" zoomAndPan="magnify"
+        <!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" zoomAndPan="magnify"
             viewBox="0 0 150 37.5" height="50" preserveAspectRatio="xMidYMid meet" version="1.0">
             <defs>
                 <g />
@@ -146,12 +146,14 @@
                     </g>
                 </g>
             </g>
-        </svg>
+        </svg> -->
+        <img src="https://meucontato.app.br/static/core/img/logotipo-email.png" alt="logotipo meu contato" />
     </div>
     <div class="container">
         <h2>Confirme seu endereço de e-mail</h2>
         <p>Obrigado por se cadastrar. Por favor, confirme seu endereço de e-mail clicando no botão abaixo:</p>
         <a class="button" href="http://{{ dominio }}{% url 'usuarios:ativar-conta' uid token %}">Confirmar E-mail</a>
+        <h4 style="margin-top: 2rem;">Se não foi você que fez essa solicitação, desconsidere esse mensagem.</h4>
     </div>
 </body>
 

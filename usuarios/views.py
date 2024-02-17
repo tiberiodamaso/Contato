@@ -174,7 +174,7 @@ class ReenviarEmailAtivacao(TemplateView):
 
         # Envia email para ativação da conta com o password
         current_site = get_current_site(self.request)
-        subject = 'Ative a sua conta'
+        subject = 'Meu Contato - ative a sua conta'
         to = usuario.email
         context = {'usuario': usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(usuario.pk)),
                    'token': account_activation_token.make_token(usuario)}
