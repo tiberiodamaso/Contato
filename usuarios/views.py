@@ -86,7 +86,7 @@ class RegistrarView(SuccessMessageMixin, CreateView):
 
         # Envia email para ativação da conta com o password
         current_site = get_current_site(self.request)
-        subject = 'Ative a sua conta'
+        subject = 'Meu contato - ative a sua conta'
         to = novo_usuario.email
         context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
                    'token': account_activation_token.make_token(novo_usuario)}
