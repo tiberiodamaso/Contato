@@ -274,6 +274,8 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
             altura_desejada = 300
             _, extensao = os.path.splitext(logotipo.name)
             extensao = extensao.lstrip('.').upper()
+            if extensao == 'JPG':
+                extensao = 'JPEG'
             logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
 
             # Crie um arquivo temporário para a imagem redimensionada
