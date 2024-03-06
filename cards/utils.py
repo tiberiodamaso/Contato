@@ -8,7 +8,8 @@ def validate_file_extension(value):
     if not ext.lower() in valid_extensions:
         raise ValidationError('Tipo de imagem não suportado. Tente imagens do tipo JPG, JEPG, PNG ou SVG.')
 
-def make_vcf(first_name, last_name, empresa, telefone, whatsapp, facebook, instagram, linkedin, email, youtube, tik_tok):
+# def make_vcf(first_name, last_name, empresa, telefone, whatsapp, facebook, instagram, linkedin, email, youtube, tik_tok):
+def make_vcf(first_name, last_name, empresa, telefone, whatsapp, email):
 
     
     return [
@@ -20,16 +21,16 @@ def make_vcf(first_name, last_name, empresa, telefone, whatsapp, facebook, insta
         f'TEL;type=WORK;type=VOICE:{telefone}',
         f'item1.URL;type=pref:https://api.whatsapp.com/send?phone=55{whatsapp}&text=oi',
         f'item1.X-ABLabel:Whatsapp',
-        f'item2.URL;type=pref:{instagram}',
-        f'item2.X-ABLabel:Instagram',
-        f'item3.URL;type=pref:{facebook}',
-        f'item3.X-ABLabel:Facebook',
-        f'item4.URL;type=pref:{linkedin}',
-        f'item4.X-ABLabel:Linkedin',
-        f'item5.URL;type=pref:{youtube}',
-        f'item5.X-ABLabel:Youtube',
-        f'item6.URL;type=pref:{tik_tok}',
-        f'item6.X-ABLabel:Tik Tok',
+        # f'item2.URL;type=pref:{instagram}',
+        # f'item2.X-ABLabel:Instagram',
+        # f'item3.URL;type=pref:{facebook}',
+        # f'item3.X-ABLabel:Facebook',
+        # f'item4.URL;type=pref:{linkedin}',
+        # f'item4.X-ABLabel:Linkedin',
+        # f'item5.URL;type=pref:{youtube}',
+        # f'item5.X-ABLabel:Youtube',
+        # f'item6.URL;type=pref:{tik_tok}',
+        # f'item6.X-ABLabel:Tik Tok',
         f'EMAIL;type=INTERNET;type=WORK:{email}',
         'END:VCARD'
     ]
