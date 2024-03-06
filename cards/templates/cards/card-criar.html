@@ -544,5 +544,113 @@
     });
 </script>
 
+<!--VALIDA FACEBOOK-->
+<script>
+    document.getElementById('id_facebook').addEventListener('change', function(event) {
+        var facebookPerfil = event.target.value;
+        facebookPerfil = facebookPerfil.replace(/@/g, '');
+
+        fetch(`https://facebook.com/${facebookPerfil}`)
+        .then(function(response) {
+            if (response.ok) {
+                event.target.value = response.url;
+                event.target.classList.remove('text-danger');
+            } else {
+                event.target.classList.add('text-danger');
+            }
+        })
+        .catch(function(error) {
+            console.log('Erro na requisição: ', error);
+            event.target.classList.add('text-danger');
+        });
+    });
+</script>
+
+<!--VALIDA INSTRAGRAM-->
+<script>
+    document.getElementById('id_instagram').addEventListener('change', function(event) {
+        var instagramPerfil = event.target.value;
+        instagramPerfil = instagramPerfil.replace(/@/g, '');
+
+        fetch(`https://instagram.com/${instagramPerfil}`)
+        .then(function(response) {
+            if (response.ok) {
+                event.target.value = response.url;
+                event.target.classList.remove('text-danger');
+            } else {
+                event.target.classList.add('text-danger');
+            }
+        })
+        .catch(function(error) {
+            console.log('Erro na requisição: ', error);
+            event.target.classList.add('text-danger');
+        });
+    });
+</script>
+
+<!--VALIDA LINKEDIN-->
+<script>
+    document.getElementById('id_linkedin').addEventListener('change', function(event) {
+        var linkedinPerfil = event.target.value;
+        linkedinPerfil = linkedinPerfil.replace(/@/g, '');
+
+        fetch(`https://linkedin.com/in/${linkedinPerfil}`)
+        .then(function(response) {
+            if (response.ok) {
+                event.target.value = response.url;
+                event.target.classList.remove('text-danger');
+            } else {
+                event.target.classList.add('text-danger');
+            }
+        })
+        .catch(function(error) {
+            console.log('Erro na requisição: ', error);
+            event.target.classList.add('text-danger');
+        });
+    });
+</script>
+
+<!--VALIDA YOUTUBE-->
+<script>
+    document.getElementById('id_youtube').addEventListener('change', function(event) {
+        var youtubePerfil = event.target.value;
+        youtubePerfil = youtubePerfil.replace(/@/g, '');
+
+        fetch(`https://youtube.com/${youtubePerfil}`)
+        .then(function(response) {
+            if (response.ok) {
+                event.target.value = response.url;
+                event.target.classList.remove('text-danger');
+            } else {
+                event.target.classList.add('text-danger');
+            }
+        })
+        .catch(function(error) {
+            console.log('Erro na requisição: ', error);
+            event.target.classList.add('text-danger');
+        });
+    });
+</script>
+
+<!--VALIDA TIKTOK-->
+<script>
+    document.getElementById('id_tik_tok').addEventListener('change', function(event) {
+        var tiktokPerfil = event.target.value;
+
+        fetch(`https://tiktok.com/${tiktokPerfil}`)
+        .then(function(response) {
+            if (response.ok) {
+                event.target.value = response.url;
+                event.target.classList.remove('text-danger');
+            } else {
+                event.target.classList.add('text-danger');
+            }
+        })
+        .catch(function(error) {
+            console.log('Erro na requisição: ', error);
+            event.target.classList.add('text-danger');
+        });
+    });
+</script>
 
 {% endblock %}
