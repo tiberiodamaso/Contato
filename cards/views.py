@@ -238,6 +238,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         pasta_usuario = card.proprietario.id.hex
         modelo = form.cleaned_data['modelo']
         empresa = form.cleaned_data['empresa']
+        site = form.cleaned_data['site']
         telefone= form.cleaned_data['telefone']
         whatsapp = form.cleaned_data['whatsapp']
         facebook = form.cleaned_data['facebook']
@@ -289,7 +290,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         # vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
         #                        telefone, whatsapp, facebook, instagram, linkedin, proprietario.email, youtube, tik_tok)
         vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
-                               telefone, whatsapp, proprietario.email)
+                               telefone, site, proprietario.email)
 
         vcf_name = f'{uuid.uuid4().hex}.vcf'
         content = '\n'.join([str(line) for line in vcf_content])
@@ -456,7 +457,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
                 # vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
                 #                     telefone, whatsapp, facebook, instagram, linkedin, proprietario.email, youtube, tik_tok)
                 vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
-                                    telefone, whatsapp, proprietario.email)
+                                    telefone, site, proprietario.email)
 
                 vcf_name = f'{uuid.uuid4().hex}.vcf'
                 content = '\n'.join([str(line) for line in vcf_content])
