@@ -9,7 +9,7 @@ def validate_file_extension(value):
         raise ValidationError('Tipo de imagem não suportado. Tente imagens do tipo JPG, JEPG, PNG ou SVG.')
 
 # def make_vcf(first_name, last_name, empresa, telefone, whatsapp, facebook, instagram, linkedin, email, youtube, tik_tok):
-def make_vcf(first_name, last_name, empresa, telefone, site, email):
+def make_vcf(first_name, last_name, empresa, telefone, site, endereco, email):
 
     
     return [
@@ -19,6 +19,10 @@ def make_vcf(first_name, last_name, empresa, telefone, site, email):
         f'FN:{first_name} {last_name}',
         f'ORG:{empresa}',
         f'TEL;type=WORK;type=VOICE:{telefone}',
+        f'item1.URL;type=pref:{site}',
+        f'item1.X-ABLabel:Site',
+        f'item1.ADR;type=OTHER;type=pref:{endereco}',
+        f'item1.X-ABADR:br',
         f'item1.URL;type=pref:{site}',
         f'item1.X-ABLabel:Site',
         # f'item1.URL;type=pref:https://api.whatsapp.com/send?phone=55{whatsapp}&text=oi',

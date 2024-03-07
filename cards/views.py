@@ -290,7 +290,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         # vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
         #                        telefone, whatsapp, facebook, instagram, linkedin, proprietario.email, youtube, tik_tok)
         vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
-                               telefone, site, proprietario.email)
+                               telefone, site, endereco, proprietario.email)
 
         vcf_name = f'{uuid.uuid4().hex}.vcf'
         content = '\n'.join([str(line) for line in vcf_content])
@@ -457,7 +457,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
                 # vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
                 #                     telefone, whatsapp, facebook, instagram, linkedin, proprietario.email, youtube, tik_tok)
                 vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
-                                    telefone, site, proprietario.email)
+                                    telefone, site, endereco, proprietario.email)
 
                 vcf_name = f'{uuid.uuid4().hex}.vcf'
                 content = '\n'.join([str(line) for line in vcf_content])
