@@ -717,7 +717,6 @@ class DashboardEmpresa(TemplateView):
 class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Conteudo
     form_class = ConteudoEditForm
-    success_url = '.'
     template_name = 'cards/conteudo-criar.html'
     success_message = 'Conteúdo criado com sucesso!'
 
@@ -729,6 +728,11 @@ class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin
 
     def handle_no_permission(self):
         return render(self.request, 'cards/permissao-negada-conteudo.html', status=403)
+
+    def get_success_url(self):
+        usuario = self.request.user
+        card = usuario.cards.first()
+        return reverse_lazy('core:conteudo-listar', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -786,6 +790,118 @@ class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin
         return super().form_valid(form)
 
 
+class ConteudoListar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, ListView):
+    model = Conteudo
+    success_url = '.'
+    template_name = 'cards/conteudo-listar.html'
+
+    def test_func(self):
+        anuncios = self.request.user.anuncios.all()
+        for anuncio in anuncios:
+            if anuncio.status == 'approved':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-conteudo.html', status=403)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        usuario = self.request.user
+        card = usuario.cards.first()
+        conteudos = Conteudo.objects.filter(card__proprietario=usuario)
+        quantidade_conteudo = len(conteudos)
+        context['card'] = card
+        context['conteudos'] = conteudos
+        context['quantidade_conteudo'] = quantidade_conteudo
+        return context
+
+
+class ConteudoEditar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = Conteudo
+    form_class = ConteudoEditForm
+    template_name = 'cards/conteudo-editar.html'
+    success_message = 'Conteúdo atualizado com sucesso!'
+
+    def test_func(self):
+        anuncios = self.request.user.anuncios.all()
+        for anuncio in anuncios:
+            if anuncio.status == 'approved':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-conteudo.html', status=403)
+
+    def get_success_url(self):
+        usuario = self.request.user
+        card = usuario.cards.first()
+        return reverse_lazy('core:conteudo-listar', kwargs={'empresa': card.slug_empresa, 'slug': card.slug})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        usuario = self.request.user
+        card = usuario.cards.first()
+        conteudos = Conteudo.objects.filter(card__proprietario=usuario)
+        quantidade_conteudo = len(conteudos)
+        context['card'] = card
+        context['conteudos'] = conteudos
+        context['quantidade_conteudo'] = quantidade_conteudo
+        return context
+
+    def form_valid(self, form):
+        conteudo = form.save(commit=False)
+        usuario = self.request.user
+        # validação da quantidade de conteúdos criados
+        conteudos = Conteudo.objects.filter(card__proprietario=usuario)
+        if len(conteudos) > 10:
+            messages.error(
+                    self.request, 'Quantidade máxima de conteúdos atingidos - 10 conteúdos.')
+            return self.form_invalid(form)
+        card = usuario.cards.first()
+        conteudo.card = card
+        img = form.cleaned_data['img']
+        largura_desejada = 300
+        altura_desejada = 300
+        tamanho_maximo = 1 * 1024 * 1024
+
+        # Valida tamanho da imagem
+        if img:
+
+            if not img.name.endswith(('.jpg', '.jpeg', '.png')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o conteúdo.')
+                return self.form_invalid(form)
+
+            if img.size > tamanho_maximo:
+                messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
+                return self.form_invalid(form)
+            
+            extensao = slugify(os.path.splitext(img.name)[1])
+            if extensao == 'jpg':
+                extensao = 'jpeg'
+
+            # APAGA IMGAGEM ANTIGA
+            try:
+                conteudo_anterior = Conteudo.objects.get(id=self.kwargs['pk'])
+                imagem_anterior = conteudo_anterior.img
+                os.remove(imagem_anterior.path)
+                conteudo_anterior.img.delete()
+            except FileNotFoundError as err:
+                print(err)
+
+            # Redimensiona imagem se existe
+            img_redimensionada = resize_image(img, largura_desejada, altura_desejada)
+
+            # Crie um arquivo temporário para a imagem redimensionada
+            temp_file = tempfile.NamedTemporaryFile(delete=False)
+            img_redimensionada.save(temp_file, format=extensao) 
+            conteudo.img.save(name=img.name, content=temp_file, save=True)
+            temp_file.close()
+            os.remove(temp_file.name)
+
+        conteudo.save()
+
+        return super().form_valid(form)
+
+
 class ConteudoExcluir(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Conteudo
     template_name = 'cards/conteudo-criar.html'
@@ -810,100 +926,132 @@ class ConteudoExcluir(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         return HttpResponseRedirect(self.get_success_url(card))
 
 
-class ConteudoEditarNome(LoginRequiredMixin, UpdateView):
-    model = Conteudo
-    fields = ['nome']
-    template_name = 'cards/conteudo-editar-nome.html'
-    success_url = '.'
+# class ConteudoEditarNome(LoginRequiredMixin, UpdateView):
+#     model = Conteudo
+#     fields = ['nome']
+#     template_name = 'cards/conteudo-editar-nome.html'
+#     success_url = '.'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        usuario = self.request.user
-        conteudo = self.get_object()
-        context['usuario'] = usuario
-        context['conteudo'] = conteudo
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         usuario = self.request.user
+#         conteudo = self.get_object()
+#         context['usuario'] = usuario
+#         context['conteudo'] = conteudo
+#         return context
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        botao = self.kwargs['botao']
-        if botao == 'cancelar':
-            return HttpResponse(self.object.nome)
-        return super().get(request, *args, **kwargs)
+#     def get(self, request, *args, **kwargs):
+#         self.object = self.get_object()
+#         botao = self.kwargs['botao']
+#         if botao == 'cancelar':
+#             return HttpResponse(self.object.nome)
+#         return super().get(request, *args, **kwargs)
 
-    def get_form(self, form_class=None):
-        # Inicializa o formulário com a classe Bootstrap desejada
-        form = super().get_form(form_class)
-        form.fields['nome'].widget.attrs.update({'class': 'form-control'})
-        return form
+#     def get_form(self, form_class=None):
+#         # Inicializa o formulário com a classe Bootstrap desejada
+#         form = super().get_form(form_class)
+#         form.fields['nome'].widget.attrs.update({'class': 'form-control'})
+#         return form
 
-    def form_valid(self, form):
-        conteudo = form.save()
-        return HttpResponse(conteudo.nome)
-
-
-class ConteudoEditarDescricao(LoginRequiredMixin, UpdateView):
-    model = Conteudo
-    fields = ['descricao']
-    template_name = 'cards/conteudo-editar-descricao.html'
-    success_url = '.'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        usuario = self.request.user
-        conteudo = self.get_object
-        context['usuario'] = usuario
-        context['conteudo'] = conteudo
-        return context
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        botao = self.kwargs['botao']
-        if botao == 'cancelar':
-            return HttpResponse(self.object.descricao)
-        return super().get(request, *args, **kwargs)
-
-    def get_form(self, form_class=None):
-        # Inicializa o formulário com a classe Bootstrap desejada
-        form = super().get_form(form_class)
-        form.fields['descricao'].widget.attrs.update({'class': 'form-control', 'rows':'3'})
-        return form
-
-    def form_valid(self, form):
-        conteudo = form.save()
-        return HttpResponse(conteudo.descricao)
+#     def form_valid(self, form):
+#         conteudo = form.save()
+#         return HttpResponse(conteudo.nome)
 
 
-class ConteudoEditarLink(LoginRequiredMixin, UpdateView):
-    model = Conteudo
-    fields = ['link']
-    template_name = 'cards/conteudo-editar-link.html'
-    success_url = '.'
+# class ConteudoEditarDescricao(LoginRequiredMixin, UpdateView):
+#     model = Conteudo
+#     fields = ['descricao']
+#     template_name = 'cards/conteudo-editar-descricao.html'
+#     success_url = '.'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        usuario = self.request.user
-        conteudo = self.get_object
-        context['usuario'] = usuario
-        context['conteudo'] = conteudo
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         usuario = self.request.user
+#         conteudo = self.get_object
+#         context['usuario'] = usuario
+#         context['conteudo'] = conteudo
+#         return context
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        botao = self.kwargs['botao']
-        if botao == 'cancelar':
-            return HttpResponse(self.object.link)
-        return super().get(request, *args, **kwargs)
+#     def get(self, request, *args, **kwargs):
+#         self.object = self.get_object()
+#         botao = self.kwargs['botao']
+#         if botao == 'cancelar':
+#             return HttpResponse(self.object.descricao)
+#         return super().get(request, *args, **kwargs)
 
-    def get_form(self, form_class=None):
-        # Inicializa o formulário com a classe Bootstrap desejada
-        form = super().get_form(form_class)
-        form.fields['link'].widget.attrs.update({'class': 'form-control'})
-        return form
+#     def get_form(self, form_class=None):
+#         # Inicializa o formulário com a classe Bootstrap desejada
+#         form = super().get_form(form_class)
+#         form.fields['descricao'].widget.attrs.update({'class': 'form-control', 'rows':'3'})
+#         return form
 
-    def form_valid(self, form):
-        conteudo = form.save()
-        return HttpResponse(conteudo.link)
+#     def form_valid(self, form):
+#         conteudo = form.save()
+#         return HttpResponse(conteudo.descricao)
+
+
+# class ConteudoEditarLink(LoginRequiredMixin, UpdateView):
+#     model = Conteudo
+#     fields = ['link']
+#     template_name = 'cards/conteudo-editar-link.html'
+#     success_url = '.'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         usuario = self.request.user
+#         conteudo = self.get_object
+#         context['usuario'] = usuario
+#         context['conteudo'] = conteudo
+#         return context
+
+#     def get(self, request, *args, **kwargs):
+#         self.object = self.get_object()
+#         botao = self.kwargs['botao']
+#         if botao == 'cancelar':
+#             return HttpResponse(self.object.link)
+#         return super().get(request, *args, **kwargs)
+
+#     def get_form(self, form_class=None):
+#         # Inicializa o formulário com a classe Bootstrap desejada
+#         form = super().get_form(form_class)
+#         form.fields['link'].widget.attrs.update({'class': 'form-control'})
+#         return form
+
+#     def form_valid(self, form):
+#         conteudo = form.save()
+#         return HttpResponse(conteudo.link)
+
+
+# class ConteudoEditarImagem(LoginRequiredMixin, UpdateView):
+#     model = Conteudo
+#     fields = ['img']
+#     template_name = 'cards/conteudo-editar-img.html'
+#     success_url = '.'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         usuario = self.request.user
+#         conteudo = self.get_object
+#         context['usuario'] = usuario
+#         context['conteudo'] = conteudo
+#         return context
+
+#     def get(self, request, *args, **kwargs):
+#         self.object = self.get_object()
+#         botao = self.kwargs['botao']
+#         if botao == 'cancelar':
+#             return HttpResponse(self.object.img)
+#         return super().get(request, *args, **kwargs)
+
+#     def get_form(self, form_class=None):
+#         # Inicializa o formulário com a classe Bootstrap desejada
+#         form = super().get_form(form_class)
+#         form.fields['link'].widget.attrs.update({'class': 'form-control'})
+#         return form
+
+#     def form_valid(self, form):
+#         conteudo = form.save()
+#         return HttpResponse(conteudo.link)
 
 
 class CriarEmpresa(LoginRequiredMixin, SuccessMessageMixin, CreateView):

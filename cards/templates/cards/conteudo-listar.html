@@ -1,0 +1,124 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+{% include 'core/menu.html' %}
+{% include 'core/mensagens.html' %}
+
+<!--CONTEUDO EM CARDS-->
+{% if conteudos %}
+<div>
+    <h2 class="text-center my-5 display-4">Meus anúncios</h2>
+    <div
+        class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center my-5">
+        {% for conteudo in conteudos %}
+        <div class="card p-0" style="width: 18rem; min-height: 26rem;">
+            
+            <!--IMAGEM-->
+            <img src="{{ conteudo.img.url }}" class="card-img-top" alt="...">
+
+            <div class="card-body">
+
+                <!--NOME-->
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title">{{conteudo.nome}}</h5>
+                    <!-- <h5 class="card-title" hx-target="this" id="nome-{{conteudo.id}}">{{conteudo.nome}}</h5> -->
+                    <!-- <a href="#" hx-get=" url 'core:conteudo-editar-nome' card.slug_empresa conteudo.id 'editar' %}"
+                        hx-target="#nome-{{conteudo.id}}">
+                        <i class="bi bi-pencil-square text-warning"></i>
+                    </a> -->
+                </div>
+
+                <!--DESCRICAO-->
+                <div class="d-flex justify-content-between">
+                    <p class="card-text">{{conteudo.descricao}}</p>
+                    <!-- <p class="card-text" hx-target="this" id="descricao-{{conteudo.id}}">{{conteudo.descricao}}</p> -->
+                    <!-- <a href="#" hx-get=" url 'core:conteudo-editar-descricao' card.slug_empresa conteudo.id 'editar' %}"
+                        hx-target="#descricao-{{conteudo.id}}">
+                        <i class="bi bi-pencil-square text-warning"></i>
+                    </a> -->
+                </div>
+
+                <!--LINK-->
+                <div class="d-flex justify-content-between">
+                    <p class="card-text">{{conteudo.link}}</p>
+                    <!-- {% if conteudo.link %}
+                    <p class="card-text" hx-target="this" id="link-{{conteudo.id}}">{{conteudo.link}}</p>
+                    {% else %}
+                    <p class="card-text" hx-target="this" id="link-{{conteudo.id}}">Sem link para o anúncio</p>
+                    {% endif %}
+                    <a href="#" hx-get=" url 'core:conteudo-editar-link' card.slug_empresa conteudo.id 'editar' %}"
+                        hx-target="#link-{{conteudo.id}}">
+                        <i class="bi bi-pencil-square text-warning"></i>
+                    </a> -->
+                </div>
+
+            </div>
+
+            <div class="bg-white border-0 card-footer text-end d-flex justify-content-between">
+                <!--MODAL EXCLUSAO-->
+                <a title="Deletar" href="#" class="btn btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#modalConfirmaExclusao{{ conteudo.id }}">
+                    Excluir</i>
+                </a>
+                <a href="{% url 'core:conteudo-editar' card.slug_empresa conteudo.id %}" class="btn btn-warning">Editar</a>
+            </div>
+        </div>
+
+        <!--MODAL DE EXCLUSÃO DE CONTEÚDO-->
+        <div class="modal fade" tabindex="-1" id="modalConfirmaExclusao{{ conteudo.id }}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirma exclusão</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Confirma a exclusão do anúncio?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                        <form action="{% url 'core:conteudo-excluir' conteudo.card.slug_empresa conteudo.id %}"
+                            method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Sim</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+    <div class="my-5 d-flex flex-column align-items-center mx-auto">
+        <h4>Você não criou nenhuma anúncio ainda</h4>
+        <a class="btn btn-warning mt-3" href="{% url 'core:conteudo-criar' user.cards.first.slug_empresa user.cards.first.slug %}">Criar anúncio</a>
+    </div>
+{% endif %}
+
+<!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
+<script>
+    function validarTamanhoArquivo(inputElement) {
+        const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
+
+        if (inputElement.files.length > 0) {
+            const arquivo = inputElement.files[0];
+
+            if (arquivo.size > tamanhoMaximo) {
+                alert("O arquivo excede o tamanho máximo permitido 1 MB.");
+                inputElement.value = ""; // Limpa o campo de arquivo, se necessário
+            }
+        }
+    }
+
+    const inputImg = document.getElementById("id_img");
+
+    inputImg.addEventListener("change", function () {
+        validarTamanhoArquivo(inputImg);
+    });
+
+</script>
+
+
+{% endblock %}

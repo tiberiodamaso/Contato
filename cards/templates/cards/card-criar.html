@@ -241,13 +241,13 @@
             </div>
             {% endif %}
 
-            <!--BOTÃO DE EDITAR CARD-->
+            <!--BOTÃO DE EDITAR CARD E ANÚNCIOS-->
             {% if user.is_authenticated and user == card.proprietario %}
             <div class="d-flex justify-content-center my-2 rounded">
                 <a href="{% url 'core:editar' card.slug_empresa card.slug %}"
-                    class="btn fs-5 w-100 bg-success text-white mx-1">Editar cartão</a>
-                <a href="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}"
-                    class="btn fs-5 w-100  bg-success text-white mx-1">Editar anúncios</a>
+                    class="btn fs-5 col-10 bg-success text-white mx-1">Editar cartão</a>
+                <!-- <a href="{% url 'core:conteudo-listar' card.slug_empresa card.slug %}"
+                    class="btn fs-5 w-100  bg-success text-white mx-1">Editar anúncios</a> -->
             </div>
             {% endif %}
 

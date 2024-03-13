@@ -1,0 +1,121 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+{% include 'core/menu.html' %}
+
+{% include 'core/mensagens.html' %}
+<div class="d-flex flex-column align-items-center py-5">
+
+    <h2 class="text-center display-4 my-5">Editar anúncio</h2>
+
+    <!--FORMULÁRIO PARA EDITAR CONTEÚDO-->
+    <form action="{% url 'core:conteudo-editar' card.slug_empresa conteudo.id %}" method="post"
+        class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!--TIPO CONTEÚDO-->
+        <div>
+            <label for="id_tik_tok">Tipo de conteúdo:</label>
+            <div class="mb-3">
+                {{form.tipo}}
+            </div>
+        </div>
+
+        <!--CONTEÚDO IMAGEM-->
+        <div>
+            <label for="id_tik_tok">Imagem: <span class="small text-danger">(máximo 1MB)</span></label>
+            <div class="mb-3">
+                {{form.img}}
+            </div>
+        </div>
+
+        <!--CONTEÚDO LINK-->
+        <div>
+            <label for="id_tik_tok">Link da imagem:</label>
+            <div class="mb-3">
+                {{form.link}}
+            </div>
+        </div>
+
+        <!--CONTEÚDO NOME-->
+        <div>
+            <label for="id_tik_tok">Nome:</label>
+            <div class="mb-3">
+                {{form.nome}}
+            </div>
+        </div>
+
+        <!--CONTEÚDO DESCRIÇÃO-->
+        <div>
+            <label for="id_tik_tok">Descrição:</label>
+            <div class="mb-3">
+                {{form.descricao}}
+            </div>
+        </div>
+
+        {% for error in field.errors %}
+        <div class="alert alert-danger text-center alert-dismissible" role="alert">
+            {{error}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+
+        <div class="d-flex justify-content-between">
+            <a title="Deletar" href="#" class="btn btn-danger col-5" data-bs-toggle="modal"
+            data-bs-target="#modalConfirmaExclusao{{ conteudo.id }}">Excluir
+            </a>
+            <button type="submit" class="btn btn-warning col-5">Salvar</button>
+        </div>
+
+        <!--MODAL DE EXCLUSÃO DE CONTEÚDO-->
+        <div class="modal fade" tabindex="-1" id="modalConfirmaExclusao{{ conteudo.id }}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirma exclusão</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Confirma a exclusão do anúncio?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                        <form action="{% url 'core:conteudo-excluir' conteudo.card.slug_empresa conteudo.id %}"
+                            method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Sim</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+<!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
+<script>
+    function validarTamanhoArquivo(inputElement) {
+        const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
+
+        if (inputElement.files.length > 0) {
+            const arquivo = inputElement.files[0];
+
+            if (arquivo.size > tamanhoMaximo) {
+                alert("O arquivo excede o tamanho máximo permitido 1 MB.");
+                inputElement.value = ""; // Limpa o campo de arquivo, se necessário
+            }
+        }
+    }
+
+    const inputImg = document.getElementById("id_img");
+
+    inputImg.addEventListener("change", function () {
+        validarTamanhoArquivo(inputImg);
+    });
+
+</script>
+
+
+{% endblock %}

@@ -60,13 +60,13 @@
         </div>
         {% endif %} -->
     
-        <!--BOTÃO DE EDITAR CARD-->
+        <!--BOTÕES DE EDITAR CARD E ANÚNCIOS-->
         {% if user.is_authenticated and user == card.proprietario %}
         <div class="d-flex justify-content-center my-5 rounded">
             <a href="{% url 'core:editar' card.slug_empresa card.slug %}" id="editarUrl"
-                class="btn fs-5 w-100 bg-warning mx-1" style="color: {{cor_da_fonte}} !important;">Editar cartão</a>
-            <a href="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}"
-                class="btn fs-5 w-100  bg-warning mx-1" style="color: {{cor_da_fonte}} !important;">Editar anúncios</a>
+                class="btn fs-5 col-10 bg-warning mx-1" style="color: {{cor_da_fonte}} !important;">Editar cartão</a>
+            <!-- <a href="{% url 'core:conteudo-listar' card.slug_empresa card.slug %}"
+                class="btn fs-5 w-100  bg-warning mx-1" style="color: {{cor_da_fonte}} !important;">Editar anúncios</a> -->
         </div>
         {% endif %}
 
@@ -183,7 +183,7 @@
         {% if promocoes %}
         <!--PROMOÇÕES-->
         <div class="pb-5">
-            <h3 class="text-center my-4 display-4">Promoções</h3>
+            <h3 class="text-center my-4 display-4" style="color: {{cor_da_fonte}} !important;">Promoções</h3>
             <div
                 class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
                 {% for promocao in promocoes %}
@@ -208,7 +208,7 @@
         {% if produtos %}
         <!--PRODUTOS-->
         <div class="pb-5">
-            <h3 class="text-center my-4 display-4">Produtos</h3>
+            <h3 class="text-center my-4 display-4" style="color: {{cor_da_fonte}} !important;">Produtos</h3>
             <div
                 class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
                 {% for produto in produtos %}
@@ -232,7 +232,7 @@
         {% if servicos %}
         <!--SERVIÇOS-->
         <div class="pb-5">
-            <h3 class="text-center my-4 display-4">Serviços</h3>
+            <h3 class="text-center my-4 display-4" style="color: {{cor_da_fonte}} !important;">Serviços</h3>
             <div
                 class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
                 {% for servico in servicos %}
@@ -256,7 +256,7 @@
         {% if portfolios %}
         <!--PORTFÓLIOS-->
         <div class="pb-5">
-            <h3 class="text-center my-4 display-4">Portfólios</h3>
+            <h3 class="text-center my-4 display-4" style="color: {{cor_da_fonte}} !important;">Portfólios</h3>
             <div
                 class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
                 {% for portfolio in portfolios %}
@@ -280,7 +280,7 @@
         {% if cursos %}
         <!--CURSOS-->
         <div class="pb-5">
-            <h3 class="text-center my-4 display-4">Cursos</h3>
+            <h3 class="text-center my-4 display-4" style="color: {{cor_da_fonte}} !important;">Cursos</h3>
             <div
                 class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
                 {% for curso in cursos %}
