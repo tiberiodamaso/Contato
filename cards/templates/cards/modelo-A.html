@@ -27,44 +27,27 @@
                 class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy" />
         </div>
         {% endif %}
+
+        <!--NOME DISPLAY-->
+        <div class="py-1">
+            <h2 class="display-6" style="color: {{cor_da_fonte}} !important;">{{card.nome_display}}</h2>
+        </div>
+
+        <!--CARGO-->
+        {% if card.cargo %}
+            <h3 class="lead pb-1" style="color: {{cor_da_fonte}} !important;">{{ card.cargo }}</h3>
+        {% endif %}
         
         <!--EMPRESA-->
         {% if card.logotipo %}
         <div class="pb-1">
             <a href="{{ card.site }}" class="align-items-center d-flex justify-content-center text-decoration-none">
                 <!--LOGOTIPO EMPRESA-->
-                <img src="{{ card.logotipo.url }}" alt="" loading="lazy" class="logo mx-2" style="width: 5rem;" />
-                <!--NOME DISPLAY-->
-                <h2 class="display-6" style="color: {{cor_da_fonte}} !important;">
-                    {{card.nome_display}}
-                </h2>
-            </a>
-        </div>
-        {% else %}
-        <div class="pb-1">
-            <a href="{{ card.site }}" class="align-items-center d-flex justify-content-center text-decoration-none">
-                <!--LOGOTIPO EMPRESA-->
-                <img src="https://placehold.co/100x100" alt="" loading="lazy" class="logo mx-2" style="width: 2rem;" />
-                <!--NOME DISPLAY-->
-                <h2 class="display-6" style="color: {{cor_da_fonte}} !important;">
-                    {{card.nome_display}}
-                </h2>
+                <img src="{{ card.logotipo.url }}" alt="logotipo da empresa" loading="lazy" class="logo mx-2" style="width: 8rem;" />
             </a>
         </div>
         {% endif %}
 
-        <!--CARGO-->
-        {% if card.cargo %}
-        <h3 class="lead pb-1" style="color: {{cor_da_fonte}} !important;">{{ card.cargo }}</h3>
-        {% endif %}
-
-        <!--NOMDE EMPRESA-->
-        <!-- {% if card.empresa %}
-        <div>
-            <h3 class="lead pb-1" style="color: {{cor_da_fonte}} !important;">{{ card.empresa }}</h3>
-        </div>
-        {% endif %} -->
-    
         <!--BOTÕES DE EDITAR CARD E ANÚNCIOS-->
         {% if user.is_authenticated and user == card.proprietario %}
         <div class="d-flex justify-content-center my-5 rounded">

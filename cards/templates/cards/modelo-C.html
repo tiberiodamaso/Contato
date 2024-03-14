@@ -10,8 +10,7 @@
 
 {% include 'core/mensagens.html' %}
 
-
-<div class="align-items-center d-flex flex-column" id="bgc" style="background-color: {{card.cor}};">
+<div class="align-items-center d-flex flex-column" style="background-color: {{card.cor}};">
 
     <!--DADOS DO PROPRIETÁRIO E EMPRESA-->
     <div class="col-lg-8 col-12 text-center py-3">
@@ -33,12 +32,19 @@
 
         <!--FOTO PERFIL-->
         {% if card.img_perfil %}
-        <div>
-            <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="mb-4 rounded-circle col-4 col-md-3 col-lg-3 img-fluid"
-                loading="lazy" />
-            <h2 class="display-6" style="color: {{cor_da_fonte}} !important;">
-                {{card.nome_display}}
-            </h2>
+        <div class="d-flex justify-content-evenly align-items-center py-3">
+            <img src="{{card.img_perfil.url}}" alt="Foto do perfil"
+                class="rounded-circle col-4 col-md-3 col-lg-3 img-fluid" loading="lazy" />
+            <div>
+                <!--NOME-->
+                <h2 class="display-6" style="color: {{cor_da_fonte}} !important;">
+                    {{card.nome_display}}
+                </h2>
+                <!--CARGO-->
+                {% if card.cargo %}
+                <h3 class="lead pb-1" style="color: {{cor_da_fonte}} !important;">{{ card.cargo }}</h3>
+                {% endif %}
+            </div>
         </div>
         {% else %}
         <div>
@@ -47,11 +53,6 @@
         </div>
         {% endif %}
         
-        <!--CARGO-->
-        {% if card.cargo %}
-        <h3 class="lead pb-1" style="color: {{cor_da_fonte}} !important;">{{ card.cargo }}</h3>
-        {% endif %}
-
         <!--NOMDE EMPRESA-->
         <!-- {% if card.empresa %}
         <div>
@@ -307,11 +308,11 @@
                 <i class="bi bi-whatsapp" style="font-size: 2rem; color: {{cor_da_fonte}} !important;"></i>
             </a>
         </div> -->
-
     </div>
 
     <!--QRCODE E COMPARTILHAR-->
     <div class="col-lg-8 col-12 text-center pb-5">
+
         {% if card.qr_code %}
         <div class="d-flex justify-content-center py-3">
             <img class="qrcode" src="{{card.qr_code.url }}" alt="qrcode" style="width: 8rem;" />
@@ -325,6 +326,7 @@
                 <span style="color: {{cor_da_fonte}} !important;">compartilhar cartão</span>
             </div>
         </a>
+
     </div>
 
 </div>
