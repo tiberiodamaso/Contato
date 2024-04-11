@@ -12,12 +12,12 @@ class CardEditForm(forms.ModelForm):
             'cargo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Seu cargo'}),
             'endereco': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Logradouro, número, CEP 00000000'}),
             'cor': forms.TextInput(attrs={'class': 'form-control', 'type': 'color'}),
+            'cod_pais': forms.Select(attrs={'class': 'form-select'}),
             'whatsapp': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(11) 98754-3210'}),
             'site': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://seusite.com.br/'}),
             'facebook': forms.URLInput(attrs={'class': 'form-control', 'placeholder': '@seu-perfil'}),
             'instagram': forms.URLInput(attrs={'class': 'form-control', 'placeholder': '@seu-perfil'}),
             'linkedin': forms.URLInput(attrs={'class': 'form-control', 'placeholder': '@seu-perfil'}),
-            'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(11) 98754-3210'}),
             'youtube': forms.URLInput(attrs={'class': 'form-control', 'placeholder': '@seu-perfil'}),
             'tik_tok': forms.URLInput(attrs={'class': 'form-control', 'placeholder': '@seu-perfil'}),
             'nome_display': forms.TextInput(attrs={'class': 'form-control'}),
@@ -27,6 +27,10 @@ class CardEditForm(forms.ModelForm):
             'estado': forms.Select(attrs={'class': 'form-select'}),
             'municipio': forms.Select(attrs={'class': 'form-select'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cod_pais'].empty_label = 'Selecione uma opção'
 
 
 class ConteudoEditForm(forms.ModelForm):

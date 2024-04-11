@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Card, Categoria, Subcategoria, Conteudo, Estado, Municipio, TipoConteudo
+from .models import Card, Categoria, Subcategoria, Conteudo, Estado, Municipio, TipoConteudo, CodigoPais
 
 
 class CategoriaAdmin(admin.ModelAdmin):
@@ -17,6 +17,9 @@ class EstadoAdmin(admin.ModelAdmin):
 
 class MunicipioAdmin(admin.ModelAdmin):
     list_display = ['id', 'estado', 'nome']
+
+class CodigoPaisAdmin(admin.ModelAdmin):
+    list_display = ['id', 'codigo', 'pais']
 
 
 # class EmpresaAdmin(admin.ModelAdmin):
@@ -37,9 +40,9 @@ class CardAdmin(admin.ModelAdmin):
         'slug',
         'cargo',
         'proprietario',
-        'telefone',
+        'cod_pais',
+        'whatsapp',
         'empresa',
-        'slug_empresa',
     ]
 
     def save_model(self, request, obj, form, change):
@@ -61,6 +64,7 @@ admin.site.register(Categoria, CategoriaAdmin)
 admin.site.register(Subcategoria, SubcategoriaAdmin)
 admin.site.register(Estado, EstadoAdmin)
 admin.site.register(Municipio, MunicipioAdmin)
+admin.site.register(CodigoPais, CodigoPaisAdmin)
 # admin.site.register(Empresa, EmpresaAdmin)
 admin.site.register(Card, CardAdmin)
 admin.site.register(TipoConteudo, TipoConteudoAdmin)

@@ -204,26 +204,23 @@
             </div>
         </div>
 
-        <!--TELEFONE-->
-        <div>
-            <label for="id_telefone">Telefone:</label>
-            <div class="input-group mb-3">
-                {{form.telefone}}
-                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
-                {% if form.telefone.errors %}
-                {% for error in form.telefone.errors %}
+        <!--CODIGO PAIS-->
+        <div class="mb-3">
+            <label for="id_cod_pais">Código do país:</label>
+            {{form.cod_pais}}
+            {% if form.cod_pais.errors %}
+                {% for error in form.cod_pais.errors %}
                 <div class="alert alert-danger text-center alert-dismissible" role="alert">
                     {{error}}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 {% endfor %}
-                {% endif %}
-            </div>
+            {% endif %}
         </div>
 
-        <!--WHATSAPP-->
+        <!--TELEFONE/WHATSAPP-->
         <div>
-            <label for="id_whatsapp">Whatsapp:</label>
+            <label for="id_whatsapp">Telefone/Whatsapp:</label>
             <div class="input-group mb-3">
                 {{form.whatsapp}}
                 <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
@@ -360,10 +357,8 @@
             });
         }
 
-        const inputTelefone = document.getElementById("id_telefone");
         const inputWhatsapp = document.getElementById("id_whatsapp");
 
-        aplicarMascaraTelefone(inputTelefone);
         aplicarMascaraTelefone(inputWhatsapp);
     });
 

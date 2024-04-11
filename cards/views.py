@@ -239,8 +239,9 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         modelo = form.cleaned_data['modelo']
         empresa = form.cleaned_data['empresa']
         site = form.cleaned_data['site']
-        telefone= form.cleaned_data['telefone']
-        whatsapp = form.cleaned_data['whatsapp']
+        cod_pais = form.cleaned_data['cod_pais'].codigo
+        whatsapp_temp = form.cleaned_data['whatsapp']
+        whatsapp = cleaner(cod_pais) + cleaner(whatsapp_temp)
         facebook = form.cleaned_data['facebook']
         instagram = form.cleaned_data['instagram']
         linkedin = form.cleaned_data['linkedin']
@@ -287,10 +288,8 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
             os.remove(temp_file.name)
 
         #CRIA VCF
-        # vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
-        #                        telefone, whatsapp, facebook, instagram, linkedin, proprietario.email, youtube, tik_tok)
         vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
-                               telefone, site, endereco, estado, municipio, proprietario.email)
+                               whatsapp, site, endereco, estado, municipio, proprietario.email)
 
         vcf_name = f'{uuid.uuid4().hex}.vcf'
         content = '\n'.join([str(line) for line in vcf_content])
@@ -370,8 +369,9 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
         estado = form.cleaned_data['estado']
         municipio = form.cleaned_data['municipio']
         endereco = form.cleaned_data['endereco']
-        telefone = form.cleaned_data['telefone']
-        whatsapp = form.cleaned_data['whatsapp']
+        cod_pais = form.cleaned_data['cod_pais'].codigo
+        whatsapp_temp = form.cleaned_data['whatsapp']
+        whatsapp = cleaner(cod_pais) + cleaner(whatsapp_temp)
         facebook = form.cleaned_data['facebook']
         instagram = form.cleaned_data['instagram']
         linkedin = form.cleaned_data['linkedin']
@@ -454,10 +454,8 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
             try:
                 os.remove(card.vcf.path)
                 card.vcf.delete()
-                # vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
-                #                     telefone, whatsapp, facebook, instagram, linkedin, proprietario.email, youtube, tik_tok)
                 vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
-                                    telefone, site, endereco, estado, municipio, proprietario.email)
+                                    whatsapp, site, endereco, estado, municipio, proprietario.email)
 
                 vcf_name = f'{uuid.uuid4().hex}.vcf'
                 content = '\n'.join([str(line) for line in vcf_content])

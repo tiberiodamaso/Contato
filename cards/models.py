@@ -66,9 +66,18 @@ class Municipio(models.Model):
         return self.nome
 
 
+class CodigoPais(models.Model):
+    codigo = models.CharField(verbose_name='Código', max_length=5)
+    pais = models.CharField(verbose_name='País', max_length=50)
+
+    class Meta:
+        verbose_name = 'Código de país'
+        verbose_name_plural = 'Códigos de países'
+
+    def __str__(self):
+        return f'({self.codigo}) {self.pais}'
+
 class Card(models.Model):
-    # info do card
-    telefone = models.CharField(verbose_name='Telefone', max_length=15, unique=True)
     vcf = models.FileField(
         verbose_name='VCF',
         upload_to=get_path,
@@ -110,7 +119,8 @@ class Card(models.Model):
         blank=True,
         validators=[URLValidator(schemes=['http', 'https'])],
     )
-    whatsapp = models.CharField(verbose_name='Whatsapp', max_length=15)
+    cod_pais = models.ForeignKey(CodigoPais, verbose_name='Código do país', on_delete=models.CASCADE, related_name='cards')
+    whatsapp = models.CharField(verbose_name='Whatsapp', max_length=20, unique=True)
     tik_tok = models.URLField(
         verbose_name='Tik_tok',
         max_length=200,
