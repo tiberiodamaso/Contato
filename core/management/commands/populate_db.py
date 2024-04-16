@@ -146,7 +146,7 @@ class Command(BaseCommand):
             for linha in leitor_csv:
                 if linha['codigo'] not in codigos_existentes:
                     contador_registros += 1
-                    registro = CodigoPais(pais=linha['pais'], codigo=linha['codigo'])
+                    registro = CodigoPais(pais=str(linha['pais']), codigo=str(linha['codigo']))
                     CODIGO_PAIS.append(registro)
 
         print(f'\nVão ser adicionados {contador_registros} códigos de país na Tabela de Código País.')
