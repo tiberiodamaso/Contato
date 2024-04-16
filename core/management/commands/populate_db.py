@@ -144,7 +144,7 @@ class Command(BaseCommand):
             leitor_csv = csv.DictReader(arquivo_codigos_pais, delimiter=';')
             contador_registros = 0
             for linha in leitor_csv:
-                if linha['codigo'] not in estados_existentes:
+                if linha['codigo'] not in codigos_existentes:
                     contador_registros += 1
                     registro = CodigoPais(pais=linha['pais'], codigo=linha['codigo'])
                     CODIGO_PAIS.append(registro)
