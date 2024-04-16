@@ -67,7 +67,7 @@ class Municipio(models.Model):
 
 
 class CodigoPais(models.Model):
-    codigo = models.CharField(verbose_name='Código', max_length=5)
+    codigo = models.CharField(verbose_name='Código', max_length=10)
     pais = models.CharField(verbose_name='País', max_length=50)
 
     class Meta:
