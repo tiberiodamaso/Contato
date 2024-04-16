@@ -5,7 +5,7 @@ codigo;pais
 +49;Alemanha
 +376;Andorra
 +244;Angola
-+1-268;Antígua e Barbuda
++1268;Antígua e Barbuda
 +966;Arábia Saudita
 +213;Argélia
 +54;Argentina
@@ -13,10 +13,10 @@ codigo;pais
 +61;Austrália
 +43;Áustria
 +994;Azerbaijão
-+1-242;Bahamas
++1242;Bahamas
 +973;Bahrein
 +880;Bangladesh
-+1-246;Barbados
++1246;Barbados
 +32;Bélgica
 +501;Belize
 +229;Benin
@@ -51,7 +51,7 @@ codigo;pais
 +53;Cuba
 +45;Dinamarca
 +253;Djibuti
-+1-767;Dominica
++1767;Dominica
 +20;Egito
 +503;El Salvador
 +971;Emirados Árabes Unidos
@@ -71,7 +71,7 @@ codigo;pais
 +220;Gâmbia
 +233;Gana
 +995;Geórgia
-+1-473;Granada
++1473;Granada
 +30;Grécia
 +502;Guatemala
 +592;Guiana
@@ -93,7 +93,7 @@ codigo;pais
 +354;Islândia
 +972;Israel
 +39;Itália
-+1-876;Jamaica
++1876;Jamaica
 +81;Japão
 +962;Jordânia
 +686;Kiribati
@@ -150,17 +150,17 @@ codigo;pais
 +44;Reino Unido
 +236;República Centro-Africana
 +243;República Democrática do Congo
-+1-809;República Dominicana
++1809;República Dominicana
 +40;Romênia
 +250;Ruanda
 +7;Rússia
 +212;Saara Ocidental
 +685;Samoa
-+1-758;Santa Lúcia
-+1-869;São Cristóvão e Neves
++1758;Santa Lúcia
++1869;São Cristóvão e Neves
 +378;São Marinho
 +239;São Tomé e Príncipe
-+1-784;São Vicente e Granadinas
++1784;São Vicente e Granadinas
 +221;Senegal
 +232;Serra Leoa
 +381;Sérvia
@@ -181,7 +181,7 @@ codigo;pais
 +670;Timor-Leste
 +228;Togo
 +676;Tonga
-+1-868;Trindade e Tobago
++1868;Trindade e Tobago
 +216;Tunísia
 +993;Turcomenistão
 +90;Turquia
