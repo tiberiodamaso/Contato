@@ -138,7 +138,7 @@ class Command(BaseCommand):
 
     def cria_lista_obj_codigo_pais(self):
         codigos_existentes = [obj.codigo for obj in CodigoPais.objects.all()]
-        print(f'\nA Tabela Códigos de País contém {len(estados_existentes)} registros.')
+        print(f'\nA Tabela Códigos de País contém {len(codigos_existentes)} registros.')
 
         with open(ARQUIVO_CODIGOS_PAIS, 'r') as arquivo_codigos_pais:
             leitor_csv = csv.DictReader(arquivo_codigos_pais, delimiter=';')
