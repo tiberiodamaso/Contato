@@ -7,7 +7,7 @@
 <script src="https://www.google.com/recaptcha/api.js?render=6Ldekb4pAAAAAJxIxYU4JW-irGk1bYfEvSk8gRJi"></script>
 <div class="container">
 
-    <form method="post" id="loginForm" action="{% url 'usuarios:registrar' %}" class="col-10 col-lg-6 py-5 d-flex flex-column m-auto">
+    <form method="post" id="id-form-criar-conta" action="{% url 'usuarios:registrar' %}" class="col-10 col-lg-6 py-5 d-flex flex-column m-auto">
         {% csrf_token %}
         <input type="hidden" id="recaptcha_token" name="recaptcha_token"/> 
         <p class="text-center display-5 mb-5">Criar minha conta</p>
@@ -135,7 +135,7 @@
                     // Preencha o token do reCAPTCHA em um campo de formulário oculto
                     document.getElementById('recaptcha_token').value = token;
                     // Submeta o formulário
-                    document.getElementById('loginForm').submit();
+                    document.getElementById('id-form-criar-conta').submit();
                 });
             });
         }
