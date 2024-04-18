@@ -196,20 +196,23 @@ class EsqueceuSenhaFormView(SuccessMessageMixin, PasswordResetView):
     success_url = reverse_lazy('usuarios:login')
     success_message = 'Enviamos um e-mail com instruções para redefinir sua senha, se uma conta existe com o e-mail que você digitou você deve recebê-lo em breve.'
 
-    def form_valid(self, form):
-        recaptcha_token = self.request.POST.get('recaptcha_token')
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            recaptcha_token = self.request.POST.get('recaptcha_token')
 
-        # Verificar o token do reCAPTCHA
-        recaptcha_response = requests.post('https://www.google.com/recaptcha/api/siteverify', data={
-            'secret': settings.RECAPTCHA_PRIVATE_KEY,
-            'response': recaptcha_token
-        })
-        recaptcha_data = recaptcha_response.json()
-        if recaptcha_data['success']:
-            form.save()
+            # Verificar o token do reCAPTCHA
+            recaptcha_response = requests.post('https://www.google.com/recaptcha/api/siteverify', data={
+                'secret': settings.RECAPTCHA_PRIVATE_KEY,
+                'response': recaptcha_token
+            })
+            recaptcha_data = recaptcha_response.json()
+            if recaptcha_data['success']:
+                return super().post(request, *args, **kwargs)
+            else:
+                messages.error(self.request, "Por favor, complete o reCAPTCHA.")
         else:
-            messages.error(self.request, "Por favor, complete o reCAPTCHA.")
-        return super().form_valid(form)
+            return self.form_invalid(form)
 
 
 class EsqueceuSenhaLink(SuccessMessageMixin, PasswordResetConfirmView):
