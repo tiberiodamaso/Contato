@@ -32,7 +32,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'dummy-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.getenv('DEBUG', '0')))
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'meucontato.app.br', '3.19.142.221',  'meucontato.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'meucontato.app.br', '3.19.142.221',  'meucontato.pythonanywhere.com', 'localhost']
 
 
 # Application definition
@@ -182,6 +182,9 @@ MERCADOPAGO_PUBLIC_KEY=os.environ.get('MERCADOPAGO_PUBLIC_KEY')
 MERCADOPAGO_PUBLIC_KEY_RELATORIO=os.environ.get('MERCADOPAGO_PUBLIC_KEY_RELATORIO')
 MERCADOPAGO_ACCESS_TOKEN=os.environ.get('MERCADOPAGO_ACCESS_TOKEN')
 MERCADOPAGO_ACCESS_TOKEN_RELATORIO=os.environ.get('MERCADOPAGO_ACCESS_TOKEN_RELATORIO')
+
+# RECAPTCHA
+RECAPTCHA_PRIVATE_KEY=os.environ.get('RECAPTCHA_PRIVATE_KEY')
 
 INTERNAL_IPS = [
   '127.0.0.1'

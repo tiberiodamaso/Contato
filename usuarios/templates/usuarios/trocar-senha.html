@@ -1,11 +1,12 @@
 {% extends 'core/base.html' %}
 {% block content %}
 {% include 'core/menu.html' %}
+<script src="https://www.google.com/recaptcha/api.js?render=6Ldekb4pAAAAAJxIxYU4JW-irGk1bYfEvSk8gRJi"></script>
 <div class="container d-flex flex-column h-100 justify-content-center align-items-center">
     <h2 class="text-center my-5 display-4">Trocar a senha</h2>
-    <form method="post" class="col-4">
+    <form method="post" id="id-form-trocar-senha" class="col-4">
         {% csrf_token %}
-
+        <input type="hidden" id="recaptcha_token" name="recaptcha_token"/> 
         {% include 'core/mensagens.html' %}
 
         {% for field in form %}
@@ -34,7 +35,7 @@
             <li>Sua senha não pode ser uma senha muito comum</li>
             <li>Sua senha não pode ser inteiramente numérica</li>
         </ul>
-        <button type="submit" class="btn btn-warning w-100">Salvar</button>
+        <button type="submit" class="btn btn-warning w-100" onclick="onClick(event)">Salvar</button>
     </form>
 </div>
 
@@ -54,6 +55,19 @@
             icon.classList.remove('bi-eye-slash-fill');
             icon.classList.add('bi-eye-fill');
         }
+    }
+
+    // RECAPTCHA
+    function onClick(e) {
+        e.preventDefault();
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6Ldekb4pAAAAAJxIxYU4JW-irGk1bYfEvSk8gRJi', {action: 'submit'}).then(function(token) {
+                // Preencha o token do reCAPTCHA em um campo de formulário oculto
+                document.getElementById('recaptcha_token').value = token;
+                // Submeta o formulário
+                document.getElementById('id-form-trocar-senha').submit();
+            });
+        });
     }
 </script>
 {% endblock %}

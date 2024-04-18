@@ -43,30 +43,64 @@ class UsusarioLoginView(LoginView):
         # Obtendo os dados do formulário de login
         email = request.POST.get('username')
         password = request.POST.get('password')
+        recaptcha_token = request.POST.get('recaptcha_token')
 
-        # Verificando se o usuário com o email existe
-        try:
-            user = Usuario.objects.get(email=email)
-            # Verifica se senha está correta
-            if not check_password(password, user.password):
-                messages.error(request, 'Falha na autenticação - Senha incorreta')
+        # Verificar o token do reCAPTCHA
+        recaptcha_response = requests.post('https://www.google.com/recaptcha/api/siteverify', data={
+            'secret': settings.RECAPTCHA_PRIVATE_KEY,
+            'response': recaptcha_token
+        })
+        recaptcha_data = recaptcha_response.json()
+        if recaptcha_data['success']:
+            # Verificando se o usuário com o email existe
+            try:
+                user = Usuario.objects.get(email=email)
+                # Verifica se senha está correta
+                if not check_password(password, user.password):
+                    messages.error(request, 'Falha na autenticação - Senha incorreta')
+                    return HttpResponseRedirect(reverse('usuarios:login'))
+                
+                #verifica se usuario não é ativo para redirecionar para reenviar e-mail
+                if not user.is_active:
+                    # Se o usuário existe, mas não está ativo
+                    # Redirecionar para o template de reenvio de email de ativação
+                    request.session['email'] = email
+                    return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao'))
+                    # return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao', kwargs={'username': user.username}))
+                    # return TemplateResponse(request, 'resend_activation_email.html')
+
+                # Se o usuário existe e está ativo, tentar fazer login
+                return super().post(request, *args, **kwargs)
+            except Usuario.DoesNotExist:
+                # Se o usuário não existe, retornar mensagem de erro
+                messages.error(self.request, "Usuário não encontrado. Por favor, verifique o email.")
                 return HttpResponseRedirect(reverse('usuarios:login'))
-            
-            #verifica se usuario não é ativo para redirecionar para reenviar e-mail
-            if not user.is_active:
-                # Se o usuário existe, mas não está ativo
-                # Redirecionar para o template de reenvio de email de ativação
-                request.session['email'] = email
-                return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao'))
-                # return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao', kwargs={'username': user.username}))
-                # return TemplateResponse(request, 'resend_activation_email.html')
+        else:
+            messages.error(self.request, "Por favor, complete o reCAPTCHA.")
 
-            # Se o usuário existe e está ativo, tentar fazer login
-            return super().post(request, *args, **kwargs)
-        except Usuario.DoesNotExist:
-            # Se o usuário não existe, retornar mensagem de erro
-            messages.error(self.request, "Usuário não encontrado. Por favor, verifique o email.")
-            return HttpResponseRedirect(reverse('usuarios:login'))
+        # # Verificando se o usuário com o email existe
+        # try:
+        #     user = Usuario.objects.get(email=email)
+        #     # Verifica se senha está correta
+        #     if not check_password(password, user.password):
+        #         messages.error(request, 'Falha na autenticação - Senha incorreta')
+        #         return HttpResponseRedirect(reverse('usuarios:login'))
+            
+        #     #verifica se usuario não é ativo para redirecionar para reenviar e-mail
+        #     if not user.is_active:
+        #         # Se o usuário existe, mas não está ativo
+        #         # Redirecionar para o template de reenvio de email de ativação
+        #         request.session['email'] = email
+        #         return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao'))
+        #         # return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao', kwargs={'username': user.username}))
+        #         # return TemplateResponse(request, 'resend_activation_email.html')
+
+        #     # Se o usuário existe e está ativo, tentar fazer login
+        #     return super().post(request, *args, **kwargs)
+        # except Usuario.DoesNotExist:
+        #     # Se o usuário não existe, retornar mensagem de erro
+        #     messages.error(self.request, "Usuário não encontrado. Por favor, verifique o email.")
+        #     return HttpResponseRedirect(reverse('usuarios:login'))
 
 
 class LogoutView(LogoutView):
@@ -82,19 +116,30 @@ class RegistrarView(SuccessMessageMixin, CreateView):
 
 
     def form_valid(self, form):
-        novo_usuario = form.save()
+        recaptcha_token = self.request.POST.get('recaptcha_token')
 
-        # Envia email para ativação da conta com o password
-        current_site = get_current_site(self.request)
-        subject = 'Meu contato - ative a sua conta'
-        to = novo_usuario.email
-        context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
-                   'token': account_activation_token.make_token(novo_usuario)}
-        body = render_to_string(
-            'usuarios/email-ativacao.html', context=context)
-        msg = EmailMessage(subject, body, to=[to])
-        msg.content_subtype = "html"  # Main content is now text/html
-        msg.send()
+        # Verificar o token do reCAPTCHA
+        recaptcha_response = requests.post('https://www.google.com/recaptcha/api/siteverify', data={
+            'secret': settings.RECAPTCHA_PRIVATE_KEY,
+            'response': recaptcha_token
+        })
+        recaptcha_data = recaptcha_response.json()
+        if recaptcha_data['success']:
+            novo_usuario = form.save()
+
+            # Envia email para ativação da conta com o password
+            current_site = get_current_site(self.request)
+            subject = 'Meu contato - ative a sua conta'
+            to = novo_usuario.email
+            context = {'usuario': novo_usuario, 'dominio': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(novo_usuario.pk)),
+                    'token': account_activation_token.make_token(novo_usuario)}
+            body = render_to_string(
+                'usuarios/email-ativacao.html', context=context)
+            msg = EmailMessage(subject, body, to=[to])
+            msg.content_subtype = "html"  # Main content is now text/html
+            msg.send()
+        else:
+            messages.error(self.request, "Por favor, complete o reCAPTCHA.")
 
         return super().form_valid(form)
 
@@ -126,6 +171,21 @@ class TrocarSenha(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
         card = Card.objects.filter(proprietario=usuario)
         return reverse('usuarios:minha-conta', kwargs={'username': usuario.username})
 
+    def form_valid(self, form):
+        recaptcha_token = self.request.POST.get('recaptcha_token')
+
+        # Verificar o token do reCAPTCHA
+        recaptcha_response = requests.post('https://www.google.com/recaptcha/api/siteverify', data={
+            'secret': settings.RECAPTCHA_PRIVATE_KEY,
+            'response': recaptcha_token
+        })
+        recaptcha_data = recaptcha_response.json()
+        if recaptcha_data['success']:
+            form.save()
+        else:
+            messages.error(self.request, "Por favor, complete o reCAPTCHA.")
+        return super().form_valid(form)
+
 
 class EsqueceuSenhaFormView(SuccessMessageMixin, PasswordResetView):
     template_name = 'usuarios/esqueceu-senha-form.html'
@@ -135,6 +195,21 @@ class EsqueceuSenhaFormView(SuccessMessageMixin, PasswordResetView):
     subject_template_name = "usuarios/assunto.txt"
     success_url = reverse_lazy('usuarios:login')
     success_message = 'Enviamos um e-mail com instruções para redefinir sua senha, se uma conta existe com o e-mail que você digitou você deve recebê-lo em breve.'
+
+    def form_valid(self, form):
+        recaptcha_token = self.request.POST.get('recaptcha_token')
+
+        # Verificar o token do reCAPTCHA
+        recaptcha_response = requests.post('https://www.google.com/recaptcha/api/siteverify', data={
+            'secret': settings.RECAPTCHA_PRIVATE_KEY,
+            'response': recaptcha_token
+        })
+        recaptcha_data = recaptcha_response.json()
+        if recaptcha_data['success']:
+            form.save()
+        else:
+            messages.error(self.request, "Por favor, complete o reCAPTCHA.")
+        return super().form_valid(form)
 
 
 class EsqueceuSenhaLink(SuccessMessageMixin, PasswordResetConfirmView):
