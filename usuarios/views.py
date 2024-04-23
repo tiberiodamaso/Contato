@@ -279,10 +279,10 @@ class MinhaConta(LoginRequiredMixin, ListView):
         card = Card.objects.filter(proprietario=usuario).first()
         conteudos = card.conteudos.all() if card else None
         try:
-            cartoes = usuario.cartoes.all()
-            anuncio = usuario.anuncios.all().last()
-            relatorio = usuario.relatorios.all().last()
-            cards = usuario.cards.all()
+            cartoes = usuario.cartoes.all() # cartoes comprados
+            anuncio = usuario.anuncios.all().last() # anuncios comprados
+            relatorio = usuario.relatorios.all().last() # relatorios comprados
+            cards = usuario.cards.all() # cards criados pelo usuário depois de pagar pela compra
             context['usuario'] = usuario
             context['cartoes'] = cartoes
             context['anuncio'] = anuncio

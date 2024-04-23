@@ -220,10 +220,10 @@
     <!--PRODUTOS-->
     <section>
 
-        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center justify-content-center">
+        <div class="row row-cols-1 row-cols-md-2 mb-3 text-center justify-content-center">
 
             <!--PRODUTO 1-->
-            <div class="col-10">
+            <div class="col-10" style="width: 300px;">
                 <div class="card mb-4 rounded-3 shadow-sm">
                     <div class="card-header py-3">
                         <h4 class="my-0 fw-normal">Cartão</h4>
@@ -248,7 +248,7 @@
             </div>
 
             <!--PRODUTO 2-->
-            <div class="col-10">
+            <div class="col-10" style="width: 300px;">
                 <div class="card mb-4 rounded-3 shadow-sm">
                     <div class="card-header py-3">
                         <h4 class="my-0 fw-normal">Anúncios</h4>
@@ -257,8 +257,9 @@
                         <h1 class="card-title pricing-card-title fs-2">R$ 9,90</h1>
                         <ul class="list-unstyled mt-3 mb-4">
                             <li>10 anúncios no seu cartão</li>
-                            <li>Insira foto e descrição do anúncio</li>
-                            <li>Anuncie produtos, serviços...</li>
+                            <li>Insira foto e descrição</li>
+                            <li>Anuncie seus produtos</li>
+                            <li>Conquiste mais clientes</li>
                         </ul>
                         {% if not user.is_authenticated %}
                         <a type="button" href="{% url 'usuarios:registrar' %}"
@@ -272,7 +273,7 @@
             </div>
 
             <!--PRODUTO 3-->
-            <div class="col-10">
+            <div class="col-10" style="width: 300px;">
                 <div class="card mb-4 rounded-3 shadow-sm">
                     <div class="card-header py-3">
                         <h4 class="my-0 fw-normal">Relatórios</h4>
@@ -283,6 +284,31 @@
                             <li>Estatísticas de acesso</li>
                             <li>Monitore o tráfego</li>
                             <li>Divulgue melhor</li>
+                            <li>Conquiste mais clientes</li>
+                        </ul>
+                        {% if not user.is_authenticated %}
+                        <a type="button" href="{% url 'usuarios:registrar' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% else %}
+                        <a type="button" href="{% url 'compras:comprar-relatorio' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!--PRODUTO 4-->
+            <div class="col-10" style="width: 300px;">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Para empresas</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title fs-2">R$ 49,90/mês</h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Tudo incluso</li>
+                            <li>Monitore o cartão mais popular</li>
+                            <li>Reutilize o cartão</li>
                             <li>Conquiste mais clientes</li>
                         </ul>
                         {% if not user.is_authenticated %}
@@ -452,10 +478,10 @@
     </div>
 
     <!--PRODUTOS-->
-    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center justify-content-center">
+    <div class="row row-cols-1 row-cols-md-2 mb-3 text-center justify-content-center">
 
             <!--PRODUTO 1-->
-            <div class="col-10">
+            <div class="col-10" style="width: 300px;">
                 <div class="card mb-4 rounded-3 shadow-sm">
                     <div class="card-header py-3">
                         <h4 class="my-0 fw-normal">Cartão</h4>
@@ -480,7 +506,7 @@
             </div>
 
             <!--PRODUTO 2-->
-            <div class="col-10">
+            <div class="col-10" style="width: 300px;">
                 <div class="card mb-4 rounded-3 shadow-sm">
                     <div class="card-header py-3">
                         <h4 class="my-0 fw-normal">Anúncios</h4>
@@ -489,8 +515,9 @@
                         <h1 class="card-title pricing-card-title fs-2">R$ 9,90</h1>
                         <ul class="list-unstyled mt-3 mb-4">
                             <li>10 anúncios no seu cartão</li>
-                            <li>Insira foto e descrição do anúncio</li>
-                            <li>Anuncie produtos, serviços...</li>
+                            <li>Insira foto e descrição</li>
+                            <li>Anuncie seus produtos</li>
+                            <li>Conquiste mais clientes</li>
                         </ul>
                         {% if not user.is_authenticated %}
                         <a type="button" href="{% url 'usuarios:registrar' %}"
@@ -504,7 +531,7 @@
             </div>
 
             <!--PRODUTO 3-->
-            <div class="col-10">
+            <div class="col-10" style="width: 300px;">
                 <div class="card mb-4 rounded-3 shadow-sm">
                     <div class="card-header py-3">
                         <h4 class="my-0 fw-normal">Relatórios</h4>
@@ -515,6 +542,31 @@
                             <li>Estatísticas de acesso</li>
                             <li>Monitore o tráfego</li>
                             <li>Divulgue melhor</li>
+                            <li>Conquiste mais clientes</li>
+                        </ul>
+                        {% if not user.is_authenticated %}
+                        <a type="button" href="{% url 'usuarios:registrar' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% else %}
+                        <a type="button" href="{% url 'compras:comprar-relatorio' %}"
+                            class="w-100 btn btn-lg btn-warning">Comprar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!--PRODUTO 4-->
+            <div class="col-10" style="width: 300px;">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Para empresas</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title fs-2">R$ 49,90/mês</h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Tudo incluso</li>
+                            <li>Monitore o cartão mais popular</li>
+                            <li>Reutilize o cartão</li>
                             <li>Conquiste mais clientes</li>
                         </ul>
                         {% if not user.is_authenticated %}

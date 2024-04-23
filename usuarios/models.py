@@ -25,6 +25,7 @@ class Usuario(AbstractUser):
     email = models.EmailField(verbose_name='E-mail', unique=True)
 
     USERNAME_FIELD = 'email'
+    EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
 
     class Meta:
@@ -51,11 +52,14 @@ class Usuario(AbstractUser):
         super().save(*args, **kwargs)
 
 
+
 class Perfil(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, verbose_name='Usuário')
     descricao = models.TextField(verbose_name='Descrição', blank=True, null=True)
     img_perfil = models.FileField(verbose_name='Foto perfil', upload_to=get_path, blank=True, null=True, validators=[
-                                  FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
+                                  FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg'])])
+    cnpj_cpf = models.CharField(verbose_name='CPF/CNPJ', max_length=14)
+    nome_fantasia = models.CharField(verbose_name='Nome Fantasia', max_length=100)
 
     class Meta:
         verbose_name = 'Perfil'
