@@ -1,6 +1,9 @@
-import os, re, uuid
+import os, re, uuid, csv
+from io import BytesIO
 from django.core.validators import FileExtensionValidator, URLValidator
 from django.db import models
+from django.db.models.signals import post_migrate
+from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from django.utils.crypto import get_random_string
 from usuarios.models import Usuario
@@ -76,6 +79,7 @@ class CodigoPais(models.Model):
 
     def __str__(self):
         return f'({self.codigo}) {self.pais}'
+
 
 class Card(models.Model):
     vcf = models.FileField(
@@ -266,3 +270,156 @@ class Conteudo(models.Model):
 #   def save(self, *args, **kwargs):
 #     self.slug = slugify(f'{self.nome}')
 #     super().save(*args, **kwargs)
+
+
+###### POPULA TABELAS NECESSÁRIAS APÓS MIGRATE ######
+
+ESTADOS = []
+MUNICIPIOS = []
+CODIGO_PAIS = []
+ARQUIVO_ESTADOS = 'estados.csv'
+ARQUIVO_MUNICIPIOS = 'municipios.csv'
+ARQUIVO_CODIGOS_PAIS = 'codigos_pais.csv'
+
+CATEGORIAS = [
+    'Beleza e Estética',
+    'Saúde e Bem estar',
+    'Reparo e Manutenção',
+    'Limpeza e Organização',
+    'Cuidados pessoais',
+    'Consultoria e Coaching',
+    'Fotografia e Vídeo',
+    'Design e Criação',
+    'Aulas particulares',
+    'Tradução e Interpretação',
+    'Eventos',
+    'Manutenção de veículos',
+    'Jardinagem e Paisagismo',
+    'Marketing digital',
+    'Delivery e Transporte',
+    'Artesanato',
+]
+
+SUBCATEGORIAS = [
+    (1, 'Cabeleleiro'),
+    (1, 'Manicure'),
+    (1, 'Esteticista'),
+    (2, 'Massagista'),
+    (2, 'Terapeuta'),
+    (2, 'Nutricionista'),
+    (3, 'Encanador'),
+    (3, 'Eletricista'),
+    (3, 'Marceneiro'),
+    (3, 'Serralheiro'),
+    (4, 'Diarista'),
+    (4, 'Faxineiro'),
+    (4, 'Personal organizer'),
+    (5, 'Cuidadores de idosos'),
+    (5, 'Babá'),
+    (5, 'Pet sitter'),
+    (6, 'Consultores de negócios'),
+    (6, 'Coach'),
+    (6, 'Pet sitter'),
+    (7, 'Fotógrafo'),
+    (7, 'Videomaker'),
+    (8, 'Designer gráfico'),
+    (8, 'Web designer'),
+    (9, 'Professor particular'),
+    (9, 'Instrutor de música'),
+    (10, 'Tradutor'),
+    (10, 'Intérprete'),
+    (11, 'Organizador de festa'),
+    (11, 'Cerimonialista'),
+    (12, 'Mecânico'),
+    (12, 'Funileiro'),
+    (12, 'Pintor'),
+    (13, 'Jardineiro'),
+    (13, 'Paisagista'),
+    (14, 'Especialista em mídias sociais'),
+    (14, 'Gestor de campanha online'),
+    (15, 'Motoboy'),
+    (15, 'Motorista de aplicativo'),
+    (16, 'Livros sensoriais'),
+    (16, 'Bijouterias'),
+    (16, 'Artigos decorativos'),
+]
+
+TIPOS_CONTEUDOS = [
+    'Serviço',
+    'Produto',
+    'Promoção',
+    'Portfólio',
+    'Curso',
+]
+
+def popular_estados():
+    with open(ARQUIVO_ESTADOS, 'r') as arquivo_estados:
+        leitor_csv = csv.DictReader(arquivo_estados, delimiter=';')
+        for linha in leitor_csv:
+            registro = Estado(nome=linha['name'], sigla=linha['uf_code'])
+            ESTADOS.append(registro)
+    Estado.objects.bulk_create(ESTADOS)
+    print('\nTabela Estados populada com sucesso!')
+
+
+def popular_municipios():
+    with open(ARQUIVO_MUNICIPIOS, 'r') as arquivo_municipios:
+        leitor_csv = csv.DictReader(arquivo_municipios, delimiter=';')
+        estado_linha_anterior = ''
+        for linha in leitor_csv:
+            estado_linha_atual = linha['uf_code']
+            if estado_linha_atual != estado_linha_anterior:
+                estado_linha_anterior = estado_linha_atual
+                estado_obj = Estado.objects.get(sigla=estado_linha_atual)
+
+            if estado_obj:
+                registro = Municipio(nome=linha['name'], estado=estado_obj)
+                MUNICIPIOS.append(registro)
+    Municipio.objects.bulk_create(MUNICIPIOS)
+    print('\nTabela Municípios populada com sucesso!')
+
+
+def popular_codigo_pais():
+    with open(ARQUIVO_CODIGOS_PAIS, 'r') as arquivo_codigos_pais:
+        leitor_csv = csv.DictReader(arquivo_codigos_pais, delimiter=';')
+        for linha in leitor_csv:
+            registro = CodigoPais(pais=str(linha['pais']), codigo=str(linha['codigo']))
+            CODIGO_PAIS.append(registro)
+    CodigoPais.objects.bulk_create(CODIGO_PAIS)
+    print('\nTabela Códigos de País populada com sucesso!')
+
+
+def popular_categorias():
+    for categoria in CATEGORIAS:
+        Categoria.objects.get_or_create(nome=categoria)
+    print('\nTabela Categoria populada com sucesso!')
+
+
+def popular_subcategorias():
+    for subcategoria in SUBCATEGORIAS:
+        id_categoria, nome = subcategoria
+        categoria = Categoria.objects.get(id=id_categoria)
+        Subcategoria.objects.get_or_create(categoria=categoria, nome=nome)
+    print('\nTabela Subcategoria populada com sucesso!')
+
+
+def popular_tipos_conteudos():
+    for nome in TIPOS_CONTEUDOS:
+        TipoConteudo.objects.get_or_create(nome=nome)
+    print('\n Tabela Tipo Conteúdo populada com sucesso!')
+
+
+@receiver(post_migrate)
+def popular_tabelas_necessarias(sender, **kwargs):
+    if not Estado.objects.exists():
+        popular_estados()
+    if not Municipio.objects.exists():
+        popular_municipios()
+    if not CodigoPais.objects.exists():
+        popular_codigo_pais()
+    if not Categoria.objects.exists():
+        popular_categorias()
+    if not Subcategoria.objects.exists():
+        popular_subcategorias()
+    if not TipoConteudo.objects.exists():
+        popular_tipos_conteudos()

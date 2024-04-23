@@ -92,24 +92,3 @@ class EsqueceuSenhaLinkForm(SetPasswordForm):
     )
 
 
-# class UsuarioCriarForm(forms.ModelForm):
-
-#     class Meta:
-#         model = Usuario
-#         fields = ['email', 'first_name', 'last_name']
-#         widgets = {
-#             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-#             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-#             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-#         }
-
-#     def save(self, commit=True):
-#         usuario = super().save(commit=False)
-#         usuario.username = f'{usuario.first_name.lower()}.{usuario.last_name.lower()}'
-#         password1 = Usuario.objects.make_random_password()
-#         password2 = password1
-#         usuario.set_password(password1)
-#         usuario.is_active = False
-#         if commit:
-#             usuario.save()
-#         return usuario
