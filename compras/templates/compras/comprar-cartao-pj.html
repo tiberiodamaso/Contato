@@ -1,0 +1,141 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+    {% include 'core/menu.html' %}
+    {% include 'core/mensagens.html' %}
+
+    <!--MERCADO PAGO SDK-->
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+
+    <!--INFORMAÇÕES DO PRODUTO E FORMULÁRIO PARA PAGAMENTO-->
+    <div class="container mt-5">
+        <div class="row justify-content-md-center justify-content-lg-center">
+            <!--INFORMAÇÕES DO PRODUTO-->
+            {% if not compra %}
+            <div class="col-md-4 mb-4">
+                <h4>Cartão Empresarial</h4>
+                <div class="border rounded-2 shadow text-center">
+                    <img src="{% static 'core/img/person.jpg'%}" alt="Foto do perfil" class="rounded-circle w-50 my-3 border-2 border">
+                    <h2 class="fw-normal">Seu nome</h2>
+                    <h4 class="lead">Seu cargo</h4>
+                    <h4 class="lead">Sua empresa</h4>
+                    <div class="d-flex justify-content-center py-3">
+                        <ul class="text-start lead">
+                            <li>Cartão, Anúncios e Relatórios inclusos</li>
+                            <li>Seu whatsapp</li>
+                            <li>Seu email</li>
+                            <li>Seu site</li>
+                            <li>Suas redes sociais</li>
+                            <li>Monitore o cartão mais popular</li>
+                            <li>Reutilize o cartão</li>
+                            <li>Conquiste mais clientes</li>
+                        </ul>
+                    </div>
+                    <h4 class="fs-4 lead pb-3">R$ 49,90/mês</h4>
+                </div>
+            </div>
+
+            <!--FORMULÁRIO DE PAGAMENTO-->
+            <div id="cardPaymentBrick_container" class="col-6"></div>
+
+            {% else %}
+            <div class="col-md-4 mb-4">
+                {% if not card %}
+                <h4 class="text-center">Você já comprou um cartão. Clique abaixo para criá-lo.</h4>
+                <a href="{% url 'core:modelos' %}"
+                class="btn fs-5 w-100 bg-warning text-white mt-3">Criar cartão</a>
+                {% else %}
+                <h4 class="text-center">Você já criou um cartão. Clique abaixo para editá-lo</h4>
+                <a href="{% url 'core:editar' card.slug_empresa card.slug %}"
+                class="btn fs-5 w-100 bg-warning text-white mt-3">Editar cartão</a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!--INICIALIZA FORM DE PAGAMENTO-->
+    <script>
+        const slug_empresa = '{{card.slug_empresa}}';
+        const slug_card = '{{card.slug}}';
+        const slugEmpresa = slug_empresa.replace(/\u002D/g, '-');
+        const slugCard = slug_card.replace(/\u002D/g, '-');
+        const mp = new MercadoPago('APP_USR-f3b270fa-77ec-44e6-b09c-95a30bc6915c', {
+          locale: 'pt-BR'
+        });
+        const bricksBuilder = mp.bricks();
+        const renderCardPaymentBrick = async (bricksBuilder) => {
+          const settings = {
+            initialization: {
+              amount: 9.90, // valor total a ser pago
+              payer: {
+                email: "",
+              },
+            },
+            customization: {
+              visual: {
+                style: {
+                    customVariables:{
+                        theme: 'bootstrap',
+                        baseColor: '#ffc108',
+                    }
+                },
+                texts: {
+                    formTitle: "Cartão de crédito",
+                  },
+                paymentMethods: {
+                    types: {
+                        excluded: ['debit_card']
+                    }, 
+                    maxInstallments: 1,
+                }
+              },
+            },
+            callbacks: {
+              onReady: () => {
+                // callback chamado quando o Brick estiver pronto
+              },
+              onSubmit: (cardFormData) => {
+                //  callback chamado o usuário clicar no botão de submissão dos dados
+                //  exemplo de envio dos dados coletados pelo Brick para seu servidor
+                return new Promise((resolve, reject) => {
+                  fetch("/compras/comprar-relatorio/", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(cardFormData)
+                  })
+                    .then((response) => {
+                        // Verifica o resultado do pagamento
+                        console.log(response)
+                        console.log(response.status)
+                        if (response.status === 201) {
+                            // Pagamento bem-sucedido, redirecione para a página de sucesso
+                            console.log('Pagamento bem-sucedido, redirecione para a página de sucesso')
+                            window.location.href = "/" + slugEmpresa + "/dashboard/" + slugCard + "/";;
+                        } else {
+                            // Trate outros cenários de resposta aqui, como erros
+                            // Pode redirecionar para uma página de erro, se aplicável
+                            console.log('Pagamento falhou')
+                            window.location.href = "/";
+    }
+                      resolve();
+                    })
+                    .catch((error) => {
+                      // lidar com a resposta de erro ao tentar criar o pagamento
+                      reject();
+                    })
+                });
+              },
+              onError: (error) => {
+                // callback chamado para todos os casos de erro do Brick
+              },
+            },
+          };
+          window.cardPaymentBrickController = await bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', settings);
+        };
+        renderCardPaymentBrick(bricksBuilder);
+    </script>
+
+{% endblock %}
