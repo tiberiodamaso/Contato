@@ -3,6 +3,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import FileExtensionValidator
 from django.template.defaultfilters import slugify
+from django.contrib.auth.hashers import make_password
+from django.db.models.signals import post_migrate
+from django.dispatch import receiver
 
 
 def get_path(instance, filename):
@@ -60,4 +63,34 @@ class Perfil(models.Model):
 
     def __str__(self):
         return self.usuario.get_full_name()
-        
+
+
+##### POPULA TABELA DE USUÁRIOS #####
+
+def popular_usuarios():
+    if not Usuario.objects.exists():
+        users_data = [
+            {'username': 'margot', 'email': 'margot@email.com', 'first_name': 'Margot', 'last_name': 'Robie', 
+            'is_staff': True, 'is_active': True, 'is_superuser': False, 'password': make_password('123')},
+            {'username': 'keanu', 'email': 'keanu@email.com', 'first_name': 'Keanu', 'last_name': 'Reeves',
+             'is_staff': True, 'is_active': True, 'is_superuser': False, 'password': make_password('123')},
+            {'username': 'tom', 'email': 'tom@email.com', 'first_name': 'Tom', 'last_name': 'Cruise', 
+            'is_staff': True, 'is_active': True, 'is_superuser': False, 'password': make_password('123')},
+        ]
+
+        usuarios = [Usuario(
+            username=data['username'], 
+            email=data['email'], 
+            first_name=data['first_name'], 
+            last_name=data['last_name'],
+            password=data['password'],
+            is_staff=data['is_staff'],
+            is_active=data['is_active'],
+            is_superuser=data['is_superuser']) for data in users_data]
+
+        Usuario.objects.bulk_create(usuarios)
+
+
+@receiver(post_migrate)
+def popular_tabelas_necessarias(sender, **kwargs):
+    popular_usuarios()
