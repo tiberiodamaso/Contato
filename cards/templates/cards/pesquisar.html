@@ -63,7 +63,7 @@
     {% for card in cards %}
         {% if card.proprietario.is_active %}
         <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
-            <a href="{% url 'core:detalhe' card.slug_empresa card.slug %}" class="text-decoration-none text-black">
+            <a href="{% url 'core:detalhe' card.empresa.slug card.slug %}" class="text-decoration-none text-black">
                 <div class="border rounded-2 shadow mx-3 mx-lg-0 mx-md-0" style="height: 460px;">
                     {% if card.img_perfil %}
                     <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">

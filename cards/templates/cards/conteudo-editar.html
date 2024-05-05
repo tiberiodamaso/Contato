@@ -9,7 +9,7 @@
     <h2 class="text-center display-4 my-5">Editar anúncio</h2>
 
     <!--FORMULÁRIO PARA EDITAR CONTEÚDO-->
-    <form action="{% url 'core:conteudo-editar' card.slug_empresa conteudo.id %}" method="post"
+    <form action="{% url 'core:conteudo-editar' card.empresa.slug conteudo.id %}" method="post"
         class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
         {% csrf_token %}
 
@@ -80,7 +80,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
-                        <form action="{% url 'core:conteudo-excluir' conteudo.card.slug_empresa conteudo.id %}"
+                        <form action="{% url 'core:conteudo-excluir' conteudo.card.empresa.slug conteudo.id %}"
                             method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">Sim</button>

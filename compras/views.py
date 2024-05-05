@@ -18,7 +18,7 @@ from django.views.generic.edit import DeletionMixin
 from django.views.generic import View, CreateView, UpdateView, TemplateView
 from django.http import JsonResponse
 
-from .models import Relatorio, Cartao, Anuncio
+from .models import Relatorio, Anuncio, CartaoPF, CartaoPJ
 from cards.views import Criar
 
 
@@ -27,13 +27,13 @@ from cards.views import Criar
 class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
 
     def test_func(self):
-        cartoes = self.request.user.cartoes.all()
+        cartoes = self.request.user.cartoespf.all()
         for cartao in cartoes:
             if cartao.status == 'approved':
                 return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-sem-cartao.html', status=403)
+        return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
 
 
     def get(self, request, *args, **kwargs):
@@ -219,15 +219,19 @@ class AtualizarCartaoRelatorio(LoginRequiredMixin, SuccessMessageMixin, View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class ComprarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
+class ComprarCartaoPF(LoginRequiredMixin, SuccessMessageMixin, View):
 
 
     def get(self, request, *args, **kwargs):
         usuario = self.request.user
+        try:
+            perfil = usuario.perfil
+        except:
+            return redirect(reverse_lazy('usuarios:perfil-pf'))
         compra = usuario.cartoes.last()
         card = usuario.cards.all().first()
         contexto = {'usuario': usuario, 'card': card, 'compra': compra}
-        return render(request, 'compras/comprar-cartao.html', contexto)
+        return render(request, 'compras/comprar-cartao-pf.html', contexto)
 
     def post(self, request, *args, **kwargs):
         usuario = self.request.user
@@ -267,10 +271,10 @@ class ComprarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
         response = requests.post(url, json=data, headers=headers)
 
         # Verifique se a solicitação foi bem-sucedida
-        if response.status_code == 200:
+        if response.status_code == 200 or response.status_code == 201:
             data = response.json()
             formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
-            cartao = Cartao.objects.create(
+            cartao = CartaoPF.objects.create(
                 usuario=usuario,
                 pagamento_id = data['id'],
                 payer_id = data['payer']['id'],
@@ -297,13 +301,13 @@ class ComprarCartao(LoginRequiredMixin, SuccessMessageMixin, View):
 class ComprarAnuncio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
 
     def test_func(self):
-        cartoes = self.request.user.cartoes.all()
+        cartoes = self.request.user.cartoespf.all()
         for cartao in cartoes:
             if cartao.status == 'approved':
                 return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-sem-cartao.html', status=403)
+        return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
 
 
     def get(self, request, *args, **kwargs):
@@ -380,25 +384,27 @@ class ComprarAnuncio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
             print(f'response.status_code != 201, error_message = {error_message}')
             return JsonResponse({'error': error_message}, status=response.status_code)
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class ComprarCartaoPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
 
     def test_func(self):
-        cartoes = self.request.user.cartoes.all()
-        for cartao in cartoes:
-            if cartao.status == 'approved':
-                return True
+        return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-sem-cartao.html', status=403)
+        return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
 
 
     def get(self, request, *args, **kwargs):
         usuario = self.request.user
-        compra = usuario.relatorios.last()
-        card = usuario.cards.all().first()
+        try:
+            perfil = usuario.perfil
+        except:
+            return redirect(reverse_lazy('usuarios:perfil-pj'))
+        compra = usuario.cartoespj.last()
+        card = usuario.cards.all()
         contexto = {'usuario': usuario, 'card': card, 'compra': compra}
-        return render(request, 'compras/comprar-relatorio.html', contexto)
+        return render(request, 'compras/comprar-cartao-pj.html', contexto)
 
     def post(self, request, *args, **kwargs):
         usuario = self.request.user
@@ -419,14 +425,14 @@ class ComprarCartaoPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
             "auto_recurring": {
                 "frequency": 1,
                 "frequency_type": "months",
-                "transaction_amount": 9.90,
+                "transaction_amount": 49.90,
                 "currency_id": "BRL"
             },
             "back_url": "https://meucontato.pythonanywhere.com/",
             "card_token_id": form_data.get('token'),
             "payer_email": form_data.get('payer')['email'],
-            "preapproval_plan_id": "2c9380848c885e45018c88639c710001",
-            "reason": "Plano individual",
+            "preapproval_plan_id": "2c9380848f1b8ed3018f2c3b458e0795",
+            "reason": "Plano empresarial",
             "status": "authorized"
         }
 
@@ -434,7 +440,7 @@ class ComprarCartaoPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         response = requests.post(url, json=data, headers=headers)
 
         # Verifique se a solicitação foi bem-sucedida
-        if response.status_code == 201:
+        if response.status_code == 200 or response.status_code == 201:
             data = response.json()
             formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
             relatorio = Relatorio.objects.create(
@@ -460,3 +466,4 @@ class ComprarCartaoPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
             error_message = response.text
             print(f'response.status_code != 201, error_message = {error_message}')
             return JsonResponse({'error': error_message}, status=response.status_code)
+

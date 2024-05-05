@@ -13,9 +13,11 @@
             <!--INFORMAÇÕES DO PRODUTO-->
             {% if not compra %}
             <div class="col-md-4 mb-4">
-                <h4>Cartão Individual</h4>
+                <h4>Cartão Pessoal</h4>
                 <div class="border rounded-2 shadow text-center">
-                    <img src="{% static 'core/img/person.jpg'%}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
+                    <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                        <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+                    </div>
                     <h2 class="fw-normal">Seu nome</h2>
                     <h4 class="lead">Seu cargo</h4>
                     <h4 class="lead">Sua empresa</h4>
@@ -43,7 +45,7 @@
                 class="btn fs-5 w-100 bg-warning text-white mt-3">Criar cartão</a>
                 {% else %}
                 <h4 class="text-center">Você já criou um cartão. Clique abaixo para editá-lo</h4>
-                <a href="{% url 'core:editar' card.slug_empresa card.slug %}"
+                <a href="{% url 'core:editar' card.empresa.slug card.slug %}"
                 class="btn fs-5 w-100 bg-warning text-white mt-3">Editar cartão</a>
                 {% endif %}
             </div>
@@ -92,7 +94,7 @@
                 //  callback chamado o usuário clicar no botão de submissão dos dados
                 //  exemplo de envio dos dados coletados pelo Brick para seu servidor
                 return new Promise((resolve, reject) => {
-                  fetch("/compras/comprar-cartao/", {
+                  fetch("/compras/comprar-cartao-pf/", {
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json",

@@ -44,7 +44,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <form action="{% url 'core:deletar' card.slug_empresa card.slug %}" method="post">
+                    <form action="{% url 'core:deletar' card.empresa.slug card.slug %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Apagar</button>
                     </form>
@@ -54,7 +54,7 @@
     </div>
 
     <!--FORMULÁRIO DE EDIÇÃO DO CARD-->
-    <form id="editCard" action="{% url 'core:editar' card.slug_empresa card.slug %}" method="post"
+    <form id="editCard" action="{% url 'core:editar' card.empresa.slug card.slug %}" method="post"
         class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
         {% csrf_token %}
 
@@ -134,7 +134,7 @@
         <div>
             <label for="id_empresa">Empresa:</label>
             <div class="input-group mb-3">
-                {{form.empresa}}
+                <input type="text" name="empresa" class="form-control" value="{{empresa}}" id="id_empresa">
                 <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
             </div>
         </div>

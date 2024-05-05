@@ -8,13 +8,13 @@ from django.conf import settings
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import PasswordChangeView, LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.hashers import make_password
 from django.contrib import auth, messages
 from django.contrib.auth import login as auth_login
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
-from .forms import UsuarioAuthenticationForm, UsuarioRegistrationForm, TrocaSenhaForm, EsqueceuSenhaForm, EsqueceuSenhaLinkForm
+from .forms import UsuarioAuthenticationForm, UsuarioRegistrationForm, TrocaSenhaForm, EsqueceuSenhaForm, EsqueceuSenhaLinkForm, PerfilFormPF, PerfilFormPJ
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -23,10 +23,11 @@ from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import slugify
-from .models import Usuario
+from .models import Usuario, Perfil
+from cards.models import Empresa
 from django.shortcuts import redirect, render
 from cards.models import Card
-from compras.models import Relatorio, Cartao
+from compras.models import Relatorio, CartaoPF, CartaoPJ
 from django.contrib.auth.hashers import check_password
 
 
@@ -77,30 +78,6 @@ class UsusarioLoginView(LoginView):
                 return HttpResponseRedirect(reverse('usuarios:login'))
         else:
             messages.error(self.request, "Por favor, complete o reCAPTCHA.")
-
-        # # Verificando se o usuário com o email existe
-        # try:
-        #     user = Usuario.objects.get(email=email)
-        #     # Verifica se senha está correta
-        #     if not check_password(password, user.password):
-        #         messages.error(request, 'Falha na autenticação - Senha incorreta')
-        #         return HttpResponseRedirect(reverse('usuarios:login'))
-            
-        #     #verifica se usuario não é ativo para redirecionar para reenviar e-mail
-        #     if not user.is_active:
-        #         # Se o usuário existe, mas não está ativo
-        #         # Redirecionar para o template de reenvio de email de ativação
-        #         request.session['email'] = email
-        #         return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao'))
-        #         # return HttpResponseRedirect(reverse('usuarios:reenviar-email-ativacao', kwargs={'username': user.username}))
-        #         # return TemplateResponse(request, 'resend_activation_email.html')
-
-        #     # Se o usuário existe e está ativo, tentar fazer login
-        #     return super().post(request, *args, **kwargs)
-        # except Usuario.DoesNotExist:
-        #     # Se o usuário não existe, retornar mensagem de erro
-        #     messages.error(self.request, "Usuário não encontrado. Por favor, verifique o email.")
-        #     return HttpResponseRedirect(reverse('usuarios:login'))
 
 
 class LogoutView(LogoutView):
@@ -268,30 +245,44 @@ class ReenviarEmailAtivacao(TemplateView):
 
 class MinhaConta(LoginRequiredMixin, ListView):
 
-    template_name = 'usuarios/minha-conta.html'
-    model = Relatorio
-    context_object_name = 'relatorios'
+    model = Usuario
+
+    def get_template_names(self):
+        try:
+            perfil = self.request.user.perfil
+            if self.request.user.perfil.is_pj:
+                return 'usuarios/minha-conta-pj.html'
+            else:
+                return 'usuarios/minha-conta-pf.html'
+        except:
+            return 'usuarios/minha-conta.html'
 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         usuario = self.request.user
         card = Card.objects.filter(proprietario=usuario).first()
-        conteudos = card.conteudos.all() if card else None
+        conteudos_criados = card.conteudos.all() if card else None
         try:
-            cartoes = usuario.cartoes.all() # cartoes comprados
-            anuncio = usuario.anuncios.all().last() # anuncios comprados
-            relatorio = usuario.relatorios.all().last() # relatorios comprados
-            cards = usuario.cards.all() # cards criados pelo usuário depois de pagar pela compra
+            comprou_cartao_pf = usuario.cartoespf.all() # cartoes comprados
+            comprou_cartao_pj = usuario.cartoespj.all() # cartoes comprados pj
+            comprou_anuncio = usuario.anuncios.all().last() # anuncios comprados
+            comprou_relatorio = usuario.relatorios.all().last() # relatorios comprados
+            cards_criados = usuario.cards.all() # cards criados pelo usuário depois de pagar pela compra
+            anuncio = comprou_anuncio
+            relatorio = comprou_relatorio
             context['usuario'] = usuario
-            context['cartoes'] = cartoes
+            context['comprou_cartao_pf'] = comprou_cartao_pf
+            context['comprou_cartao_pj'] = comprou_cartao_pj
+            context['comprou_anuncio'] = comprou_anuncio
             context['anuncio'] = anuncio
-            context['cards'] = cards
+            context['cards_criados'] = cards_criados
             context['card'] = card
-            context['conteudos'] = conteudos
+            context['conteudos_criados'] = conteudos_criados
+            context['comprou_relatorio'] = comprou_relatorio
             context['relatorio'] = relatorio
-            context['n_cards'] = len(cards)
-            context['n_conteudos'] = len(conteudos) if conteudos else 0
+            context['numero_cards_criados'] = len(cards_criados)
+            context['numero_conteudos_criados'] = len(conteudos_criados) if conteudos_criados else 0
         except ObjectDoesNotExist as err:
             print(err)
             card = None
@@ -309,6 +300,53 @@ class DesativarConta(LoginRequiredMixin, DeleteView):
         usuario.save()
         return redirect(reverse_lazy('usuarios:logout'))
 
+
+class PerfilPF(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Perfil
+    form_class = PerfilFormPF
+    template_name = 'usuarios/perfil-pf.html'
+    success_url = reverse_lazy('compras:comprar-cartao-pf')
+    success_message = "Informações salvas com sucesso."
+
+    def form_valid(self, form):
+        perfil = form.save(commit=False)
+        perfil.usuario = self.request.user
+        perfil.is_pj = False
+        perfil.nome_fantasia = self.request.user.get_full_name()
+        perfil.save()
+
+        Empresa.objects.create(
+            nome_fantasia = perfil.nome_fantasia,
+            cnpj_cpf = form.cleaned_data['cnpj_cpf'],
+            proprietario = self.request.user,
+            slug = slugify(perfil.nome_fantasia)
+        )
+
+        return super().form_valid(form)
+
+
+class PerfilPJ(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Perfil
+    form_class = PerfilFormPJ
+    template_name = 'usuarios/perfil-pj.html'
+    success_url = reverse_lazy('compras:comprar-cartao-pj')
+    success_message = "Informações salvas com sucesso."
+
+    def form_valid(self, form):
+        perfil = form.save(commit=False)
+        perfil.usuario = self.request.user
+        perfil.is_pj = True
+        perfil.nome_fantasia = form.cleaned_data['nome_fantasia']
+        perfil.save()
+
+        Empresa.objects.create(
+            nome_fantasia = perfil.nome_fantasia,
+            cnpj_cpf = form.cleaned_data['cnpj_cpf'],
+            proprietario = self.request.user,
+            slug = slugify(perfil.nome_fantasia)
+        )
+
+        return super().form_valid(form)
 
 def ativar_conta(request, uidb64, token):
     try:

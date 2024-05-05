@@ -81,6 +81,22 @@ class CodigoPais(models.Model):
         return f'({self.codigo}) {self.pais}'
 
 
+class Empresa(models.Model):
+  nome_fantasia = models.CharField(verbose_name='Nome', max_length=200)
+  cnpj_cpf = models.CharField(verbose_name='CNPJ', max_length=14, unique=True, validators=[valida_cnpj], blank=True, null=True)
+  proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.PROTECT, related_name='empresas')
+  slug = models.SlugField(verbose_name='Slug', editable=False)
+  criada = models.DateField(verbose_name='Criada', auto_now_add=True)
+  atualizada = models.DateField(verbose_name='Atualizada', auto_now=True)
+
+  class Meta:
+    verbose_name = 'Empresa'
+    verbose_name_plural = 'Empresas'
+
+  def __str__(self):
+    return self.nome_fantasia
+
+
 class Card(models.Model):
     vcf = models.FileField(
         verbose_name='VCF',
@@ -151,7 +167,7 @@ class Card(models.Model):
     )
     estado = models.ForeignKey(Estado, verbose_name='Estado', on_delete=models.CASCADE, related_name='cards')
     municipio = models.ForeignKey(Municipio, verbose_name='Município', on_delete=models.CASCADE, related_name='cards')
-    empresa = models.CharField(verbose_name='Empresa', max_length=200, blank=True)
+    empresa = models.ForeignKey(Empresa, verbose_name='Empresa', max_length=200, on_delete=models.CASCADE, related_name='cards')
     conteudo_pesquisavel = models.TextField(verbose_name='Conteúdo pesquisável', default='', editable=False)
     logotipo = models.FileField(
         verbose_name='Logotipo',
@@ -161,7 +177,6 @@ class Card(models.Model):
         validators=[FileExtensionValidator(
             allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])],
     )
-    slug_empresa = models.SlugField(verbose_name='Slug da Empresa', max_length=200, editable=False, unique=True)
 
     # histórico
     criado = models.DateField(verbose_name='Criado', auto_now_add=True)
@@ -198,14 +213,6 @@ class Card(models.Model):
                 # Se existir, gera um novo slug adicionando um sufixo aleatório
                 self.slug = f'{get_random_string(length=4)}-{self.slug}'
 
-        if not self.empresa:
-            self.slug_empresa = slugify(self.nome_display)
-            if Card.objects.filter(slug_empresa=self.slug_empresa):
-                # Se existir, gera um novo slug adicionando um sufixo aleatório
-                self.slug_empresa = f'{get_random_string(length=4)}-{self.slug_empresa}'
-        else:
-            self.slug_empresa = slugify(self.empresa)
-        
         self.conteudo_pesquisavel = self.prepara_conteudo_pesquisavel()
 
         super().save(*args, **kwargs)
@@ -248,28 +255,7 @@ class Conteudo(models.Model):
     descricao = models.TextField(verbose_name='Descrição', blank=True)
 
 
-# class Empresa(models.Model):
-#   nome = models.CharField(verbose_name='Nome', max_length=200)
-#   cnpj = models.CharField(verbose_name='CNPJ', max_length=14, unique=True, validators=[valida_cnpj], blank=True, null=True)
-#   cnae = models.CharField(verbose_name='CNAE', max_length=7)
-#   logotipo = models.FileField(verbose_name='Logotipo', upload_to=get_path, blank=True, null=True, validators=[
-#                               FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg', 'svg'])])
-#   # proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.PROTECT, related_name='empresas')
-#   slug = models.SlugField(verbose_name='Slug', unique=True, editable=False)
-#   # site = models.URLField(verbose_name='Site', blank=True, validators=[URLValidator(schemes=['http', 'https'])])
-#   criada = models.DateField(verbose_name='Criada', auto_now_add=True)
-#   atualizada = models.DateField(verbose_name='Atualizada', auto_now=True)
 
-#   class Meta:
-#     verbose_name = 'Empresa'
-#     verbose_name_plural = 'Empresas'
-
-#   def __str__(self):
-#     return self.nome
-
-#   def save(self, *args, **kwargs):
-#     self.slug = slugify(f'{self.nome}')
-#     super().save(*args, **kwargs)
 
 
 ###### POPULA TABELAS NECESSÁRIAS APÓS MIGRATE ######

@@ -1,0 +1,88 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load tags %}
+{% block title %} Meu Contato | Minha conta {% endblock %}
+{% block content %}
+
+{% include 'core/menu.html' %}
+{% include 'core/mensagens.html' %}
+
+<h2 class="text-center my-5 display-4">Precisamos de mais algumas informações</h2>
+
+<!--FORMULARIO DE PERFIL-->
+<section class="container">
+    <form method="post" id="id-form-criar-perfil" action="{% url 'usuarios:perfil-pj' %}" class="col col-lg-3 col-md-3 py-5 d-flex flex-column m-auto">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="id_cnpj_cpf">CNPJ:</label>
+            {{ form.cnpj_cpf}}
+            <span id="id-cnpj-invalido" class="text-danger d-none">CNPJ inválido</span>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_nome_fantasia">Nome fantasia:</label>
+            {{ form.nome_fantasia }}
+        </div>
+
+        <button type="submit" class="btn btn-warning">Salvar</button>
+    
+    </form>
+</section>
+
+<!--VALIDA CNPJ-->
+<script>
+    document.querySelector('#id_cnpj_cpf').addEventListener('change', function(){
+        let cnpj = document.querySelector('#id_cnpj_cpf').value;
+        let cnpjInvalido = document.querySelector('#id-cnpj-invalido');
+        if (validarCNPJ(cnpj)) {
+            let cnpjFormatado = formatarCNPJ(cnpj);
+            document.querySelector('#id_cnpj_cpf').value = cnpjFormatado;
+            cnpjInvalido.classList.add('d-none');
+        }
+        else {
+            cnpjInvalido.classList.remove('d-none');
+        }
+    })
+
+    function validarCNPJ(cnpj) {
+        // Remove caracteres não numéricos
+        cnpj = cnpj.replace(/\D/g, '');
+
+        // Verifica se o CNPJ tem 14 dígitos
+        if (cnpj.length !== 14)
+            return false;
+
+        // Calcula os dígitos verificadores
+        let soma = 0;
+        let multiplicador = 2;
+        for (let i = 11; i >= 0; i--) {
+            soma += parseInt(cnpj.charAt(i)) * multiplicador;
+            multiplicador = multiplicador === 9 ? 2 : multiplicador + 1;
+        }
+        let digito1 = (soma * 10) % 11;
+        digito1 = digito1 === 10 ? 0 : digito1;
+
+        soma = 0;
+        multiplicador = 2;
+        for (let i = 12; i >= 0; i--) {
+            soma += parseInt(cnpj.charAt(i)) * multiplicador;
+            multiplicador = multiplicador === 9 ? 2 : multiplicador + 1;
+        }
+        let digito2 = (soma * 10) % 11;
+        digito2 = digito2 === 10 ? 0 : digito2;
+
+        // Verifica se os dígitos verificadores estão corretos
+        if (parseInt(cnpj.charAt(12)) === digito1 && parseInt(cnpj.charAt(13)) === digito2)
+            return true;
+        else
+            return false;
+    }
+
+    function formatarCNPJ(cnpj) {
+    // Formata o CNPJ com a máscara
+        return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+    }
+</script>
+
+{% endblock %}

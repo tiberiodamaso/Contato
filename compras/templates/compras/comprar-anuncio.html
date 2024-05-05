@@ -48,7 +48,7 @@
                 class="btn fs-5 w-100 bg-warning text-white mt-3">Criar cartão</a>
                 {% else %}
                 <h4 class="text-center">Você já comprou um pacote de anúncios. Clique abaixo para criá-los.</h4>
-                <a href="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}"
+                <a href="{% url 'core:conteudo-criar' card.empresa.slug card.slug %}"
                 class="btn fs-5 w-100 bg-warning text-white mt-3">Criar anúncios</a>
                 {% endif %}
             </div>
@@ -58,7 +58,7 @@
 
     <!--INICIALIZA FORM DE PAGAMENTO-->
     <script>
-        const slug_empresa = '{{card.slug_empresa}}';
+        const slug_empresa = '{{card.empresa.slug}}';
         const slug_card = '{{card.slug}}';
         const slugEmpresa = slug_empresa.replace(/\u002D/g, '-');
         const slugCard = slug_card.replace(/\u002D/g, '-');

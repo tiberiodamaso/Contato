@@ -15,4 +15,8 @@ class UsuarioAdmin(UserAdmin):
     search_fields = ('id', 'username', 'email', 'first_name', 'last_name')
     inlines = [PerfilInline]
 
+class PerfilAdmin(admin.ModelAdmin):
+    list_display = ('id', 'cnpj_cpf', 'nome_fantasia', 'is_pj')
+
 admin.site.register(Usuario, UsuarioAdmin)
+admin.site.register(Perfil, PerfilAdmin)

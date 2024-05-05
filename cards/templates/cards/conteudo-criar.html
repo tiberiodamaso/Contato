@@ -19,7 +19,7 @@
 
     {% if quantidade_conteudo < 10 %}
         <!--FORMULÁRIO PARA CRIAR CONTEÚDO-->
-        <form action="{% url 'core:conteudo-criar' card.slug_empresa card.slug %}" method="post"
+        <form action="{% url 'core:conteudo-criar' card.empresa.slug card.slug %}" method="post"
             class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
             {% csrf_token %}
 
