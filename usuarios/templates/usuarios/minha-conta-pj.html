@@ -1,0 +1,176 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load tags %}
+{% block title %} Meu Contato | Minha conta {% endblock %}
+{% block content %}
+
+{% include 'core/menu.html' %}
+{% include 'core/mensagens.html' %}
+
+<h2 class="text-center my-5 display-4">Minha conta</h2>
+
+<!--PRODUTOS PARA PJ-->
+<section class="d-flex flex-md-row flex-lg-row flex-column justify-content-center">
+
+    <!--CARTÃO-->
+    {% if comprou_cartao_pj and cards_criados %}
+    <div class="pb-5 px-3 col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Cartões</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                    <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+                </div>
+                <div class="p-3">
+                    <h4 class="lead">Cartões criados: {{numero_cards_criados}}</h4>
+                    <a href="{% url 'core:lista-cards-pj' %}" type="button" class="btn btn-warning">Ver cartões</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% elif comprou_cartao_pj and not cards_criados %}
+    <div class="pb-5 px-3  col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Cartões</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                    <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+                </div>
+                <h4 class="lead p-3 lh-base">Você ainda não criou um cartão. Crie um agora mesmo comece a compartilhar.</h4>
+                <a href="{% url 'core:modelos' %}" type="button" class="btn btn-warning">Criar cartão</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="pb-5 px-3  col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Cartões</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                    <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+                </div>
+                <h4 class="lead p-3 lh-base">Você ainda não comprou um cartão. Compre agora e comece a compartilhar.</h4>
+                <a href="{% url 'compras:comprar-cartao-pj' %}" type="button" class="btn btn-warning">Comprar cartão</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!--ANUNCIOS-->
+    {% if cards_criados %}
+    <div class="pb-5 px-3 col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Anúncios</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                    <i class="bi bi-megaphone text-warning" style="font-size: 4em;"></i>
+                </div>
+                <div class="p-3">
+                    <h4 class="lead">Anúncios criados: {{numero_conteudos_criados}}</h4>
+                    <a href="{% url 'core:lista-conteudos-pj' %}" type="button" class="btn btn-warning">Ver anúncios</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="pb-5 px-3 col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Anúncios</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                    <i class="bi bi-megaphone text-warning" style="font-size: 4em;"></i>
+                </div>
+                <div class="p-3">
+                    <h4 class="lead">Para criar anúncios, você deve primeiro criar um cartão</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!--RELATORIOS-->
+    {% if cards_criados %}
+    <div class="pb-5 px-3 col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Relatórios</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                    <i class="bi bi-bar-chart-line text-warning" style="font-size: 4em;"></i>
+                </div>
+                <div class="p-3">
+                    <h4 class="lead">Analise o desempenho dos seus cartões</h4>
+                    <a href="{% url 'core:dashboard-empresa' %}" type="button" class="btn btn-warning">Ver relatórios</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="pb-5 px-3 col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Relatórios</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                    <i class="bi bi-bar-chart-line text-warning" style="font-size: 4em;"></i>
+                </div>
+                <div class="p-3">
+                    <h4 class="lead">Para gerar relatórios, você deve primeiro criar um cartão</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</section>
+
+<!--PERFIL-->
+<section class="d-flex flex-md-row flex-lg-row flex-column justify-content-center">
+    <div class="pb-5 px-3 col-lg-3 col-md-3 text-center">
+        <h3 class="my-4 display-6 text-center">Perfil</h3>
+
+        <!--FOTO PERFIL-->
+        {% if card.img_perfil %}
+        <img src="{{card.img_perfil.url}}" alt="Foto do perfil"
+            class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid mb-3" loading="lazy" />
+        {% else %}
+        <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+            <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+        </div>
+        {% endif %}
+
+        <!--DADOS PESSOAIS-->
+        <div class="p-3">
+            <ul class="list-unstyled lh-lg">
+                <li class="card-text lead">Nome: {{usuario.first_name}} {{ usuario.last_name}}</li>
+                <li class="card-text lead">E-mail: {{usuario.email}}</li>
+            </ul>
+        </div>
+
+        <!--ACOES-->
+        <div class="d-flex justify-content-center mb-4">
+            <a href="{% url 'usuarios:trocar-senha' %}" class="btn btn-warning">Trocar senha</a>
+            <a href="#" class="btn btn-danger mx-1" data-bs-toggle="modal"
+                data-bs-target="#modalConfirmaDesativação">Desativar conta</a>
+
+            <!--MODAL DE DESATIVAÇÃO DE CONTA-->
+            <div class="modal fade" tabindex="-1" id="modalConfirmaDesativação">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirma desativação</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Confirma a desativação da conta?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{% url 'usuarios:desativar-conta' usuario.id %}"
+                                class="btn btn-secondary mx-1">Sim</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

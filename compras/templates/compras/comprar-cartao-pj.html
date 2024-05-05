@@ -15,7 +15,10 @@
             <div class="col-md-4 mb-4">
                 <h4>Cartão Empresarial</h4>
                 <div class="border rounded-2 shadow text-center">
-                    <img src="{% static 'core/img/person.jpg'%}" alt="Foto do perfil" class="rounded-circle w-50 my-3 border-2 border">
+                    <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                        <i class="bi bi-briefcase text-warning" style="font-size: 4em;"></i>
+                    </div>
+                    <!-- <img src="{% static 'core/img/person.jpg'%}" alt="Foto do perfil" class="rounded-circle w-50 my-3 border-2 border"> -->
                     <h2 class="fw-normal">Seu nome</h2>
                     <h4 class="lead">Seu cargo</h4>
                     <h4 class="lead">Sua empresa</h4>
@@ -46,7 +49,7 @@
                 class="btn fs-5 w-100 bg-warning text-white mt-3">Criar cartão</a>
                 {% else %}
                 <h4 class="text-center">Você já criou um cartão. Clique abaixo para editá-lo</h4>
-                <a href="{% url 'core:editar' card.slug_empresa card.slug %}"
+                <a href="{% url 'core:editar' card.empresa.slug card.slug %}"
                 class="btn fs-5 w-100 bg-warning text-white mt-3">Editar cartão</a>
                 {% endif %}
             </div>
@@ -56,8 +59,9 @@
 
     <!--INICIALIZA FORM DE PAGAMENTO-->
     <script>
-        const slug_empresa = '{{card.slug_empresa}}';
+        const slug_empresa = '{{card.empresa.slug}}';
         const slug_card = '{{card.slug}}';
+        const usuario = '{{user}}'
         const slugEmpresa = slug_empresa.replace(/\u002D/g, '-');
         const slugCard = slug_card.replace(/\u002D/g, '-');
         const mp = new MercadoPago('APP_USR-f3b270fa-77ec-44e6-b09c-95a30bc6915c', {
@@ -67,7 +71,7 @@
         const renderCardPaymentBrick = async (bricksBuilder) => {
           const settings = {
             initialization: {
-              amount: 9.90, // valor total a ser pago
+              amount: 49.90, // valor total a ser pago
               payer: {
                 email: "",
               },
@@ -99,7 +103,7 @@
                 //  callback chamado o usuário clicar no botão de submissão dos dados
                 //  exemplo de envio dos dados coletados pelo Brick para seu servidor
                 return new Promise((resolve, reject) => {
-                  fetch("/compras/comprar-relatorio/", {
+                  fetch("/compras/comprar-cartao-pj/", {
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json",
@@ -113,7 +117,7 @@
                         if (response.status === 201) {
                             // Pagamento bem-sucedido, redirecione para a página de sucesso
                             console.log('Pagamento bem-sucedido, redirecione para a página de sucesso')
-                            window.location.href = "/" + slugEmpresa + "/dashboard/" + slugCard + "/";;
+                            window.location.href = "/usuarios/minha-conta/"  + usuario;
                         } else {
                             // Trate outros cenários de resposta aqui, como erros
                             // Pode redirecionar para uma página de erro, se aplicável

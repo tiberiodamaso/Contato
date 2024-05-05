@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from django import forms
-from .models import Usuario
+from .models import Usuario, Perfil
 from django.template.defaultfilters import slugify
 
 
@@ -83,3 +83,23 @@ class EsqueceuSenhaLinkForm(SetPasswordForm):
             attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
     )
 
+
+class PerfilFormPJ(forms.ModelForm):
+
+    class Meta:
+        model = Perfil
+        fields = ('cnpj_cpf', 'nome_fantasia')
+        widgets = {
+            'cnpj_cpf': forms.TextInput(attrs={'class': 'form-control'}),
+            'nome_fantasia': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class PerfilFormPF(forms.ModelForm):
+
+    class Meta:
+        model = Perfil
+        fields = ('cnpj_cpf',)
+        widgets = {
+            'cnpj_cpf': forms.TextInput(attrs={'class': 'form-control'}),
+        }

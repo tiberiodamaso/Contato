@@ -22,7 +22,7 @@
                 <div class="d-flex justify-content-between">
                     <h5 class="card-title">{{conteudo.nome}}</h5>
                     <!-- <h5 class="card-title" hx-target="this" id="nome-{{conteudo.id}}">{{conteudo.nome}}</h5> -->
-                    <!-- <a href="#" hx-get=" url 'core:conteudo-editar-nome' card.slug_empresa conteudo.id 'editar' %}"
+                    <!-- <a href="#" hx-get=" url 'core:conteudo-editar-nome' card.empresa.slug conteudo.id 'editar' %}"
                         hx-target="#nome-{{conteudo.id}}">
                         <i class="bi bi-pencil-square text-warning"></i>
                     </a> -->
@@ -32,7 +32,7 @@
                 <div class="d-flex justify-content-between">
                     <p class="card-text">{{conteudo.descricao}}</p>
                     <!-- <p class="card-text" hx-target="this" id="descricao-{{conteudo.id}}">{{conteudo.descricao}}</p> -->
-                    <!-- <a href="#" hx-get=" url 'core:conteudo-editar-descricao' card.slug_empresa conteudo.id 'editar' %}"
+                    <!-- <a href="#" hx-get=" url 'core:conteudo-editar-descricao' card.empresa.slug conteudo.id 'editar' %}"
                         hx-target="#descricao-{{conteudo.id}}">
                         <i class="bi bi-pencil-square text-warning"></i>
                     </a> -->
@@ -46,7 +46,7 @@
                     {% else %}
                     <p class="card-text" hx-target="this" id="link-{{conteudo.id}}">Sem link para o anúncio</p>
                     {% endif %}
-                    <a href="#" hx-get=" url 'core:conteudo-editar-link' card.slug_empresa conteudo.id 'editar' %}"
+                    <a href="#" hx-get=" url 'core:conteudo-editar-link' card.empresa.slug conteudo.id 'editar' %}"
                         hx-target="#link-{{conteudo.id}}">
                         <i class="bi bi-pencil-square text-warning"></i>
                     </a> -->
@@ -60,7 +60,7 @@
                     data-bs-target="#modalConfirmaExclusao{{ conteudo.id }}">
                     Excluir</i>
                 </a>
-                <a href="{% url 'core:conteudo-editar' card.slug_empresa conteudo.id %}" class="btn btn-warning">Editar</a>
+                <a href="{% url 'core:conteudo-editar' card.empresa.slug conteudo.id %}" class="btn btn-warning">Editar</a>
             </div>
         </div>
 
@@ -77,7 +77,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
-                        <form action="{% url 'core:conteudo-excluir' conteudo.card.slug_empresa conteudo.id %}"
+                        <form action="{% url 'core:conteudo-excluir' conteudo.card.empresa.slug conteudo.id %}"
                             method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">Sim</button>
@@ -93,7 +93,7 @@
 {% else %}
     <div class="my-5 d-flex flex-column align-items-center mx-auto">
         <h4>Você não criou nenhuma anúncio ainda</h4>
-        <a class="btn btn-warning mt-3" href="{% url 'core:conteudo-criar' user.cards.first.slug_empresa user.cards.first.slug %}">Criar anúncio</a>
+        <a class="btn btn-warning mt-3" href="{% url 'core:conteudo-criar' user.empresas.first.slug user.cards.first.slug %}">Criar anúncio</a>
     </div>
 {% endif %}
 

@@ -54,12 +54,10 @@ class Usuario(AbstractUser):
 
 
 class Perfil(models.Model):
-    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, verbose_name='Usuário')
-    descricao = models.TextField(verbose_name='Descrição', blank=True, null=True)
-    img_perfil = models.FileField(verbose_name='Foto perfil', upload_to=get_path, blank=True, null=True, validators=[
-                                  FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg'])])
-    cnpj_cpf = models.CharField(verbose_name='CPF/CNPJ', max_length=14)
+    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, verbose_name='Usuário', related_name='perfil')
+    cnpj_cpf = models.CharField(verbose_name='CPF/CNPJ', max_length=18)
     nome_fantasia = models.CharField(verbose_name='Nome Fantasia', max_length=100)
+    is_pj = models.BooleanField(verbose_name='Pessoa Jurídica', default=False)
 
     class Meta:
         verbose_name = 'Perfil'

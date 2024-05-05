@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Card, Categoria, Subcategoria, Conteudo, Estado, Municipio, TipoConteudo, CodigoPais
+from .models import Card, Categoria, Subcategoria, Conteudo, Estado, Municipio, TipoConteudo, CodigoPais, Empresa
 
 
 class CategoriaAdmin(admin.ModelAdmin):
@@ -18,18 +18,13 @@ class EstadoAdmin(admin.ModelAdmin):
 class MunicipioAdmin(admin.ModelAdmin):
     list_display = ['id', 'estado', 'nome']
 
+
 class CodigoPaisAdmin(admin.ModelAdmin):
     list_display = ['id', 'codigo', 'pais']
 
 
-# class EmpresaAdmin(admin.ModelAdmin):
-#     list_display = ['id', 'nome', 'cnpj', 'slug', 'criada']
-
-#     def save_model(self, request, obj, form, change):
-#       # Atribui o usuário logado ao atributo "user" do objeto
-#       obj.user = request.user
-#       # Salva o objeto
-#       obj.save()
+class EmpresaAdmin(admin.ModelAdmin):
+    list_display = ['id', 'nome_fantasia', 'cnpj_cpf', 'slug', 'criada']
 
 
 class CardAdmin(admin.ModelAdmin):
@@ -65,7 +60,7 @@ admin.site.register(Subcategoria, SubcategoriaAdmin)
 admin.site.register(Estado, EstadoAdmin)
 admin.site.register(Municipio, MunicipioAdmin)
 admin.site.register(CodigoPais, CodigoPaisAdmin)
-# admin.site.register(Empresa, EmpresaAdmin)
+admin.site.register(Empresa, EmpresaAdmin)
 admin.site.register(Card, CardAdmin)
 admin.site.register(TipoConteudo, TipoConteudoAdmin)
 admin.site.register(Conteudo, ConteudoAdmin)

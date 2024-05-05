@@ -88,7 +88,7 @@
             <!--EMPRESA-->
             <div class="mb-3">
                 <label for="id_empresa">Empresa:</label>
-                {{form.empresa}}
+                <input type="text" name="empresa" class="form-control" placeholder="Nome da sua empresa se tiver" id="id_empresa">
             </div>
 
             <!--SITE-->
@@ -244,10 +244,8 @@
             <!--BOTÃO DE EDITAR CARD E ANÚNCIOS-->
             {% if user.is_authenticated and user == card.proprietario %}
             <div class="d-flex justify-content-center my-2 rounded">
-                <a href="{% url 'core:editar' card.slug_empresa card.slug %}"
+                <a href="{% url 'core:editar' card.empresa.slug card.slug %}"
                     class="btn fs-5 col-10 bg-success text-white mx-1">Editar cartão</a>
-                <!-- <a href="{% url 'core:conteudo-listar' card.slug_empresa card.slug %}"
-                    class="btn fs-5 w-100  bg-success text-white mx-1">Editar anúncios</a> -->
             </div>
             {% endif %}
 

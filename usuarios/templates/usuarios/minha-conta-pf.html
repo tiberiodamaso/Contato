@@ -1,0 +1,224 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load tags %}
+{% block title %} Meu Contato | Minha conta {% endblock %}
+{% block content %}
+
+{% include 'core/menu.html' %}
+{% include 'core/mensagens.html' %}
+
+<h2 class="text-center my-5 display-4">Minha conta</h2>
+
+<!--PRODUTOS PARA PF-->
+<section class="d-flex flex-md-row flex-lg-row flex-column justify-content-center">
+
+    <!--CARTÃO-->
+    {% if comprou_cartao_pf and card %}
+    <div class="pb-5 px-3 col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Cartão</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <a href="{% url 'core:detalhe' card.empresa.slug card.slug %}" class="text-decoration-none text-black">
+                <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                    {% if card.img_perfil %}
+                    <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
+                    {% else %}
+                    <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                        <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+                    </div>
+                    {% endif %}
+                    <div class="p-3">
+                        <h2 class="fw-normal">{{card.nome_display}}</h2>
+                        {% if card.cargo %}
+                        <h4 class="lead">{{ card.cargo }}</h4>
+                        <h4 class="lead">{{ card.empresa }}</h4>
+                        {% endif %}
+                        <h6 class="lead pb-5">{{ card.subcategoria }} - {{ card.municipio }}</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% elif comprou_cartao_pf and not criou_cards %}
+    <div class="pb-5 px-3  col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Cartão</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                    <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+                </div>
+                <h4 class="lead p-3 lh-base">Você ainda não criou seu cartão. Crie um agora mesmo comece a compartilhar.</h4>
+                <a href="{% url 'core:modelos' %}" type="button" class="btn btn-warning">Criar cartão</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="pb-5 px-3  col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Cartão</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                    <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+                </div>
+                <h4 class="lead p-3 lh-base">Você ainda não comprou um cartão. Compre agora e comece a compartilhar.</h4>
+                <a href="{% url 'compras:comprar-cartao-pf' %}" type="button" class="btn btn-warning">Comprar cartão</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!--ANUNCIOS-->
+    {% if comprou_anuncio %}
+    <div class="pb-5 px-3 col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Anúncios</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                    <i class="bi bi-megaphone text-warning" style="font-size: 4em;"></i>
+                </div>
+                <div class="p-3">
+                    <h2 class="fw-normal">Pacote de 10 anúncios</h2>
+                    <h4 class="lead">Comprado em: {{ anuncio.date_created|date:"D d/m/y" }}</h4>
+                    <h4 class="lead">Valor: R$ {{ anuncio.valor }}</h4>
+                    <h4 class="lead pb-5">Anúncios: {{ numero_conteudos_criados }}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="pb-5 px-3  col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Anúncios</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                    <i class="bi bi-megaphone text-warning" style="font-size: 4em;"></i>
+                </div>
+                <h4 class="lead p-3 lh-base">Tenha 10 anúncios no seu cartão e divulgue seus produtos, serviços, promoções muito mais.</h4>
+                <a href="{% url 'compras:comprar-anuncio' %}" type="button" class="btn btn-warning">Comprar pacote</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!--RELATORIOS-->
+    {% if comprou_relatorio %}
+    <div class="pb-5 px-3 col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Relatórios</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                    <i class="bi bi-bar-chart-line text-warning" style="font-size: 4em;"></i>
+                </div>
+                <div class="p-3">
+                    <h4 class="lead">Status: {{relatorio.status|translate}}</h4>
+                    <h4 class="lead">Início: {{relatorio.start_date|date:"D d/m/y"}}</h4>
+                    {% if relatorio.status == 'authorized' %}
+                        <h4 class="lead">Renova: {{relatorio.next_payment_date|date:"D d/m/y"}}</h4>
+                        {% else %}
+                        <h4 class="lead">Fim: {{relatorio.last_modified|date:"D d/m/y"}}</li>
+                    {% endif %}
+                </div>
+                <div class="d-flex justify-content-center">
+                    {% if relatorio.status == 'authorized' %}
+                    <a href="#" class="text-danger text-decoration-none mx-1" class="text-decoration-none" data-bs-toggle="modal"
+                        data-bs-target="#modalConfirmaCancelamento{{ relatorio.id }}">Cancelar</a>
+                    <a href="{% url 'compras:atualizar-cartao-relatorio' relatorio.id %}"
+                        class="text-success text-decoration-none mx-1">Atualizar cartão</a>
+
+                    <!--MODAL DE CANCELAMENTO DE ASSINATURA-->
+                    <div class="modal fade" tabindex="-1" id="modalConfirmaCancelamento{{ relatorio.id }}">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Confirma cancelamento</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Confirma a cancelamento do relatório?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="{% url 'compras:cancelar-relatorio' relatorio.id %}"
+                                        class="btn btn-warning mx-1">Sim</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if relatorio.status == 'cancelled' %}
+                    <a href="{% url 'compras:comprar-relatorio' %}" type="button" class="btn btn-warning">Comprar novamente</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="pb-5 px-3 col-lg-3 col-md-3">
+        <h3 class="my-4 display-6 text-center">Relatórios</h3>
+        <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+            <div class="border rounded-2 shadow mx-lg-0 mx-md-0" style="height: 450px;">
+                <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                    <i class="bi bi-bar-chart-line text-warning" style="font-size: 4em;"></i>
+                </div>
+                <h4 class="lead p-3 lh-base">Analise o desempenho do seu cartão.
+                    Quais cidades mais acessam, quantos usuários e muito mais.</h4>
+                <a href="{% url 'compras:comprar-relatorio' %}" type="button" class="btn btn-warning">Comprar relatório</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</section>
+
+<!--PERFIL-->
+<section class="d-flex flex-md-row flex-lg-row flex-column justify-content-center">
+    <div class="pb-5 px-3 col-lg-3 col-md-3 text-center">
+        <h3 class="my-4 display-6 text-center">Perfil</h3>
+
+        <!--FOTO PERFIL-->
+        {% if card.img_perfil %}
+        <img src="{{card.img_perfil.url}}" alt="Foto do perfil"
+            class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid mb-3" loading="lazy" />
+        {% else %}
+        <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+            <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+        </div>
+        {% endif %}
+
+        <!--DADOS PESSOAIS-->
+        <div class="p-3">
+            <ul class="list-unstyled lh-lg">
+                <li class="card-text lead">Nome: {{usuario.first_name}} {{ usuario.last_name}}</li>
+                <li class="card-text lead">E-mail: {{usuario.email}}</li>
+            </ul>
+        </div>
+
+        <!--ACOES-->
+        <div class="d-flex justify-content-center mb-4">
+            <a href="{% url 'usuarios:trocar-senha' %}" class="btn btn-warning">Trocar senha</a>
+            <a href="#" class="btn btn-danger mx-1" data-bs-toggle="modal"
+                data-bs-target="#modalConfirmaDesativação">Desativar conta</a>
+
+            <!--MODAL DE DESATIVAÇÃO DE CONTA-->
+            <div class="modal fade" tabindex="-1" id="modalConfirmaDesativação">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirma desativação</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Confirma a desativação da conta?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{% url 'usuarios:desativar-conta' usuario.id %}"
+                                class="btn btn-secondary mx-1">Sim</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
