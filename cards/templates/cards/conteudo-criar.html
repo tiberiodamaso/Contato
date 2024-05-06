@@ -9,16 +9,8 @@
 
     <h2 class="text-center display-4 my-5">Criar anúncio</h2>
 
-    <!--LOGOTIPO DA EMPRESA-->
-    <!-- {% if card.logotipo %}
-    <img src="{{card.logotipo.url}}" alt="logotipo" class="col col-lg-2 col-md-4 img-fluid my-3" loading="lazy">
-    {% else %}
-    <img src="{% static 'core/img/person.jpg' %}" alt="logotipo"
-        class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
-    {% endif %} -->
-
+    <!--FORMULÁRIO PARA CRIAR CONTEÚDO-->
     {% if quantidade_conteudo < 10 %}
-        <!--FORMULÁRIO PARA CRIAR CONTEÚDO-->
         <form action="{% url 'core:conteudo-criar' card.empresa.slug card.slug %}" method="post"
             class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
             {% csrf_token %}

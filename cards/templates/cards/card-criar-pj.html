@@ -1,0 +1,612 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load tags %}
+{% block content %}
+{% include 'core/menu.html' %}
+
+{% include 'core/mensagens.html' %}
+
+{% if not card %}
+    <div class="d-flex flex-column align-items-center">
+
+        <div class="my-5">
+            <h4>Olá {{user.first_name}}, vamos criar seu cartão</h4>
+        </div>
+
+        <!--IMAGEM DO PERFIL-->
+        <div class="text-center">
+            {% if card.img_perfil %}
+            <img src="{{card.img_perfil.url}}" alt="Foto do perfil"
+                class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+            {% else %}
+            <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
+                class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
+            {% endif %}
+        </div>
+
+        <!--FORMULÁRIO PARA CRIAR NOVO CARD-->
+        <form action="{% url 'core:criar-card-pj' %}" method="post" id="cardForm" class="col col-md-4 col-lg-4 p-4"
+            enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!--MODELO DO CARD-->
+            <input type="hidden" value="{{modelo}}" name="modelo"/>
+
+            <!--IMG_PERFIL-->
+            <div class="mb-3">
+                <div class="d-flex justify-content-between">
+                    <label for="id_img_perfil">Foto do cartão e perfil:</label>
+                    <div>
+                        <span class="ms-4 text-secondary">instruções </span>
+                        <button type="button" class="btn p-0" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+                            data-bs-html="true" data-bs-title="Tamanho máximo de 1MB, dimensões recomendadas de 500x500 pixels e formatos JPG ou PNG apenas">
+                        <i class="bi bi-info-circle-fill text-warning"></i>
+                        </button>
+                    </div>
+                </div>
+                {{form.img_perfil}}
+            </div>
+
+            <!--COR DE FUNDO-->
+            <div class="mb-3">
+                <label for="id_img_perfil">Cor de fundo:</label>
+                {{form.cor}}
+            </div>
+
+            <!--PRIMEIRO NOME DO COLABORADOR-->
+            <div class="mb-3">
+                <label for="id_cargo">Primeiro nome do colaborador:</label>
+                {{form.first_name}}
+            </div>
+
+            <!--ULITMO NOME DO COLABORADOR-->
+            <div class="mb-3">
+                <label for="id_cargo">Último nome do colaborador:</label>
+                {{form.last_name}}
+            </div>
+
+            <!--EMAIL DO COLABORADOR-->
+            <div class="mb-3">
+                <label for="id_cargo">Email do colaborador:</label>
+                {{form.email}}
+            </div>
+
+            <!--NOME DISPLAY-->
+            <div class="mb-3">
+                <div class="d-flex justify-content-between">
+                    <label for="id_nome_display">Nome que aparecerá no cartão:</label>
+                    <button type="button" class="btn p-0" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+                        data-bs-html="true" data-bs-title="Servirá como referência para as estatísticas dos Relatórios">
+                        <i class="bi bi-info-circle-fill text-warning"></i>
+                    </button>
+                </div>
+                {{form.nome_display}}
+            </div>
+
+            <!--CARGO-->
+            <div class="mb-3">
+                <label for="id_cargo">Cargo:</label>
+                {{form.cargo}}
+            </div>
+
+            <!--LOGOTIPO-->
+            <div class="mb-3">
+                <div class="d-flex justify-content-between">
+                    <label for="id_empresa">Logotipo:</label>
+                    <div>
+                        <span class="ms-4 text-secondary">instruções </span><button type="button" class="btn p-0" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+                        data-bs-html="true" data-bs-title="Tamanho máximo de 1MB, dimensões recomendadas de 500x500 pixels e formatos JPG ou PNG apenas">
+                        <i class="bi bi-info-circle-fill text-warning"></i>
+                        </button>
+                    </div>
+                </div>
+                {{form.logotipo}}
+            </div>
+
+            <!--SITE-->
+            <div class="mb-3">
+                <label for="id_site">Site:</label>
+                {{form.site}}
+            </div>
+
+            <!--CATEGORIA-->
+            <div class="mb-3">
+                <label for="id_categoria">Categoria:</label>
+                <select name="categoria" class="form-select" id="id_categoria" hx-get="{% url 'core:get-subcategorias'%}"
+                    hx-trigger="change" hx-target="#id_subcategoria">
+                    <option value="0">Seleciona uma categoria</option>
+                    {% for categoria in categorias %}
+                    <option value="{{categoria.id}}">{{categoria.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!--SUBCATEGORIA-->
+            <div class="mb-3">
+                <label for="id_subcategoria">Subcategoria:</label>
+                <select name="subcategoria" class="form-select" id="id_subcategoria">
+                    <option value="0">Seleciona uma subcategoria</option>
+                    {% for subcategoria in subcategorias %}
+                    <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!--ESTADO-->
+            <div class="mb-3">
+                <label for="id_estado">Estado:</label>
+                <select name="estado" class="form-select" id="id_estado">
+                    {% for estado in estados %}
+                    <option value="{{estado.id}}">{{estado.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!--MUNICIPIO-->
+            <div class="mb-3">
+                <label for="id_municipio">Município:</label>
+                <select name="municipio" class="form-select" id="id_municipio">
+                </select>
+            </div>
+
+            <!--ENDERECO-->
+            <div class="mb-3">
+                <label for="id_endereco">Endereço:</label>
+                {{form.endereco}}
+            </div>
+
+            <!--CODIGO PAIS-->
+            <div class="mb-3">
+                <label for="id_cod_pais">Código do país:</label>
+                {{form.cod_pais}}
+                {% if form.cod_pais.errors %}
+                    {% for error in form.cod_pais.errors %}
+                    <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                        {{error}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <!--TELEFONE/WHATSAPP-->
+            <div class="mb-3">
+                <label for="id_whatsapp">Telefone/Whatsapp:</label>
+                {{form.whatsapp}}
+                {% if form.whatsapp.errors %}
+                {% for error in form.whatsapp.errors %}
+                <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                    {{error}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <!--FACEBOOK-->
+            <div class="mb-3">
+                <label for="id_facebook">Facebook:</label>
+                {{form.facebook}}
+            </div>
+
+            <!--INSTAGRAM-->
+            <div class="mb-3">
+                <label for="id_instagram">Instagram:</label>
+                {{form.instagram}}
+            </div>
+
+            <!--LINKEDIN-->
+            <div class="mb-3">
+                <label for="id_linkedin">LinkedIn:</label>
+                {{form.linkedin}}
+            </div>
+
+            <!--YOUTUBE-->
+            <div class="mb-3">
+                <label for="id_youtube">Youtube:</label>
+                {{form.youtube}}
+            </div>
+
+            <!--TIK TOK-->
+            <div class="mb-3">
+                <label for="id_tik_tok">Tik Tok:</label>
+                {{form.tik_tok}}
+            </div>
+
+            <button type="submit" class="btn btn-warning w-100">Salvar</button>
+        </form>
+    </div>
+{% else %}
+
+    <!--PROPRIETÁRIO-->
+    <div class="row flex-column align-content-center my-5">
+        <div class="col-lg-8 col-12 text-center">
+            <!--FOTO PERFIL-->
+            {% if card.img_perfil %}
+            <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid"
+                loading="lazy" />
+            {% else %}
+            <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
+                class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy" />
+            {% endif %}
+
+            <!--NOMDE O USUÁRIO-->
+            <h2 class="fw-bold pt-3 pb-2">
+                {{card.nome_display}}
+            </h2>
+
+            <!--CARGO-->
+            {% if card.cargo %}
+            <h3 class="lead pb-3">{{ card.cargo }}</h3>
+            {% endif %}
+
+            <!--BOTÃO DE WHATSAPP-->
+            <div class="d-flex justify-content-center my-2 rounded bg-warning">
+                <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_self"
+                    class="btn fs-4 w-100">Whatsapp</a>
+            </div>
+
+            <!--VCF-->
+            {% if card.vcf %}
+            <div class="d-flex justify-content-center my-2 rounded bg-warning">
+                <a href="{{ card.vcf.url }}" class="btn fs-4 w-100">Adicionar na agenda</a>
+            </div>
+            {% endif %}
+
+            <!--BOTÃO DE EDITAR CARD E ANÚNCIOS-->
+            {% if user.is_authenticated and user == card.proprietario %}
+            <div class="d-flex justify-content-center my-2 rounded">
+                <a href="{% url 'core:editar' card.empresa.slug card.slug %}"
+                    class="btn fs-5 col-10 bg-success text-white mx-1">Editar cartão</a>
+            </div>
+            {% endif %}
+
+            <!--CONTATO-->
+            <div class="d-flex justify-content-around py-4">
+                <a href="mailto:{{ card.proprietario.email }}"><i class="bi bi-envelope fs-1 text-black text-opacity-50"></i></a>
+                <a href="tel:+55{{ card.telefone }}"><i class="bi bi-telephone fs-1 text-black text-opacity-50"></i></a>
+            </div>
+
+        </div>
+    </div>
+
+
+    {% if produtos %}
+    <!--PRODUTOS-->
+    <div class="pb-5">
+        <h3 class="text-center my-4 display-4">Produtos</h3>
+        <div
+            class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+            {% for produto in produtos %}
+            <div class="card p-0" style="width: 18rem; height: 26rem;">
+                <img src="{{ produto.img.url }}" class="card-img-top h-50" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{produto.nome}}</h5>
+                    <p class="card-text">{{produto.descricao}}</p>
+                </div>
+                <div class="d-flex justify-content-end m-4">
+                    {% if produto.link %}
+                    <a href="{{ produto.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if servicos %}
+    <!--SERVIÇOS-->
+    <div class="pb-5">
+        <h3 class="text-center my-4 display-4">Serviços</h3>
+        <div
+            class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+            {% for servico in servicos %}
+            <div class="card p-0" style="width: 18rem; height: 26rem;">
+                <img src="{{ servico.img.url }}" class="card-img-top h-50" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{servico.nome}}</h5>
+                    <p class="card-text">{{servico.descricao}}</p>
+                </div>
+                <div class="d-flex justify-content-end m-4">
+                    {% if servico.link %}
+                    <a href="{{ servico.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if promocoes %}
+    <!--PROMOÇÕES-->
+    <div class="pb-5">
+        <h3 class="text-center my-4 display-4">Promoções</h3>
+        <div
+            class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+            {% for promocao in promocoes %}
+            <div class="card p-0" style="width: 18rem; height: 26rem;">
+                <img src="{{ promocao.img.url }}" class="card-img-top h-50" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{promocao.nome}}</h5>
+                    <p class="card-text">{{promocao.descricao}}</p>
+                </div>
+                <div class="d-flex justify-content-end m-4">
+                    {% if promocao.link %}
+                    <a href="{{ promocao.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if portfolios %}
+    <!--PORTFÓLIOS-->
+    <div class="pb-5">
+        <h3 class="text-center my-4 display-4">Portfólios</h3>
+        <div
+            class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+            {% for portfolio in portfolios %}
+            <div class="card p-0" style="width: 18rem; height: 26rem;">
+                <img src="{{ portfolio.img.url }}" class="card-img-top h-50" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{portfolio.nome}}</h5>
+                    <p class="card-text">{{portfolio.descricao}}</p>
+                </div>
+                <div class="d-flex justify-content-end m-4">
+                    {% if portfolio.link %}
+                    <a href="{{ portfolio.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if cursos %}
+    <!--CURSOS-->
+    <div class="pb-5">
+        <h3 class="text-center my-4 display-4">Cursos</h3>
+        <div
+            class="row flex-md-row flex-column row-cols-md-2 g-4 justify-content-evenly align-items-lg-stretch align-items-center">
+            {% for curso in cursos %}
+            <div class="card p-0" style="width: 18rem; height: 26rem;">
+                <img src="{{ curso.img.url }}" class="card-img-top h-50" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{curso.nome}}</h5>
+                    <p class="card-text">{{curso.descricao}}</p>
+                </div>
+                <div class="d-flex justify-content-end m-4">
+                    {% if curso.link %}
+                    <a href="{{ curso.link }}" class="btn btn-warning" target="_blank">Detalhes</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!--WHATSAPP FLUTUANTE-->
+    <div class="align-items-center d-flex justify-content-center position-fixed roun rounded-5"
+        style="right: 20px; bottom: 20px; width: 50px; height: 50px; background-color: #25D366;">
+        <a href="https://api.whatsapp.com/send?phone=55{{card.whatsapp}}" target="_blank">
+            <i class="bi bi-whatsapp text-white" style="font-size: 2rem;"></i>
+        </a>
+    </div>
+
+    <!--EMPRESA-->
+    {% if card.logotipo %}
+    <div class="py-5 d-flex justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="d-flex justify-content-center">
+                <a href="{{ card.site }}">
+                    <img src="{{ card.logotipo.url }}" alt="" loading="lazy" class="logo" />
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!--QRCODE-->
+    {% if card.qr_code %}
+    <div class="d-flex justify-content-center py-3">
+        <img class="qrcode" src="{{card.qr_code.url }}" alt="qrcode" />
+    </div>
+    {% endif %}
+
+    <!--REDES SOCIAIS -->
+    <div class="d-flex justify-content-around py-5" style="padding-bottom: 5em !important;">
+        <!--INSTAGRAM-->
+        {% if card.instagram %}
+        <a href="{{card.instagram}}" target="_blank"><i class="bi bi-instagram fs-1 text-dark text-opacity-50"></i></a>
+        {% endif %}
+
+        <!--FACEBOOK-->
+        {% if card.facebook %}
+        <a href="{{card.facebook}}" target="_blank"><i class="bi bi-facebook fs-1 text-dark text-opacity-50"></i></a>
+        {% endif %}
+
+        <!--LINKEDIN-->
+        {% if card.linkedin %}
+        <a href="{{card.linkedin}}" target="_blank"><i class="bi bi-linkedin fs-1 text-dark text-opacity-50"></i></a>
+        {% endif %}
+
+        <!--YOUTUBE-->
+        {% if card.youtube %}
+        <a href="{{card.youtube}}" target="_blank"><i class="bi bi-youtube fs-1 text-dark text-opacity-50"></i></a>
+        {% endif %}
+
+        <!--TIKTOK-->
+        {% if card.tik_tok %}
+        <a href="{{card.tik_tok}}" target="_blank"><i class="bi bi-tiktok fs-1 text-dark text-opacity-50"></i></a>
+        {% endif %}
+    </div>
+
+{% endif %}
+
+<!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
+<script>
+    function validarTamanhoArquivo(inputElement) {
+        const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
+
+        if (inputElement.files.length > 0) {
+            const arquivo = inputElement.files[0];
+
+            if (arquivo.size > tamanhoMaximo) {
+                alert("O arquivo excede o tamanho máximo permitido 1 MB.");
+                inputElement.value = ""; // Limpa o campo de arquivo, se necessário
+            }
+        }
+    }
+
+    const inputImgPerfil = document.getElementById("id_img_perfil");
+    const inputLogotipo = document.getElementById("id_logotipo");
+
+    inputImgPerfil.addEventListener("change", function () {
+        validarTamanhoArquivo(inputImgPerfil);
+    });
+
+    inputLogotipo.addEventListener("change", function () {
+        validarTamanhoArquivo(inputLogotipo);
+    });
+</script>
+
+<!--MÁSCARA DE TELEFONE-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function aplicarMascaraTelefone(inputElement) {
+            inputElement.addEventListener('input', function() {
+                let telefone = inputElement.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+                const regrasTelefone = [
+                    { digitos: 10, regex: /^(\d{2})(\d{4})(\d{4})$/, mascara: '($1) $2-$3' },
+                    { digitos: 11, regex: /^(\d{2})(\d{5})(\d{4})$/, mascara: '($1) $2-$3' }
+                    // Adicione outras regras conforme necessário para diferentes formatos de telefone
+                ];
+
+                for (const regra of regrasTelefone) {
+                    if (telefone.length === regra.digitos) {
+                        telefone = telefone.replace(regra.regex, regra.mascara);
+                        break;
+                    }
+                }
+
+                inputElement.value = telefone;
+            });
+        }
+
+        const inputWhatsapp = document.getElementById("id_whatsapp");
+        aplicarMascaraTelefone(inputWhatsapp);
+    });
+
+</script>
+
+<!--CARREGA MUNICIPIOS DE ACORDO COM ESTADO-->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const estadosSelect = document.getElementById('id_estado');
+        const municipiosSelect = document.getElementById('id_municipio');
+
+        estadosSelect.addEventListener('change', function() {
+            const estadoSelecionado = estadosSelect.value;
+
+            fetch(`/get-municipios/?estado_id=${estadoSelecionado}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Limpa as opções anteriores exceto a selecionada, se houver
+                    const selectedOption = municipiosSelect.value;
+                    municipiosSelect.innerHTML = '';
+
+                    data.forEach(municipio => {
+                        const option = document.createElement('option');
+                        option.value = municipio.id;
+                        option.text = municipio.nome;
+                        municipiosSelect.appendChild(option);
+                    });
+
+                    // Mantém a opção selecionada, se ela estiver presente no novo conjunto de opções
+                    if (selectedOption && [...municipiosSelect.options].some(option => option.value === selectedOption)) {
+                        municipiosSelect.value = selectedOption;
+                    }
+                });
+        });
+
+        // Ao carregar a página, preenche os municípios do estado inicial, se necessário
+        if (estadosSelect.value) {
+            estadosSelect.dispatchEvent(new Event('change'));
+        }
+    });
+</script>
+
+<!--TOOLTIPS-->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    });
+</script>
+
+<!--VALIDA FACEBOOK-->
+<script>
+    document.getElementById('id_facebook').addEventListener('change', function(event) {
+        var facebookPerfil = event.target.value;
+        facebookPerfil = facebookPerfil.replace(/@/g, '');
+
+        var facebookUrl = `https://www.facebook.com/${facebookPerfil}`
+        event.target.value = facebookUrl;
+
+    });
+</script>
+
+<!--VALIDA INSTRAGRAM-->
+<script>
+    document.getElementById('id_instagram').addEventListener('change', function(event) {
+        var instagramPerfil = event.target.value;
+        instagramPerfil = instagramPerfil.replace(/@/g, '');
+
+        var instagramUrl = `https://www.instagram.com/${instagramPerfil}`
+        event.target.value = instagramUrl;
+    });
+</script>
+
+<!--VALIDA LINKEDIN-->
+<script>
+    document.getElementById('id_linkedin').addEventListener('change', function(event) {
+        var linkedinPerfil = event.target.value;
+        linkedinPerfil = linkedinPerfil.replace(/@/g, '');
+
+        var linkedinUrl = `https://www.linkedin.com/in/${linkedinPerfil}`
+        event.target.value = linkedinUrl;
+
+    });
+</script>
+
+<!--VALIDA YOUTUBE-->
+<script>
+    document.getElementById('id_youtube').addEventListener('change', function(event) {
+        var youtubePerfil = event.target.value;
+        youtubePerfil = youtubePerfil.replace(/@/g, '');
+
+        var youtubeUrl = `https://www.youtube.com/${youtubePerfil}`
+        event.target.value = youtubeUrl;
+
+    });
+</script>
+
+<!--VALIDA TIKTOK-->
+<script>
+    document.getElementById('id_tik_tok').addEventListener('change', function(event) {
+        var tiktokPerfil = event.target.value;
+
+        var tiktokUrl = `https://www.tiktok.com/${tiktokPerfil}`
+        event.target.value = tiktokUrl;
+
+    });
+</script>
+
+{% endblock %}

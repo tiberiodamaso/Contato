@@ -228,7 +228,7 @@ class ComprarCartaoPF(LoginRequiredMixin, SuccessMessageMixin, View):
             perfil = usuario.perfil
         except:
             return redirect(reverse_lazy('usuarios:perfil-pf'))
-        compra = usuario.cartoes.last()
+        compra = usuario.cartoespf.last()
         card = usuario.cards.all().first()
         contexto = {'usuario': usuario, 'card': card, 'compra': compra}
         return render(request, 'compras/comprar-cartao-pf.html', contexto)
@@ -386,13 +386,7 @@ class ComprarAnuncio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class ComprarCartaoPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
-
-    def test_func(self):
-        return True
-
-    def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
+class ComprarCartaoPJ(LoginRequiredMixin, SuccessMessageMixin, View):
 
 
     def get(self, request, *args, **kwargs):
@@ -443,7 +437,7 @@ class ComprarCartaoPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         if response.status_code == 200 or response.status_code == 201:
             data = response.json()
             formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
-            relatorio = Relatorio.objects.create(
+            cartao = CartaoPJ.objects.create(
                 usuario=usuario,
                 assinatura_id = data['id'],
                 payer_id = data['payer_id'],
@@ -454,6 +448,29 @@ class ComprarCartaoPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
                 next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string),
                 last_modified = datetime.strptime(data['last_modified'], formato_da_string),
             )
+
+            relatorio = Relatorio.objects.create(
+                usuario=usuario,
+                assinatura_id = 'empresarial',
+                payer_id = data['payer_id'],
+                date_created = datetime.strptime(data['date_created'], formato_da_string),
+                valor = 0,
+                status = data['status'],
+                start_date = datetime.strptime(data['date_created'], formato_da_string),
+                next_payment_date = datetime.strptime(data['next_payment_date'], formato_da_string),
+                last_modified = datetime.strptime(data['last_modified'], formato_da_string),
+            )
+
+            anuncio = Anuncio.objects.create(
+                usuario=usuario,
+                pagamento_id = 'empresarial',
+                payer_id = data['payer_id'],
+                date_created = datetime.strptime(data['date_created'], formato_da_string),
+                valor = 0,
+                authorization_code = 'empresarial',
+                status = data['status'],
+            )
+
             messages.success(self.request, 'Pagamento realizado com sucesso!')
             mensagem = 'Pagamento realizado com sucesso!'
             response_data = {

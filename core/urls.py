@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import HomeView
 from cards.views import Editar, Listar, Dashboard, Detalhar, Todos, \
-    Criar, Modelos, DashboardEmpresa, ConteudoCriar, ConteudoListar, Deletar, Pesquisar, ConteudoExcluir, ConteudoEditar, TrocarModelo, ListarCardsPJ
-from core.views import GetMunicipios, GetSubcategorias, PoliticaDePrivacidade, TermosDeUso, Pagamento
+    Criar, Modelos, DashboardEmpresa, ConteudoCriar, ConteudoListar, Deletar, Pesquisar, ConteudoExcluir, ConteudoEditar, TrocarModelo, ListarCardsPJ, CriarCardPJ
+from core.views import GetMunicipios, GetSubcategorias, PoliticaDePrivacidade, TermosDeUso
 
 
 app_name = 'core'
@@ -11,7 +11,7 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('<slug:empresa>/dashboard/<slug:slug>/', Dashboard.as_view(), name='dashboard-card'),
     path('<slug:empresa>/cards/', Listar.as_view(), name='lista'),
-    path('card/criar/', Criar.as_view(), name='criar'),
+    path('card-pessoal/criar/', Criar.as_view(), name='criar'),
     path('card/modelos/', Modelos.as_view(), name='modelos'),
     path('card/trocar-modelo/', TrocarModelo.as_view(), name='trocar-modelo'),
     path('<slug:empresa>/card/editar/<slug:slug>/', Editar.as_view(), name='editar'),
@@ -23,9 +23,9 @@ urlpatterns = [
     path('<slug:empresa>/card/conteudo/editar/<int:pk>/', ConteudoEditar.as_view(), name='conteudo-editar'),
     path('todos-cards/', Todos.as_view(), name='todos-cards'),
     path('pesquisar/', Pesquisar.as_view(), name='pesquisar'),
-    path('pagamento/', Pagamento.as_view(), name='pagamento'),
 
     # CARDS PJ
+    path('card-empresarial/criar/', CriarCardPJ.as_view(), name='criar-card-pj'),
     path('<slug:empresa>/dashboard/', DashboardEmpresa.as_view(), name='dashboard-empresa'),
     path('<slug:empresa>/cards-empresa/', ListarCardsPJ.as_view(), name='lista-cards-pj'),
 
@@ -37,6 +37,4 @@ urlpatterns = [
     path('termos-de-uso/', TermosDeUso.as_view(), name='termos-de-uso'),
     path('politica-de-privacidade/', PoliticaDePrivacidade.as_view(), name='politica-de-privacidade'),
 
-    # PAGAMENTO
-    # path('pagamento/', Pagamento.as_view(), name='pagamento'),
 ] 

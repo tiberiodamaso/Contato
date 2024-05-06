@@ -17,13 +17,14 @@ from django.contrib import messages
 from django.core.serializers import serialize
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView, DeleteView
 from core import analytics_data_api
 from .models import Card, Conteudo, Estado, Municipio, Categoria, Subcategoria
 from usuarios.models import Usuario
-from .forms import CardEditForm, ConteudoEditForm
+from .forms import CardEditForm, ConteudoEditForm, CardEditFormPJ
 from .utils import make_vcf, cleaner, resize_image
 from django.template.defaultfilters import slugify
 from usuarios.tokens import account_activation_token
@@ -140,13 +141,21 @@ class Modelos(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     template_name = 'cards/modelos.html'
 
     def test_func(self):
-        cartoes_comprados = self.request.user.cartoespf.all()
+        usuario = self.request.user
+        if usuario.perfil.is_pj:
+            cartoes_comprados = self.request.user.cartoespj.all()
+        else:
+            cartoes_comprados = self.request.user.cartoespf.all()
         for cartao in cartoes_comprados:
-            if cartao.status == 'approved':
+            if cartao.status == 'approved' or cartao.status == 'authorized':
                 return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-nao-comprou-cartao.html', status=403)
+        usuario = self.request.user
+        if usuario.perfil.is_pj:
+            return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
+        else:
+            return render(self.request, 'cards/permissao-negada-nao-comprou-cartao.html', status=403)
 
 
 class TrocarModelo(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
@@ -234,10 +243,6 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         qr_code.save(blob)
         card.qr_code.save(name, File(blob))
 
-    # def get_initial(self):
-    #     initial = super().get_initial()
-    #     initial['empresa'] = self.request.user.empresas.first()
-    #     return initial
 
     def form_valid(self, form):
         card = form.save(commit=False)
@@ -295,10 +300,15 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
             temp_file.close()
             os.remove(temp_file.name)
 
+
         if empresa:
             empresa_anterior = self.request.user.empresas.first()
-            empresa_anterior.nome_fantasia = slugify(empresa)
+            empresa_anterior.nome_fantasia = empresa
+            empresa_anterior.slug = slugify(empresa)
             empresa_anterior.save()
+            perfil = self.request.user.perfil
+            perfil.nome_fantasia = empresa
+            perfil.save()
             card.empresa = self.request.user.empresas.first()
 
         #CRIA VCF
@@ -911,6 +921,142 @@ class Pesquisar(ListView):
 
 
 # CARDS PJ
+class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
+    model = Card
+    form_class = CardEditFormPJ
+    template_name = 'cards/card-criar-pj.html'
+    success_message = 'Cartão criado com sucesso.'
+
+    def test_func(self):
+        cartoes_comprados = self.request.user.cartoespj.all()
+        for cartao in cartoes_comprados:
+            if cartao.status == 'authorized':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
+
+    def get_success_url(self, card):
+        empresa = self.request.user.empresas.first()
+        return reverse('core:detalhe', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+
+    def get_context_data(self, form=None):
+        context = super().get_context_data()
+        modelo = self.request.GET.get('modelo')
+        estados = Estado.objects.all()
+        municipios = Municipio.objects.all()
+        categorias = Categoria.objects.all()
+        subcategorias = Subcategoria.objects.all()
+        user = self.request.user
+        try:
+            card = Card.objects.filter(proprietario=user)
+            context['card'] = card
+        except ObjectDoesNotExist as err:
+            print(err)
+            card = None
+        context['modelo'] = modelo
+        context['categorias'] = categorias
+        context['subcategorias'] = subcategorias
+        context['estados'] = estados
+        context['municipios'] = municipios
+        return context
+
+    def gera_qrcode(self, card, **kwargs):
+        host = self.request.get_host()
+        vcf_url = card.vcf.url
+        url = f'{host}{vcf_url}'
+        qr_code = qrcode.make(url, box_size=20)
+        name = f'{uuid.uuid4().hex}.png'
+        blob = BytesIO()
+        qr_code.save(blob)
+        card.qr_code.save(name, File(blob))
+
+
+    def form_valid(self, form):
+        card = form.save(commit=False)
+        
+        first_name = form.cleaned_data['first_name']
+        last_name = form.cleaned_data['last_name']
+        email = form.cleaned_data['email']
+        username = slugify(f'{first_name}-{last_name}')
+        password = make_password('S3nh@n0v@')
+        Usuario.objects.create(first_name=first_name, last_name=last_name, is_active=True, email=email, username=username, password=password)
+
+        proprietario = self.request.user
+        card.proprietario = proprietario
+        pasta_usuario = card.proprietario.id.hex
+        modelo = form.cleaned_data['modelo']
+        empresa = self.request.user.empresas.first()
+        card.empresa = empresa
+        site = form.cleaned_data['site']
+        cod_pais = form.cleaned_data['cod_pais'].codigo
+        whatsapp_temp = form.cleaned_data['whatsapp']
+        whatsapp = cleaner(cod_pais) + cleaner(whatsapp_temp)
+        facebook = form.cleaned_data['facebook']
+        instagram = form.cleaned_data['instagram']
+        linkedin = form.cleaned_data['linkedin']
+        youtube = form.cleaned_data['youtube']
+        tik_tok = form.cleaned_data['tik_tok']
+        categoria = form.cleaned_data['categoria']
+        subcategoria = form.cleaned_data['subcategoria']
+        estado = form.cleaned_data['estado']
+        municipio = form.cleaned_data['municipio']
+        endereco = form.cleaned_data['endereco']
+        img_perfil = form.cleaned_data.get('img_perfil')
+        logotipo = form.cleaned_data.get('logotipo')
+        tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
+
+        # VALIDA TAMANHO DE ARQUIVOS
+        if img_perfil:
+            if img_perfil.size > tamanho_maximo:
+                messages.error(
+                    self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
+                return self.form_invalid(form)
+
+
+        if logotipo:
+            tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
+            if logotipo.size > tamanho_maximo:
+                messages.error(
+                    self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
+                return self.form_invalid(form)
+
+            # Redimensiona logotipo se existe
+            largura_desejada = 300
+            altura_desejada = 300
+            _, extensao = os.path.splitext(logotipo.name)
+            extensao = extensao.lstrip('.').upper()
+            if extensao == 'JPG':
+                extensao = 'JPEG'
+            logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
+
+            # Crie um arquivo temporário para a imagem redimensionada
+            temp_file = tempfile.NamedTemporaryFile(delete=False)
+            logotipo_redimensionado.save(temp_file, format=extensao) 
+            card.logotipo.save(name=logotipo.name, content=temp_file, save=True)
+            temp_file.close()
+            os.remove(temp_file.name)
+
+
+        #CRIA VCF
+        vcf_content = make_vcf(first_name, last_name, empresa,
+                               whatsapp, site, endereco, estado, municipio, email)
+
+        vcf_name = f'{uuid.uuid4().hex}.vcf'
+        content = '\n'.join([str(line) for line in vcf_content])
+        vcf_file = ContentFile(content)
+        card.vcf.save(vcf_name, vcf_file)
+
+        # CRIA QRCODE
+        self.gera_qrcode(card)
+
+        return HttpResponseRedirect(self.get_success_url(card))
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+
+
+
 class ListarCardsPJ(LoginRequiredMixin, ListView):
     model = Card
     template_name = 'cards/listar-cards-pj.html'
