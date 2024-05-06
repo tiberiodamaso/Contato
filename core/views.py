@@ -43,20 +43,3 @@ class TermosDeUso(TemplateView):
 class PoliticaDePrivacidade(TemplateView):
     template_name = 'core/politica-de-privacidade.html'
 
-
-@method_decorator(csrf_exempt, name='dispatch')
-class Pagamento(View):
-
-    def post(self, request, *args, **kwargs):
-        try:
-            data = json.loads(request.body)
-            print(data)
-            # Lide com os dados recebidos do Mercado Pago aqui
-            
-
-            return HttpResponse(status=200)  # Responda com sucesso para o Mercado Pago
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Erro ao analisar JSON'}, status=400)  # Responda com erro de análise JSON
-
-
-

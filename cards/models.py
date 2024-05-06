@@ -82,7 +82,7 @@ class CodigoPais(models.Model):
 
 
 class Empresa(models.Model):
-  nome_fantasia = models.CharField(verbose_name='Nome', max_length=200)
+  nome_fantasia = models.CharField(verbose_name='Nome Fantasia', max_length=200)
   cnpj_cpf = models.CharField(verbose_name='CNPJ', max_length=14, unique=True, validators=[valida_cnpj], blank=True, null=True)
   proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.PROTECT, related_name='empresas')
   slug = models.SlugField(verbose_name='Slug', editable=False)

@@ -89,7 +89,7 @@ class RegistrarView(SuccessMessageMixin, CreateView):
     template_name = 'usuarios/registrar.html'
     success_url = reverse_lazy('usuarios:login')
     form_class = UsuarioRegistrationForm
-    success_message = "Usuário cadastrado com sucesso! Um email foi enviado com instruções de acesso."
+    success_message = "Conta criada com sucesso! Um email foi enviado com instruções de acesso."
 
 
     def form_valid(self, form):
