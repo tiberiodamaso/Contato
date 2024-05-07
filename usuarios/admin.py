@@ -16,7 +16,7 @@ class UsuarioAdmin(UserAdmin):
     inlines = [PerfilInline]
 
 class PerfilAdmin(admin.ModelAdmin):
-    list_display = ('id', 'cnpj_cpf', 'nome_fantasia', 'is_pj')
+    list_display = ('id', 'usuario' ,'cnpj_cpf', 'nome_fantasia', 'is_pj')
 
 admin.site.register(Usuario, UsuarioAdmin)
 admin.site.register(Perfil, PerfilAdmin)

@@ -25,7 +25,7 @@
         {% endif %}
         <div class="d-flex justify-content-center py-3 mx-2">
             <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:detalhar-card-pj' empresa.slug card.slug %}">Visualizar</a>
-            <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:editar' empresa.slug card.slug %}">Editar</a>
+            <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:editar-card-pj' empresa.slug card.slug %}">Editar</a>
             <p class="mx-2"><a class="btn btn-warning"
                     href="{% url 'core:relatorio-pj' empresa.slug %}">Relatório</a></p>
         </div>

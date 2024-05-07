@@ -2,7 +2,7 @@ from django.urls import path
 from .views import HomeView
 from cards.views import Editar, Listar, Dashboard, Detalhar, Todos, \
     Criar, Modelos, RelatorioPJ, CriarAnuncioPF, ListarAnuncioPF, Deletar, Pesquisar, ExcluirAnuncioPF, \
-    EditarAnuncioPF, TrocarModelo, ListarCardsPJ, CriarCardPJ, DetalharCardPJ, ListarAnunciosPJ
+    EditarAnuncioPF, TrocarModelo, ListarCardsPJ, CriarCardPJ, DetalharCardPJ, ListarAnunciosPJ, EditarCardPJ
 from core.views import GetMunicipios, GetSubcategorias, PoliticaDePrivacidade, TermosDeUso
 
 
@@ -28,9 +28,10 @@ urlpatterns = [
     # CARDS PJ
     path('card-pj/criar/', CriarCardPJ.as_view(), name='criar-card-pj'),
     path('<slug:empresa>/card-pj/<slug:slug>/', DetalharCardPJ.as_view(), name='detalhar-card-pj'),
-    path('<slug:empresa>/relatorio-pj/', RelatorioPJ.as_view(), name='relatorio-pj'),
     path('<slug:empresa>/cards-pj/', ListarCardsPJ.as_view(), name='listar-cards-pj'),
+    path('<slug:empresa>/card-pj/editar/<slug:slug>/', EditarCardPJ.as_view(), name='editar-card-pj'),
     path('<slug:empresa>/anuncios-pj/', ListarAnunciosPJ.as_view(), name='listar-anuncios-pj'),
+    path('<slug:empresa>/relatorio-pj/', RelatorioPJ.as_view(), name='relatorio-pj'),
 
     # POPULAR FORMS
     path('get-municipios/', GetMunicipios.as_view(), name='get-municipios'),

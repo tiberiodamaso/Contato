@@ -1163,10 +1163,10 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
 
     def get_success_url(self, card):
-        user = self.request.user
-        card = Card.objects.get(proprietario=user)
-        empresa = user.empresas.first()
-        return reverse('core:detalhe', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        usuario = self.request.user
+        # card = Card.objects.get(usuario_do_card=user)
+        empresa = usuario.empresas.first()
+        return reverse('core:detalhar-card-pj', kwargs={'empresa': empresa.slug, 'slug': card.slug})
 
     def get_context_data(self, form=None):
        context = super().get_context_data()
@@ -1202,11 +1202,21 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         card.qr_code.save(name, File(blob), save=False)
         return card.qr_code
 
+    def get_initial(self, **kwargs):
+        initial = super().get_initial(**kwargs)
+        card = self.get_object()
+        initial['first_name'] = card.usuario_do_card.first_name
+        initial['last_name'] = card.usuario_do_card.last_name
+        initial['email'] = card.usuario_do_card.email
+        return initial
+
     def form_valid(self, form):
         card = self.get_object()
-        proprietario = self.request.user
-        card.proprietario = proprietario
-        empresa = form.cleaned_data['empresa']
+        # proprietario = self.request.user
+        # card.proprietario = proprietario
+        # empresa = form.cleaned_data['empresa']
+        usuario_do_card = card.usuario_do_card
+        empresa = card.empresa
         modelo = form.cleaned_data['modelo']
         cor = form.cleaned_data['cor']
         nome_display = form.cleaned_data['nome_display']
@@ -1302,8 +1312,8 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
             try:
                 os.remove(card.vcf.path)
                 card.vcf.delete()
-                vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
-                                    whatsapp, site, endereco, estado, municipio, proprietario.email)
+                vcf_content = make_vcf(usuario_do_card.first_name, usuario_do_card.last_name, empresa,
+                                    whatsapp, site, endereco, estado, municipio, usuario_do_card.email)
 
                 vcf_name = f'{uuid.uuid4().hex}.vcf'
                 content = '\n'.join([str(line) for line in vcf_content])
@@ -1330,7 +1340,6 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         card.subcategoria = subcategoria
         card.estado = estado
         card.municipio = municipio
-        card.telefone = telefone
         card.whatsapp = whatsapp
         card.facebook = facebook
         card.instagram = instagram
@@ -1340,6 +1349,12 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         card.save()
 
         return HttpResponseRedirect(self.get_success_url(card))
+
+    def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
+        return super().form_invalid(form)
 
 
 class ListarCardsPJ(LoginRequiredMixin, ListView):
