@@ -10,30 +10,31 @@
 <!-- <div class="container-fluid"> -->
 <div class="row text-center p-3 justify-content-center">
     {% for card in cards %}
-    {% if card.proprietario.is_active %}
-    <div class="col-lg-3 col-sm-5 col-12 mt-5 border border-2 rounded-2 mx-2">
-        {% if card.img_perfil %}
-        <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
-        {% else %}
-        <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
-            <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+        {% if card.proprietario.is_active %}
+        <div class="col-lg-3 col-sm-5 col-12 mt-5 border border-2 rounded-2 mx-2">
+            {% if card.img_perfil %}
+            <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
+            {% else %}
+            <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+            </div>
+            {% endif %}
+            <h2 class="fw-normal">{{card.usuario_do_card.first_name}} {{card.usuario_do_card.last_name}}</h2>
+            {% if card.cargo %}
+            <h4 class="lead">{{ card.cargo }}</h4>
+            {% endif %}
+            <div class="d-flex justify-content-center py-3 mx-2">
+                <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:detalhar-card-pj' empresa.slug card.slug %}">Visualizar</a>
+                <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:editar-card-pj' empresa.slug card.slug %}">Editar</a>
+                <p class="mx-2"><a class="btn btn-warning"
+                        href="{% url 'core:relatorio-pj' empresa.slug %}">Relatório</a></p>
+            </div>
         </div>
         {% endif %}
-        <h2 class="fw-normal">{{card.usuario_do_card.first_name}} {{card.usuario_do_card.last_name}}</h2>
-        {% if card.cargo %}
-        <h4 class="lead">{{ card.cargo }}</h4>
-        {% endif %}
-        <div class="d-flex justify-content-center py-3 mx-2">
-            <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:detalhar-card-pj' empresa.slug card.slug %}">Visualizar</a>
-            <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:editar-card-pj' empresa.slug card.slug %}">Editar</a>
-            <p class="mx-2"><a class="btn btn-warning"
-                    href="{% url 'core:relatorio-pj' empresa.slug %}">Relatório</a></p>
-        </div>
-    </div>
-    {% endif %}
+    {% empty %}
+        <h4 class="lead p-3 lh-base">Você ainda não criou um cartão. Crie um agora mesmo comece a compartilhar.</h4>
+        <a href="{% url 'core:modelos' %}" type="button" class="btn btn-warning w-auto">Criar cartão</a>
     {% endfor %}
 </div>
-<!-- </div> -->
-
 
 {% endblock %}

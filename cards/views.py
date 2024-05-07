@@ -1055,8 +1055,10 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         return HttpResponseRedirect(self.get_success_url(card))
 
     def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
         return super().form_invalid(form)
-
 
 class DetalharCardPJ(DetailView):
     model = Card
@@ -1355,6 +1357,34 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
             for error in errors:
                 messages.error(self.request, f"{field}: {error}")
         return super().form_invalid(form)
+
+
+class ExcluirCardPJ(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+
+    model = Card
+    success_message = 'Cartão excluído com sucesso!'
+
+    def get_success_url(self, card):
+        return reverse_lazy('core:listar-cards-pj', kwargs={'empresa': card.empresa.slug})
+
+    def post(self, request, *args, **kwargs):
+        card = self.get_object()
+        usuario_do_card = card.usuario_do_card
+
+        anuncios = Anuncio.objects.filter(card=card)
+        for anuncio in anuncios:
+            anuncio.delete()
+
+        # Apagar arquivos associados aos anúncios
+        path = os.path.join(settings.MEDIA_ROOT, usuario_do_card.id.hex)
+        try:
+            shutil.rmtree(path)
+        except FileNotFoundError as err:
+            print(err)
+
+        usuario_do_card.delete()
+
+        return HttpResponseRedirect(self.get_success_url(card))
 
 
 class ListarCardsPJ(LoginRequiredMixin, ListView):
