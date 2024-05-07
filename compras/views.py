@@ -315,7 +315,7 @@ class ComprarAnuncio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         compra = usuario.anuncios.last()
         card = usuario.cards.all().first()
         if card:
-            anuncios = card.conteudos.all()
+            anuncios = card.anuncios.all()
         else:
             anuncios = None
         contexto = {'usuario': usuario, 'card': card, 'compra': compra, 'anuncios': anuncios}

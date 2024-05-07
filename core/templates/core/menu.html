@@ -124,44 +124,80 @@
                     <a class="nav-link" aria-current="page" href="{% url 'core:pesquisar' %}">Pesquisar</a>
                 </li>
 
-                {% if user.is_authenticated %}
-                    {% if user.cards.first %}
+                {% if user.perfil.is_pj %}
+
+                    {% if user.is_authenticated %}
+                        {% if user.cards.first %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'core:relatorio-pj' user.empresas.first.slug %}">Relatórios</a>
+                            </li>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Cartões
+                                </a>
+                                <ul class="dropdown-menu border">
+                                    <li><a class="dropdown-item nav-link" href="{% url 'core:listar-cards-pj' user.empresas.first.slug %}">Meus cartões</a></li>
+                                    <li><a class="dropdown-item nav-link" href="{% url 'core:modelos' %}">Criar cartão</a></li>
+                                </ul>
+                            </div>    
+                            <div class="dropdown">
+                                <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Anúncios
+                                </a>
+                                <ul class="dropdown-menu border">
+                                    <li><a class="dropdown-item nav-link" href="{% url 'core:listar-anuncio-pf' user.empresas.first.slug user.cards.first.slug %}">Meus anúncios</a></li>
+                                    <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pf' user.empresas.first.slug user.cards.first.slug %}">Criar anúncio</a></li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'core:modelos' %}">Criar cartão</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'core:dashboard-card' user.empresas.first.slug user.cards.first.slug %}">Relatórios</a>
+                            <a class="nav-link" href="{% url 'usuarios:minha-conta' user.username %}">Minha conta</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link"
-                                href="{% url 'core:detalhe' user.empresas.first.slug user.cards.first.slug %}">Meu cartão</a>
-                        </li>
-                        <div class="dropdown">
-                            <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Anúncios
-                            </a>
-                            <ul class="dropdown-menu border-0">
-                              <li><a class="dropdown-item nav-link" href="{% url 'core:conteudo-listar' user.empresas.first.slug user.cards.first.slug %}">Meus anúncios</a></li>
-                              <li><a class="dropdown-item nav-link" href="{% url 'core:conteudo-criar' user.empresas.first.slug user.cards.first.slug %}">Criar anúncio</a></li>
-                            </ul>
-                        </div>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'core:modelos' %}">Criar meu cartão</a>
+                            <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>
                         </li>
                     {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'usuarios:minha-conta' user.username %}">Minha conta</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>
-                    </li>
+
+                {% else %}
+
+                    {% if user.is_authenticated %}
+                        {% if user.cards.first %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'core:dashboard-card' user.empresas.first.slug user.cards.first.slug %}">Relatórios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                    href="{% url 'core:detalhe' user.empresas.first.slug user.cards.first.slug %}">Meu cartão</a>
+                            </li>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Anúncios
+                                </a>
+                                <ul class="dropdown-menu border">
+                                <li><a class="dropdown-item nav-link" href="{% url 'core:listar-anuncio-pf' user.empresas.first.slug user.cards.first.slug %}">Meus anúncios</a></li>
+                                <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pf' user.empresas.first.slug user.cards.first.slug %}">Criar anúncio</a></li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'core:modelos' %}">Criar meu cartão</a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'usuarios:minha-conta' user.username %}">Minha conta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>
+                        </li>
+                    {% endif %}
+
                 {% endif %}
 
                 {% if not user.is_authenticated %}
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="#">Para empresas</a>
-                </li> -->
-                <!-- <li class="nav-item">
-                    <a class="nav-link">Ajuda</a>
-                </li> -->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'usuarios:login' %}">Minha conta</a>
                 </li>

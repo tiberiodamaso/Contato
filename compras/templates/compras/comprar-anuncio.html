@@ -48,7 +48,7 @@
                 class="btn fs-5 w-100 bg-warning text-white mt-3">Criar cartão</a>
                 {% else %}
                 <h4 class="text-center">Você já comprou um pacote de anúncios. Clique abaixo para criá-los.</h4>
-                <a href="{% url 'core:conteudo-criar' card.empresa.slug card.slug %}"
+                <a href="{% url 'core:criar-anuncio-pf' card.empresa.slug card.slug %}"
                 class="btn fs-5 w-100 bg-warning text-white mt-3">Criar anúncios</a>
                 {% endif %}
             </div>
@@ -115,7 +115,7 @@
                         if (response.status === 200) {
                             // Pagamento bem-sucedido, redirecione para a página de sucesso
                             console.log('Pagamento bem-sucedido, redirecione para a página de sucesso')
-                            window.location.href = "/" + slugEmpresa + "/card/conteudo/criar/" + slugCard + "/";
+                            window.location.href = "/" + slugEmpresa + "/card/anuncio/criar/" + slugCard + "/";
                         } else {
                             // Trate outros cenários de resposta aqui, como erros
                             // Pode redirecionar para uma página de erro, se aplicável

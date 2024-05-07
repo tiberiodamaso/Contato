@@ -22,9 +22,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView, DeleteView
 from core import analytics_data_api
-from .models import Card, Conteudo, Estado, Municipio, Categoria, Subcategoria
+from .models import Card, Anuncio, Estado, Municipio, Categoria, Subcategoria, Empresa
 from usuarios.models import Usuario
-from .forms import CardEditForm, ConteudoEditForm, CardEditFormPJ
+from .forms import CardEditForm, AnuncioEditForm, CardEditFormPJ
 from .utils import make_vcf, cleaner, resize_image
 from django.template.defaultfilters import slugify
 from usuarios.tokens import account_activation_token
@@ -248,6 +248,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         card = form.save(commit=False)
         proprietario = self.request.user
         card.proprietario = proprietario
+        card.usuario_do_card = proprietario
         pasta_usuario = card.proprietario.id.hex
         modelo = form.cleaned_data['modelo']
         empresa = form.data['empresa']
@@ -333,7 +334,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
     model = Card
     form_class = CardEditForm
     template_name = 'cards/card-editar.html'
-    success_message = 'Card atualizado com sucesso!'
+    success_message = 'Cartão atualizado com sucesso!'
 
     def test_func(self):
         cartoes_comprados = self.request.user.cartoespf.all()
@@ -562,28 +563,28 @@ class Detalhar(DetailView):
         cor_de_fundo = card.cor
         luminosidade = self.luminosidade(cor_de_fundo)
         card_atributos = card.__dict__
-        conteudos = card.conteudos.all()
+        anuncios = card.anuncios.all()
         produtos = []
         servicos = []
         portfolios = []
         promocoes = []
         cursos = []
         has_catalogo = False
-        for conteudo in conteudos:
-            if conteudo.tipo.nome == 'Produto':
-                produtos.append(conteudo)
+        for anuncio in anuncios:
+            if anuncio.tipo.nome == 'Produto':
+                produtos.append(anuncio)
                 has_catalogo = True
-            if conteudo.tipo.nome == 'Serviço':
-                servicos.append(conteudo)
+            if anuncio.tipo.nome == 'Serviço':
+                servicos.append(anuncio)
                 has_catalogo = True
-            if conteudo.tipo.nome == 'Promoção':
-                promocoes.append(conteudo)
+            if anuncio.tipo.nome == 'Promoção':
+                promocoes.append(anuncio)
                 has_catalogo = True
-            if conteudo.tipo.nome == 'Portfólio':
-                portfolios.append(conteudo)
+            if anuncio.tipo.nome == 'Portfólio':
+                portfolios.append(anuncio)
                 has_catalogo = True
-            if conteudo.tipo.nome == 'Curso':
-                cursos.append(conteudo)
+            if anuncio.tipo.nome == 'Curso':
+                cursos.append(anuncio)
                 has_catalogo = True
 
         nomes_atributos = ['telefone', 'vcf','endereco', 
@@ -624,9 +625,9 @@ class Deletar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         card = self.get_object()
-        conteudos = Conteudo.objects.filter(card=card)
-        for conteudo in conteudos:
-            conteudo.delete()
+        anuncios = Anuncio.objects.filter(card=card)
+        for anuncio in anuncios:
+            anuncio.delete()
 
         # Apagar arquivos associados ao conteúdo
         path = os.path.join(settings.MEDIA_ROOT, self.request.user.id.hex)
@@ -657,11 +658,11 @@ class Todos(LoginRequiredMixin, ListView):
 
 
 # VIEWS DE CONTEÚDO
-class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
-    model = Conteudo
-    form_class = ConteudoEditForm
-    template_name = 'cards/conteudo-criar.html'
-    success_message = 'Conteúdo criado com sucesso!'
+class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
+    model = Anuncio
+    form_class = AnuncioEditForm
+    template_name = 'cards/criar-anuncio-pf.html'
+    success_message = 'Anúncio criado com sucesso!'
 
     def test_func(self):
         anuncios = self.request.user.anuncios.all()
@@ -670,36 +671,36 @@ class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin
                 return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-nao-comprou-conteudo.html', status=403)
+        return render(self.request, 'cards/permissao-negada-nao-comprou-anuncio.html', status=403)
 
     def get_success_url(self):
         usuario = self.request.user
         card = usuario.cards.first()
         empresa = usuario.empresas.first()
-        return reverse_lazy('core:conteudo-listar', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        return reverse_lazy('core:listar-anuncio-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
         card = usuario.cards.first()
-        conteudos = Conteudo.objects.filter(card__proprietario=usuario)
-        quantidade_conteudo = len(conteudos)
+        anuncios = Anuncio.objects.filter(card__proprietario=usuario)
+        quantidade_anuncios = len(anuncios)
         context['card'] = card
-        context['conteudos'] = conteudos
-        context['quantidade_conteudo'] = quantidade_conteudo
+        context['anuncios'] = anuncios
+        context['quantidade_anuncios'] = quantidade_anuncios
         return context
 
     def form_valid(self, form):
-        conteudo = form.save(commit=False)
+        anuncio = form.save(commit=False)
         usuario = self.request.user
         # validação da quantidade de conteúdos criados
-        conteudos = Conteudo.objects.filter(card__proprietario=usuario)
-        if len(conteudos) > 10:
+        anuncios = Anuncio.objects.filter(card__proprietario=usuario)
+        if len(anuncios) > 10:
             messages.error(
                     self.request, 'Quantidade máxima de conteúdos atingidos - 10 conteúdos.')
             return self.form_invalid(form)
         card = usuario.cards.first()
-        conteudo.card = card
+        anuncio.card = card
         img = form.cleaned_data['img']
         largura_desejada = 300
         altura_desejada = 300
@@ -725,19 +726,19 @@ class ConteudoCriar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin
             # Crie um arquivo temporário para a imagem redimensionada
             temp_file = tempfile.NamedTemporaryFile(delete=False)
             img_redimensionada.save(temp_file, format=extensao) 
-            conteudo.img.save(name=img.name, content=temp_file, save=True)
+            anuncio.img.save(name=img.name, content=temp_file, save=True)
             temp_file.close()
             os.remove(temp_file.name)
 
-        conteudo.save()
+        anuncio.save()
 
         return super().form_valid(form)
 
 
-class ConteudoListar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, ListView):
-    model = Conteudo
+class ListarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, ListView):
+    model = Anuncio
     success_url = '.'
-    template_name = 'cards/conteudo-listar.html'
+    template_name = 'cards/listar-anuncio-pf.html'
 
     def test_func(self):
         anuncios = self.request.user.anuncios.all()
@@ -746,25 +747,25 @@ class ConteudoListar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
                 return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-nao-comprou-conteudo.html', status=403)
+        return render(self.request, 'cards/permissao-negada-nao-comprou-anuncio.html', status=403)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
         card = usuario.cards.first()
-        conteudos = Conteudo.objects.filter(card__proprietario=usuario)
-        quantidade_conteudo = len(conteudos)
+        anuncios = Anuncio.objects.filter(card__proprietario=usuario)
+        quantidade_anuncios = len(anuncios)
         context['card'] = card
-        context['conteudos'] = conteudos
-        context['quantidade_conteudo'] = quantidade_conteudo
+        context['anuncios'] = anuncios
+        context['quantidade_anuncios'] = quantidade_anuncios
         return context
 
 
-class ConteudoEditar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
-    model = Conteudo
-    form_class = ConteudoEditForm
-    template_name = 'cards/conteudo-editar.html'
-    success_message = 'Conteúdo atualizado com sucesso!'
+class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = Anuncio
+    form_class = AnuncioEditForm
+    template_name = 'cards/editar-anuncio-pf.html'
+    success_message = 'Anúncio atualizado com sucesso!'
 
     def test_func(self):
         anuncios = self.request.user.anuncios.all()
@@ -773,36 +774,36 @@ class ConteudoEditar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
                 return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-nao-comprou-conteudo.html', status=403)
+        return render(self.request, 'cards/permissao-negada-nao-comprou-anuncio.html', status=403)
 
     def get_success_url(self):
         usuario = self.request.user
         card = usuario.cards.first()
         empresa = usuario.empresas.first()
-        return reverse_lazy('core:conteudo-listar', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        return reverse_lazy('core:listar-anuncio-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
         card = usuario.cards.first()
-        conteudos = Conteudo.objects.filter(card__proprietario=usuario)
-        quantidade_conteudo = len(conteudos)
+        anuncios = Anuncio.objects.filter(card__proprietario=usuario)
+        quantidade_anuncios = len(anuncios)
         context['card'] = card
-        context['conteudos'] = conteudos
-        context['quantidade_conteudo'] = quantidade_conteudo
+        context['anuncios'] = anuncios
+        context['quantidade_anuncios'] = quantidade_anuncios
         return context
 
     def form_valid(self, form):
-        conteudo = form.save(commit=False)
+        anuncio = form.save(commit=False)
         usuario = self.request.user
         # validação da quantidade de conteúdos criados
-        conteudos = Conteudo.objects.filter(card__proprietario=usuario)
-        if len(conteudos) > 10:
+        anuncios = Anuncio.objects.filter(card__proprietario=usuario)
+        if len(anuncios) > 10:
             messages.error(
                     self.request, 'Quantidade máxima de conteúdos atingidos - 10 conteúdos.')
             return self.form_invalid(form)
         card = usuario.cards.first()
-        conteudo.card = card
+        anuncio.card = card
         img = form.cleaned_data['img']
         largura_desejada = 300
         altura_desejada = 300
@@ -825,10 +826,10 @@ class ConteudoEditar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 
             # APAGA IMGAGEM ANTIGA
             try:
-                conteudo_anterior = Conteudo.objects.get(id=self.kwargs['pk'])
-                imagem_anterior = conteudo_anterior.img
+                anuncio_anterior = Anuncio.objects.get(id=self.kwargs['pk'])
+                imagem_anterior = anuncio_anterior.img
                 os.remove(imagem_anterior.path)
-                conteudo_anterior.img.delete()
+                anuncio_anterior.img.delete()
             except FileNotFoundError as err:
                 print(err)
 
@@ -838,34 +839,34 @@ class ConteudoEditar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
             # Crie um arquivo temporário para a imagem redimensionada
             temp_file = tempfile.NamedTemporaryFile(delete=False)
             img_redimensionada.save(temp_file, format=extensao) 
-            conteudo.img.save(name=img.name, content=temp_file, save=True)
+            anuncio.img.save(name=img.name, content=temp_file, save=True)
             temp_file.close()
             os.remove(temp_file.name)
 
-        conteudo.save()
+        anuncio.save()
 
         return super().form_valid(form)
 
 
-class ConteudoExcluir(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
-    model = Conteudo
-    template_name = 'cards/conteudo-criar.html'
+class ExcluirAnuncioPF(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = Anuncio
+    template_name = 'cards/criar-anuncio-pf.html'
     success_message = 'Conteúdo atualizado com sucesso!'
     success_url = '.'
 
     def get_success_url(self, card):
         usuario = self.request.user
         empresa = usuario.empresas.first()
-        return reverse('core:conteudo-criar', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        return reverse('core:criar-anuncio-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
 
     def post(self, request, *args, **kwargs):
-        conteudo = Conteudo.objects.filter(id=self.kwargs['pk']).first()
-        card = conteudo.card
-        path = conteudo.img.path
+        anuncio = Anuncio.objects.filter(id=self.kwargs['pk']).first()
+        card = anuncio.card
+        path = anuncio.img.path
 
         # APAGA ARQUIVOS ANTIGOS E EXCLUI REGISTRO DO BANCO
         try:
-            conteudo.delete()
+            anuncio.delete()
             os.remove(path)
         except FileNotFoundError as err:
             print(err)
@@ -938,7 +939,7 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
 
     def get_success_url(self, card):
         empresa = self.request.user.empresas.first()
-        return reverse('core:detalhe', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        return reverse('core:detalhar-card-pj', kwargs={'empresa': empresa.slug, 'slug': card.slug})
 
     def get_context_data(self, form=None):
         context = super().get_context_data()
@@ -980,10 +981,11 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         email = form.cleaned_data['email']
         username = slugify(f'{first_name}-{last_name}')
         password = make_password('S3nh@n0v@')
-        Usuario.objects.create(first_name=first_name, last_name=last_name, is_active=True, email=email, username=username, password=password)
+        usuario = Usuario.objects.create(first_name=first_name, last_name=last_name, is_active=True, email=email, username=username, password=password)
 
         proprietario = self.request.user
         card.proprietario = proprietario
+        card.usuario_do_card = usuario
         pasta_usuario = card.proprietario.id.hex
         modelo = form.cleaned_data['modelo']
         empresa = self.request.user.empresas.first()
@@ -1056,27 +1058,310 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         return super().form_invalid(form)
 
 
+class DetalharCardPJ(DetailView):
+    model = Card
+
+    def chunk_list(self, lst):
+        if len(lst) <= 4:
+            return [lst]
+        elif len(lst) in [5, 6]:
+            return [lst[:3], lst[3:]]
+        elif len(lst) in [7, 8]:
+            return [lst[:4], lst[4:]]
+        elif len(lst) == 9:
+            return [lst[:3], lst[3:6], lst[6:]]
+        else:
+            return [lst[:4], lst[4:8], lst[8:]]
+
+    def get_template_names(self):
+        template_name = super().get_template_names()
+        modelo = self.get_object().modelo
+        template_name = [f'cards/modelo-{modelo}.html']
+        return template_name
+
+    def luminosidade(self, cor_de_fundo):
+        # Converte a cor hexadecimal para RGB
+        cor = cor_de_fundo.lstrip('#')
+        rgb = tuple(int(cor[i:i+2], 16) for i in (0, 2, 4))
+        
+        # Fórmula de luminosidade para determinar o contraste
+        luminosidade = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255
+        
+        # Retorna 'claro' se a luminosidade for maior que 0.5, senão 'escuro'
+        return 'claro' if luminosidade > 0.5 else 'escuro'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        card = self.get_object()
+        cor_de_fundo = card.cor
+        luminosidade = self.luminosidade(cor_de_fundo)
+        card_atributos = card.__dict__
+        anuncios = card.anuncios.all()
+        produtos = []
+        servicos = []
+        portfolios = []
+        promocoes = []
+        cursos = []
+        has_catalogo = False
+        for anuncio in anuncios:
+            if anuncio.tipo.nome == 'Produto':
+                produtos.append(anuncio)
+                has_catalogo = True
+            if anuncio.tipo.nome == 'Serviço':
+                servicos.append(anuncio)
+                has_catalogo = True
+            if anuncio.tipo.nome == 'Promoção':
+                promocoes.append(anuncio)
+                has_catalogo = True
+            if anuncio.tipo.nome == 'Portfólio':
+                portfolios.append(anuncio)
+                has_catalogo = True
+            if anuncio.tipo.nome == 'Curso':
+                cursos.append(anuncio)
+                has_catalogo = True
+
+        nomes_atributos = ['telefone', 'vcf','endereco', 
+                           'site', 'instagram', 'whatsapp', 'tik_tok', 
+                           'linkedin', 'facebook', 'youtube',
+                           ]
+        atributos = ['email']
+        for atributo in card_atributos:
+            if atributo in nomes_atributos and card.__getattribute__(atributo):
+                    atributos.append(atributo)
+        if has_catalogo:
+            atributos.append('catalogo')
+        linhas = self.chunk_list(atributos)
+
+        context['produtos'] = produtos
+        context['servicos'] = servicos
+        context['portfolios'] = portfolios
+        context['promocoes'] = promocoes
+        context['cursos'] = cursos
+        context['atributos'] = atributos
+        context['linhas'] = linhas
+        if luminosidade == 'escuro':
+            context['cor_da_fonte'] = '#fff'
+        else:
+            context['cor_da_fonte'] = '#212529'
+
+        return context
+
+
+class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = Card
+    form_class = CardEditFormPJ
+    template_name = 'cards/card-editar-pj.html'
+    success_message = 'Cartão atualizado com sucesso!'
+
+    def test_func(self):
+        cartoes_comprados = self.request.user.cartoespj.all()
+        for cartao in cartoes_comprados:
+            if cartao.status == 'authorized':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
+
+    def get_success_url(self, card):
+        user = self.request.user
+        card = Card.objects.get(proprietario=user)
+        empresa = user.empresas.first()
+        return reverse('core:detalhe', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+
+    def get_context_data(self, form=None):
+       context = super().get_context_data()
+       modelo = self.get_object().modelo
+       estados = Estado.objects.all()
+       categorias = Categoria.objects.all()
+       subcategorias = Subcategoria.objects.all()
+       categoria_atual = self.object.categoria
+       subcategoria_atual = self.object.subcategoria
+       estado_atual = self.object.estado
+       municipio_atual = self.object.municipio
+       empresa = self.get_object().empresa.nome_fantasia
+       context['modelo'] = modelo
+       context['categorias'] = categorias
+       context['subcategorias'] = subcategorias
+       context['estados'] = estados
+       context['municipios'] = Municipio.objects.all()
+       context['categoria_atual'] = categoria_atual
+       context['subcategoria_atual'] = subcategoria_atual
+       context['estado_atual'] = estado_atual
+       context['municipio_atual'] = municipio_atual
+       context['empresa'] = empresa
+       return context
+
+    def gera_qrcode(self, card, **kwargs):
+        host = self.request.get_host()
+        vcf_url = card.vcf.url
+        url = f'{host}{vcf_url}'
+        qr_code = qrcode.make(url, box_size=20)
+        name = f'{uuid.uuid4().hex}.png'
+        blob = BytesIO()
+        qr_code.save(blob)
+        card.qr_code.save(name, File(blob), save=False)
+        return card.qr_code
+
+    def form_valid(self, form):
+        card = self.get_object()
+        proprietario = self.request.user
+        card.proprietario = proprietario
+        empresa = form.cleaned_data['empresa']
+        modelo = form.cleaned_data['modelo']
+        cor = form.cleaned_data['cor']
+        nome_display = form.cleaned_data['nome_display']
+        site = form.cleaned_data['site']
+        cargo = form.cleaned_data['cargo']
+        categoria = form.cleaned_data['categoria']
+        subcategoria = form.cleaned_data['subcategoria']
+        estado = form.cleaned_data['estado']
+        municipio = form.cleaned_data['municipio']
+        endereco = form.cleaned_data['endereco']
+        cod_pais = form.cleaned_data['cod_pais'].codigo
+        whatsapp_temp = form.cleaned_data['whatsapp']
+        whatsapp = cleaner(cod_pais) + cleaner(whatsapp_temp)
+        facebook = form.cleaned_data['facebook']
+        instagram = form.cleaned_data['instagram']
+        linkedin = form.cleaned_data['linkedin']
+        youtube = form.cleaned_data['youtube']
+        tik_tok = form.cleaned_data['tik_tok']
+        img_perfil = self.request.FILES['img_perfil'] if 'img_perfil' in self.request.FILES else ''
+        logotipo = self.request.FILES['logotipo'] if 'logotipo' in self.request.FILES else ''
+        tamanho_maximo = 1 * 1024 * 1024
+
+        # VALIDA TAMANHO DE ARQUIVOS
+        if img_perfil and img_perfil.size > tamanho_maximo:
+            messages.error(
+                self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
+            return self.form_invalid(form)
+
+        if logotipo and logotipo.size > tamanho_maximo:
+            messages.error(
+                self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
+            return self.form_invalid(form)
+
+        # APAGA IMGAGEM PERFIL ANTIGA
+        if img_perfil:
+            if card.img_perfil:
+                try:
+                    os.remove(card.img_perfil.path)
+                    card.img_perfil.delete()
+                except FileNotFoundError as err:
+                    print(err)
+            card.img_perfil = img_perfil
+            card.img_perfil.save(name=img_perfil.name, content=img_perfil.file)
+
+        if 'sem_foto' in self.request.POST:
+            if card.img_perfil:
+                try:
+                    os.remove(card.img_perfil.path)
+                    card.img_perfil.delete()
+                except FileNotFoundError as err:
+                    print(err)
+
+
+        # APAGA LOGOTIPO ANTIGO E SALVA NOVO
+        if logotipo:
+            if not logotipo.name.endswith(('.jpg', '.jpeg', '.png')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o logotipo.')
+                return self.form_invalid(form)
+
+            if card.logotipo:
+                try:
+                    os.remove(card.logotipo.path)
+                    card.logotipo.delete()
+                except FileNotFoundError as err:
+                    print(err)
+
+            # Redimensiona logotipo se existe
+            largura_desejada = 300
+            altura_desejada = 300
+            _, extensao = os.path.splitext(logotipo.name)
+            extensao = extensao.lstrip('.').upper()
+            if extensao == 'JPG':
+                extensao = 'JPEG'
+            logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
+
+            # Crie um arquivo temporário para a imagem redimensionada
+            temp_file = tempfile.NamedTemporaryFile(delete=False)
+            logotipo_redimensionado.save(temp_file, format=extensao) 
+            card.logotipo.save(name=logotipo.name, content=temp_file, save=True)
+            temp_file.close()
+            os.remove(temp_file.name)
+
+        if 'sem_logo' in self.request.POST:
+            if card.logotipo:
+                try:
+                    os.remove(card.logotipo.path)
+                    card.logotipo.delete()
+                except FileNotFoundError as err:
+                    print(err)
+
+        # APAGA VCF ANTIGO SALVA NOVO
+        if card.vcf:
+            try:
+                os.remove(card.vcf.path)
+                card.vcf.delete()
+                vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
+                                    whatsapp, site, endereco, estado, municipio, proprietario.email)
+
+                vcf_name = f'{uuid.uuid4().hex}.vcf'
+                content = '\n'.join([str(line) for line in vcf_content])
+                vcf_file = ContentFile(content)
+                card.vcf.save(vcf_name, vcf_file)
+            except FileNotFoundError as err:
+                print(err)
+
+        # APAGA QRCODE ANTIGO E SALVA NOVO
+        if card.qr_code:
+            try:
+                os.remove(card.qr_code.path)
+                card.qr_code.delete()
+                qr_code = self.gera_qrcode(card)
+            except FileNotFoundError as err:
+                print(err)
+
+        card.nome_display = nome_display
+        card.cor = cor
+        card.empresa = empresa
+        card.site = site
+        card.cargo = cargo
+        card.categoria = categoria
+        card.subcategoria = subcategoria
+        card.estado = estado
+        card.municipio = municipio
+        card.telefone = telefone
+        card.whatsapp = whatsapp
+        card.facebook = facebook
+        card.instagram = instagram
+        card.linkedin = linkedin
+        card.youtube = youtube
+        card.tik_tok = tik_tok
+        card.save()
+
+        return HttpResponseRedirect(self.get_success_url(card))
+
 
 class ListarCardsPJ(LoginRequiredMixin, ListView):
     model = Card
-    template_name = 'cards/listar-cards-pj.html'
+    template_name = 'cards/card-lista-pj.html'
     context_object_name = 'cards'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
         ua = self.request.META['HTTP_USER_AGENT']
-        queryset = Card.objects.filter(empresa__slug=empresa.slug)
-        context['cards'] = queryset
+        cards = Card.objects.filter(empresa=empresa)
+        context['cards'] = cards
         context['empresa'] = empresa
         return context
 
 
-class ListarConteudosPJ(LoginRequiredMixin, ListView):
+class ListarAnunciosPJ(LoginRequiredMixin, ListView):
     ...
 
 
-class DashboardEmpresa(TemplateView):
+class RelatorioPJ(TemplateView):
     template_name = 'cards/dashboard-empresa.html'
 
     def process_request(self):

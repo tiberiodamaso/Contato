@@ -9,7 +9,7 @@
     <h2 class="text-center display-4 my-5">Editar anúncio</h2>
 
     <!--FORMULÁRIO PARA EDITAR CONTEÚDO-->
-    <form action="{% url 'core:conteudo-editar' card.empresa.slug conteudo.id %}" method="post"
+    <form action="{% url 'core:editar-anuncio-pf' card.empresa.slug anuncio.id %}" method="post"
         class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
         {% csrf_token %}
 
@@ -62,13 +62,13 @@
 
         <div class="d-flex justify-content-between">
             <a title="Deletar" href="#" class="btn btn-danger col-5" data-bs-toggle="modal"
-            data-bs-target="#modalConfirmaExclusao{{ conteudo.id }}">Excluir
+            data-bs-target="#modalConfirmaExclusao{{ anuncio.id }}">Excluir
             </a>
             <button type="submit" class="btn btn-warning col-5">Salvar</button>
         </div>
 
         <!--MODAL DE EXCLUSÃO DE CONTEÚDO-->
-        <div class="modal fade" tabindex="-1" id="modalConfirmaExclusao{{ conteudo.id }}">
+        <div class="modal fade" tabindex="-1" id="modalConfirmaExclusao{{ anuncio.id }}">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -80,7 +80,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
-                        <form action="{% url 'core:conteudo-excluir' conteudo.card.empresa.slug conteudo.id %}"
+                        <form action="{% url 'core:excluir-anuncio-pf' anuncio.card.empresa.slug anuncio.id %}"
                             method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">Sim</button>

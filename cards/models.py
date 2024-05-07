@@ -128,6 +128,7 @@ class Card(models.Model):
 
     # dados de perfil do usuario proprietario do card
     proprietario = models.ForeignKey(Usuario, verbose_name='Proprietário', on_delete=models.CASCADE, related_name='cards')
+    usuario_do_card = models.ForeignKey(Usuario, verbose_name='Usuário do card', on_delete=models.CASCADE, related_name='card_do_usuario')
     cargo = models.CharField(verbose_name='Cargo', max_length=50, blank=True)
     modelo = models.CharField(verbose_name='Modelo', max_length=1)
     cor = models.CharField(verbose_name='Cor de fundo', max_length=7, default='#212529')
@@ -218,26 +219,20 @@ class Card(models.Model):
         super().save(*args, **kwargs)
 
 
-class TipoConteudo(models.Model):
-    nome = models.CharField(
-        verbose_name='Nome', max_length=100, blank=True)
+class TipoAnuncio(models.Model):
+    nome = models.CharField(verbose_name='Nome', max_length=100, blank=True)
 
     class Meta:
-        verbose_name = 'Tipo de conteúdo'
-        verbose_name_plural = 'Tipos de conteúdo'
+        verbose_name = 'Tipo de anúncio'
+        verbose_name_plural = 'Tipos de anúncio'
 
     def __str__(self):
         return self.nome
 
 
-class Conteudo(models.Model):
-    card = models.ForeignKey(Card, verbose_name='card', on_delete=models.CASCADE, related_name='conteudos')
-    tipo = models.ForeignKey(
-        TipoConteudo,
-        verbose_name='Tipo',
-        on_delete=models.CASCADE,
-        related_name='conteudos',
-    )
+class Anuncio(models.Model):
+    card = models.ForeignKey(Card, verbose_name='card', on_delete=models.CASCADE, related_name='anuncios')
+    tipo = models.ForeignKey(TipoAnuncio, verbose_name='Tipo', on_delete=models.CASCADE, related_name='anuncios')
     img = models.ImageField(
         verbose_name='Imagem',
         upload_to=get_path,
@@ -254,7 +249,9 @@ class Conteudo(models.Model):
     nome = models.CharField(verbose_name='Nome', max_length=50)
     descricao = models.TextField(verbose_name='Descrição', blank=True)
 
-
+    class Meta:
+        verbose_name = 'Anúncio'
+        verbose_name_plural = 'Anúncios'
 
 
 
@@ -330,7 +327,7 @@ SUBCATEGORIAS = [
     (16, 'Artigos decorativos'),
 ]
 
-TIPOS_CONTEUDOS = [
+TIPOS_ANUNCIOS = [
     'Serviço',
     'Produto',
     'Promoção',
@@ -389,9 +386,9 @@ def popular_subcategorias():
     print('\nTabela Subcategoria populada com sucesso!')
 
 
-def popular_tipos_conteudos():
-    for nome in TIPOS_CONTEUDOS:
-        TipoConteudo.objects.get_or_create(nome=nome)
+def popular_tipos_anuncios():
+    for nome in TIPOS_ANUNCIOS:
+        TipoAnuncio.objects.get_or_create(nome=nome)
     print('\n Tabela Tipo Conteúdo populada com sucesso!')
 
 
@@ -407,5 +404,5 @@ def popular_tabelas_necessarias(sender, **kwargs):
         popular_categorias()
     if not Subcategoria.objects.exists():
         popular_subcategorias()
-    if not TipoConteudo.objects.exists():
-        popular_tipos_conteudos()
+    if not TipoAnuncio.objects.exists():
+        popular_tipos_anuncios()
