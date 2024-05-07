@@ -188,7 +188,7 @@ class Card(models.Model):
         verbose_name_plural = 'Cards'
 
     def __str__(self):
-        return str(self.proprietario)
+        return str(self.usuario_do_card)
 
     def prepara_conteudo_pesquisavel(self):
         conteudo = self.proprietario.get_full_name().lower() + self.estado.nome.lower() + \

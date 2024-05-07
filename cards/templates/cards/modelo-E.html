@@ -43,11 +43,16 @@
             <h3 class="lead pb-1" style="color: {{cor_da_fonte}} !important;">{{ card.cargo }}</h3>
         {% endif %}
 
-        <!--BOTÕES DE EDITAR CARD E ANÚNCIOS-->
+        <!--BOTAO EDITAR CARD-->
         {% if user.is_authenticated and user == card.proprietario %}
         <div class="d-flex justify-content-center my-5 rounded">
+            {% if user.perfil.is_pj%}
+            <a href="{% url 'core:editar-card-pj' card.empresa.slug card.slug %}" id="editarUrl"
+                class="btn fs-5 col-10 bg-warning mx-1" style="color: {{cor_da_fonte}} !important;">Editar cartão</a>
+            {% else %}
             <a href="{% url 'core:editar' card.empresa.slug card.slug %}" id="editarUrl"
                 class="btn fs-5 col-10 bg-warning mx-1" style="color: {{cor_da_fonte}} !important;">Editar cartão</a>
+            {% endif %}
         </div>
         {% endif %}
 

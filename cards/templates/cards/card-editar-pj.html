@@ -54,7 +54,7 @@
     </div>
 
     <!--FORMULÁRIO DE EDIÇÃO DO CARD-->
-    <form id="editCard" action="{% url 'core:editar' card.empresa.slug card.slug %}" method="post"
+    <form id="editCard" action="{% url 'core:editar-card-pj' card.empresa.slug card.slug %}" method="post"
         class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
         {% csrf_token %}
 
@@ -85,6 +85,24 @@
         <div class="mb-3">
             <label for="id_img_perfil">Cor de fundo:</label>
             {{form.cor}}
+        </div>
+
+        <!--PRIMEIRO NOME DO COLABORADOR-->
+        <div class="mb-3">
+            <label for="id_cargo">Primeiro nome do colaborador:</label>
+            {{form.first_name}}
+        </div>
+
+        <!--ULITMO NOME DO COLABORADOR-->
+        <div class="mb-3">
+            <label for="id_cargo">Último nome do colaborador:</label>
+            {{form.last_name}}
+        </div>
+
+        <!--EMAIL DO COLABORADOR-->
+        <div class="mb-3">
+            <label for="id_cargo">Email do colaborador:</label>
+            {{form.email}}
         </div>
 
         <!--NOME DISPLAY-->
@@ -154,11 +172,11 @@
             <select name="categoria" class="form-select" id="id_categoria" hx-get="{% url 'core:get-subcategorias'%}"
                 hx-trigger="change" hx-target="#id_subcategoria">
                 {% for categoria in categorias %}
-                {% if categoria == categoria_atual %}
-                <option value="{{categoria_atual.id}}" selected="{{categoria_atual.id}}">{{categoria.nome}}</option>
-                {% else %}
-                <option value="{{categoria.id}}">{{categoria.nome}}</option>
-                {% endif %}
+                    {% if categoria == categoria_atual %}
+                        <option value="{{categoria_atual.id}}" selected="{{categoria_atual.id}}">{{categoria.nome}}</option>
+                    {% else %}
+                        <option value="{{categoria.id}}">{{categoria.nome}}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
         </div>
@@ -168,23 +186,26 @@
             <label for="id_subcategoria">Subcategoria:</label>
             <select name="subcategoria" class="form-select" id="id_subcategoria">
                 {% for subcategoria in subcategorias %}
-                {% if subcategoria == subcategoria_atual %}
-                <option value="{{subcategoria_atual.id}}" selected="{{subcategoria_atual.id}}">{{subcategoria.nome}}
-                </option>
-                {% else %}
-                <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
-                {% endif %}
+                    {% if subcategoria == subcategoria_atual %}
+                        <option value="{{subcategoria_atual.id}}" selected="{{subcategoria_atual.id}}">{{subcategoria.nome}}</option>
+                    {% else %}
+                        <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
         </div>
-
+                
         <!--ESTADO-->
         <div class="mb-3">
             <label for="id_estado">Estado:</label>
             <select name="estado" class="form-select" id="id_estado">
-                {% for estado in estados %}
-                <option value="{{estado.id}}">{{estado.nome}}</option>
-                {% endfor %}
+            {% for estado in estados %}
+                {% if estado == estado_atual %}
+                    <option value="{{estado.id}}" selected="{{estado.id}}">{{estado.nome}}</option>
+                {% else %}
+                    <option value="{{estado.id}}">{{estado.nome}}</option>
+                {% endif %}
+            {% endfor %}
             </select>
         </div>
 
@@ -192,6 +213,13 @@
         <div class="mb-3">
             <label for="id_municipio">Município:</label>
             <select name="municipio" class="form-select" id="id_municipio">
+            {% for municipio in municipios %}
+                {% if municipio == municipio_atual %}
+                    <option value="{{municipio.id}}" selected="{{municipio.id}}">{{municipio.nome}}</option>
+                {% else %}
+                    <option value="{{municipio.id}}">{{municipio.nome}}</option>
+                {% endif %}
+            {% endfor %}
             </select>
         </div>
 
