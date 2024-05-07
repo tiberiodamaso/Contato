@@ -159,28 +159,12 @@
         <div class="mb-3">
             <label for="id_cod_pais">Código do país:</label>
             {{form.cod_pais}}
-            {% if form.cod_pais.errors %}
-                {% for error in form.cod_pais.errors %}
-                <div class="alert alert-danger text-center alert-dismissible" role="alert">
-                    {{error}}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                {% endfor %}
-            {% endif %}
         </div>
 
         <!--TELEFONE/WHATSAPP-->
         <div class="mb-3">
             <label for="id_whatsapp">Telefone/Whatsapp:</label>
             {{form.whatsapp}}
-            {% if form.whatsapp.errors %}
-            {% for error in form.whatsapp.errors %}
-            <div class="alert alert-danger text-center alert-dismissible" role="alert">
-                {{error}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            {% endfor %}
-            {% endif %}
         </div>
 
         <!--FACEBOOK-->

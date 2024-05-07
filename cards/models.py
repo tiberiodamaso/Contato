@@ -13,9 +13,9 @@ from PIL import Image
 
 def get_path(instance, filename):
     if isinstance(instance, Card):
-        instance = instance.proprietario.id.hex
+        instance = instance.usuario_do_card.id.hex
     else:
-        instance = instance.card.proprietario.id.hex
+        instance = instance.card.usuario_do_card.id.hex
     arquivo = uuid.uuid4().hex
     extensao = slugify(os.path.splitext(filename)[1])
     filename = f'{arquivo}.{extensao}'

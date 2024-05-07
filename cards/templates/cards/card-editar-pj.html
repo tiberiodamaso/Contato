@@ -23,7 +23,7 @@
     
     <div class="d-flex justify-content-between">
         <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Apagar cartão
+            Excluir cartão
         </button>
         <a href="{% url 'core:trocar-modelo' %}" type="button" class="btn btn-warning mx-2">
             Trocar modelo
@@ -36,17 +36,17 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Apagar cartão</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Excluir cartão</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Deseja realmente apagar seu cartão ?</p>
+                    <p>Deseja realmente excluir seu cartão ?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <form action="{% url 'core:deletar' card.empresa.slug card.slug %}" method="post">
+                    <form action="{% url 'core:excluir-card-pj' card.empresa.slug card.slug %}" method="post">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Apagar</button>
+                        <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </div>
             </div>
