@@ -23,7 +23,7 @@
                 </div>
                 <div class="p-3">
                     <h4 class="lead">Cartões criados: {{numero_cards_criados}}</h4>
-                    <a href="{% url 'core:lista-cards-pj' %}" type="button" class="btn btn-warning">Ver cartões</a>
+                    <a href="{% url 'core:listar-cards-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning">Ver cartões</a>
                 </div>
             </div>
         </div>
@@ -66,8 +66,8 @@
                     <i class="bi bi-megaphone text-warning" style="font-size: 4em;"></i>
                 </div>
                 <div class="p-3">
-                    <h4 class="lead">Anúncios criados: {{numero_conteudos_criados}}</h4>
-                    <a href="{% url 'core:lista-conteudos-pj' %}" type="button" class="btn btn-warning">Ver anúncios</a>
+                    <h4 class="lead">Anúncios criados: {{numero_anuncios_criados}}</h4>
+                    <a href="{% url 'core:listar-anuncios-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning">Ver anúncios</a>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
                 </div>
                 <div class="p-3">
                     <h4 class="lead">Analise o desempenho dos seus cartões</h4>
-                    <a href="{% url 'core:dashboard-empresa' %}" type="button" class="btn btn-warning">Ver relatórios</a>
+                    <a href="{% url 'core:relatorio-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning">Ver relatórios</a>
                 </div>
             </div>
         </div>

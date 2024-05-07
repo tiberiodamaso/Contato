@@ -262,7 +262,7 @@ class MinhaConta(LoginRequiredMixin, ListView):
         context = super().get_context_data()
         usuario = self.request.user
         card = Card.objects.filter(proprietario=usuario).first()
-        conteudos_criados = card.conteudos.all() if card else None
+        anuncios_criados = card.anuncios.all() if card else None
         try:
             comprou_cartao_pf = usuario.cartoespf.all() # cartoes comprados
             comprou_cartao_pj = usuario.cartoespj.all() # cartoes comprados pj
@@ -278,11 +278,11 @@ class MinhaConta(LoginRequiredMixin, ListView):
             context['anuncio'] = anuncio
             context['cards_criados'] = cards_criados
             context['card'] = card
-            context['conteudos_criados'] = conteudos_criados
+            context['anuncios_criados'] = anuncios_criados
             context['comprou_relatorio'] = comprou_relatorio
             context['relatorio'] = relatorio
             context['numero_cards_criados'] = len(cards_criados)
-            context['numero_conteudos_criados'] = len(conteudos_criados) if conteudos_criados else 0
+            context['numero_anuncios_criados'] = len(anuncios_criados) if anuncios_criados else 0
         except ObjectDoesNotExist as err:
             print(err)
             card = None

@@ -8,31 +8,60 @@
 
 <div class="d-flex flex-column align-items-center">
 
-    <div class="my-5">
-        <h4>Olá {{user.first_name}}, vamos criar seu cartão</h4>
-    </div>
+    <h2 class="text-center display-4 my-5">Editar cartão</h2>
 
     <!--IMAGEM DO PERFIL-->
-    <div class="text-center">
-        {% if card.img_perfil %}
-        <img src="{{card.img_perfil.url}}" alt="Foto do perfil"
-            class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy">
-        {% else %}
-        <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
-            <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
-        </div>
-        {% endif %}
+    {% if card.img_perfil %}
+    <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="mb-4 rounded-circle col-6 col-md-3 col-lg-3 img-fluid"
+        loading="lazy">
+    {% else %}
+    <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
+        class="mb-4 rounded-circle col-6 col-md-3 col-lg-3 img-fluid" loading="lazy">
+    {% endif %}
+
+    <!-- Button trigger modal -->
+    
+    <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Apagar cartão
+        </button>
+        <a href="{% url 'core:trocar-modelo' %}" type="button" class="btn btn-warning mx-2">
+            Trocar modelo
+        </a>
     </div>
 
-    <!--FORMULÁRIO PARA CRIAR NOVO CARD-->
-    <form action="{% url 'core:criar-card-pj' %}" method="post" id="cardForm" class="col col-md-4 col-lg-4 p-4"
-        enctype="multipart/form-data">
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Apagar cartão</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Deseja realmente apagar seu cartão ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form action="{% url 'core:deletar' card.empresa.slug card.slug %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Apagar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--FORMULÁRIO DE EDIÇÃO DO CARD-->
+    <form id="editCard" action="{% url 'core:editar' card.empresa.slug card.slug %}" method="post"
+        class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
         {% csrf_token %}
 
         <!--MODELO DO CARD-->
         <input type="hidden" value="{{modelo}}" name="modelo"/>
 
-        <!--IMG_PERFIL-->
+        <!--IMG PERFIL-->
         <div class="mb-3">
             <div class="d-flex justify-content-between">
                 <label for="id_img_perfil">Foto do cartão e perfil:</label>
@@ -45,6 +74,11 @@
                 </div>
             </div>
             {{form.img_perfil}}
+            {% if card.img_perfil %}
+            <div class="my-2">
+                <input type="checkbox" name="sem_foto" value="sim"><span class="mx-2 text-muted">Deixar cartão sem foto</span>
+            </div>
+            {% endif %}
         </div>
 
         <!--COR DE FUNDO-->
@@ -53,26 +87,8 @@
             {{form.cor}}
         </div>
 
-        <!--PRIMEIRO NOME DO COLABORADOR-->
-        <div class="mb-3">
-            <label for="id_cargo">Primeiro nome do colaborador:</label>
-            {{form.first_name}}
-        </div>
-
-        <!--ULITMO NOME DO COLABORADOR-->
-        <div class="mb-3">
-            <label for="id_cargo">Último nome do colaborador:</label>
-            {{form.last_name}}
-        </div>
-
-        <!--EMAIL DO COLABORADOR-->
-        <div class="mb-3">
-            <label for="id_cargo">Email do colaborador:</label>
-            {{form.email}}
-        </div>
-
         <!--NOME DISPLAY-->
-        <div class="mb-3">
+        <div>
             <div class="d-flex justify-content-between">
                 <label for="id_nome_display">Nome que aparecerá no cartão:</label>
                 <button type="button" class="btn p-0" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
@@ -80,13 +96,19 @@
                     <i class="bi bi-info-circle-fill text-warning"></i>
                 </button>
             </div>
-            {{form.nome_display}}
+            <div class="input-group mb-3">
+                {{form.nome_display}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
         </div>
 
         <!--CARGO-->
-        <div class="mb-3">
+        <div>
             <label for="id_cargo">Cargo:</label>
-            {{form.cargo}}
+            <div class="input-group mb-3">
+                {{form.cargo}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
         </div>
 
         <!--LOGOTIPO-->
@@ -101,12 +123,29 @@
                 </div>
             </div>
             {{form.logotipo}}
+            {% if card.logotipo %}
+            <div class="my-2">
+                <input type="checkbox" name="sem_logo" value="sim"><span class="mx-2 text-muted">Deixar cartão sem logotipo da empresa</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!--EMPRESA-->
+        <div>
+            <label for="id_empresa">Empresa:</label>
+            <div class="input-group mb-3">
+                <input type="text" name="empresa" class="form-control" value="{{empresa}}" id="id_empresa">
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
         </div>
 
         <!--SITE-->
-        <div class="mb-3">
+        <div>
             <label for="id_site">Site:</label>
-            {{form.site}}
+            <div class="input-group mb-3">
+                {{form.site}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
         </div>
 
         <!--CATEGORIA-->
@@ -114,9 +153,12 @@
             <label for="id_categoria">Categoria:</label>
             <select name="categoria" class="form-select" id="id_categoria" hx-get="{% url 'core:get-subcategorias'%}"
                 hx-trigger="change" hx-target="#id_subcategoria">
-                <option value="0">Seleciona uma categoria</option>
                 {% for categoria in categorias %}
+                {% if categoria == categoria_atual %}
+                <option value="{{categoria_atual.id}}" selected="{{categoria_atual.id}}">{{categoria.nome}}</option>
+                {% else %}
                 <option value="{{categoria.id}}">{{categoria.nome}}</option>
+                {% endif %}
                 {% endfor %}
             </select>
         </div>
@@ -125,9 +167,13 @@
         <div class="mb-3">
             <label for="id_subcategoria">Subcategoria:</label>
             <select name="subcategoria" class="form-select" id="id_subcategoria">
-                <option value="0">Seleciona uma subcategoria</option>
                 {% for subcategoria in subcategorias %}
+                {% if subcategoria == subcategoria_atual %}
+                <option value="{{subcategoria_atual.id}}" selected="{{subcategoria_atual.id}}">{{subcategoria.nome}}
+                </option>
+                {% else %}
                 <option value="{{subcategoria.id}}">{{subcategoria.nome}}</option>
+                {% endif %}
                 {% endfor %}
             </select>
         </div>
@@ -152,7 +198,10 @@
         <!--ENDERECO-->
         <div class="mb-3">
             <label for="id_endereco">Endereço:</label>
-            {{form.endereco}}
+            <div class="input-group mb-3">
+                {{form.endereco}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
         </div>
 
         <!--CODIGO PAIS-->
@@ -170,52 +219,84 @@
         </div>
 
         <!--TELEFONE/WHATSAPP-->
-        <div class="mb-3">
+        <div>
             <label for="id_whatsapp">Telefone/Whatsapp:</label>
-            {{form.whatsapp}}
-            {% if form.whatsapp.errors %}
-            {% for error in form.whatsapp.errors %}
-            <div class="alert alert-danger text-center alert-dismissible" role="alert">
-                {{error}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="input-group mb-3">
+                {{form.whatsapp}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+                {% if form.whatsapp.errors %}
+                {% for error in form.whatsapp.errors %}
+                <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                    {{error}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
             </div>
-            {% endfor %}
-            {% endif %}
         </div>
 
         <!--FACEBOOK-->
-        <div class="mb-3">
+        <div>
             <label for="id_facebook">Facebook:</label>
-            {{form.facebook}}
+            <div class="input-group mb-3">
+                {{form.facebook}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
         </div>
 
         <!--INSTAGRAM-->
-        <div class="mb-3">
+        <div>
             <label for="id_instagram">Instagram:</label>
-            {{form.instagram}}
+            <div class="input-group mb-3">
+                {{form.instagram}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
         </div>
 
         <!--LINKEDIN-->
-        <div class="mb-3">
+        <div>
             <label for="id_linkedin">LinkedIn:</label>
-            {{form.linkedin}}
+            <div class="input-group mb-3">
+                {{form.linkedin}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
         </div>
 
         <!--YOUTUBE-->
-        <div class="mb-3">
+        <div>
             <label for="id_youtube">Youtube:</label>
-            {{form.youtube}}
+            <div class="input-group mb-3">
+                {{form.youtube}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
         </div>
 
         <!--TIK TOK-->
-        <div class="mb-3">
+        <div>
             <label for="id_tik_tok">Tik Tok:</label>
-            {{form.tik_tok}}
+            <div class="input-group mb-3">
+                {{form.tik_tok}}
+                <span class="input-group-text" onclick="limpaCampo(this)"><i class="bi bi-x-lg"></i></span>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-warning w-100">Salvar</button>
+        <!--BOTÕES-->
+        <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" style="width: 45%;"
+                onclick="history.back()">Cancelar</button>
+            <button type="submit" class="btn btn-warning" style="width: 45%;">Salvar</button>
+        </div>
+
     </form>
 </div>
+
+<!--LIMPA CAMPO-->
+<script>
+    function limpaCampo(e) {
+        let input = e.previousElementSibling;
+        input.value = '';
+    }
+</script>
 
 <!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
 <script>
@@ -244,11 +325,19 @@
     });
 </script>
 
+<!--TOOLTIPS-->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    });
+</script>
+
 <!--MÁSCARA DE TELEFONE-->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         function aplicarMascaraTelefone(inputElement) {
-            inputElement.addEventListener('input', function() {
+            inputElement.addEventListener('input', function () {
                 let telefone = inputElement.value.replace(/\D/g, ''); // Remove caracteres não numéricos
 
                 const regrasTelefone = [
@@ -269,6 +358,7 @@
         }
 
         const inputWhatsapp = document.getElementById("id_whatsapp");
+
         aplicarMascaraTelefone(inputWhatsapp);
     });
 
@@ -308,14 +398,6 @@
         if (estadosSelect.value) {
             estadosSelect.dispatchEvent(new Event('change'));
         }
-    });
-</script>
-
-<!--TOOLTIPS-->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     });
 </script>
 
