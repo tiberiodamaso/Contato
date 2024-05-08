@@ -283,6 +283,7 @@ class MinhaConta(LoginRequiredMixin, ListView):
             context['relatorio'] = relatorio
             context['numero_cards_criados'] = len(cards_criados)
             context['numero_anuncios_criados'] = len(anuncios_criados) if anuncios_criados else 0
+            context['numero_cartoes_pj'] = len(comprou_cartao_pj)
         except ObjectDoesNotExist as err:
             print(err)
             card = None
@@ -292,7 +293,16 @@ class MinhaConta(LoginRequiredMixin, ListView):
 
 class DesativarConta(LoginRequiredMixin, DeleteView):
     model = Usuario
-    template_name = 'usuarios/minha-conta.html'
+
+    def get_template_names(self):
+        try:
+            perfil = self.request.user.perfil
+            if self.request.user.perfil.is_pj:
+                return 'usuarios/minha-conta-pj.html'
+            else:
+                return 'usuarios/minha-conta-pf.html'
+        except:
+            return 'usuarios/minha-conta.html'
 
     def get(self, request, *args, **kwargs):
         usuario = Usuario.objects.get(id=kwargs['id'])
@@ -347,6 +357,7 @@ class PerfilPJ(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         )
 
         return super().form_valid(form)
+
 
 def ativar_conta(request, uidb64, token):
     try:

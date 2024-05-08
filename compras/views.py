@@ -391,13 +391,14 @@ class ComprarCartaoPJ(LoginRequiredMixin, SuccessMessageMixin, View):
 
     def get(self, request, *args, **kwargs):
         usuario = self.request.user
+        nova_compra = request.GET.get('nova_compra')
         try:
             perfil = usuario.perfil
         except:
             return redirect(reverse_lazy('usuarios:perfil-pj'))
         compra = usuario.cartoespj.last()
         card = usuario.cards.all()
-        contexto = {'usuario': usuario, 'card': card, 'compra': compra}
+        contexto = {'usuario': usuario, 'card': card, 'compra': compra, 'nova_compra': nova_compra}
         return render(request, 'compras/comprar-cartao-pj.html', contexto)
 
     def post(self, request, *args, **kwargs):
