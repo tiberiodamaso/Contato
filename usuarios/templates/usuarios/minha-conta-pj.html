@@ -21,9 +21,13 @@
                 <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
                     <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
                 </div>
-                <div class="p-3">
-                    <h4 class="lead">Cartões criados: {{numero_cards_criados}}</h4>
-                    <a href="{% url 'core:listar-cards-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning">Ver cartões</a>
+                <div class="d-flex flex-column justify-content-between p-3" style="height: 255px;">
+                    <div>
+                        <h4 class="lead">Cartões criados: {{numero_cards_criados}}</h4>
+                    </div>
+                    <div>
+                        <a href="{% url 'core:listar-cards-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning">Ver cartões</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,8 +40,14 @@
                 <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
                     <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
                 </div>
-                <h4 class="lead p-3 lh-base">Você ainda não criou um cartão. Crie um agora mesmo comece a compartilhar.</h4>
-                <a href="{% url 'core:modelos' %}" type="button" class="btn btn-warning">Criar cartão</a>
+                <div class="d-flex flex-column justify-content-between p-3" style="height: 255px;">
+                    <div>
+                        <h4 class="lead p-3 lh-base">Você ainda não criou um cartão. Crie um agora mesmo comece a compartilhar.</h4>
+                    </div>
+                    <div>
+                        <a href="{% url 'core:modelos' %}" type="button" class="btn btn-warning">Criar cartão</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -49,8 +59,14 @@
                 <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
                     <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
                 </div>
-                <h4 class="lead p-3 lh-base">Você ainda não comprou um cartão. Compre agora e comece a compartilhar.</h4>
-                <a href="{% url 'compras:comprar-cartao-pj' %}" type="button" class="btn btn-warning">Comprar cartão</a>
+                <div class="d-flex flex-column justify-content-between p-3" style="height: 255px;">
+                    <div>
+                        <h4 class="lead p-3 lh-base">Você ainda não comprou um cartão. Compre agora e comece a compartilhar.</h4>
+                    </div>
+                    <div>
+                        <a href="{% url 'compras:comprar-cartao-pj' %}" type="button" class="btn btn-warning">Comprar cartão</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -65,9 +81,13 @@
                 <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
                     <i class="bi bi-megaphone text-warning" style="font-size: 4em;"></i>
                 </div>
-                <div class="p-3">
-                    <h4 class="lead">Anúncios criados: {{numero_anuncios_criados}}</h4>
-                    <a href="{% url 'core:listar-anuncios-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning">Ver anúncios</a>
+                <div class="d-flex flex-column justify-content-between p-3" style="height: 255px;">
+                    <div>
+                        <h4 class="lead">Anúncios criados: {{numero_anuncios_criados}}</h4>
+                    </div>
+                    <div>
+                        <a href="{% url 'core:listar-anuncios-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning">Ver anúncios</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -80,8 +100,10 @@
                 <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
                     <i class="bi bi-megaphone text-warning" style="font-size: 4em;"></i>
                 </div>
-                <div class="p-3">
-                    <h4 class="lead">Para criar anúncios, você deve primeiro criar um cartão</h4>
+                <div class="d-flex flex-column justify-content-between p-3" style="height: 255px;">
+                    <div>
+                        <h4 class="lead">Para criar anúncios, você deve primeiro criar um cartão</h4>
+                    </div>
                 </div>
             </div>
         </div>
@@ -97,9 +119,13 @@
                 <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
                     <i class="bi bi-bar-chart-line text-warning" style="font-size: 4em;"></i>
                 </div>
-                <div class="p-3">
-                    <h4 class="lead">Analise o desempenho dos seus cartões</h4>
-                    <a href="{% url 'core:relatorio-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning">Ver relatórios</a>
+                <div class="d-flex flex-column justify-content-between p-3" style="height: 255px;">
+                    <div>
+                        <h4 class="lead">Analise o desempenho dos seus cartões</h4>
+                    </div>
+                    <div>
+                        <a href="{% url 'core:relatorio-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning">Ver relatórios</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -112,8 +138,10 @@
                 <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
                     <i class="bi bi-bar-chart-line text-warning" style="font-size: 4em;"></i>
                 </div>
-                <div class="p-3">
-                    <h4 class="lead">Para gerar relatórios, você deve primeiro criar um cartão</h4>
+                <div class="d-flex flex-column justify-content-between p-3" style="height: 255px;">
+                    <div>
+                        <h4 class="lead">Para gerar relatórios, você deve primeiro criar um cartão</h4>
+                    </div>
                 </div>
             </div>
         </div>

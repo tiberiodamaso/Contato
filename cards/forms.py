@@ -9,7 +9,7 @@ class CardEditForm(forms.ModelForm):
         widgets = {
             'img_perfil': forms.FileInput(attrs={'class': 'form-control', 'label': 'Foto', 'accept': 'image/jpeg, image/png'}),
             'logotipo': forms.FileInput(attrs={'class': 'form-control', 'label': 'Logotipo', 'accept': 'image/jpeg, image/png'}),
-            'cargo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Seu cargo'}),
+            'cargo': forms.TextInput(attrs={'class': 'form-control'}),
             'endereco': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Logradouro, número, CEP 00000000'}),
             'cor': forms.TextInput(attrs={'class': 'form-control', 'type': 'color'}),
             'cod_pais': forms.Select(attrs={'class': 'form-select'}),

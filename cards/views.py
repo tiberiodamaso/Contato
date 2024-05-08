@@ -1068,6 +1068,7 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
                 messages.error(self.request, f"{field}: {error}")
         return super().form_invalid(form)
 
+
 class DetalharCardPJ(DetailView):
     model = Card
 
