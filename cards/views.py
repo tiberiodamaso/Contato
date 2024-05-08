@@ -930,12 +930,20 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
 
     def test_func(self):
         cartoes_comprados = self.request.user.cartoespj.all()
+        cartoes_criados = self.request.user.cards.all()
+        self.cartoes_autorizados = 0
         for cartao in cartoes_comprados:
             if cartao.status == 'authorized':
-                return True
+                self.cartoes_autorizados += 1
+        
+        if len(cartoes_criados) < self.cartoes_autorizados:
+            return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
+        if self.cartoes_autorizados == 0:
+            return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
+        else:
+            return render(self.request, 'cards/permissao-negada-cartoes-criados-atingiu-limite.html', status=403)
 
     def get_success_url(self, card):
         empresa = self.request.user.empresas.first()

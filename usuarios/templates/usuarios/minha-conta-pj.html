@@ -124,32 +124,23 @@
 
 <!--PERFIL-->
 <section class="d-flex flex-md-row flex-lg-row flex-column justify-content-center">
-    <div class="pb-5 px-3 col-lg-3 col-md-3 text-center">
+    <div class="pb-5 px-3 col-lg-4 col-md-4">
         <h3 class="my-4 display-6 text-center">Perfil</h3>
-
-        <!--FOTO PERFIL-->
-        {% if card.img_perfil %}
-        <img src="{{card.img_perfil.url}}" alt="Foto do perfil"
-            class="rounded-circle col-8 col-md-4 col-lg-4 img-fluid mb-3" loading="lazy" />
-        {% else %}
-        <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
-            <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
-        </div>
-        {% endif %}
 
         <!--DADOS PESSOAIS-->
         <div class="p-3">
             <ul class="list-unstyled lh-lg">
                 <li class="card-text lead">Nome: {{usuario.first_name}} {{ usuario.last_name}}</li>
                 <li class="card-text lead">E-mail: {{usuario.email}}</li>
+                <li class="card-text lead">Cartões comprados: {{numero_cartoes_pj}}</li>
+                <li class="card-text lead">Cartões criados: {{numero_cards_criados}}</li>
             </ul>
         </div>
 
         <!--ACOES-->
-        <div class="d-flex justify-content-center mb-4">
-            <a href="{% url 'usuarios:trocar-senha' %}" class="btn btn-warning">Trocar senha</a>
-            <a href="#" class="btn btn-danger mx-1" data-bs-toggle="modal"
-                data-bs-target="#modalConfirmaDesativação">Desativar conta</a>
+        <div class="d-flex justify-content-around mb-4">
+            <a href="{% url 'usuarios:trocar-senha' %}" class="text-decoration-none">Trocar senha</a>
+            <a href="#" class="text-decoration-none mx-1" data-bs-toggle="modal" data-bs-target="#modalConfirmaDesativação">Desativar conta</a>
 
             <!--MODAL DE DESATIVAÇÃO DE CONTA-->
             <div class="modal fade" tabindex="-1" id="modalConfirmaDesativação">
