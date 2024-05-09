@@ -18,7 +18,7 @@ from django.views.generic.edit import DeletionMixin
 from django.views.generic import View, CreateView, UpdateView, TemplateView
 from django.http import JsonResponse
 
-from .models import Relatorio, Anuncio, CartaoPF, CartaoPJ
+from .models import Relatorio, Ad, CartaoPF, CartaoPJ
 from cards.views import Criar
 
 
@@ -312,7 +312,7 @@ class ComprarAnuncio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 
     def get(self, request, *args, **kwargs):
         usuario = self.request.user
-        compra = usuario.anuncios.last()
+        compra = usuario.ads.last()
         card = usuario.cards.all().first()
         if card:
             anuncios = card.anuncios.all()
@@ -450,6 +450,7 @@ class ComprarCartaoPJ(LoginRequiredMixin, SuccessMessageMixin, View):
                 last_modified = datetime.strptime(data['last_modified'], formato_da_string),
             )
 
+            # TODO Verificar se ao comprar um novo cartão PJ precisa criar novo objeto relatório e novo objeto anúncio
             relatorio = Relatorio.objects.create(
                 usuario=usuario,
                 assinatura_id = 'empresarial',
@@ -462,7 +463,7 @@ class ComprarCartaoPJ(LoginRequiredMixin, SuccessMessageMixin, View):
                 last_modified = datetime.strptime(data['last_modified'], formato_da_string),
             )
 
-            anuncio = Anuncio.objects.create(
+            ad = Ad.objects.create(
                 usuario=usuario,
                 pagamento_id = 'empresarial',
                 payer_id = data['payer_id'],

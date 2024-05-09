@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+{% include 'core/menu.html' %}
+
+{% include 'core/mensagens.html' %}
+<div class="row text-center p-3 justify-content-center">
+    <h4 class="display-6 pt-3">Você atingiu o limite máximo de 10 anúncios</h4>
+    <h3 class="fs-4 lead pb-5 pt-3">Você pode editar seus anúncios</h3>
+    <a href="{% url 'core:listar-anuncio-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning w-auto">Editar anúncios</a>
+</div>
+{% endblock %}

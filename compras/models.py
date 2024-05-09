@@ -38,8 +38,8 @@ class CartaoPF(models.Model):
         return self.usuario.get_full_name()
 
 
-class Anuncio(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name='Usuário', related_name='anuncios')
+class Ad(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name='Usuário', related_name='ads')
     pagamento_id = models.CharField(verbose_name='Pagamento ID', max_length=50)
     payer_id = models.CharField(verbose_name='Payer ID', max_length=20)
     date_created = models.DateField(verbose_name='Criado', max_length=50)
@@ -48,8 +48,8 @@ class Anuncio(models.Model):
     status = models.CharField(verbose_name='Status', max_length=20, default='pendente')
 
     class Meta:
-        verbose_name = 'Anúncio'
-        verbose_name_plural = 'Anúncios'
+        verbose_name = 'Ad'
+        verbose_name_plural = 'Ads'
 
     def __str__(self):
         return self.usuario.get_full_name()
