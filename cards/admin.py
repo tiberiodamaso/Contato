@@ -30,6 +30,7 @@ class EmpresaAdmin(admin.ModelAdmin):
 class CardAdmin(admin.ModelAdmin):
     list_display = [
         'id',
+        'empresa',
         'modelo',
         'nome_display',
         'slug',
@@ -37,7 +38,6 @@ class CardAdmin(admin.ModelAdmin):
         'proprietario',
         'cod_pais',
         'whatsapp',
-        'empresa',
     ]
 
     def save_model(self, request, obj, form, change):
@@ -52,7 +52,7 @@ class TipoAnuncioAdmin(admin.ModelAdmin):
 
 
 class AnuncioAdmin(admin.ModelAdmin):
-    list_display = ['id', 'card', 'img', 'tipo', 'link', 'nome']
+    list_display = ['id', 'empresa', 'img', 'tipo', 'link', 'nome']
 
 
 admin.site.register(Categoria, CategoriaAdmin)

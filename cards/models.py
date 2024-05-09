@@ -231,8 +231,8 @@ class TipoAnuncio(models.Model):
 
 
 class Anuncio(models.Model):
-    card = models.ForeignKey(Card, verbose_name='card', on_delete=models.CASCADE, related_name='anuncios')
     tipo = models.ForeignKey(TipoAnuncio, verbose_name='Tipo', on_delete=models.CASCADE, related_name='anuncios')
+    empresa = models.ForeignKey(Empresa, verbose_name='Empresa', max_length=200, on_delete=models.CASCADE, related_name='anuncios')
     img = models.ImageField(
         verbose_name='Imagem',
         upload_to=get_path,
