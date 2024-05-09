@@ -24,10 +24,9 @@ from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import slugify
 from .models import Usuario, Perfil
-from cards.models import Empresa
+from cards.models import Empresa, Card
 from django.shortcuts import redirect, render
-from cards.models import Card
-from compras.models import Relatorio, CartaoPF, CartaoPJ
+from compras.models import Relatorio, CartaoPF, CartaoPJ, Ad
 from django.contrib.auth.hashers import check_password
 
 
@@ -264,9 +263,9 @@ class MinhaConta(LoginRequiredMixin, ListView):
         card = Card.objects.filter(proprietario=usuario).first()
         anuncios_criados = card.anuncios.all() if card else None
         try:
-            comprou_cartao_pf = usuario.cartoespf.all() # cartoes comprados
+            comprou_cartao_pf = usuario.cartoespf.all() # cartoes comprados pf
             comprou_cartao_pj = usuario.cartoespj.all() # cartoes comprados pj
-            comprou_anuncio = usuario.anuncios.all().last() # anuncios comprados
+            comprou_anuncio = usuario.ads.all().last() # anuncios comprados
             comprou_relatorio = usuario.relatorios.all().last() # relatorios comprados
             cards_criados = usuario.cards.all() # cards criados pelo usuário depois de pagar pela compra
             anuncio = comprou_anuncio

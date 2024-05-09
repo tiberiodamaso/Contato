@@ -657,7 +657,7 @@ class Todos(LoginRequiredMixin, ListView):
 
 
 
-# VIEWS DE CONTEÚDO
+# VIEWS DE ANUNCIO
 class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Anuncio
     form_class = AnuncioEditForm
@@ -1069,6 +1069,21 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         return super().form_invalid(form)
 
 
+class ListarCardsPJ(LoginRequiredMixin, ListView):
+    model = Card
+    template_name = 'cards/card-lista-pj.html'
+    context_object_name = 'cards'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
+        ua = self.request.META['HTTP_USER_AGENT']
+        cards = Card.objects.filter(empresa=empresa)
+        context['cards'] = cards
+        context['empresa'] = empresa
+        return context
+
+
 class DetalharCardPJ(DetailView):
     model = Card
 
@@ -1396,22 +1411,118 @@ class ExcluirCardPJ(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         return HttpResponseRedirect(self.get_success_url(card))
 
 
-class ListarCardsPJ(LoginRequiredMixin, ListView):
-    model = Card
-    template_name = 'cards/card-lista-pj.html'
-    context_object_name = 'cards'
+class CriarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
+    model = Anuncio
+    form_class = AnuncioEditForm
+    template_name = 'cards/criar-anuncio-pj.html'
+    success_message = 'Anúncio criado com sucesso!'
+
+    def test_func(self):
+        autorizado = False
+        cartoespj = self.request.user.cartoespj.all()
+        empresa = self.request.user.empresas.first()
+        anuncios = Anuncio.objects.filter(card__empresa=empresa)
+        quantidade_anuncios = len(anuncios)
+
+        for cartaopj in cartoespj:
+            if cartaopj.status == 'authorized':
+                autorizado = True
+
+        if autorizado and len(anuncios) < 10:
+            return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-anuncios-criados-atingiu-limite.html', status=403)
+
+    def get_success_url(self):
+        usuario = self.request.user
+        card = usuario.cards.first()
+        empresa = usuario.empresas.first()
+        return reverse_lazy('core:listar-anuncio-pj', kwargs={'empresa': empresa.slug, 'slug': card.slug})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
-        ua = self.request.META['HTTP_USER_AGENT']
-        cards = Card.objects.filter(empresa=empresa)
-        context['cards'] = cards
-        context['empresa'] = empresa
+        usuario = self.request.user
+        card = usuario.cards.first()
+        anuncios = Anuncio.objects.filter(card__proprietario=usuario)
+        quantidade_anuncios = len(anuncios)
+        context['card'] = card
+        context['anuncios'] = anuncios
+        context['quantidade_anuncios'] = quantidade_anuncios
+        return context
+
+    def form_valid(self, form):
+        anuncio = form.save(commit=False)
+        usuario = self.request.user
+        card = usuario.cards.first()
+        anuncio.card = card
+        img = form.cleaned_data['img']
+        largura_desejada = 300
+        altura_desejada = 300
+        tamanho_maximo = 1 * 1024 * 1024
+
+        # Valida tamanho da imagem
+        if img:
+            if not img.name.endswith(('.jpg', '.jpeg', '.png')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o anúncio.')
+                return self.form_invalid(form)
+
+            if img.size > tamanho_maximo:
+                messages.error(self.request, 'A imagem excede o tamanho máximo permitido de 1 MB.')
+                return self.form_invalid(form)
+            
+            extensao = slugify(os.path.splitext(img.name)[1])
+            if extensao == 'jpg':
+                extensao = 'jpeg'
+
+            # Redimensiona imagem se existe
+            img_redimensionada = resize_image(img, largura_desejada, altura_desejada)
+
+            # Crie um arquivo temporário para a imagem redimensionada
+            temp_file = tempfile.NamedTemporaryFile(delete=False)
+            img_redimensionada.save(temp_file, format=extensao) 
+            anuncio.img.save(name=img.name, content=temp_file, save=True)
+            temp_file.close()
+            os.remove(temp_file.name)
+
+        anuncio.save()
+
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
+        return super().form_invalid(form)
+
+
+class ListarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Anuncio
+    success_url = '.'
+    template_name = 'cards/listar-anuncio-pj.html'
+
+    def test_func(self):
+        cards = self.request.user.cards.all()
+        if cards:
+            return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        usuario = self.request.user
+        empresa = usuario.empresas.first()
+        card = usuario.cards.first()
+        anuncios = Anuncio.objects.filter(card__empresa=empresa)
+        quantidade_anuncios = len(anuncios)
+        context['card'] = card
+        context['anuncios'] = anuncios
+        context['quantidade_anuncios'] = quantidade_anuncios
         return context
 
 
-class ListarAnunciosPJ(LoginRequiredMixin, ListView):
+class EditarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
     ...
 
 

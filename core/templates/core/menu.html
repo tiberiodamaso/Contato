@@ -145,8 +145,8 @@
                                 Anúncios
                                 </a>
                                 <ul class="dropdown-menu border">
-                                    <li><a class="dropdown-item nav-link" href="{% url 'core:listar-anuncio-pf' user.empresas.first.slug user.cards.first.slug %}">Meus anúncios</a></li>
-                                    <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pf' user.empresas.first.slug user.cards.first.slug %}">Criar anúncio</a></li>
+                                    <li><a class="dropdown-item nav-link" href="{% url 'core:listar-anuncio-pj' user.empresas.first.slug %}">Meus anúncios</a></li>
+                                    <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pj' user.empresas.first.slug %}">Criar anúncio</a></li>
                                 </ul>
                             </div>
                         {% else %}

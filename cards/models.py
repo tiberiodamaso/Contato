@@ -80,7 +80,7 @@ class CodigoPais(models.Model):
     def __str__(self):
         return f'({self.codigo}) {self.pais}'
 
-
+# TODO analisar se alteramos a modelagem para o objeto Empresa ter uma FK para card, para anuncio e para relatorio
 class Empresa(models.Model):
   nome_fantasia = models.CharField(verbose_name='Nome Fantasia', max_length=200)
   cnpj_cpf = models.CharField(verbose_name='CNPJ', max_length=14, unique=True, validators=[valida_cnpj], blank=True, null=True)
