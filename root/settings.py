@@ -190,15 +190,6 @@ INTERNAL_IPS = [
   '127.0.0.1'
 ]
 
-# django-extensions graph models para criar PNG da modelagem
-# comando: python manage.py graph_models --arrow-shape normal -o models.png
-# GRAPH_MODELS = {
-#   'all_applications': False,
-#   'group_models': True,
-#   'app_labels': ["cards", "usuarios", "core"],
-#   'exclude_models': ['AbstractUser', 'Permission', 'Group']
-# }
-
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
     'https://meucontato.app.br',

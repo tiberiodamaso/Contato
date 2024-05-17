@@ -1,7 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% block content %}
-<!-- {% include 'core/menu-interno.html'} -->
 {% include 'core/menu.html' %}
 
 {% include 'core/mensagens.html' %}
@@ -11,7 +10,7 @@
 
     <!--FORMULÁRIO PARA CRIAR CONTEÚDO-->
     {% if quantidade_anuncios < 10 %}
-        <form action="{% url 'core:criar-anuncio-pf' card.empresa.slug card.slug %}" method="post"
+        <form action="{% url 'core:criar-anuncio-pf' card.empresa.slug %}" method="post"
             class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
             {% csrf_token %}
 

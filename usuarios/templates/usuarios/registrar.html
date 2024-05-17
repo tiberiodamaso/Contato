@@ -66,80 +66,81 @@
         <button type="submit" class="btn btn-warning" onclick="onClick(event)">Criar</button>
 
     </form>
-    <script>
-        // PERMITE VISUALIZAR A SENHA
-        function togglePasswordVisibility(passwordId) {
-            var passwordInput = document.getElementById(passwordId);
-            var icon = passwordInput.nextElementSibling.firstChild;
+</div>
 
-            // Alterna entre o tipo "password" e "text"
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                icon.classList.remove('bi-eye-fill');
-                icon.classList.add('bi-eye-slash-fill');
-            } else {
-                passwordInput.type = "password";
-                icon.classList.remove('bi-eye-slash-fill');
-                icon.classList.add('bi-eye-fill');
-            }
+<script>
+    // PERMITE VISUALIZAR A SENHA
+    function togglePasswordVisibility(passwordId) {
+        var passwordInput = document.getElementById(passwordId);
+        var icon = passwordInput.nextElementSibling.firstChild;
+
+        // Alterna entre o tipo "password" e "text"
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.remove('bi-eye-fill');
+            icon.classList.add('bi-eye-slash-fill');
+        } else {
+            passwordInput.type = "password";
+            icon.classList.remove('bi-eye-slash-fill');
+            icon.classList.add('bi-eye-fill');
         }
+    }
 
-        // VALIDA REGRAS DE SENHA
-        document.addEventListener('DOMContentLoaded', function () {
-            var passwordInput = document.getElementById('id_password1');
-            var passwordHelp = document.getElementById('passwordHelp');
+    // VALIDA REGRAS DE SENHA
+    document.addEventListener('DOMContentLoaded', function () {
+        var passwordInput = document.getElementById('id_password1');
+        var passwordHelp = document.getElementById('passwordHelp');
 
-            var confirmPasswordInput = document.getElementById('id_password2');
-            var passwordMatchHelp = document.getElementById('passwordMatchHelp');
+        var confirmPasswordInput = document.getElementById('id_password2');
+        var passwordMatchHelp = document.getElementById('passwordMatchHelp');
 
-            passwordInput.addEventListener('input', function () {
-                var password = passwordInput.value;
+        passwordInput.addEventListener('input', function () {
+            var password = passwordInput.value;
 
-                // Verifique as regras da senha
-                var lengthRule = password.length >= 8;
-                var lowercaseRule = /[a-z]/.test(password);
-                var uppercaseRule = /[A-Z]/.test(password);
-                var numberRule = /\d/.test(password);
-                var symbolRule = /[-!$%^&*()_+|~=`{}\[\]:;'"<>?,.@#\/\\]/.test(password);
+            // Verifique as regras da senha
+            var lengthRule = password.length >= 8;
+            var lowercaseRule = /[a-z]/.test(password);
+            var uppercaseRule = /[A-Z]/.test(password);
+            var numberRule = /\d/.test(password);
+            var symbolRule = /[-!$%^&*()_+|~=`{}\[\]:;'"<>?,.@#\/\\]/.test(password);
 
-                // Atualize a mensagem de ajuda
-                var message = 'As seguintes regras devem ser atendidas:';
-                message += lengthRule ? '<br>✅ Pelo menos 8 caracteres' : '<br>❌ Pelo menos 8 caracteres';
-                message += lowercaseRule ? '<br>✅ Pelo menos uma letra minúscula' : '<br>❌ Pelo menos uma letra minúscula';
-                message += uppercaseRule ? '<br>✅ Pelo menos uma letra maiúscula' : '<br>❌ Pelo menos uma letra maiúscula';
-                message += numberRule ? '<br>✅ Pelo menos um número' : '<br>❌ Pelo menos um número';
-                message += symbolRule ? '<br>✅ Pelo menos um símbolo' : '<br>❌ Pelo menos um símbolo';
+            // Atualize a mensagem de ajuda
+            var message = 'As seguintes regras devem ser atendidas:';
+            message += lengthRule ? '<br>✅ Pelo menos 8 caracteres' : '<br>❌ Pelo menos 8 caracteres';
+            message += lowercaseRule ? '<br>✅ Pelo menos uma letra minúscula' : '<br>❌ Pelo menos uma letra minúscula';
+            message += uppercaseRule ? '<br>✅ Pelo menos uma letra maiúscula' : '<br>❌ Pelo menos uma letra maiúscula';
+            message += numberRule ? '<br>✅ Pelo menos um número' : '<br>❌ Pelo menos um número';
+            message += symbolRule ? '<br>✅ Pelo menos um símbolo' : '<br>❌ Pelo menos um símbolo';
 
-                // Atualize o texto da mensagem
-                passwordHelp.innerHTML = message;
-            });
-
-            confirmPasswordInput.addEventListener('input', function () {
-                var password = passwordInput.value;
-                var confirmPassword = confirmPasswordInput.value;
-
-                // Verificar se as senhas são iguais
-                if (password !== confirmPassword) {
-                    passwordMatchHelp.textContent = 'As senhas não coincidem.';
-                } else {
-                    passwordMatchHelp.textContent = '';
-                }
-            });
+            // Atualize o texto da mensagem
+            passwordHelp.innerHTML = message;
         });
 
-        // RECAPTCHA
-        function onClick(e) {
-            e.preventDefault();
-            grecaptcha.ready(function() {
-                grecaptcha.execute('6Ldekb4pAAAAAJxIxYU4JW-irGk1bYfEvSk8gRJi', {action: 'submit'}).then(function(token) {
-                    // Preencha o token do reCAPTCHA em um campo de formulário oculto
-                    document.getElementById('recaptcha_token').value = token;
-                    // Submeta o formulário
-                    document.getElementById('id-form-criar-conta').submit();
-                });
-            });
-        }
-    </script>
+        confirmPasswordInput.addEventListener('input', function () {
+            var password = passwordInput.value;
+            var confirmPassword = confirmPasswordInput.value;
 
-</div>
+            // Verificar se as senhas são iguais
+            if (password !== confirmPassword) {
+                passwordMatchHelp.textContent = 'As senhas não coincidem.';
+            } else {
+                passwordMatchHelp.textContent = '';
+            }
+        });
+    });
+
+    // RECAPTCHA
+    function onClick(e) {
+        e.preventDefault();
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6Ldekb4pAAAAAJxIxYU4JW-irGk1bYfEvSk8gRJi', {action: 'submit'}).then(function(token) {
+                // Preencha o token do reCAPTCHA em um campo de formulário oculto
+                document.getElementById('recaptcha_token').value = token;
+                // Submeta o formulário
+                document.getElementById('id-form-criar-conta').submit();
+            });
+        });
+    }
+</script>
+
 {% endblock %}

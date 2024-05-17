@@ -15,7 +15,7 @@ def get_path(instance, filename):
     if isinstance(instance, Card):
         instance = instance.usuario_do_card.id.hex
     else:
-        instance = instance.card.usuario_do_card.id.hex
+        instance = instance.empresa.proprietario.id.hex
     arquivo = uuid.uuid4().hex
     extensao = slugify(os.path.splitext(filename)[1])
     filename = f'{arquivo}.{extensao}'
@@ -80,7 +80,7 @@ class CodigoPais(models.Model):
     def __str__(self):
         return f'({self.codigo}) {self.pais}'
 
-# TODO analisar se alteramos a modelagem para o objeto Empresa ter uma FK para card, para anuncio e para relatorio
+
 class Empresa(models.Model):
   nome_fantasia = models.CharField(verbose_name='Nome Fantasia', max_length=200)
   cnpj_cpf = models.CharField(verbose_name='CNPJ', max_length=14, unique=True, validators=[valida_cnpj], blank=True, null=True)

@@ -8,6 +8,6 @@
     <h4 class="display-6 pt-3">Você atingiu o limite de cartões criados</h4>
     <h3 class="fs-4 lead pb-5 pt-3">Para criar um cartão para um novo colaborador, você deve comprar um novo cartão ou editar um de seus cartões</h3>
     <a href="{% url 'compras:comprar-cartao-pj' %}?nova_compra=True" type="button" class="btn btn-warning w-auto mx-3">Comprar cartão</a>
-    <a href="{% url 'core:listar-cards-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning w-auto">Editar cartão</a>
+    <a href="{% url 'core:listar-card-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning w-auto">Editar cartão</a>
 </div>
 {% endblock %}

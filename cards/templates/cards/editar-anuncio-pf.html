@@ -80,7 +80,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
-                        <form action="{% url 'core:excluir-anuncio-pf' anuncio.card.empresa.slug anuncio.id %}"
+                        <form action="{% url 'core:excluir-anuncio-pf' anuncio.empresa.slug anuncio.id %}"
                             method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">Sim</button>
