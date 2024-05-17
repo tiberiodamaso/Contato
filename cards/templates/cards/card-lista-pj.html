@@ -32,7 +32,7 @@
                 </form>
                 {% endif %}
             </div>
-            <h2 class="fw-normal">{{card.usuario_do_card.first_name}} {{card.usuario_do_card.last_name}}</h2>
+            <h2 class="fw-normal">{{card.nome_display}}</h2>
             {% if card.cargo %}
             <h4 class="lead">{{ card.cargo }}</h4>
             {% endif %}
