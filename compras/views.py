@@ -19,7 +19,7 @@ from django.views.generic import View, CreateView, UpdateView, TemplateView
 from django.http import JsonResponse
 
 from .models import Relatorio, Ad, CartaoPF, CartaoPJ
-from cards.views import Criar
+from cards.views import CriarCardPF
 
 
 
@@ -312,12 +312,10 @@ class ComprarAnuncio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 
     def get(self, request, *args, **kwargs):
         usuario = self.request.user
+        empresa = usuario.empresas.first()
         compra = usuario.ads.last()
         card = usuario.cards.all().first()
-        if card:
-            anuncios = card.anuncios.all()
-        else:
-            anuncios = None
+        anuncios = empresa.anuncios.all()
         contexto = {'usuario': usuario, 'card': card, 'compra': compra, 'anuncios': anuncios}
         return render(request, 'compras/comprar-anuncio.html', contexto)
 
@@ -362,7 +360,7 @@ class ComprarAnuncio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         if response.status_code == 200:
             data = response.json()
             formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
-            anuncio = Anuncio.objects.create(
+            ad = Ad.objects.create(
                 usuario=usuario,
                 pagamento_id = data['id'],
                 payer_id = data['payer']['id'],

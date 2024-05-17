@@ -24,6 +24,7 @@ from django.views.generic import ListView, TemplateView, UpdateView, DetailView,
 from core import analytics_data_api
 from .models import Card, Anuncio, Estado, Municipio, Categoria, Subcategoria, Empresa
 from usuarios.models import Usuario
+from compras.models import Ad
 from .forms import CardEditForm, AnuncioEditForm, CardEditFormPJ
 from .utils import make_vcf, cleaner, resize_image
 from django.template.defaultfilters import slugify
@@ -44,23 +45,8 @@ reg_b = re.compile(r"(android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|b
 reg_v = re.compile(r"1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\\-(n|u)|c55\\/|capi|ccwa|cdm\\-|cell|chtm|cldc|cmd\\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\\-s|devi|dica|dmob|do(c|p)o|ds(12|\\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\\-|_)|g1 u|g560|gene|gf\\-5|g\\-mo|go(\\.w|od)|gr(ad|un)|haie|hcit|hd\\-(m|p|t)|hei\\-|hi(pt|ta)|hp( i|ip)|hs\\-c|ht(c(\\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\\-(20|go|ma)|i230|iac( |\\-|\\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\\/)|klon|kpt |kwc\\-|kyo(c|k)|le(no|xi)|lg( g|\\/(k|l|u)|50|54|\\-[a-w])|libw|lynx|m1\\-w|m3ga|m50\\/|ma(te|ui|xo)|mc(01|21|ca)|m\\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\\-2|po(ck|rt|se)|prox|psio|pt\\-g|qa\\-a|qc(07|12|21|32|60|\\-[2-7]|i\\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\\-|oo|p\\-)|sdk\\/|se(c(\\-|0|1)|47|mc|nd|ri)|sgh\\-|shar|sie(\\-|m)|sk\\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\\-|v\\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\\-|tdg\\-|tel(i|m)|tim\\-|t\\-mo|to(pl|sh)|ts(70|m\\-|m3|m5)|tx\\-9|up(\\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\\-|your|zeto|zte\\-", re.I | re.M)
 
 
-class Listar(LoginRequiredMixin, ListView):
-    model = Card
-    template_name = 'cards/card-lista.html'
-    context_object_name = 'cards'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
-        ua = self.request.META['HTTP_USER_AGENT']
-        queryset = Card.objects.filter(empresa__slug=empresa.slug)
-        context['cards'] = queryset
-        context['empresa'] = empresa
-        return context
-
-
-class Dashboard(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, TemplateView):
-    template_name = 'cards/dashboard-card.html'
+class RelatorioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, TemplateView):
+    template_name = 'cards/relatorio-pf.html'
 
     def test_func(self):
         relatorios_comprados = self.request.user.relatorios.all()
@@ -73,7 +59,7 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Te
 
     def get_success_url(self, card):
         empresa = self.request.user.empresas.first()
-        return reverse('core:detalhe', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        return reverse('core:detalhar-card-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
 
     def process_request(self):
         self.request.mobile = False
@@ -172,7 +158,7 @@ class TrocarModelo(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
     def get_success_url(self, card):
         empresa = self.request.user.empresas.first()
-        return reverse('core:detalhe', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        return reverse('core:detalhar-card-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -193,10 +179,10 @@ class TrocarModelo(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         return self.render_to_response(context)
 
 
-class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
+class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Card
     form_class = CardEditForm
-    template_name = 'cards/card-criar.html'
+    template_name = 'cards/criar-card-pf.html'
     success_message = 'Cartão criado com sucesso.'
 
     def test_func(self):
@@ -210,7 +196,7 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
 
     def get_success_url(self, card):
         empresa = self.request.user.empresas.first()
-        return reverse('core:detalhe', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        return reverse('core:detalhar-card-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
 
     def get_context_data(self, form=None):
         context = super().get_context_data()
@@ -247,8 +233,10 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
     def form_valid(self, form):
         card = form.save(commit=False)
         proprietario = self.request.user
+        empresa_atual = proprietario.empresas.first()
         card.proprietario = proprietario
         card.usuario_do_card = proprietario
+        card.empresa = empresa_atual
         pasta_usuario = card.proprietario.id.hex
         modelo = form.cleaned_data['modelo']
         empresa = form.data['empresa']
@@ -301,16 +289,14 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
             temp_file.close()
             os.remove(temp_file.name)
 
-
         if empresa:
-            empresa_anterior = self.request.user.empresas.first()
-            empresa_anterior.nome_fantasia = empresa
-            empresa_anterior.slug = slugify(empresa)
-            empresa_anterior.save()
+            empresa_atual.nome_fantasia = empresa
+            empresa_atual.slug = slugify(empresa)
+            empresa_atual.save()
             perfil = self.request.user.perfil
             perfil.nome_fantasia = empresa
             perfil.save()
-            card.empresa = self.request.user.empresas.first()
+            card.empresa = empresa_atual
 
         #CRIA VCF
         vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
@@ -327,13 +313,31 @@ class Criar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Create
         return HttpResponseRedirect(self.get_success_url(card))
 
     def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
         return super().form_invalid(form)
 
 
-class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+class ListarCardPF(LoginRequiredMixin, ListView):
+    model = Card
+    template_name = 'cards/listar-card-pf.html'
+    context_object_name = 'cards'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
+        ua = self.request.META['HTTP_USER_AGENT']
+        queryset = Card.objects.filter(empresa__slug=empresa.slug)
+        context['cards'] = queryset
+        context['empresa'] = empresa
+        return context
+
+
+class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Card
     form_class = CardEditForm
-    template_name = 'cards/card-editar.html'
+    template_name = 'cards/editar-card-pf.html'
     success_message = 'Cartão atualizado com sucesso!'
 
     def test_func(self):
@@ -346,10 +350,10 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
         return render(self.request, 'cards/permissao-negada-nao-comprou-cartao.html', status=403)
 
     def get_success_url(self, card):
-        user = self.request.user
-        card = Card.objects.get(proprietario=user)
-        empresa = user.empresas.first()
-        return reverse('core:detalhe', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        usuario = self.request.user
+        card = Card.objects.get(proprietario=usuario)
+        empresa = usuario.empresas.first()
+        return reverse('core:detalhar-card-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
 
     def get_context_data(self, form=None):
        context = super().get_context_data()
@@ -388,8 +392,10 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
     def form_valid(self, form):
         card = self.get_object()
         proprietario = self.request.user
+        empresa_atual = proprietario.empresas.first()
         card.proprietario = proprietario
-        empresa = form.cleaned_data['empresa']
+        card.empresa = empresa_atual
+        empresa = form.data['empresa']
         modelo = form.cleaned_data['modelo']
         cor = form.cleaned_data['cor']
         nome_display = form.cleaned_data['nome_display']
@@ -480,6 +486,15 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
                 except FileNotFoundError as err:
                     print(err)
 
+        if empresa:
+            empresa_atual.nome_fantasia = empresa
+            empresa_atual.slug = slugify(empresa)
+            empresa_atual.save()
+            perfil = self.request.user.perfil
+            perfil.nome_fantasia = empresa
+            perfil.save()
+            card.empresa = empresa_atual
+
         # APAGA VCF ANTIGO SALVA NOVO
         if card.vcf:
             try:
@@ -506,14 +521,13 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
 
         card.nome_display = nome_display
         card.cor = cor
-        card.empresa = empresa
+        # card.empresa = empresa
         card.site = site
         card.cargo = cargo
         card.categoria = categoria
         card.subcategoria = subcategoria
         card.estado = estado
         card.municipio = municipio
-        card.telefone = telefone
         card.whatsapp = whatsapp
         card.facebook = facebook
         card.instagram = instagram
@@ -525,7 +539,7 @@ class Editar(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, Updat
         return HttpResponseRedirect(self.get_success_url(card))
 
 
-class Detalhar(DetailView):
+class DetalharCardPF(DetailView):
     model = Card
 
     def chunk_list(self, lst):
@@ -560,10 +574,11 @@ class Detalhar(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         card = self.get_object()
+        empresa = self.request.user.empresas.first()
         cor_de_fundo = card.cor
         luminosidade = self.luminosidade(cor_de_fundo)
         card_atributos = card.__dict__
-        anuncios = card.anuncios.all()
+        anuncios = empresa.anuncios.all()
         produtos = []
         servicos = []
         portfolios = []
@@ -614,7 +629,7 @@ class Detalhar(DetailView):
         return context
 
 
-class Deletar(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class ExcluirCardPF(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
     model = Card
     success_message = 'Card apagado com sucesso!'
@@ -665,25 +680,34 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     success_message = 'Anúncio criado com sucesso!'
 
     def test_func(self):
-        anuncios = self.request.user.anuncios.all()
-        for anuncio in anuncios:
-            if anuncio.status == 'approved':
-                return True
+        autorizado = False
+        usuario = self.request.user
+        empresa = usuario.empresas.first()
+        anuncios = empresa.anuncios.all()
+        ads = Ad.objects.filter(usuario=usuario)
+
+        for ad in ads:
+            if ad.status == 'approved':
+                autorizado = True
+
+        if autorizado and len(anuncios) < 10:
+            return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-nao-comprou-anuncio.html', status=403)
+        return render(self.request, 'cards/permissao-negada-anuncios-criados-atingiu-limite.html', status=403)
 
     def get_success_url(self):
         usuario = self.request.user
         card = usuario.cards.first()
         empresa = usuario.empresas.first()
-        return reverse_lazy('core:listar-anuncio-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        return reverse_lazy('core:listar-anuncio-pf', kwargs={'empresa': empresa.slug})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
+        empresa = usuario.empresas.first()
         card = usuario.cards.first()
-        anuncios = Anuncio.objects.filter(card__proprietario=usuario)
+        anuncios = empresa.anuncios.all()
         quantidade_anuncios = len(anuncios)
         context['card'] = card
         context['anuncios'] = anuncios
@@ -693,14 +717,8 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     def form_valid(self, form):
         anuncio = form.save(commit=False)
         usuario = self.request.user
-        # validação da quantidade de conteúdos criados
-        anuncios = Anuncio.objects.filter(card__proprietario=usuario)
-        if len(anuncios) > 10:
-            messages.error(
-                    self.request, 'Quantidade máxima de conteúdos atingidos - 10 conteúdos.')
-            return self.form_invalid(form)
-        card = usuario.cards.first()
-        anuncio.card = card
+        empresa = usuario.empresas.first()
+        anuncio.empresa = empresa
         img = form.cleaned_data['img']
         largura_desejada = 300
         altura_desejada = 300
@@ -734,6 +752,12 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
+        return super().form_invalid(form)
+
 
 class ListarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, ListView):
     model = Anuncio
@@ -741,9 +765,10 @@ class ListarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
     template_name = 'cards/listar-anuncio-pf.html'
 
     def test_func(self):
-        anuncios = self.request.user.anuncios.all()
-        for anuncio in anuncios:
-            if anuncio.status == 'approved':
+        usuario = self.request.user
+        ads = Ad.objects.filter(usuario=usuario)
+        for ad in ads:
+            if ad.status == 'approved':
                 return True
 
     def handle_no_permission(self):
@@ -752,8 +777,9 @@ class ListarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
+        empresa = usuario.empresas.first()
         card = usuario.cards.first()
-        anuncios = Anuncio.objects.filter(card__proprietario=usuario)
+        anuncios = empresa.anuncios.all()
         quantidade_anuncios = len(anuncios)
         context['card'] = card
         context['anuncios'] = anuncios
@@ -768,13 +794,21 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
     success_message = 'Anúncio atualizado com sucesso!'
 
     def test_func(self):
-        anuncios = self.request.user.anuncios.all()
-        for anuncio in anuncios:
-            if anuncio.status == 'approved':
-                return True
+        autorizado = False
+        usuario = self.request.user
+        empresa = usuario.empresas.first()
+        anuncios = empresa.anuncios.all()
+        ads = Ad.objects.filter(usuario=usuario)
+
+        for ad in ads:
+            if ad.status == 'approved':
+                autorizado = True
+
+        if autorizado and len(anuncios) < 10:
+            return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-nao-comprou-anuncio.html', status=403)
+        return render(self.request, 'cards/permissao-negada-anuncios-criados-atingiu-limite.html', status=403)
 
     def get_success_url(self):
         usuario = self.request.user
@@ -785,8 +819,9 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
+        empresa = usuario.empresas.first()
         card = usuario.cards.first()
-        anuncios = Anuncio.objects.filter(card__proprietario=usuario)
+        anuncios = empresa.anuncios.all()
         quantidade_anuncios = len(anuncios)
         context['card'] = card
         context['anuncios'] = anuncios
@@ -796,14 +831,8 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
     def form_valid(self, form):
         anuncio = form.save(commit=False)
         usuario = self.request.user
-        # validação da quantidade de conteúdos criados
-        anuncios = Anuncio.objects.filter(card__proprietario=usuario)
-        if len(anuncios) > 10:
-            messages.error(
-                    self.request, 'Quantidade máxima de conteúdos atingidos - 10 conteúdos.')
-            return self.form_invalid(form)
-        card = usuario.cards.first()
-        anuncio.card = card
+        empresa = usuario.empresas.first()
+        anuncio.empresa = empresa
         img = form.cleaned_data['img']
         largura_desejada = 300
         altura_desejada = 300
@@ -847,21 +876,26 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
 
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
+        return super().form_invalid(form)
+
 
 class ExcluirAnuncioPF(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Anuncio
     template_name = 'cards/criar-anuncio-pf.html'
-    success_message = 'Conteúdo atualizado com sucesso!'
+    success_message = 'Anúncio atualizado com sucesso!'
     success_url = '.'
 
-    def get_success_url(self, card):
+    def get_success_url(self):
         usuario = self.request.user
         empresa = usuario.empresas.first()
-        return reverse('core:criar-anuncio-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        return reverse('core:criar-anuncio-pf', kwargs={'empresa': empresa.slug})
 
     def post(self, request, *args, **kwargs):
         anuncio = Anuncio.objects.filter(id=self.kwargs['pk']).first()
-        card = anuncio.card
         path = anuncio.img.path
 
         # APAGA ARQUIVOS ANTIGOS E EXCLUI REGISTRO DO BANCO
@@ -871,7 +905,7 @@ class ExcluirAnuncioPF(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         except FileNotFoundError as err:
             print(err)
 
-        return HttpResponseRedirect(self.get_success_url(card))
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class Pesquisar(ListView):
@@ -988,7 +1022,16 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         last_name = form.cleaned_data['last_name']
         email = form.cleaned_data['email']
         username = slugify(f'{first_name}-{last_name}')
+
+        # TODO Colocar uma senha mais forte
         password = make_password('S3nh@n0v@')
+
+        if email:
+            email_existente = Usuario.objects.filter(email=email)
+            if email_existente:
+                messages.error(self.request, 'Já existe um usuário com o email informado.')
+                return self.form_invalid(form)
+
         usuario = Usuario.objects.create(first_name=first_name, last_name=last_name, is_active=True, email=email, username=username, password=password)
 
         proprietario = self.request.user
@@ -1069,7 +1112,7 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         return super().form_invalid(form)
 
 
-class ListarCardsPJ(LoginRequiredMixin, ListView):
+class ListarCardPJ(LoginRequiredMixin, ListView):
     model = Card
     template_name = 'cards/card-lista-pj.html'
     context_object_name = 'cards'
@@ -1389,7 +1432,7 @@ class ExcluirCardPJ(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     success_message = 'Cartão excluído com sucesso!'
 
     def get_success_url(self, card):
-        return reverse_lazy('core:listar-cards-pj', kwargs={'empresa': card.empresa.slug})
+        return reverse_lazy('core:listar-card-pj', kwargs={'empresa': card.empresa.slug})
 
     def post(self, request, *args, **kwargs):
         card = self.get_object()
@@ -1421,7 +1464,7 @@ class CriarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         autorizado = False
         cartoespj = self.request.user.cartoespj.all()
         empresa = self.request.user.empresas.first()
-        anuncios = Anuncio.objects.filter(card__empresa=empresa)
+        anuncios = empresa.anuncios.all()
         quantidade_anuncios = len(anuncios)
 
         for cartaopj in cartoespj:
@@ -1524,6 +1567,32 @@ class ListarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 class EditarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
     ...
+
+
+class ExcluirAnuncioPJ(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = Anuncio
+    template_name = 'cards/criar-anuncio-pj.html'
+    success_message = 'Anúncio excluído com sucesso!'
+    success_url = '.'
+
+    def get_success_url(self, card):
+        usuario = self.request.user
+        empresa = usuario.empresas.first()
+        return reverse('core:criar-anuncio-pj', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+
+    def post(self, request, *args, **kwargs):
+        anuncio = Anuncio.objects.filter(id=self.kwargs['pk']).first()
+        card = anuncio.card
+        path = anuncio.img.path
+
+        # APAGA ARQUIVOS ANTIGOS E EXCLUI REGISTRO DO BANCO
+        try:
+            anuncio.delete()
+            os.remove(path)
+        except FileNotFoundError as err:
+            print(err)
+
+        return HttpResponseRedirect(self.get_success_url(card))
 
 
 class RelatorioPJ(TemplateView):

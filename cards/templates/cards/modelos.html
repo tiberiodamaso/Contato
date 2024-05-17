@@ -15,13 +15,13 @@
     <!--MODELO 1-->
     <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
         {% if user.perfil.is_pj %}
-        <a href="{% url 'core:criar-card-pj' %}?modelo=A" class="text-decoration-none text-black">
+        <a href="{% url 'core:criar-card-pj' user.empresas.first.slug %}?modelo=A" class="text-decoration-none text-black">
             <div class="card-img">
                 <img src="{% static 'core/modelo-A.jpg' %}" class="img-fluid">
             </div>
         </a>
         {% else %}
-        <a href="{% url 'core:criar' %}?modelo=A" class="text-decoration-none text-black">
+        <a href="{% url 'core:criar-card-pf' user.empresas.first.slug %}?modelo=A" class="text-decoration-none text-black">
             <div class="card-img">
                 <img src="{% static 'core/modelo-A.jpg' %}" class="img-fluid">
             </div>
@@ -32,13 +32,13 @@
     <!--MODELO 2-->
     <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
         {% if user.perfil.is_pj %}
-        <a href="{% url 'core:criar-card-pj' %}?modelo=B" class="text-decoration-none text-black">
+        <a href="{% url 'core:criar-card-pj' user.empresas.first.slug %}?modelo=B" class="text-decoration-none text-black">
             <div class="card-img">
                 <img src="{% static 'core/modelo-B.jpg' %}" class="img-fluid">
             </div>
         </a>
         {% else %}
-        <a href="{% url 'core:criar' %}?modelo=B" class="text-decoration-none text-black">
+        <a href="{% url 'core:criar-card-pf' user.empresas.first.slug %}?modelo=B" class="text-decoration-none text-black">
             <div class="card-img">
                 <img src="{% static 'core/modelo-B.jpg' %}" class="img-fluid">
             </div>
@@ -49,13 +49,13 @@
     <!--MODELO 3-->
     <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
         {% if user.perfil.is_pj %}
-        <a href="{% url 'core:criar-card-pj' %}?modelo=C" class="text-decoration-none text-black">
+        <a href="{% url 'core:criar-card-pj' user.empresas.first.slug %}?modelo=C" class="text-decoration-none text-black">
             <div class="card-img">
                 <img src="{% static 'core/modelo-C.jpg' %}" class="img-fluid">
             </div>
         </a>
         {% else %}
-        <a href="{% url 'core:criar' %}?modelo=C" class="text-decoration-none text-black">
+        <a href="{% url 'core:criar-card-pf' user.empresas.first.slug %}?modelo=C" class="text-decoration-none text-black">
             <div class="card-img">
                 <img src="{% static 'core/modelo-C.jpg' %}" class="img-fluid">
             </div>
@@ -68,13 +68,13 @@
     <!--MODELO 4-->
     <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
         {% if user.perfil.is_pj %}
-        <a href="{% url 'core:criar-card-pj' %}?modelo=D" class="text-decoration-none text-black">
+        <a href="{% url 'core:criar-card-pj' user.empresas.first.slug %}?modelo=D" class="text-decoration-none text-black">
             <div class="card-img">
                 <img src="{% static 'core/modelo-D.jpg' %}" class="img-fluid">
             </div>
         </a>
         {% else %}
-        <a href="{% url 'core:criar' %}?modelo=D" class="text-decoration-none text-black">
+        <a href="{% url 'core:criar-card-pf' user.empresas.first.slug %}?modelo=D" class="text-decoration-none text-black">
             <div class="card-img">
                 <img src="{% static 'core/modelo-D.jpg' %}" class="img-fluid">
             </div>
@@ -84,13 +84,13 @@
     <!--MODELO 5-->
     <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
         {% if user.perfil.is_pj %}
-        <a href="{% url 'core:criar-card-pj' %}?modelo=E" class="text-decoration-none text-black">
+        <a href="{% url 'core:criar-card-pj' user.empresas.first.slug %}?modelo=E" class="text-decoration-none text-black">
             <div class="card-img">
                 <img src="{% static 'core/modelo-E.jpg' %}" class="img-fluid">
             </div>
         </a>
         {% else %}
-        <a href="{% url 'core:criar' %}?modelo=E" class="text-decoration-none text-black">
+        <a href="{% url 'core:criar-card-pf' user.empresas.first.slug %}?modelo=E" class="text-decoration-none text-black">
             <div class="card-img">
                 <img src="{% static 'core/modelo-E.jpg' %}" class="img-fluid">
             </div>
@@ -100,13 +100,13 @@
     <!--MODELO 6-->
     <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
         {% if user.perfil.is_pj %}
-        <a href="{% url 'core:criar-card-pj' %}?modelo=F" class="text-decoration-none text-black">
+        <a href="{% url 'core:criar-card-pj' user.empresas.first.slug %}?modelo=F" class="text-decoration-none text-black">
             <div class="card-img">
                 <img src="{% static 'core/modelo-F.jpg' %}" class="img-fluid">
             </div>
         </a>
         {% else %}
-        <a href="{% url 'core:criar' %}?modelo=F" class="text-decoration-none text-black">
+        <a href="{% url 'core:criar-card-pf' user.empresas.first.slug %}?modelo=F" class="text-decoration-none text-black">
             <div class="card-img">
                 <img src="{% static 'core/modelo-F.jpg' %}" class="img-fluid">
             </div>
@@ -115,31 +115,5 @@
     </div>
     
 </div>
-<!-- <div class="row text-center justify-content-center flex-column flex-md-row flex-lg-row"> -->
-    <!--MODELO 7-->
-    <!-- <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
-        <a href="{% url 'core:criar' %}?modelo=G" class="text-decoration-none text-black">
-            <div class="card-img">
-                <img src="{% static 'core/modelo-G.jpg' %}" class="img-fluid">
-            </div>
-        </a>
-    </div> -->
-    <!--MODELO 8-->
-    <!-- <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
-        <a href="{% url 'core:criar' %}?modelo=H" class="text-decoration-none text-black">
-            <div class="card-img">
-                <img src="{% static 'core/modelo-H.jpg' %}" class="img-fluid">
-            </div>
-        </a>
-    </div> -->
-    <!--MODELO 9-->
-    <!-- <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
-        <a href="{% url 'core:criar' %}?modelo=I" class="text-decoration-none text-black">
-            <div class="card-img">
-                <img src="{% static 'core/modelo-I.jpg' %}" class="img-fluid">
-            </div>
-        </a>
-    </div>
-</div> -->
 
 {% endblock %}

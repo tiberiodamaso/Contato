@@ -45,7 +45,7 @@
                 class="btn fs-5 w-100 bg-warning text-white mt-3">Criar cartão</a>
                 {% else %}
                 <h4 class="text-center">Você já criou um cartão. Clique abaixo para editá-lo</h4>
-                <a href="{% url 'core:editar' card.empresa.slug card.slug %}"
+                <a href="{% url 'core:editar-card-pf' card.empresa.slug card.slug %}"
                 class="btn fs-5 w-100 bg-warning text-white mt-3">Editar cartão</a>
                 {% endif %}
             </div>

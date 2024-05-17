@@ -25,7 +25,7 @@
         </div>
 
         <!--FORMULÁRIO PARA CRIAR NOVO CARD-->
-        <form action="{% url 'core:criar' %}" method="post" id="cardForm" class="col col-md-4 col-lg-4 p-4"
+        <form action="{% url 'core:criar-card-pf' user.empresas.first.slug %}" method="post" id="cardForm" class="col col-md-4 col-lg-4 p-4"
             enctype="multipart/form-data">
             {% csrf_token %}
 
@@ -244,7 +244,7 @@
             <!--BOTÃO DE EDITAR CARD E ANÚNCIOS-->
             {% if user.is_authenticated and user == card.proprietario %}
             <div class="d-flex justify-content-center my-2 rounded">
-                <a href="{% url 'core:editar' card.empresa.slug card.slug %}"
+                <a href="{% url 'core:editar-card-pf' card.empresa.slug card.slug %}"
                     class="btn fs-5 col-10 bg-success text-white mx-1">Editar cartão</a>
             </div>
             {% endif %}

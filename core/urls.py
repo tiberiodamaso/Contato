@@ -1,8 +1,9 @@
 from django.urls import path
 from .views import HomeView
-from cards.views import Editar, Listar, Dashboard, Detalhar, Todos, \
-    Criar, Modelos, RelatorioPJ, CriarAnuncioPF, ListarAnuncioPF, Deletar, Pesquisar, ExcluirAnuncioPF, \
-    EditarAnuncioPF, TrocarModelo, ListarCardsPJ, CriarCardPJ, DetalharCardPJ, ListarAnuncioPJ, EditarCardPJ, ExcluirCardPJ, CriarAnuncioPJ, EditarAnuncioPJ
+from cards.views import EditarCardPF, ListarCardPF, RelatorioPF, DetalharCardPF, Todos, \
+        CriarCardPF, Modelos, RelatorioPJ, CriarAnuncioPF, ListarAnuncioPF, ExcluirCardPF, Pesquisar, ExcluirAnuncioPF, \
+        EditarAnuncioPF, TrocarModelo, ListarCardPJ, CriarCardPJ, DetalharCardPJ, ListarAnuncioPJ, EditarCardPJ, ExcluirCardPJ, CriarAnuncioPJ, EditarAnuncioPJ, \
+        ExcluirAnuncioPJ
 from core.views import GetMunicipios, GetSubcategorias, PoliticaDePrivacidade, TermosDeUso
 
 
@@ -18,27 +19,28 @@ urlpatterns = [
     path('card/trocar-modelo/', TrocarModelo.as_view(), name='trocar-modelo'),
 
     # CARDS PF
-    path('card-pf/criar/', Criar.as_view(), name='criar'),
-    path('<slug:empresa>/card-pf/', Listar.as_view(), name='lista'),
-    path('<slug:empresa>/card-pf/<slug:slug>/', Detalhar.as_view(), name='detalhe'),
-    path('<slug:empresa>/card-pf/editar/<slug:slug>/', Editar.as_view(), name='editar'),
-    path('<slug:empresa>/card-pf/deletar/<slug:slug>/', Deletar.as_view(), name='deletar'),
-    path('<slug:empresa>/card-pf/dashboard/<slug:slug>/', Dashboard.as_view(), name='dashboard-card'),
-    path('<slug:empresa>/card-pf/anuncio/criar/<slug:slug>/', CriarAnuncioPF.as_view(), name='criar-anuncio-pf'),
-    path('<slug:empresa>/card-pf/anuncio/listar/<slug:slug>/', ListarAnuncioPF.as_view(), name='listar-anuncio-pf'),
+    path('<slug:empresa>/card-pf/criar/', CriarCardPF.as_view(), name='criar-card-pf'),
+    path('<slug:empresa>/card-pf/', ListarCardPF.as_view(), name='lista-card-pf'),
+    path('<slug:empresa>/card-pf/<slug:slug>/', DetalharCardPF.as_view(), name='detalhar-card-pf'),
+    path('<slug:empresa>/card-pf/editar/<slug:slug>/', EditarCardPF.as_view(), name='editar-card-pf'),
+    path('<slug:empresa>/card-pf/excluir/<slug:slug>/', ExcluirCardPF.as_view(), name='excluir-card-pf'),
+    path('<slug:empresa>/card-pf/relatorio-pf/<slug:slug>/', RelatorioPF.as_view(), name='relatorio-pf'),
+    path('<slug:empresa>/card-pf/anuncio/criar/', CriarAnuncioPF.as_view(), name='criar-anuncio-pf'),
+    path('<slug:empresa>/card-pf/anuncio/listar/', ListarAnuncioPF.as_view(), name='listar-anuncio-pf'),
     path('<slug:empresa>/card-pf/anuncio/editar/<int:pk>/', EditarAnuncioPF.as_view(), name='editar-anuncio-pf'),
     path('<slug:empresa>/card-pf/anuncio/excluir/<int:pk>/', ExcluirAnuncioPF.as_view(), name='excluir-anuncio-pf'),
 
     # CARDS PJ
-    path('card-pj/criar/', CriarCardPJ.as_view(), name='criar-card-pj'),
+    path('<slug:empresa>/card-pj/criar/', CriarCardPJ.as_view(), name='criar-card-pj'),
+    path('<slug:empresa>/card-pj/', ListarCardPJ.as_view(), name='listar-card-pj'),
     path('<slug:empresa>/card-pj/<slug:slug>/', DetalharCardPJ.as_view(), name='detalhar-card-pj'),
-    path('<slug:empresa>/card-pj/', ListarCardsPJ.as_view(), name='listar-cards-pj'),
     path('<slug:empresa>/card-pj/editar/<slug:slug>/', EditarCardPJ.as_view(), name='editar-card-pj'),
     path('<slug:empresa>/card-pj/excluir/<slug:slug>/', ExcluirCardPJ.as_view(), name='excluir-card-pj'),
+    path('<slug:empresa>/relatorio-pj/', RelatorioPJ.as_view(), name='relatorio-pj'),
     path('<slug:empresa>/card-pj/anuncio/criar/', CriarAnuncioPJ.as_view(), name='criar-anuncio-pj'),
     path('<slug:empresa>/card-pj/anuncio/listar/', ListarAnuncioPJ.as_view(), name='listar-anuncio-pj'),
-    path('<slug:empresa>/card-pj/anuncio/editar/<slug:slug>/', EditarAnuncioPJ.as_view(), name='editar-anuncio-pj'),
-    path('<slug:empresa>/relatorio-pj/', RelatorioPJ.as_view(), name='relatorio-pj'),
+    path('<slug:empresa>/card-pj/anuncio/editar/<int:pk>/', EditarAnuncioPJ.as_view(), name='editar-anuncio-pj'),
+    path('<slug:empresa>/card-pj/anuncio/excluir/<int:pk>/', ExcluirAnuncioPJ.as_view(), name='excluir-anuncio-pj'),
 
     # POPULAR FORMS
     path('get-municipios/', GetMunicipios.as_view(), name='get-municipios'),

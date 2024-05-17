@@ -260,8 +260,9 @@ class MinhaConta(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         usuario = self.request.user
+        empresa = usuario.empresas.first()
         card = Card.objects.filter(proprietario=usuario).first()
-        anuncios_criados = card.anuncios.all() if card else None
+        anuncios_criados = empresa.anuncios.all() if empresa else None
         try:
             comprou_cartao_pf = usuario.cartoespf.all() # cartoes comprados pf
             comprou_cartao_pj = usuario.cartoespj.all() # cartoes comprados pj

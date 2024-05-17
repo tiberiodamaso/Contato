@@ -45,7 +45,7 @@ class AnuncioEditForm(forms.ModelForm):
 
     class Meta:
         model = Anuncio
-        exclude = ['card']
+        exclude = ['empresa']
         widgets = {
             'img': forms.FileInput(attrs={'class': 'form-control', 'required': 'required', 'accept': 'image/jpeg, image/png'}),
             'link': forms.URLInput(attrs={'class': 'form-control'}),

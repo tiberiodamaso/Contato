@@ -136,7 +136,7 @@
                                     Cartões
                                 </a>
                                 <ul class="dropdown-menu border">
-                                    <li><a class="dropdown-item nav-link" href="{% url 'core:listar-cards-pj' user.empresas.first.slug %}">Meus cartões</a></li>
+                                    <li><a class="dropdown-item nav-link" href="{% url 'core:listar-card-pj' user.empresas.first.slug %}">Meus cartões</a></li>
                                     <li><a class="dropdown-item nav-link" href="{% url 'core:modelos' %}">Criar cartão</a></li>
                                 </ul>
                             </div>    
@@ -167,19 +167,19 @@
                     {% if user.is_authenticated %}
                         {% if user.cards.first %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'core:dashboard-card' user.empresas.first.slug user.cards.first.slug %}">Relatórios</a>
+                                <a class="nav-link" href="{% url 'core:relatorio-pf' user.empresas.first.slug user.cards.first.slug %}">Relatórios</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link"
-                                    href="{% url 'core:detalhe' user.empresas.first.slug user.cards.first.slug %}">Meu cartão</a>
+                                    href="{% url 'core:detalhar-card-pf' user.empresas.first.slug user.cards.first.slug %}">Meu cartão</a>
                             </li>
                             <div class="dropdown">
                                 <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Anúncios
                                 </a>
                                 <ul class="dropdown-menu border">
-                                <li><a class="dropdown-item nav-link" href="{% url 'core:listar-anuncio-pf' user.empresas.first.slug user.cards.first.slug %}">Meus anúncios</a></li>
-                                <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pf' user.empresas.first.slug user.cards.first.slug %}">Criar anúncio</a></li>
+                                <li><a class="dropdown-item nav-link" href="{% url 'core:listar-anuncio-pf' user.empresas.first.slug %}">Meus anúncios</a></li>
+                                <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pf' user.empresas.first.slug %}">Criar anúncio</a></li>
                                 </ul>
                             </div>
                         {% else %}

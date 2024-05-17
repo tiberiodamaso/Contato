@@ -4,7 +4,6 @@
 {% block content %}
 
 
-<!-- {% include 'core/menu-interno.html'} -->
 {% include 'core/menu.html'%}
 
 <!-- <div class="container-fluid"> -->
@@ -23,9 +22,9 @@
         {% endif %}
         <!-- <p>Informações sobre a performance</p> -->
         <div class="d-flex justify-content-center py-3 mx-2">
-            <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:editar' empresa.slug card.slug %}">Editar</a>
+            <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:editar-card-pf' empresa.slug card.slug %}">Editar</a>
             <p class="mx-2"><a class="btn btn-warning"
-                    href="{% url 'core:dashboard-card' empresa.slug card.slug %}">Performance</a></p>
+                    href="{% url 'core:relatorio-pf' empresa.slug %}">Performance</a></p>
         </div>
     </div>
     {% endif %}
