@@ -1162,10 +1162,11 @@ class DetalharCardPJ(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         card = self.get_object()
+        empresa = self.request.user.empresas.first()
         cor_de_fundo = card.cor
         luminosidade = self.luminosidade(cor_de_fundo)
         card_atributos = card.__dict__
-        anuncios = card.anuncios.all()
+        anuncios = empresa.anuncios.all()
         produtos = []
         servicos = []
         portfolios = []
@@ -1281,9 +1282,10 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
 
     def form_valid(self, form):
         card = self.get_object()
-        # proprietario = self.request.user
-        # card.proprietario = proprietario
-        # empresa = form.cleaned_data['empresa']
+        first_name = form.cleaned_data['first_name']
+        last_name = form.cleaned_data['last_name']
+        email = form.cleaned_data['email']
+        username = slugify(f'{first_name}-{last_name}')
         usuario_do_card = card.usuario_do_card
         empresa = card.empresa
         modelo = form.cleaned_data['modelo']
@@ -1308,11 +1310,18 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         logotipo = self.request.FILES['logotipo'] if 'logotipo' in self.request.FILES else ''
         tamanho_maximo = 1 * 1024 * 1024
 
+        if email:
+            email_existente = Usuario.objects.filter(email=email)
+            if email_existente:
+                messages.error(self.request, 'Já existe um usuário com o email informado.')
+                return self.form_invalid(form)
+
         # VALIDA TAMANHO DE ARQUIVOS
         if img_perfil and img_perfil.size > tamanho_maximo:
             messages.error(
                 self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
             return self.form_invalid(form)
+
 
         if logotipo and logotipo.size > tamanho_maximo:
             messages.error(
@@ -1329,6 +1338,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                     print(err)
             card.img_perfil = img_perfil
             card.img_perfil.save(name=img_perfil.name, content=img_perfil.file)
+
 
         if 'sem_foto' in self.request.POST:
             if card.img_perfil:
@@ -1368,6 +1378,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
             temp_file.close()
             os.remove(temp_file.name)
 
+
         if 'sem_logo' in self.request.POST:
             if card.logotipo:
                 try:
@@ -1375,6 +1386,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                     card.logotipo.delete()
                 except FileNotFoundError as err:
                     print(err)
+
 
         # APAGA VCF ANTIGO SALVA NOVO
         if card.vcf:
@@ -1391,6 +1403,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
             except FileNotFoundError as err:
                 print(err)
 
+
         # APAGA QRCODE ANTIGO E SALVA NOVO
         if card.qr_code:
             try:
@@ -1400,7 +1413,14 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
             except FileNotFoundError as err:
                 print(err)
 
+        usuario_do_card.email = email
+        usuario_do_card.first_name = first_name
+        usuario_do_card.last_name = last_name
+        usuario_do_card.username = username
+        usuario_do_card.save()
+
         card.nome_display = nome_display
+        card.slug = usuario_do_card.username
         card.cor = cor
         card.empresa = empresa
         card.site = site
