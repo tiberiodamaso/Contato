@@ -9,7 +9,7 @@
     <h2 class="text-center display-4 my-5">Editar anúncio</h2>
 
     <!--FORMULÁRIO PARA EDITAR ANUNCIO-->
-    <form action="{% url 'core:editar-anuncio-pf' card.empresa.slug anuncio.id %}" method="post"
+    <form action="{% url 'core:editar-anuncio-pj' empresa.slug anuncio.id %}" method="post"
         class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
         {% csrf_token %}
 
@@ -20,7 +20,7 @@
                 {{form.tipo}}
             </div>
         </div>
-
+        
         <!--ANUNCIO IMAGEM-->
         <div>
             <img src="{{ anuncio.img.url }}" class="card-img-top mb-3" alt="...">
