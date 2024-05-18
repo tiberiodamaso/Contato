@@ -40,6 +40,8 @@ class CardAdmin(admin.ModelAdmin):
         'whatsapp',
     ]
 
+    readonly_fields = ['conteudo_pesquisavel']
+
     def save_model(self, request, obj, form, change):
         # Atribui o usuário logado ao atributo "user" do objeto
         obj.proprietario = request.user

@@ -191,7 +191,7 @@ class Card(models.Model):
         return str(self.usuario_do_card)
 
     def prepara_conteudo_pesquisavel(self):
-        conteudo = self.proprietario.get_full_name().lower() + self.estado.nome.lower() + \
+        conteudo = self.usuario_do_card.get_full_name().lower() + self.estado.nome.lower() + \
             self.municipio.nome.lower() + self.categoria.nome.lower() + self.subcategoria.nome.lower()
 
         # substituir caracteres acentuados por não acentuados

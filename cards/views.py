@@ -45,21 +45,11 @@ reg_b = re.compile(r"(android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|b
 reg_v = re.compile(r"1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\\-(n|u)|c55\\/|capi|ccwa|cdm\\-|cell|chtm|cldc|cmd\\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\\-s|devi|dica|dmob|do(c|p)o|ds(12|\\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\\-|_)|g1 u|g560|gene|gf\\-5|g\\-mo|go(\\.w|od)|gr(ad|un)|haie|hcit|hd\\-(m|p|t)|hei\\-|hi(pt|ta)|hp( i|ip)|hs\\-c|ht(c(\\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\\-(20|go|ma)|i230|iac( |\\-|\\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\\/)|klon|kpt |kwc\\-|kyo(c|k)|le(no|xi)|lg( g|\\/(k|l|u)|50|54|\\-[a-w])|libw|lynx|m1\\-w|m3ga|m50\\/|ma(te|ui|xo)|mc(01|21|ca)|m\\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\\-2|po(ck|rt|se)|prox|psio|pt\\-g|qa\\-a|qc(07|12|21|32|60|\\-[2-7]|i\\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\\-|oo|p\\-)|sdk\\/|se(c(\\-|0|1)|47|mc|nd|ri)|sgh\\-|shar|sie(\\-|m)|sk\\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\\-|v\\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\\-|tdg\\-|tel(i|m)|tim\\-|t\\-mo|to(pl|sh)|ts(70|m\\-|m3|m5)|tx\\-9|up(\\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\\-|your|zeto|zte\\-", re.I | re.M)
 
 
-class RelatorioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, TemplateView):
-    template_name = 'cards/relatorio-pf.html'
-
-    def test_func(self):
-        relatorios_comprados = self.request.user.relatorios.all()
-        for relatorio in relatorios_comprados:
-            if relatorio.status == 'authorized':
-                return True
-
-    def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-nao-comprou-relatorio.html', status=403)
-
-    def get_success_url(self, card):
-        empresa = self.request.user.empresas.first()
-        return reverse('core:detalhar-card-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+# VIEWS AUXILIARES
+class Pesquisar(ListView):
+    model = Card
+    template_name = 'cards/pesquisar.html'
+    context_object_name = 'cards'
 
     def process_request(self):
         self.request.mobile = False
@@ -70,57 +60,37 @@ class RelatorioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
             if b or v:
                 return True
 
-    def get_data():
-        url = ''
-        response = request.get(url)
-        data = response.json()['data']
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self):
+        context = super().get_context_data()
         if self.process_request():
             context['mobile'] = True
-        card = self.request.user.cards.first()
-        pagina = f'/{self.request.user.empresas.first().slug}/card/{card.slug}/'
-        data_city = analytics_data_api.run_report_city(
-            property_id=None, pagina=pagina)
-        data_session_origin = analytics_data_api.run_report_session_origin(
-            property_id=None, pagina=pagina)
-
-        resultados = {}
-        origens = []
-        usuarios_por_origem = []
-        if not data_session_origin.rows or not data_city.rows:
-            context['resultados'] = None
-            return context
-
-        for row in data_session_origin.rows[0].dimension_values:
-            origens.append(row.value)
-            resultados['origens'] = origens
-        for row in data_session_origin.rows[0].metric_values:
-            usuarios_por_origem = [row.value]
-            resultados['usuarios_por_origem'] = usuarios_por_origem
-
-        context['card'] = card
-        context['empresa'] = card.empresa
-
-        # AQUISIÇÃO DE USUÁRIOS
-        context['total_de_usuarios'] = data_city.totals[0].metric_values[0].value
-        context['usuarios_ativos'] = data_city.totals[0].metric_values[1].value
-        context['novos_usuarios'] = data_city.totals[0].metric_values[2].value
-        context['tempo_de_interacao'] = data_city.totals[0].metric_values[3].value
-
-        # AQUISIÇÃO DE TRÁFEGO
-        context['sessoes'] = data_city.totals[0].metric_values[4].value
-        context['duracao_media_sessao'] = data_city.totals[0].metric_values[5].value
-        # context['sessoes_engajadas'] = data.totals[0].metric_values[6].value
-        context['visualizacoes'] = data_city.totals[0].metric_values[6].value
-        # context['visualizacoes_por_sessao'] = data.totals[0].metric_values[8].value
-        context['rejeicao'] = data_city.totals[0].metric_values[7].value
-        context['data'] = data_city
-
-        # ORIGEM DE TRÁFEGO
-        context['resultados'] = resultados
+        estados = Estado.objects.all()
+        categorias = Categoria.objects.all()
+        context['categorias'] = categorias
+        context['subcategorias'] = Subcategoria.objects.filter(
+            categoria=categorias.first())
+        context['estados'] = estados
+        context['municipios'] = Municipio.objects.filter(
+            estado=estados.first())
         return context
+
+    def get_queryset(self):
+        conteudo_pesquisado = self.request.GET.get("pesquisar")
+        categoria = self.request.GET.get(
+            "categoria") if self.request.GET.get("categoria") != '0' else None
+        subcategoria = self.request.GET.get(
+            "subcategoria") if self.request.GET.get("subcategoria") != '0' else None
+        queryset = Card.objects.all()
+        if conteudo_pesquisado and conteudo_pesquisado != 'None':
+            conteudo_pesquisado_limpo = cleaner(conteudo_pesquisado)
+            queryset = queryset.filter(
+                conteudo_pesquisavel__contains=conteudo_pesquisado_limpo)
+        if categoria and categoria != 'None':
+            queryset = queryset.filter(categoria=categoria)
+        if subcategoria and subcategoria != 'None':
+            queryset = queryset.filter(subcategoria=subcategoria)
+
+        return queryset
 
 
 class Modelos(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
@@ -179,6 +149,25 @@ class TrocarModelo(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         return self.render_to_response(context)
 
 
+class Todos(LoginRequiredMixin, ListView):
+
+    model = Card
+    template_name = 'cards/todos-cards.html'
+    context_object_name = 'cards'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ua = self.request.META['HTTP_USER_AGENT']
+        cards = Card.objects.all()
+        cards_por_empresa = Empresa.objects.values(
+            'nome').annotate(num_cards=Count('cards'))
+        context['cards'] = cards
+        context['cards_por_empresa'] = cards_por_empresa
+        return context
+
+
+
+# CARDS PF
 class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Card
     form_class = CardEditForm
@@ -654,25 +643,8 @@ class ExcluirCardPF(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         return super().post(request, *args, **kwargs)
 
 
-class Todos(LoginRequiredMixin, ListView):
 
-    model = Card
-    template_name = 'cards/todos-cards.html'
-    context_object_name = 'cards'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        ua = self.request.META['HTTP_USER_AGENT']
-        cards = Card.objects.all()
-        cards_por_empresa = Empresa.objects.values(
-            'nome').annotate(num_cards=Count('cards'))
-        context['cards'] = cards
-        context['cards_por_empresa'] = cards_por_empresa
-        return context
-
-
-
-# VIEWS DE ANUNCIO
+# ANUNCIOS PF
 class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Anuncio
     form_class = AnuncioEditForm
@@ -908,10 +880,22 @@ class ExcluirAnuncioPF(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class Pesquisar(ListView):
-    model = Card
-    template_name = 'cards/pesquisar.html'
-    context_object_name = 'cards'
+# RELATORIO PF
+class RelatorioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, TemplateView):
+    template_name = 'cards/relatorio-pf.html'
+
+    def test_func(self):
+        relatorios_comprados = self.request.user.relatorios.all()
+        for relatorio in relatorios_comprados:
+            if relatorio.status == 'authorized':
+                return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-nao-comprou-relatorio.html', status=403)
+
+    def get_success_url(self, card):
+        empresa = self.request.user.empresas.first()
+        return reverse('core:detalhar-card-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
 
     def process_request(self):
         self.request.mobile = False
@@ -922,44 +906,64 @@ class Pesquisar(ListView):
             if b or v:
                 return True
 
-    def get_context_data(self):
-        context = super().get_context_data()
+    def get_data():
+        url = ''
+        response = request.get(url)
+        data = response.json()['data']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         if self.process_request():
             context['mobile'] = True
-        estados = Estado.objects.all()
-        categorias = Categoria.objects.all()
-        context['categorias'] = categorias
-        context['subcategorias'] = Subcategoria.objects.filter(
-            categoria=categorias.first())
-        context['estados'] = estados
-        context['municipios'] = Municipio.objects.filter(
-            estado=estados.first())
+        card = self.request.user.cards.first()
+        pagina = f'/{self.request.user.empresas.first().slug}/card/{card.slug}/'
+        data_city = analytics_data_api.run_report_city(
+            property_id=None, pagina=pagina)
+        data_session_origin = analytics_data_api.run_report_session_origin(
+            property_id=None, pagina=pagina)
+
+        resultados = {}
+        origens = []
+        usuarios_por_origem = []
+        if not data_session_origin.rows or not data_city.rows:
+            context['resultados'] = None
+            return context
+
+        for row in data_session_origin.rows[0].dimension_values:
+            origens.append(row.value)
+            resultados['origens'] = origens
+        for row in data_session_origin.rows[0].metric_values:
+            usuarios_por_origem = [row.value]
+            resultados['usuarios_por_origem'] = usuarios_por_origem
+
+        context['card'] = card
+        context['empresa'] = card.empresa
+
+        # AQUISIÇÃO DE USUÁRIOS
+        context['total_de_usuarios'] = data_city.totals[0].metric_values[0].value
+        context['usuarios_ativos'] = data_city.totals[0].metric_values[1].value
+        context['novos_usuarios'] = data_city.totals[0].metric_values[2].value
+        context['tempo_de_interacao'] = data_city.totals[0].metric_values[3].value
+
+        # AQUISIÇÃO DE TRÁFEGO
+        context['sessoes'] = data_city.totals[0].metric_values[4].value
+        context['duracao_media_sessao'] = data_city.totals[0].metric_values[5].value
+        # context['sessoes_engajadas'] = data.totals[0].metric_values[6].value
+        context['visualizacoes'] = data_city.totals[0].metric_values[6].value
+        # context['visualizacoes_por_sessao'] = data.totals[0].metric_values[8].value
+        context['rejeicao'] = data_city.totals[0].metric_values[7].value
+        context['data'] = data_city
+
+        # ORIGEM DE TRÁFEGO
+        context['resultados'] = resultados
         return context
-
-    def get_queryset(self):
-        conteudo_pesquisado = self.request.GET.get("pesquisar")
-        categoria = self.request.GET.get(
-            "categoria") if self.request.GET.get("categoria") != '0' else None
-        subcategoria = self.request.GET.get(
-            "subcategoria") if self.request.GET.get("subcategoria") != '0' else None
-        queryset = Card.objects.all()
-        if conteudo_pesquisado and conteudo_pesquisado != 'None':
-            conteudo_pesquisado_limpo = cleaner(conteudo_pesquisado)
-            queryset = queryset.filter(
-                conteudo_pesquisavel__contains=conteudo_pesquisado_limpo)
-        if categoria and categoria != 'None':
-            queryset = queryset.filter(categoria=categoria)
-        if subcategoria and subcategoria != 'None':
-            queryset = queryset.filter(subcategoria=subcategoria)
-
-        return queryset
 
 
 # CARDS PJ
 class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Card
     form_class = CardEditFormPJ
-    template_name = 'cards/card-criar-pj.html'
+    template_name = 'cards/criar-card-pj.html'
     success_message = 'Cartão criado com sucesso.'
 
     def test_func(self):
@@ -1114,7 +1118,7 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
 
 class ListarCardPJ(LoginRequiredMixin, ListView):
     model = Card
-    template_name = 'cards/card-lista-pj.html'
+    template_name = 'cards/listar-card-pj.html'
     context_object_name = 'cards'
 
     def get_context_data(self, **kwargs):
@@ -1220,7 +1224,7 @@ class DetalharCardPJ(DetailView):
 class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Card
     form_class = CardEditFormPJ
-    template_name = 'cards/card-editar-pj.html'
+    template_name = 'cards/editar-card-pj.html'
     success_message = 'Cartão atualizado com sucesso!'
 
     def test_func(self):
@@ -1310,7 +1314,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         logotipo = self.request.FILES['logotipo'] if 'logotipo' in self.request.FILES else ''
         tamanho_maximo = 1 * 1024 * 1024
 
-        if email:
+        if 'email' in form.changed_data:
             email_existente = Usuario.objects.filter(email=email)
             if email_existente:
                 messages.error(self.request, 'Já existe um usuário com o email informado.')
@@ -1470,6 +1474,7 @@ class ExcluirCardPJ(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         return HttpResponseRedirect(self.get_success_url(card))
 
 
+# ANUNCIOS PJ
 class CriarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Anuncio
     form_class = AnuncioEditForm
@@ -1706,8 +1711,9 @@ class ExcluirAnuncioPJ(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+# RELATORIO PJ
 class RelatorioPJ(TemplateView):
-    template_name = 'cards/dashboard-empresa.html'
+    template_name = 'cards/relatorio-pj.html'
 
     def process_request(self):
         self.request.mobile = False
