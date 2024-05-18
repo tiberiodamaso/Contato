@@ -1,5 +1,5 @@
 from django import forms
-from .models import Card, Anuncio, TipoAnuncio
+from .models import Card, Anuncio, TipoAnuncio, CodigoPais
 
 class CardEditForm(forms.ModelForm):
 
@@ -29,7 +29,8 @@ class CardEditForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['cod_pais'].empty_label = 'Selecione uma opção'
+        brasil = CodigoPais.objects.get(id=26)
+        self.fields['cod_pais'].initial = brasil
 
 
 class CardEditFormPJ(CardEditForm):
@@ -47,7 +48,7 @@ class AnuncioEditForm(forms.ModelForm):
         model = Anuncio
         exclude = ['empresa']
         widgets = {
-            'img': forms.FileInput(attrs={'class': 'form-control', 'required': 'required', 'accept': 'image/jpeg, image/png'}),
+            'img': forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/jpeg, image/png'}),
             'link': forms.URLInput(attrs={'class': 'form-control'}),
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
             'descricao': forms.Textarea(attrs={'class': 'form-control', 'rows': '3'}),

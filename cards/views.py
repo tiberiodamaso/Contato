@@ -1014,7 +1014,7 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         qr_code.save(blob)
         card.qr_code.save(name, File(blob))
 
-
+    
     def form_valid(self, form):
         card = form.save(commit=False)
         
@@ -1458,10 +1458,6 @@ class ExcluirCardPJ(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         card = self.get_object()
         usuario_do_card = card.usuario_do_card
 
-        anuncios = Anuncio.objects.filter(card=card)
-        for anuncio in anuncios:
-            anuncio.delete()
-
         # Apagar arquivos associados aos anúncios
         path = os.path.join(settings.MEDIA_ROOT, usuario_do_card.id.hex)
         try:
@@ -1501,13 +1497,14 @@ class CriarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         usuario = self.request.user
         card = usuario.cards.first()
         empresa = usuario.empresas.first()
-        return reverse_lazy('core:listar-anuncio-pj', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        return reverse_lazy('core:listar-anuncio-pj', kwargs={'empresa': empresa.slug})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
+        empresa = usuario.empresas.first()
         card = usuario.cards.first()
-        anuncios = Anuncio.objects.filter(card__proprietario=usuario)
+        anuncios = Anuncio.objects.filter(empresa=empresa)
         quantidade_anuncios = len(anuncios)
         context['card'] = card
         context['anuncios'] = anuncios
@@ -1517,8 +1514,8 @@ class CriarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     def form_valid(self, form):
         anuncio = form.save(commit=False)
         usuario = self.request.user
-        card = usuario.cards.first()
-        anuncio.card = card
+        empresa = usuario.empresas.first()
+        anuncio.empresa = empresa
         img = form.cleaned_data['img']
         largura_desejada = 300
         altura_desejada = 300
@@ -1577,7 +1574,7 @@ class ListarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
         usuario = self.request.user
         empresa = usuario.empresas.first()
         card = usuario.cards.first()
-        anuncios = Anuncio.objects.filter(card__empresa=empresa)
+        anuncios = Anuncio.objects.filter(empresa=empresa)
         quantidade_anuncios = len(anuncios)
         context['card'] = card
         context['anuncios'] = anuncios
@@ -1585,24 +1582,118 @@ class ListarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
-class EditarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    ...
+class EditarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = Anuncio
+    form_class = AnuncioEditForm
+    template_name = 'cards/editar-anuncio-pj.html'
+    success_message = 'Anúncio atualizado com sucesso!'
+
+    def test_func(self):
+        autorizado = False
+        usuario = self.request.user
+        empresa = usuario.empresas.first()
+        anuncios = empresa.anuncios.all()
+        ads = Ad.objects.filter(usuario=usuario)
+
+        for ad in ads:
+            if ad.status == 'authorized':
+                autorizado = True
+
+        if autorizado and len(anuncios) < 10:
+            return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-anuncios-criados-atingiu-limite.html', status=403)
+
+    def get_success_url(self):
+        usuario = self.request.user
+        card = usuario.cards.first()
+        empresa = usuario.empresas.first()
+        return reverse_lazy('core:listar-anuncio-pj', kwargs={'empresa': empresa.slug})
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        usuario = self.request.user
+        empresa = usuario.empresas.first()
+        card = usuario.cards.first()
+        anuncios = empresa.anuncios.all()
+        quantidade_anuncios = len(anuncios)
+        context['empresa'] = empresa
+        context['card'] = card
+        context['anuncios'] = anuncios
+        context['quantidade_anuncios'] = quantidade_anuncios
+        return context
+
+
+    def form_valid(self, form):
+        anuncio = form.save(commit=False)
+        usuario = self.request.user
+        empresa = usuario.empresas.first()
+        anuncio.empresa = empresa
+        img = form.cleaned_data['img']
+        largura_desejada = 300
+        altura_desejada = 300
+        tamanho_maximo = 1 * 1024 * 1024
+
+        # Valida tamanho da imagem
+        if 'img' in form.changed_data:
+
+            if not img.name.endswith(('.jpg', '.jpeg', '.png')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o conteúdo.')
+                return self.form_invalid(form)
+
+            if img.size > tamanho_maximo:
+                messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
+                return self.form_invalid(form)
+            
+            extensao = slugify(os.path.splitext(img.name)[1])
+            if extensao == 'jpg':
+                extensao = 'jpeg'
+
+            # APAGA IMGAGEM ANTIGA
+            try:
+                anuncio_anterior = Anuncio.objects.get(id=self.kwargs['pk'])
+                imagem_anterior = anuncio_anterior.img
+                os.remove(imagem_anterior.path)
+                anuncio_anterior.img.delete()
+            except FileNotFoundError as err:
+                print(err)
+
+            # Redimensiona imagem se existe
+            img_redimensionada = resize_image(img, largura_desejada, altura_desejada)
+
+            # Crie um arquivo temporário para a imagem redimensionada
+            temp_file = tempfile.NamedTemporaryFile(delete=False)
+            img_redimensionada.save(temp_file, format=extensao) 
+            anuncio.img.save(name=img.name, content=temp_file, save=True)
+            temp_file.close()
+            os.remove(temp_file.name)
+
+        anuncio.save()
+
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
+        return super().form_invalid(form)
 
 
 class ExcluirAnuncioPJ(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Anuncio
-    template_name = 'cards/criar-anuncio-pj.html'
+    template_name = 'cards/listar-anuncio-pj.html'
     success_message = 'Anúncio excluído com sucesso!'
     success_url = '.'
 
-    def get_success_url(self, card):
+    def get_success_url(self):
         usuario = self.request.user
         empresa = usuario.empresas.first()
-        return reverse('core:criar-anuncio-pj', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        return reverse('core:listar-anuncio-pj', kwargs={'empresa': empresa.slug})
 
     def post(self, request, *args, **kwargs):
         anuncio = Anuncio.objects.filter(id=self.kwargs['pk']).first()
-        card = anuncio.card
         path = anuncio.img.path
 
         # APAGA ARQUIVOS ANTIGOS E EXCLUI REGISTRO DO BANCO
@@ -1612,7 +1703,7 @@ class ExcluirAnuncioPJ(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         except FileNotFoundError as err:
             print(err)
 
-        return HttpResponseRedirect(self.get_success_url(card))
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class RelatorioPJ(TemplateView):
