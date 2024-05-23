@@ -40,7 +40,7 @@
                 <p class="mx-2"><a class="text-decoration-none" href="{% url 'core:detalhar-card-pj' empresa.slug card.slug %}">Visualizar</a>
                 <p class="mx-2"><a class="text-decoration-none" href="{% url 'core:editar-card-pj' empresa.slug card.slug %}">Editar</a>
                 <p class="mx-2"><a class="text-decoration-none"
-                        href="{% url 'core:relatorio-pj' empresa.slug %}">Relatório</a></p>
+                        href="{% url 'core:relatorio-pf' empresa.slug card.slug %}">Relatório</a></p>
             </div>
         </div>
         {% endif %}
