@@ -118,10 +118,21 @@ class TrocarModelo(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     template_name = 'cards/trocar-modelo.html'
 
     def test_func(self):
-        cartoes_comprados = self.request.user.cartoespf.all()
-        for cartao in cartoes_comprados:
+        cartoes_pf_comprados = self.request.user.cartoespf.all()
+        cartoes_pj_comprados = self.request.user.cartoespj.all()
+        autorizado_cartao_pf = False
+        autorizado_cartao_pj = False
+        
+        for cartao in cartoes_pf_comprados:
             if cartao.status == 'approved':
-                return True
+                autorizado_cartao_pf = True
+        
+        for cartao in cartoes_pj_comprados:
+            if cartao.status == 'authorized':
+                autorizado_cartao_pj = True
+
+        if autorizado_cartao_pf or autorizado_cartao_pj:
+            return True
 
     def handle_no_permission(self):
         return render(self.request, 'cards/permissao-negada-nao-comprou-cartao.html', status=403)
