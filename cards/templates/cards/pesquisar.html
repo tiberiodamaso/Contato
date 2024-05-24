@@ -61,9 +61,12 @@
 <!--CARDS-->
 <div class="row text-center justify-content-center flex-column flex-md-row flex-lg-row">
     {% for card in cards %}
-        {% if card.proprietario.is_active %}
         <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
-            <a href="{% url 'core:detalhar-card-pf' card.empresa.slug card.slug %}" class="text-decoration-none text-black">
+            {% if card.proprietario.perfil.is_pj %}
+                <a href="{% url 'core:detalhar-card-pj' card.empresa.slug card.slug %}" class="text-decoration-none text-black">
+            {% else %}
+                <a href="{% url 'core:detalhar-card-pf' card.empresa.slug card.slug %}" class="text-decoration-none text-black">
+            {% endif %}
                 <div class="border rounded-2 shadow mx-3 mx-lg-0 mx-md-0" style="height: 460px;">
                     {% if card.img_perfil %}
                     <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
@@ -81,7 +84,6 @@
                 </div>
             </a>
         </div>
-        {% endif %}
     {% endfor %}
 </div>
 

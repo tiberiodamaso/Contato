@@ -574,7 +574,7 @@ class DetalharCardPF(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         card = self.get_object()
-        empresa = self.request.user.empresas.first()
+        empresa = card.empresa
         cor_de_fundo = card.cor
         luminosidade = self.luminosidade(cor_de_fundo)
         card_atributos = card.__dict__
@@ -1177,7 +1177,7 @@ class DetalharCardPJ(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         card = self.get_object()
-        empresa = self.request.user.empresas.first()
+        empresa = card.empresa
         cor_de_fundo = card.cor
         luminosidade = self.luminosidade(cor_de_fundo)
         card_atributos = card.__dict__
