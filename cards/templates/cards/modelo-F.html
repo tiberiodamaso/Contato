@@ -82,7 +82,7 @@
             {% for atributo in linha %}
                 <!--EMAIL-->
                 {% if atributo == 'email' %}
-                    <a href="mailto:{{ card.proprietario.email }}"
+                    <a href="mailto:{{ card.usuario_do_card.email }}"
                         class="btn bg-body-secondary d-flex justify-content-center align-items-center"
                         style="width: 4em; height: 4em;">
                         <i class="bi bi-envelope-fill fs-1 text-black text-opacity-75"></i>
