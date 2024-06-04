@@ -263,6 +263,7 @@ class MinhaConta(LoginRequiredMixin, ListView):
         empresa = usuario.empresas.first()
         card = Card.objects.filter(proprietario=usuario).first()
         anuncios_criados = empresa.anuncios.all() if empresa else None
+        produtos = []
         try:
             comprou_cartao_pf = usuario.cartoespf.all() # cartoes comprados pf
             comprou_cartao_pj = usuario.cartoespj.all() # cartoes comprados pj
@@ -271,6 +272,23 @@ class MinhaConta(LoginRequiredMixin, ListView):
             cards_criados = usuario.cards.all() # cards criados pelo usuário depois de pagar pela compra
             anuncio = comprou_anuncio
             relatorio = comprou_relatorio
+
+            if comprou_cartao_pf:
+                for cartao_pf in comprou_cartao_pf:
+                    produtos.append(cartao_pf)
+
+            if comprou_cartao_pj:
+                for cartao_pj in comprou_cartao_pj:
+                    produtos.append(cartao_pj)
+
+            if comprou_anuncio:
+                for ad in comprou_anuncio:
+                    produtos.append(ad)
+
+            if comprou_relatorio:
+                for rel in comprou_relatorio:
+                    produtos.append(rel)
+
             context['usuario'] = usuario
             context['comprou_cartao_pf'] = comprou_cartao_pf
             context['comprou_cartao_pj'] = comprou_cartao_pj
@@ -284,6 +302,7 @@ class MinhaConta(LoginRequiredMixin, ListView):
             context['numero_cards_criados'] = len(cards_criados)
             context['numero_anuncios_criados'] = len(anuncios_criados) if anuncios_criados else 0
             context['numero_cartoes_pj'] = len(comprou_cartao_pj)
+            context['produtos'] = produtos
         except ObjectDoesNotExist as err:
             print(err)
             card = None

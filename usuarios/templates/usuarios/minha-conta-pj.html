@@ -151,8 +151,10 @@
 </section>
 
 <!--PERFIL-->
-<section class="d-flex flex-md-row flex-lg-row flex-column justify-content-center">
-    <div class="pb-5 px-3 col-lg-4 col-md-4">
+<section class="d-flex flex-md-row flex-lg-row flex-column justify-content-around">
+
+    <!--PERFIL-->
+    <div class="pb-5 px-3 col-lg-4 col-md-4 text-center">
         <h3 class="my-4 display-6 text-center">Perfil</h3>
 
         <!--DADOS PESSOAIS-->
@@ -191,5 +193,40 @@
             </div>
         </div>
     </div>
+
+    <!--COMPRAS-->
+    <div class="pb-5 px-3 col-lg-6 col-md-6 text-center">
+        <h3 class="my-4 display-6 text-center">Minhas compras</h3>
+
+        <!--PRODUTOS-->
+        {% if produtos %}
+        <div class="p-3">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produto in produtos %}
+                    <tr>
+                        <td>{{produto.id}}</td>
+                        <td>{{produto.valor}}</td>
+                        <td>{{produto.date_created}}</td>
+                        <td>{{produto.status}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+        {% else %}
+        <h5>Você ainda não comprou nenhum produto</h5>
+        {% endif %}
+
+    </div>
+
 </section>
 {% endblock %}

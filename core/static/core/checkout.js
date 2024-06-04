@@ -4,6 +4,8 @@ const stripe = Stripe("pk_test_51PL7XdEfa8nOJrr99uOTyOp29hmSCb0ZMhzR4P4U3knCHiGt
 // The items the customer wants to buy
 const items = [{ id: "xl-prod_QBWbRYkQXCsIZN" }];
 
+let usuario = '{{usuario|safe}}'
+
 let elements;
 
 initialize();
@@ -12,7 +14,7 @@ checkStatus();
 
 // Fetches a payment intent and captures the client secret
 async function initialize() {
-    const response = await fetch("/compras/create_payment/", {
+    const response = await fetch("/compras/comprar-cartao-pf/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ items }),
@@ -45,7 +47,7 @@ async function handleSubmit(e) {
         elements,
         confirmParams: {
             // Make sure to change this to your payment completion page
-            return_url: window.location.href,
+            return_url: `${domain}/minha-conta/${usuario.username}`
         },
     });
 

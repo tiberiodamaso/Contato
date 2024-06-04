@@ -20,7 +20,7 @@ from django.http import JsonResponse
 from .models import Relatorio, Ad, CartaoPF, CartaoPJ
 from cards.views import CriarCardPF
 
-stripe.api_key = 'sk_test_51PL7XdEfa8nOJrr9vsJeXG2T7KD81mqvfIfiCFGOFczAWw37mW3yWcnr3jdjqFYDeJ2tDM3fff7RuF3YCSUS7WgW00z58rsHE4'
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -308,78 +308,46 @@ class ComprarCartaoPF(LoginRequiredMixin, SuccessMessageMixin, View):
         # return jsonify(status=session.status, customer_email=session.customer_details.email)
 
         usuario = self.request.user
+        username = usuario.username
         try:
             perfil = usuario.perfil
         except:
             return redirect(reverse_lazy('usuarios:perfil-pf'))
         compra = usuario.cartoespf.last()
         card = usuario.cards.all().first()
-        contexto = {'usuario': usuario, 'card': card, 'compra': compra}
+        contexto = {'usuario': usuario, 'username': username, 'card': card, 'compra': compra}
         return render(request, 'compras/comprar-cartao-pf.html', contexto)
 
 
     def post(self, request, *args, **kwargs):
         usuario = self.request.user
-        access_token = settings.PAGSEGURO_ACCESS_TOKEN
-        form_data = json.loads(self.request.body.decode('utf-8'))
+        data_atual = datetime.now()
+        formato_da_string = "%Y-%m-%d %H:%M:%S"
+        data_atual_formatada = data_atual.strftime(formato_da_string)
 
-        # Defina a URL da API do MercadoPago
-        url = 'https://api.mercadopago.com/v1/payments'
+        try:
+            data = json.loads(request.body)
+            intent = stripe.PaymentIntent.create(
+                amount=2990,
+                currency='brl',
+                automatic_payment_methods={'enabled': True,},
+            )
 
-        # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
-        headers = {
-            'Content-Type': 'application/json',
-            'X-Idempotency-Key': '0d5020ed-1af6-469c-ae06-c3bec19954bb',
-            'Authorization': f'Bearer {access_token}',
-        }
-
-        # Defina os dados da solicitação em formato JSON
-        data = {
-            "description": "Cartão de visitas virtual individual",
-            "installments": 1,
-            "issuer_id": form_data.get('issuer_id'),
-            "payer": {
-                "entity_type": "individual",
-                "type": "customer",
-                "email": form_data.get('payer')['email'],
-                "identification": {
-                    "type": form_data.get('payer')['identification']['type'],
-                    "number": form_data.get('payer')['identification']['number']
-                }
-            },
-            "payment_method_id": form_data.get('payment_method_id'),
-            "token": form_data.get('token'),
-            "transaction_amount": form_data.get('transaction_amount')
-        }
-
-        # Faça a solicitação POST para a API do MercadoPago
-        response = requests.post(url, json=data, headers=headers)
-
-        # Verifique se a solicitação foi bem-sucedida
-        if response.status_code == 200 or response.status_code == 201:
-            data = response.json()
-            formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
             cartao = CartaoPF.objects.create(
                 usuario=usuario,
-                pagamento_id = data['id'],
-                payer_id = data['payer']['id'],
-                date_created = datetime.strptime(data['date_created'], formato_da_string),
-                valor = float(data['transaction_amount']),
-                authorization_code = data['authorization_code'],
-                status = data['status'],
+                pagamento_id = intent.id,
+                payer_id = 1,
+                date_created = datetime.now().strptime(data_atual_formatada, formato_da_string),
+                valor = 29.90,
+                authorization_code = 1,
+                status = 'pendente',
             )
-            messages.success(self.request, 'Pagamento realizado com sucesso!')
-            mensagem = 'Pagamento realizado com sucesso!'
-            response_data = {
-                'status_code': response.status_code,
-                'message': mensagem,
-            }
-            return JsonResponse(response_data, status=response.status_code)
-        else:
-            # Lidar com erros de solicitação, se necessário
-            error_message = response.text
-            print(f'response.status_code != 201, error_message = {error_message}')
-            return JsonResponse({'error': error_message}, status=response.status_code)
+
+            return JsonResponse({
+                'clientSecret': intent['client_secret']
+            })
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=403)
 
 
 
@@ -573,53 +541,53 @@ class ComprarCartaoPJ(LoginRequiredMixin, SuccessMessageMixin, View):
 
 # STRIPE
 
+# @csrf_exempt
+# def create_checkout_session(request):
+
+#     if request.method == 'POST':
+#         try:
+#             domain_url = request.build_absolute_uri('/')[:-1]
+#             success_url = str(reverse_lazy('core:modelos'))
+#             session = stripe.checkout.Session.create(
+#                 ui_mode='embedded',
+#                 locale='pt',
+#                 line_items=[
+#                     {
+#                         # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+#                         'price': 'price_1PLA0lEfa8nOJrr9DfWMLery',
+#                         'quantity': 1,
+#                     }, 
+#                 ],
+#                 mode='payment',
+#                 return_url=f"{domain_url}{success_url}?session_id={{CHECKOUT_SESSION_ID}}",
+#             )
+#             return JsonResponse({'clientSecret': session.client_secret})
+#         except Exception as e:
+#             return JsonResponse({'error': str(e)}, status=400)
+#     else:
+#         return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+# @csrf_exempt
+# def session_status(request):
+
+#     session_id = request.GET.get('session_id')
+#     if session_id:
+#         try:
+#             session = stripe.checkout.Session.retrieve(session_id)
+#             response_data = {
+#                 'status': session.status,
+#                 'customer_email': session.customer_details.email,
+#             }
+#             return JsonResponse(response_data)
+#         except Exception as e:
+#             return JsonResponse({'error': str(e)}, status=400)
+#     else:
+#         return JsonResponse({'error': 'session_id parameter is required'}, status=400)
+
+
 @csrf_exempt
-def create_checkout_session(request):
-
-    if request.method == 'POST':
-        try:
-            domain_url = request.build_absolute_uri('/')[:-1]
-            success_url = str(reverse_lazy('core:modelos'))
-            session = stripe.checkout.Session.create(
-                ui_mode='embedded',
-                locale='pt',
-                line_items=[
-                    {
-                        # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                        'price': 'price_1PLA0lEfa8nOJrr9DfWMLery',
-                        'quantity': 1,
-                    }, 
-                ],
-                mode='payment',
-                return_url=f"{domain_url}{success_url}?session_id={{CHECKOUT_SESSION_ID}}",
-            )
-            return JsonResponse({'clientSecret': session.client_secret})
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
-    else:
-        return JsonResponse({'error': 'Invalid request method'}, status=405)
-
-
-@csrf_exempt
-def session_status(request):
-
-    session_id = request.GET.get('session_id')
-    if session_id:
-        try:
-            session = stripe.checkout.Session.retrieve(session_id)
-            response_data = {
-                'status': session.status,
-                'customer_email': session.customer_details.email,
-            }
-            return JsonResponse(response_data)
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
-    else:
-        return JsonResponse({'error': 'session_id parameter is required'}, status=400)
-
-
-@csrf_exempt
-def my_webhook_view(request):
+def stripe_webhook(request):
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     event = None

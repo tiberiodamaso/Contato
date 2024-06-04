@@ -4,17 +4,15 @@
     {% include 'core/menu.html' %}
     {% include 'core/mensagens.html' %}
 
-    <!--MERCADO PAGO SDK-->
-    <!-- <script src="https://sdk.mercadopago.com/js/v2"></script> -->
-
     <!--STRIPE-->
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="{% static 'core/checkout.js' %}"></script>
+    <!-- <script src="{% static 'core/checkout.js' %}"></script> -->
     <link rel="stylesheet" href="{% static 'core/checkout.css' %}" />
 
 
     <!--INFORMAÇÕES DO PRODUTO E FORMULÁRIO PARA PAGAMENTO-->
     <div class="container mt-5">
+
         <div class="row justify-content-md-center justify-content-lg-center">
             <!--INFORMAÇÕES DO PRODUTO-->
             {% if not compra %}
@@ -75,112 +73,131 @@
         </div>
     </div>
 
-    <!--INICIALIZA FORM DE PAGAMENTO-->
-    <!-- <script>
-        const mp = new MercadoPago('TEST-32bc8738-ecfc-4e29-a3c9-5abd8f5c1dbe', {
-          locale: 'pt-BR'
-        });
-        const bricksBuilder = mp.bricks();
-        const renderCardPaymentBrick = async (bricksBuilder) => {
-          const settings = {
-            initialization: {
-              amount: 29.90, // valor total a ser pago
-              payer: {
-                email: "",
-              },
-            },
-            customization: {
-              visual: {
-                style: {
-                    customVariables:{
-                        theme: 'bootstrap',
-                        baseColor: '#ffc108',
-                    }
-                },
-                texts: {
-                    formTitle: "Cartão de crédito",
-                  },
-                paymentMethods: {
-                    types: {
-                        excluded: ['debit_card']
-                    }, 
-                    maxInstallments: 1,
-                }
-              },
-            },
-            callbacks: {
-              onReady: () => {
-                // callback chamado quando o Brick estiver pronto
-              },
-              onSubmit: (cardFormData) => {
-                //  callback chamado o usuário clicar no botão de submissão dos dados
-                //  exemplo de envio dos dados coletados pelo Brick para seu servidor
-                return new Promise((resolve, reject) => {
-                  fetch("/compras/comprar-cartao-pf/", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(cardFormData)
-                  })
-                    .then((response) => {
-                        // Verifica o resultado do pagamento
-                        console.log(response)
-                        console.log(response.status)
-                        if (response.status === 200) {
-                            // Pagamento bem-sucedido, redirecione para a página de sucesso
-                            console.log('Pagamento bem-sucedido, redirecione para a página de sucesso')
-                            window.location.href = "/card/modelos/";
-                        } else {
-                            // Trate outros cenários de resposta aqui, como erros
-                            // Pode redirecionar para uma página de erro, se aplicável
-                            console.log('Pagamento falhou')
-                            window.location.href = "/";
-    }
-                      resolve();
-                    })
-                    .catch((error) => {
-                      // lidar com a resposta de erro ao tentar criar o pagamento
-                      reject();
-                    })
-                });
-              },
-              onError: (error) => {
-                // callback chamado para todos os casos de erro do Brick
-              },
-            },
-          };
-          window.cardPaymentBrickController = await bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', settings);
-        };
-        renderCardPaymentBrick(bricksBuilder);
-    </script> -->
 
-    <!-- <script>
+    <script>
         // This is your test publishable API key.
         const stripe = Stripe("pk_test_51PL7XdEfa8nOJrr99uOTyOp29hmSCb0ZMhzR4P4U3knCHiGt0c6lflKNqgpFrnYTXReFdTRedxEJk4a2jT4w6QqI00frtaQrxb");
 
-        initialize();
+        // The items the customer wants to buy
+        const items = [{ id: "xl-prod_QBWbRYkQXCsIZN" }];
 
-        // Create a Checkout Session
+        let username = '{{username|safe}}'
+
+        let elements;
+
+        initialize();
+        checkStatus();
+
+
+        // Fetches a payment intent and captures the client secret
         async function initialize() {
-            const fetchClientSecret = async () => {
-                const response = await fetch("/compras/create-checkout-session/", {
+            const response = await fetch("/compras/comprar-cartao-pf/", {
                 method: "POST",
-                });
-                const { clientSecret } = await response.json();
-                return clientSecret;
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ items }),
+            });
+            const { clientSecret } = await response.json();
+
+            const appearance = {
+                theme: 'stripe',
             };
 
-            const checkout = await stripe.initEmbeddedCheckout({
-                fetchClientSecret,
+            elements = stripe.elements({ appearance, clientSecret });
+
+            const addressOptions = { mode: 'billing' };
+            const paymentElementOptions = {layout: "tabs",};
+            const addressElement = elements.create('address', addressOptions);
+            const paymentElement = elements.create('payment', paymentElementOptions);
+            addressElement.mount('#address-element');
+            paymentElement.mount('#payment-element');
+
+            const form = document.getElementById('payment-form');
+            form.addEventListener('submit', handleSubmit)
+        }
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+            setLoading(true);
+            const domain = window.location.origin;
+
+            const { error } = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    // Make sure to change this to your payment completion page
+                    return_url: `${domain}/usuarios/minha-conta/${username}/`
+                },
             });
 
-            // Mount Checkout
-            checkout.mount('#checkout');
-        }
-    </script> -->
+            // This point will only be reached if there is an immediate error when
+            // confirming the payment. Otherwise, your customer will be redirected to
+            // your `return_url`. For some payment methods like iDEAL, your customer will
+            // be redirected to an intermediate site first to authorize the payment, then
+            // redirected to the `return_url`.
+            if (error.type === "card_error" || error.type === "validation_error") {
+                showMessage(error.message);
+            } else {
+                showMessage("Um erro inesperado ocorreu.");
+            }
 
+            setLoading(false);
+        }
+
+        // Fetches the payment intent status after payment submission
+        async function checkStatus() {
+            const clientSecret = new URLSearchParams(window.location.search).get(
+                "payment_intent_client_secret"
+            );
+
+            if (!clientSecret) {
+                return;
+            }
+
+            const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+
+            switch (paymentIntent.status) {
+                case "succeeded":
+                    showMessage("Payment succeeded!");
+                    break;
+                case "processing":
+                    showMessage("Your payment is processing.");
+                    break;
+                case "requires_payment_method":
+                    showMessage("Your payment was not successful, please try again.");
+                    break;
+                default:
+                    showMessage("Something went wrong.");
+                    break;
+            }
+        }
+
+        // ------- UI helpers -------
+
+        function showMessage(messageText) {
+            const messageContainer = document.querySelector("#payment-message");
+
+            messageContainer.classList.remove("hidden");
+            messageContainer.textContent = messageText;
+
+            setTimeout(function () {
+                messageContainer.classList.add("hidden");
+                messageContainer.textContent = "";
+            }, 4000);
+        }
+
+        // Show a spinner on payment submission
+        function setLoading(isLoading) {
+            if (isLoading) {
+                // Disable the button and show a spinner
+                document.querySelector("#submit").disabled = true;
+                document.querySelector("#spinner").classList.remove("hidden");
+                document.querySelector("#button-text").classList.add("hidden");
+            } else {
+                document.querySelector("#submit").disabled = false;
+                document.querySelector("#spinner").classList.add("hidden");
+                document.querySelector("#button-text").classList.remove("hidden");
+            }
+        }
+    </script>
     
-  
 
 {% endblock %}
