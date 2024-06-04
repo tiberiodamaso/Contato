@@ -1,14 +1,14 @@
 import json, os, requests
 import hmac
 import hashlib
-
+import stripe
 from datetime import datetime
-
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.urls import reverse, reverse_lazy
 from django.conf import settings
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -17,10 +17,10 @@ from django.views.generic.base import TemplateResponseMixin
 from django.views.generic.edit import DeletionMixin
 from django.views.generic import View, CreateView, UpdateView, TemplateView
 from django.http import JsonResponse
-
 from .models import Relatorio, Ad, CartaoPF, CartaoPJ
 from cards.views import CriarCardPF
 
+stripe.api_key = 'sk_test_51PL7XdEfa8nOJrr9vsJeXG2T7KD81mqvfIfiCFGOFczAWw37mW3yWcnr3jdjqFYDeJ2tDM3fff7RuF3YCSUS7WgW00z58rsHE4'
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -219,7 +219,7 @@ class AtualizarCartaoRelatorio(LoginRequiredMixin, SuccessMessageMixin, View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class ComprarCartaoPF(LoginRequiredMixin, SuccessMessageMixin, View):
+class ComprarCartaoPFMP(LoginRequiredMixin, SuccessMessageMixin, View):
 
 
     def get(self, request, *args, **kwargs):
@@ -295,6 +295,92 @@ class ComprarCartaoPF(LoginRequiredMixin, SuccessMessageMixin, View):
             error_message = response.text
             print(f'response.status_code != 201, error_message = {error_message}')
             return JsonResponse({'error': error_message}, status=response.status_code)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ComprarCartaoPF(LoginRequiredMixin, SuccessMessageMixin, View):
+
+
+    def get(self, request, *args, **kwargs):
+
+        # session = stripe.checkout.Session.retrieve(request.args.get('session_id'))
+
+        # return jsonify(status=session.status, customer_email=session.customer_details.email)
+
+        usuario = self.request.user
+        try:
+            perfil = usuario.perfil
+        except:
+            return redirect(reverse_lazy('usuarios:perfil-pf'))
+        compra = usuario.cartoespf.last()
+        card = usuario.cards.all().first()
+        contexto = {'usuario': usuario, 'card': card, 'compra': compra}
+        return render(request, 'compras/comprar-cartao-pf.html', contexto)
+
+
+    def post(self, request, *args, **kwargs):
+        usuario = self.request.user
+        access_token = settings.PAGSEGURO_ACCESS_TOKEN
+        form_data = json.loads(self.request.body.decode('utf-8'))
+
+        # Defina a URL da API do MercadoPago
+        url = 'https://api.mercadopago.com/v1/payments'
+
+        # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
+        headers = {
+            'Content-Type': 'application/json',
+            'X-Idempotency-Key': '0d5020ed-1af6-469c-ae06-c3bec19954bb',
+            'Authorization': f'Bearer {access_token}',
+        }
+
+        # Defina os dados da solicitação em formato JSON
+        data = {
+            "description": "Cartão de visitas virtual individual",
+            "installments": 1,
+            "issuer_id": form_data.get('issuer_id'),
+            "payer": {
+                "entity_type": "individual",
+                "type": "customer",
+                "email": form_data.get('payer')['email'],
+                "identification": {
+                    "type": form_data.get('payer')['identification']['type'],
+                    "number": form_data.get('payer')['identification']['number']
+                }
+            },
+            "payment_method_id": form_data.get('payment_method_id'),
+            "token": form_data.get('token'),
+            "transaction_amount": form_data.get('transaction_amount')
+        }
+
+        # Faça a solicitação POST para a API do MercadoPago
+        response = requests.post(url, json=data, headers=headers)
+
+        # Verifique se a solicitação foi bem-sucedida
+        if response.status_code == 200 or response.status_code == 201:
+            data = response.json()
+            formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
+            cartao = CartaoPF.objects.create(
+                usuario=usuario,
+                pagamento_id = data['id'],
+                payer_id = data['payer']['id'],
+                date_created = datetime.strptime(data['date_created'], formato_da_string),
+                valor = float(data['transaction_amount']),
+                authorization_code = data['authorization_code'],
+                status = data['status'],
+            )
+            messages.success(self.request, 'Pagamento realizado com sucesso!')
+            mensagem = 'Pagamento realizado com sucesso!'
+            response_data = {
+                'status_code': response.status_code,
+                'message': mensagem,
+            }
+            return JsonResponse(response_data, status=response.status_code)
+        else:
+            # Lidar com erros de solicitação, se necessário
+            error_message = response.text
+            print(f'response.status_code != 201, error_message = {error_message}')
+            return JsonResponse({'error': error_message}, status=response.status_code)
+
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -484,3 +570,86 @@ class ComprarCartaoPJ(LoginRequiredMixin, SuccessMessageMixin, View):
             print(f'response.status_code != 201, error_message = {error_message}')
             return JsonResponse({'error': error_message}, status=response.status_code)
 
+
+# STRIPE
+
+@csrf_exempt
+def create_checkout_session(request):
+
+    if request.method == 'POST':
+        try:
+            domain_url = request.build_absolute_uri('/')[:-1]
+            success_url = str(reverse_lazy('core:modelos'))
+            session = stripe.checkout.Session.create(
+                ui_mode='embedded',
+                locale='pt',
+                line_items=[
+                    {
+                        # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                        'price': 'price_1PLA0lEfa8nOJrr9DfWMLery',
+                        'quantity': 1,
+                    }, 
+                ],
+                mode='payment',
+                return_url=f"{domain_url}{success_url}?session_id={{CHECKOUT_SESSION_ID}}",
+            )
+            return JsonResponse({'clientSecret': session.client_secret})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+@csrf_exempt
+def session_status(request):
+
+    session_id = request.GET.get('session_id')
+    if session_id:
+        try:
+            session = stripe.checkout.Session.retrieve(session_id)
+            response_data = {
+                'status': session.status,
+                'customer_email': session.customer_details.email,
+            }
+            return JsonResponse(response_data)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    else:
+        return JsonResponse({'error': 'session_id parameter is required'}, status=400)
+
+
+@csrf_exempt
+def my_webhook_view(request):
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+    endpoint_secret = 'whsec_de06a86430dc9c76f4097be20ebe6fb84f596936734543fb5bcb7ffacd9fff5d'
+
+    try:
+        event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+
+    # Passed signature verification
+    return HttpResponse(status=200)
+
+
+@csrf_exempt
+@require_POST
+def create_payment(request):
+    try:
+        data = json.loads(request.body)
+        intent = stripe.PaymentIntent.create(
+            amount=2990,
+            currency='brl',
+            automatic_payment_methods={'enabled': True,},
+        )
+        return JsonResponse({
+            'clientSecret': intent['client_secret']
+        })
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=403)

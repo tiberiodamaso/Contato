@@ -7,7 +7,7 @@
 {% include 'core/mensagens.html' %}
 
 
-<!--MODELOS-->
+<!--MODELOS 1 A 3-->
 <div class="row text-center justify-content-center flex-column flex-md-row flex-lg-row">
     <h1 class="display-4 fw-normal text-center pt-lg-5">Escolha o modelo</h1>
     <h1 class="display-6 fw-normal text-center pb-4 py-lg-5">Todos os modelos possuem QRCode e você pode escolher a cor de fundo</h1>
@@ -64,6 +64,8 @@
     </div>
 
 </div>
+
+<!--MODELOS 4 A 6-->
 <div class="row text-center justify-content-center flex-column flex-md-row flex-lg-row">
     <!--MODELO 4-->
     <div class="col col-md-3 col-lg-3 mb-4 mb-md-4 mb-lg-4">
@@ -115,5 +117,26 @@
     </div>
     
 </div>
+
+<!-- <script>
+    initialize();
+
+        async function initialize() {
+        const queryString = window.location.search;
+        const domain = window.location.origin;
+        const urlParams = new URLSearchParams(queryString);
+        const sessionId = urlParams.get('session_id');
+        const response = await fetch(`/session-status?session_id=${sessionId}`);
+        const session = await response.json();
+
+        if (session.status == 'open') {
+            
+            window.replace(domain+'/compras/comprar-cartao-pf.html')
+        } else if (session.status == 'complete') {
+            document.getElementById('success').classList.remove('hidden');
+            document.getElementById('customer-email').textContent = session.customer_email
+        }
+    }
+</script> -->
 
 {% endblock %}
