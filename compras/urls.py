@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import ComprarRelatorio, CancelarRelatorio, AtualizarCartaoRelatorio, ComprarCartaoPF, ComprarAnuncio, \
-    ComprarCartaoPJ, stripe_webhook, create_payment
+    ComprarCartaoPJ, stripe_webhook
 
 
 app_name = 'compras'
@@ -15,5 +15,5 @@ urlpatterns = [
     # path('create-checkout-session/', create_checkout_session, name='create-checkout-session'),
     # path('session_status/', session_status, name='session_status'),
     path('stripe_webhook/', stripe_webhook, name='stripe_webhook'),
-    path('create_payment/', create_payment, name='create_payment'),
+    # path('create_payment/', create_payment, name='create_payment'),
 ] 

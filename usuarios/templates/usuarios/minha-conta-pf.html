@@ -13,7 +13,7 @@
 <section class="d-flex flex-md-row flex-lg-row flex-column justify-content-around">
 
     <!--CARTÃO-->
-    {% if comprou_cartao_pf and card %}
+    {% if pgto_cartao_pf and card %}
     <div class="pb-5 px-3 col-lg-3 col-md-3">
         <h3 class="my-4 display-6 text-center">Cartão</h3>
         <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
@@ -38,7 +38,7 @@
             </a>
         </div>
     </div>
-    {% elif comprou_cartao_pf and not criou_cards %}
+    {% elif pgto_cartao_pf and not card %}
     <div class="pb-5 px-3  col-lg-3 col-md-3">
         <h3 class="my-4 display-6 text-center">Cartão</h3>
         <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
@@ -46,8 +46,8 @@
                 <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
                     <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
                 </div>
-                <h4 class="lead p-3 lh-base">Você ainda não criou seu cartão. Crie um agora mesmo comece a compartilhar.</h4>
-                <a href="{% url 'core:modelos' %}" type="button" class="btn btn-warning">Criar cartão</a>
+                <h4 class="lead p-3 lh-base">Você ainda não criou seu cartão virtual. Crie um agora mesmo e comece a compartilhar.</h4>
+                <a href="{% url 'core:modelos' %}" type="button" class="btn btn-warning">Criar meu cartão</a>
             </div>
         </div>
     </div>
@@ -59,7 +59,7 @@
                 <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
                     <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
                 </div>
-                <h4 class="lead p-3 lh-base">Você ainda não comprou um cartão. Compre agora e comece a compartilhar.</h4>
+                <h4 class="lead p-3 lh-base">Você ainda não comprou um cartão ou o pagamento está pendente. Compre agora e comece a compartilhar.</h4>
                 <a href="{% url 'compras:comprar-cartao-pf' %}" type="button" class="btn btn-warning">Comprar cartão</a>
             </div>
         </div>
@@ -93,7 +93,7 @@
                     <i class="bi bi-megaphone text-warning" style="font-size: 4em;"></i>
                 </div>
                 <h4 class="lead p-3 lh-base">Tenha 10 anúncios no seu cartão e divulgue seus produtos, serviços, promoções muito mais.</h4>
-                <a href="{% url 'compras:comprar-anuncio' %}" type="button" class="btn btn-warning">Comprar pacote</a>
+                <a href="{% url 'compras:comprar-anuncio' %}" type="button" class="btn btn-warning">Comprar anúncios</a>
             </div>
         </div>
     </div>

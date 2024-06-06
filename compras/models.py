@@ -55,8 +55,8 @@ class Ad(models.Model):
         return self.usuario.get_full_name()
 
 
-
 class CartaoPJ(models.Model):
+
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name='Usuário', related_name='cartoespj')
     assinatura_id = models.CharField(verbose_name='Assinatura ID', max_length=50)
     payer_id = models.CharField(verbose_name='Payer ID', max_length=20)
@@ -74,3 +74,26 @@ class CartaoPJ(models.Model):
 
     def __str__(self):
         return self.usuario.get_full_name()
+
+
+class Pagamento(models.Model):
+    STATUS_CHOICES = [
+        ('pendente', 'Pendente'),
+        ('aprovado', 'Aprovado'),
+        ('falhou', 'Falhou'),
+    ]
+    
+    stripe_session_id = models.CharField(verbose_name='Stripe session ID', max_length=255, unique=True)
+    customer_email = models.EmailField(verbose_name='E-mail do cliente')
+    amount = models.DecimalField(verbose_name='Valor', max_digits=10, decimal_places=2)
+    product = models.CharField(verbose_name='Produto', max_length=20)
+    status = models.CharField(verbose_name='Status', max_length=10, choices=STATUS_CHOICES, default='pendente')
+    created_at = models.DateTimeField(verbose_name='Criado', auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name='Atualizado', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Pagamento'
+        verbose_name_plural = 'Pagamentos'
+
+    def __str__(self):
+        return f'{self.customer_email} - {self.amount} - {self.status}'

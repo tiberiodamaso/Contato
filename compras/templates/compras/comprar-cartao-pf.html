@@ -6,7 +6,6 @@
 
     <!--STRIPE-->
     <script src="https://js.stripe.com/v3/"></script>
-    <!-- <script src="{% static 'core/checkout.js' %}"></script> -->
     <link rel="stylesheet" href="{% static 'core/checkout.css' %}" />
 
 
@@ -15,47 +14,45 @@
 
         <div class="row justify-content-md-center justify-content-lg-center">
             <!--INFORMAÇÕES DO PRODUTO-->
-            {% if not compra %}
-            <div class="col-md-4 mb-4">
-                <h4>Cartão Pessoal</h4>
-                <div class="border rounded-2 shadow text-center">
-                    <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
-                        <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+            {% if not pgto_cartao_pf %}
+                <div class="col-md-4 mb-4">
+                    <h4>Cartão Pessoal</h4>
+                    <div class="border rounded-2 shadow text-center">
+                        <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                            <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+                        </div>
+                        <h2 class="fw-normal">Seu nome</h2>
+                        <h4 class="lead">Seu cargo</h4>
+                        <h4 class="lead">Sua empresa</h4>
+                        <div class="d-flex justify-content-center py-3">
+                            <ul class="text-start lead">
+                                <li>Seu whatsapp</li>
+                                <li>Seu email</li>
+                                <li>Seu site</li>
+                                <li>Suas redes sociais</li>
+                            </ul>
+                        </div>
+                        <h4 class="fs-4 lead pb-3">R$ 29,90</h4>
                     </div>
-                    <h2 class="fw-normal">Seu nome</h2>
-                    <h4 class="lead">Seu cargo</h4>
-                    <h4 class="lead">Sua empresa</h4>
-                    <div class="d-flex justify-content-center py-3">
-                        <ul class="text-start lead">
-                            <li>Seu whatsapp</li>
-                            <li>Seu email</li>
-                            <li>Seu site</li>
-                            <li>Suas redes sociais</li>
-                        </ul>
-                    </div>
-                    <h4 class="fs-4 lead pb-3">R$ 29,90</h4>
-                    <p class="text-danger">Parcelamos em até 5x com juros</p>
                 </div>
-            </div>
 
-            <!--FORMULÁRIO DE PAGAMENTO-->
-            <div id="cardPaymentBrick_container" class="col-6">
-                <form id="payment-form">
-                    <div id="payment-element">
-                    <!--Stripe.js injects the Payment Element-->
-                    </div>
-                    <div id="address-element">
+                <!--FORMULÁRIO DE PAGAMENTO-->
+                <div id="cardPaymentBrick_container" class="col-6">
+                    <form id="payment-form">
+                        <div id="payment-element">
                         <!--Stripe.js injects the Payment Element-->
                         </div>
-                    <button id="submit">
-                        <div class="spinner hidden" id="spinner"></div>
-                        <span id="button-text">Pagar</span>
-                    </button>
-                    <div id="payment-message" class="hidden"></div>
-                </form>
-            </div>
+                        <div id="address-element">
+                            <!--Stripe.js injects the Payment Element-->
+                            </div>
+                        <button id="submit">
+                            <div class="spinner hidden" id="spinner"></div>
+                            <span id="button-text">Pagar</span>
+                        </button>
+                        <div id="payment-message" class="hidden"></div>
+                    </form>
+                </div>
 
-            <!-- <div id="checkout" class="col-6"></div> -->
 
             {% else %}
             <div class="col-md-4 mb-4">
@@ -74,6 +71,7 @@
     </div>
 
 
+    <!--STRIPE-->
     <script>
         // This is your test publishable API key.
         const stripe = Stripe("pk_test_51PL7XdEfa8nOJrr99uOTyOp29hmSCb0ZMhzR4P4U3knCHiGt0c6lflKNqgpFrnYTXReFdTRedxEJk4a2jT4w6QqI00frtaQrxb");

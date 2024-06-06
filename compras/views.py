@@ -17,8 +17,9 @@ from django.views.generic.base import TemplateResponseMixin
 from django.views.generic.edit import DeletionMixin
 from django.views.generic import View, CreateView, UpdateView, TemplateView
 from django.http import JsonResponse
-from .models import Relatorio, Ad, CartaoPF, CartaoPJ
+from .models import Relatorio, Ad, CartaoPF, CartaoPJ, Pagamento
 from cards.views import CriarCardPF
+from usuarios.models import Usuario
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -302,28 +303,30 @@ class ComprarCartaoPF(LoginRequiredMixin, SuccessMessageMixin, View):
 
 
     def get(self, request, *args, **kwargs):
-
-        # session = stripe.checkout.Session.retrieve(request.args.get('session_id'))
-
-        # return jsonify(status=session.status, customer_email=session.customer_details.email)
-
         usuario = self.request.user
         username = usuario.username
+        pgto_cartao_pf = False
+        context = {}
         try:
             perfil = usuario.perfil
         except:
             return redirect(reverse_lazy('usuarios:perfil-pf'))
-        compra = usuario.cartoespf.last()
+
+        cartoes_pf = usuario.cartoespf.all()
+        for cartao_pf in cartoes_pf:
+            if cartao_pf.status == 'Aprovado':
+                pgto_cartao_pf = True
+
         card = usuario.cards.all().first()
-        contexto = {'usuario': usuario, 'username': username, 'card': card, 'compra': compra}
-        return render(request, 'compras/comprar-cartao-pf.html', contexto)
+        context['usuario'] = usuario
+        context['username'] = username
+        context['pgto_cartao_pf'] = pgto_cartao_pf
+        context['card'] = card
+        return render(request, 'compras/comprar-cartao-pf.html', context)
 
 
     def post(self, request, *args, **kwargs):
         usuario = self.request.user
-        data_atual = datetime.now()
-        formato_da_string = "%Y-%m-%d %H:%M:%S"
-        data_atual_formatada = data_atual.strftime(formato_da_string)
 
         try:
             data = json.loads(request.body)
@@ -333,14 +336,11 @@ class ComprarCartaoPF(LoginRequiredMixin, SuccessMessageMixin, View):
                 automatic_payment_methods={'enabled': True,},
             )
 
-            cartao = CartaoPF.objects.create(
-                usuario=usuario,
-                pagamento_id = intent.id,
-                payer_id = 1,
-                date_created = datetime.now().strptime(data_atual_formatada, formato_da_string),
-                valor = 29.90,
-                authorization_code = 1,
-                status = 'pendente',
+            Pagamento.objects.create(
+                stripe_session_id=intent.id,
+                customer_email=request.user.email,
+                amount=29.90,
+                product='cartao_pf',
             )
 
             return JsonResponse({
@@ -541,57 +541,14 @@ class ComprarCartaoPJ(LoginRequiredMixin, SuccessMessageMixin, View):
 
 # STRIPE
 
-# @csrf_exempt
-# def create_checkout_session(request):
-
-#     if request.method == 'POST':
-#         try:
-#             domain_url = request.build_absolute_uri('/')[:-1]
-#             success_url = str(reverse_lazy('core:modelos'))
-#             session = stripe.checkout.Session.create(
-#                 ui_mode='embedded',
-#                 locale='pt',
-#                 line_items=[
-#                     {
-#                         # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-#                         'price': 'price_1PLA0lEfa8nOJrr9DfWMLery',
-#                         'quantity': 1,
-#                     }, 
-#                 ],
-#                 mode='payment',
-#                 return_url=f"{domain_url}{success_url}?session_id={{CHECKOUT_SESSION_ID}}",
-#             )
-#             return JsonResponse({'clientSecret': session.client_secret})
-#         except Exception as e:
-#             return JsonResponse({'error': str(e)}, status=400)
-#     else:
-#         return JsonResponse({'error': 'Invalid request method'}, status=405)
-
-
-# @csrf_exempt
-# def session_status(request):
-
-#     session_id = request.GET.get('session_id')
-#     if session_id:
-#         try:
-#             session = stripe.checkout.Session.retrieve(session_id)
-#             response_data = {
-#                 'status': session.status,
-#                 'customer_email': session.customer_details.email,
-#             }
-#             return JsonResponse(response_data)
-#         except Exception as e:
-#             return JsonResponse({'error': str(e)}, status=400)
-#     else:
-#         return JsonResponse({'error': 'session_id parameter is required'}, status=400)
-
-
 @csrf_exempt
 def stripe_webhook(request):
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-    event = None
     endpoint_secret = 'whsec_de06a86430dc9c76f4097be20ebe6fb84f596936734543fb5bcb7ffacd9fff5d'
+    data_atual = datetime.now()
+    formato_da_string = "%Y-%m-%d %H:%M:%S"
+    data_atual_formatada = data_atual.strftime(formato_da_string)
 
     try:
         event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
@@ -602,22 +559,28 @@ def stripe_webhook(request):
         # Invalid signature
         return HttpResponse(status=400)
 
+    if event['type'] == 'payment_intent.succeeded':
+        intent = event['data']['object']
+        try:
+            pgto = Pagamento.objects.get(stripe_session_id=intent['id'])
+            usuario = Usuario.objects.get(email=pgto.customer_email)
+            pgto.status = 'aprovado'
+
+            if pgto.product == 'cartao_pf':
+                CartaoPF.objects.create(
+                    usuario=usuario,
+                    pagamento_id = intent.id,
+                    payer_id = 1,
+                    date_created = datetime.now().strptime(data_atual_formatada, formato_da_string),
+                    valor = 29.90,
+                    authorization_code = 1,
+                    status = 'Aprovado',
+                )
+
+            pgto.save()
+        except Pagamento.DoesNotExist:
+            pass
+
     # Passed signature verification
     return HttpResponse(status=200)
 
-
-@csrf_exempt
-@require_POST
-def create_payment(request):
-    try:
-        data = json.loads(request.body)
-        intent = stripe.PaymentIntent.create(
-            amount=2990,
-            currency='brl',
-            automatic_payment_methods={'enabled': True,},
-        )
-        return JsonResponse({
-            'clientSecret': intent['client_secret']
-        })
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=403)

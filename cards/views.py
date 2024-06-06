@@ -103,7 +103,7 @@ class Modelos(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         else:
             cartoes_comprados = self.request.user.cartoespf.all()
         for cartao in cartoes_comprados:
-            if cartao.status == 'approved' or cartao.status == 'authorized':
+            if cartao.status == 'Aprovado' or cartao.status == 'Autorizado':
                 return True
 
     def handle_no_permission(self):
