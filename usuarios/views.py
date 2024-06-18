@@ -268,8 +268,8 @@ class MinhaConta(LoginRequiredMixin, ListView):
         try:
             comprou_cartao_pf = usuario.cartoespf.all() # cartoes comprados pf
             comprou_cartao_pj = usuario.cartoespj.all() # cartoes comprados pj
-            comprou_anuncio = usuario.ads.all().last() # anuncios comprados
-            comprou_relatorio = usuario.relatorios.all().last() # relatorios comprados
+            comprou_anuncio = usuario.ads.all() # anuncios comprados
+            comprou_relatorio = usuario.relatorios.all() # relatorios comprados
             cards_criados = usuario.cards.all() # cards criados pelo usuário depois de pagar pela compra
             anuncio = comprou_anuncio
             relatorio = comprou_relatorio

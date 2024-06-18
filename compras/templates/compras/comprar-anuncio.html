@@ -5,13 +5,29 @@
     {% include 'core/mensagens.html' %}
 
     <!--MERCADO PAGO SDK-->
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <!-- <script src="https://sdk.mercadopago.com/js/v2"></script> -->
 
-    <!--INFORMAÇÕES DO PRODUTO E FORMULÁRIO PARA PAGAMENTO-->
+    <!--STRIPE-->
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="{% static 'core/checkout.css' %}" />
+
+    <!--MENSAGEM, PRODUTO E FORMULÁRIO PARA PAGAMENTO-->
     <div class="container mt-5">
+
+        <!--MESSAGEM-->
+        <div class="row justify-content-center my-5 hidden" id="id-message-div">
+            <div class="alert alert-success text-center col-10 d-flex align-items-center justify-content-around alert-dismissible" role="alert">
+              <span id="id-message-content"></span>
+              <a href="{% url 'core:criar-anuncio-pf' user.empresas.first.slug %}" type="button" class="btn btn-warning">Criar meus anúncios</a>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <!--PRODUTO E FORMULARIO DE PAGAMENTO-->
         <div class="row justify-content-md-center justify-content-lg-center">
-            <!--INFORMAÇÕES DO PRODUTO-->
-            {% if not compra %}
+
+            <!--PRODUTO-->
+            {% if not pgto_ads %}
             <div class="col-md-4 mb-4">
                 <h4>Pacote de 10 anúncios</h4>
                 <div class="border rounded-2 shadow text-center">
@@ -38,7 +54,20 @@
             </div>
 
             <!--FORMULÁRIO DE PAGAMENTO-->
-            <div id="cardPaymentBrick_container" class="col-6"></div>
+            <div id="cardPaymentBrick_container" class="col-6">
+                <form id="payment-form">
+                    <div id="payment-element">
+                    <!--Stripe.js injects the Payment Element-->
+                    </div>
+                    <div id="address-element">
+                        <!--Stripe.js injects the Payment Element-->
+                        </div>
+                    <button id="submit">
+                        <div class="spinner hidden" id="spinner"></div>
+                        <span id="button-text">Pagar</span>
+                    </button>
+                </form>
+            </div>
 
             {% else %}
             <div class="col-md-4 mb-4">
@@ -52,92 +81,136 @@
                 class="btn fs-5 w-100 bg-warning text-white mt-3">Criar anúncios</a>
                 {% endif %}
             </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 
-    <!--INICIALIZA FORM DE PAGAMENTO-->
+    <!--STRIPE-->
     <script>
-        const slug_empresa = '{{card.empresa.slug}}';
-        const slug_card = '{{card.slug}}';
-        const slugEmpresa = slug_empresa.replace(/\u002D/g, '-');
-        const slugCard = slug_card.replace(/\u002D/g, '-');
-        const mp = new MercadoPago('TEST-32bc8738-ecfc-4e29-a3c9-5abd8f5c1dbe', {
-          locale: 'pt-BR'
-        });
-        const bricksBuilder = mp.bricks();
-        const renderCardPaymentBrick = async (bricksBuilder) => {
-          const settings = {
-            initialization: {
-              amount: 9.90, // valor total a ser pago
-              payer: {
-                email: "",
-              },
-            },
-            customization: {
-              visual: {
-                style: {
-                    customVariables:{
-                        theme: 'bootstrap',
-                        baseColor: '#ffc108',
-                    }
+        // This is your test publishable API key.
+        const stripe = Stripe("pk_test_51PL7XdEfa8nOJrr99uOTyOp29hmSCb0ZMhzR4P4U3knCHiGt0c6lflKNqgpFrnYTXReFdTRedxEJk4a2jT4w6QqI00frtaQrxb");
+
+        // The items the customer wants to buy
+        const items = [{ id: "xl-prod_QBWbRYkQXCsIZN" }];
+
+        let username = '{{username|safe}}'
+
+        let elements;
+
+        initialize();
+        checkStatus();
+
+
+        // Fetches a payment intent and captures the client secret
+        async function initialize() {
+            const response = await fetch("/compras/comprar-anuncio/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ items }),
+            });
+            const { clientSecret } = await response.json();
+
+            const appearance = {
+                theme: 'stripe',
+            };
+
+            elements = stripe.elements({ appearance, clientSecret });
+
+            const addressOptions = { mode: 'billing' };
+            const paymentElementOptions = {layout: "tabs",};
+            const addressElement = elements.create('address', addressOptions);
+            const paymentElement = elements.create('payment', paymentElementOptions);
+            addressElement.mount('#address-element');
+            paymentElement.mount('#payment-element');
+
+            const form = document.getElementById('payment-form');
+            form.addEventListener('submit', handleSubmit)
+        }
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+            setLoading(true);
+            const domain = window.location.origin;
+
+            const { error } = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    // Make sure to change this to your payment completion page
+                    return_url: `${domain}/compras/comprar-anuncio/`
+                    // return_url: `${domain}/usuarios/minha-conta/${username}/`
                 },
-                texts: {
-                    formTitle: "Cartão de crédito",
-                  },
-                paymentMethods: {
-                    types: {
-                        excluded: ['debit_card']
-                    }, 
-                    maxInstallments: 1,
-                }
-              },
-            },
-            callbacks: {
-              onReady: () => {
-                // callback chamado quando o Brick estiver pronto
-              },
-              onSubmit: (cardFormData) => {
-                //  callback chamado o usuário clicar no botão de submissão dos dados
-                //  exemplo de envio dos dados coletados pelo Brick para seu servidor
-                return new Promise((resolve, reject) => {
-                  fetch("/compras/comprar-anuncio/", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(cardFormData)
-                  })
-                    .then((response) => {
-                        // Verifica o resultado do pagamento
-                        console.log(response)
-                        console.log(response.status)
-                        if (response.status === 200) {
-                            // Pagamento bem-sucedido, redirecione para a página de sucesso
-                            console.log('Pagamento bem-sucedido, redirecione para a página de sucesso')
-                            window.location.href = "/" + slugEmpresa + "/card-pf/anuncio/criar/";
-                        } else {
-                            // Trate outros cenários de resposta aqui, como erros
-                            // Pode redirecionar para uma página de erro, se aplicável
-                            console.log('Pagamento falhou')
-                            window.location.href = "/";
-    }
-                      resolve();
-                    })
-                    .catch((error) => {
-                      // lidar com a resposta de erro ao tentar criar o pagamento
-                      reject();
-                    })
-                });
-              },
-              onError: (error) => {
-                // callback chamado para todos os casos de erro do Brick
-              },
-            },
-          };
-          window.cardPaymentBrickController = await bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', settings);
-        };
-        renderCardPaymentBrick(bricksBuilder);
+            });
+
+            // This point will only be reached if there is an immediate error when
+            // confirming the payment. Otherwise, your customer will be redirected to
+            // your `return_url`. For some payment methods like iDEAL, your customer will
+            // be redirected to an intermediate site first to authorize the payment, then
+            // redirected to the `return_url`.
+            if (error.type === "card_error" || error.type === "validation_error") {
+                showMessage(error.message);
+            } else {
+                showMessage("Um erro inesperado ocorreu.");
+            }
+
+            setLoading(false);
+        }
+
+        // Fetches the payment intent status after payment submission
+        async function checkStatus() {
+            const clientSecret = new URLSearchParams(window.location.search).get(
+                "payment_intent_client_secret"
+            );
+
+            if (!clientSecret) {
+                return;
+            }
+
+            const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+
+            switch (paymentIntent.status) {
+                case "succeeded":
+                    showMessage("Pagamento aprovado!");
+                    break;
+                case "processing":
+                    showMessage("Estamos processando o seu pagamento.");
+                    break;
+                case "requires_payment_method":
+                    showMessage("Erro ao realizar o pagamento. Favor tentar novamente.");
+                    break;
+                default:
+                    showMessage("Alguma coisa deu errado.");
+                    break;
+            }
+        }
+
+        // ------- UI helpers -------
+
+        function showMessage(messageText) {
+            const messageContainer = document.querySelector("#id-message-div");
+            const messageContent = document.querySelector('#id-message-content');
+
+            messageContainer.classList.remove("hidden");
+            messageContent.textContent = messageText;
+
+            // setTimeout(function () {
+            //     messageContainer.classList.add("hidden");
+            //     messageContainer.textContent = "";
+            // }, 4000);
+        }
+
+        // Show a spinner on payment submission
+        function setLoading(isLoading) {
+            if (isLoading) {
+                // Disable the button and show a spinner
+                document.querySelector("#submit").disabled = true;
+                document.querySelector("#spinner").classList.remove("hidden");
+                document.querySelector("#button-text").classList.add("hidden");
+            } else {
+                document.querySelector("#submit").disabled = false;
+                document.querySelector("#spinner").classList.add("hidden");
+                document.querySelector("#button-text").classList.remove("hidden");
+            }
+        }
     </script>
 
 {% endblock %}

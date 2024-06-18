@@ -663,21 +663,24 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     success_message = 'Anúncio criado com sucesso!'
 
     def test_func(self):
-        autorizado = False
+        aprovado = False
         usuario = self.request.user
         empresa = usuario.empresas.first()
         anuncios = empresa.anuncios.all()
-        ads = Ad.objects.filter(usuario=usuario)
+        self.ads = Ad.objects.filter(usuario=usuario)
 
-        for ad in ads:
+        for ad in self.ads:
             if ad.status == 'Aprovado':
-                autorizado = True
+                aprovado = True
 
-        if autorizado and len(anuncios) < 10:
+        if aprovado and len(anuncios) < 10:
             return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-anuncios-criados-atingiu-limite.html', status=403)
+        if not self.ads:
+            return render(self.request, 'cards/permissao-negada-nao-comprou-anuncio.html', status=403)
+        else:
+            return render(self.request, 'cards/permissao-negada-anuncios-criados-atingiu-limite.html', status=403)
 
     def get_success_url(self):
         usuario = self.request.user
@@ -709,7 +712,7 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 
         # Valida tamanho da imagem
         if img:
-            if not img.name.endswith(('.jpg', '.jpeg', '.png')):
+            if not img.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
                 messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o conteúdo.')
                 return self.form_invalid(form)
 
@@ -718,7 +721,7 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
                 return self.form_invalid(form)
             
             extensao = slugify(os.path.splitext(img.name)[1])
-            if extensao == 'jpg':
+            if extensao == 'jpg' or extensao == 'JPG':
                 extensao = 'jpeg'
 
             # Redimensiona imagem se existe
@@ -797,7 +800,7 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         usuario = self.request.user
         card = usuario.cards.first()
         empresa = usuario.empresas.first()
-        return reverse_lazy('core:listar-anuncio-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        return reverse_lazy('core:listar-anuncio-pf', kwargs={'empresa': empresa.slug})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -822,9 +825,9 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         tamanho_maximo = 1 * 1024 * 1024
 
         # Valida tamanho da imagem
-        if img:
+        if form.changed_data == ['img']:
 
-            if not img.name.endswith(('.jpg', '.jpeg', '.png')):
+            if not img.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
                 messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o conteúdo.')
                 return self.form_invalid(form)
 
@@ -833,7 +836,7 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
                 return self.form_invalid(form)
             
             extensao = slugify(os.path.splitext(img.name)[1])
-            if extensao == 'jpg':
+            if extensao == 'jpg' or extensao == 'JPG':
                 extensao = 'jpeg'
 
             # APAGA IMGAGEM ANTIGA
@@ -869,8 +872,6 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
 class ExcluirAnuncioPF(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Anuncio
     template_name = 'cards/criar-anuncio-pf.html'
-    success_message = 'Anúncio atualizado com sucesso!'
-    success_url = '.'
 
     def get_success_url(self):
         usuario = self.request.user
@@ -885,8 +886,10 @@ class ExcluirAnuncioPF(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         try:
             anuncio.delete()
             os.remove(path)
+            messages.success(self.request, 'Anúncio excluído com sucesso!')
         except FileNotFoundError as err:
             print(err)
+            messages.error(self.request, 'Erro ao deletar o anúncio: arquivo não encontrado.')
 
         return HttpResponseRedirect(self.get_success_url())
 

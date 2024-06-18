@@ -9,11 +9,10 @@
     <link rel="stylesheet" href="{% static 'core/checkout.css' %}" />
 
 
-    <!--INFORMAÇÕES DO PRODUTO E FORMULÁRIO PARA PAGAMENTO-->
+    <!--MENSAGEM, PRODUTO E FORMULÁRIO PARA PAGAMENTO-->
     <div class="container mt-5">
 
         <!--MESSAGEM-->
-
         <div class="row justify-content-center my-5 hidden" id="id-message-div">
             <div class="alert alert-success text-center col-10 d-flex align-items-center justify-content-around alert-dismissible" role="alert">
               <span id="id-message-content"></span>
@@ -22,8 +21,10 @@
             </div>
         </div>
 
+        <!--PRODUTO E FORMULARIO DE PAGAMENTO-->
         <div class="row justify-content-md-center justify-content-lg-center">
-            <!--INFORMAÇÕES DO PRODUTO-->
+
+            <!--PRODUTO-->
             {% if not pgto_cartao_pf %}
                 <div class="col-md-4 mb-4">
                     <h4>Cartão Pessoal</h4>
@@ -64,17 +65,18 @@
 
 
             {% else %}
-            <div class="col-md-4 mb-4">
-                {% if not card %}
-                <h4 class="text-center">Você já comprou um cartão. Clique abaixo para criá-lo</h4>
-                <a href="{% url 'core:modelos' %}"
-                class="btn fs-5 w-100 bg-warning text-white mt-3">Criar cartão</a>
-                {% else %}
-                <h4 class="text-center">Você já criou um cartão. Clique abaixo para editá-lo</h4>
-                <a href="{% url 'core:editar-card-pf' card.empresa.slug card.slug %}"
-                class="btn fs-5 w-100 bg-warning text-white mt-3">Editar cartão</a>
-                {% endif %}
-            </div>
+                <div class="col-md-4 mb-4">
+                    {% if not card %}
+                    <h4 class="text-center">Você já comprou um cartão. Clique abaixo para criá-lo</h4>
+                    <a href="{% url 'core:modelos' %}"
+                    class="btn fs-5 w-100 bg-warning text-white mt-3">Criar cartão</a>
+                    {% else %}
+                    <h4 class="text-center">Você já criou um cartão. Clique abaixo para editá-lo</h4>
+                    <a href="{% url 'core:editar-card-pf' card.empresa.slug card.slug %}"
+                    class="btn fs-5 w-100 bg-warning text-white mt-3">Editar cartão</a>
+                    {% endif %}
+                </div>
+
             {% endif %}
         </div>
     </div>
