@@ -124,7 +124,7 @@ class TrocarModelo(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         autorizado_cartao_pj = False
         
         for cartao in cartoes_pf_comprados:
-            if cartao.status == 'approved':
+            if cartao.status == 'Aprovado':
                 autorizado_cartao_pf = True
         
         for cartao in cartoes_pj_comprados:
@@ -188,7 +188,7 @@ class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
     def test_func(self):
         cartoes_comprados = self.request.user.cartoespf.all()
         for cartao in cartoes_comprados:
-            if cartao.status == 'approved':
+            if cartao.status == 'Aprovado':
                 return True
 
     def handle_no_permission(self):
@@ -343,7 +343,7 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
     def test_func(self):
         cartoes_comprados = self.request.user.cartoespf.all()
         for cartao in cartoes_comprados:
-            if cartao.status == 'approved':
+            if cartao.status == 'Aprovado':
                 return True
 
     def handle_no_permission(self):
@@ -670,7 +670,7 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         ads = Ad.objects.filter(usuario=usuario)
 
         for ad in ads:
-            if ad.status == 'approved':
+            if ad.status == 'Aprovado':
                 autorizado = True
 
         if autorizado and len(anuncios) < 10:
@@ -751,7 +751,7 @@ class ListarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         usuario = self.request.user
         ads = Ad.objects.filter(usuario=usuario)
         for ad in ads:
-            if ad.status == 'approved':
+            if ad.status == 'Aprovado':
                 return True
 
     def handle_no_permission(self):
@@ -784,7 +784,7 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         ads = Ad.objects.filter(usuario=usuario)
 
         for ad in ads:
-            if ad.status == 'approved':
+            if ad.status == 'Aprovado':
                 autorizado = True
 
         if autorizado and len(anuncios) < 10:

@@ -141,7 +141,7 @@ class Card(models.Model):
         validators=[URLValidator(schemes=['http', 'https'])],
     )
     cod_pais = models.ForeignKey(CodigoPais, verbose_name='Código do país', on_delete=models.CASCADE, related_name='cards')
-    whatsapp = models.CharField(verbose_name='Whatsapp', max_length=20, unique=True)
+    whatsapp = models.CharField(verbose_name='Whatsapp', max_length=15, unique=True)
     tik_tok = models.URLField(
         verbose_name='Tik_tok',
         max_length=200,

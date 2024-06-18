@@ -3,19 +3,19 @@ from .models import Relatorio, CartaoPF, Ad, CartaoPJ, Pagamento
 
 
 class CartaoPFAdmin(admin.ModelAdmin):
-    list_display = ('id', 'usuario', 'pagamento_id', 'payer_id', 'date_created', 'valor', 'status')
+    list_display = ('id', 'usuario', 'pagamento_id', 'date_created', 'valor', 'status')
     search_fields = ['usuario']
 
 class AdAdmin(admin.ModelAdmin):
-    list_display = ('id', 'usuario', 'pagamento_id', 'payer_id', 'date_created', 'valor', 'status')
+    list_display = ('id', 'usuario', 'pagamento_id', 'date_created', 'valor', 'status')
     search_fields = ['usuario']
     
 class RelatorioAdmin(admin.ModelAdmin):
-    list_display = ('id', 'usuario', 'assinatura_id', 'payer_id', 'date_created', 'valor', 'status')
+    list_display = ('id', 'usuario', 'assinatura_id', 'date_created', 'valor', 'status')
     search_fields = ['usuario']
 
 class CartaoPJAdmin(admin.ModelAdmin):
-    list_display = ('id', 'usuario', 'assinatura_id', 'payer_id', 'date_created', 'valor', 'status')
+    list_display = ('id', 'usuario', 'assinatura_id', 'date_created', 'valor', 'status')
     search_fields = ['usuario']
 
 class PagamentoAdmin(admin.ModelAdmin):

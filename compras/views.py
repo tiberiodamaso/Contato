@@ -30,7 +30,7 @@ class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
     def test_func(self):
         cartoes = self.request.user.cartoespf.all()
         for cartao in cartoes:
-            if cartao.status == 'approved':
+            if cartao.status == 'Aprovado':
                 return True
 
     def handle_no_permission(self):
@@ -357,7 +357,7 @@ class ComprarAnuncio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     def test_func(self):
         cartoes = self.request.user.cartoespf.all()
         for cartao in cartoes:
-            if cartao.status == 'approved':
+            if cartao.status == 'Aprovado':
                 return True
 
     def handle_no_permission(self):
@@ -546,9 +546,6 @@ def stripe_webhook(request):
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     endpoint_secret = 'whsec_de06a86430dc9c76f4097be20ebe6fb84f596936734543fb5bcb7ffacd9fff5d'
-    data_atual = datetime.now()
-    formato_da_string = "%Y-%m-%d %H:%M:%S"
-    data_atual_formatada = data_atual.strftime(formato_da_string)
 
     try:
         event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
@@ -570,10 +567,7 @@ def stripe_webhook(request):
                 CartaoPF.objects.create(
                     usuario=usuario,
                     pagamento_id = intent.id,
-                    payer_id = 1,
-                    date_created = datetime.now().strptime(data_atual_formatada, formato_da_string),
                     valor = 29.90,
-                    authorization_code = 1,
                     status = 'Aprovado',
                 )
 
