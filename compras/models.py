@@ -6,6 +6,7 @@ class Relatorio(models.Model):
     assinatura_id = models.CharField(verbose_name='Assinatura ID', max_length=50)
     valor = models.DecimalField(verbose_name='Valor', max_digits=10, decimal_places=2)
     status = models.CharField(verbose_name='Status', max_length=20, default='pendente')
+    stripe_customer = models.CharField(verbose_name='Stripe customer', max_length=100)
     date_created = models.DateField(verbose_name='Criado', auto_now_add=True)
 
 
@@ -53,6 +54,7 @@ class CartaoPJ(models.Model):
     assinatura_id = models.CharField(verbose_name='Assinatura ID', max_length=50)
     valor = models.DecimalField(verbose_name='Valor', max_digits=10, decimal_places=2)
     status = models.CharField(verbose_name='Status', max_length=20, default='pendente')
+    stripe_customer = models.CharField(verbose_name='Stripe customer', max_length=100)
     date_created = models.DateField(verbose_name='Criado', auto_now_add=True)
 
 

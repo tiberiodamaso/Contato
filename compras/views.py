@@ -274,7 +274,6 @@ def stripe_webhook(request):
 
     try:
         event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
-        print(event)
     except ValueError as e:
         # Invalid payload
         print('Error parsing payload: {}'.format(str(e)))
@@ -292,6 +291,7 @@ def stripe_webhook(request):
         status = event.data.object.payment_status
         assinatura_id = event.data.object.subscription if event.data.object.subscription else None
         pagamento_id = event.data.object.payment_intent if event.data.object.payment_intent else None
+        stripe_customer = event.data.object.customer
 
         # Cria Relatório
         if event.data.object.metadata.produto == 'relatorio':
@@ -301,6 +301,7 @@ def stripe_webhook(request):
                     assinatura_id = assinatura_id,
                     valor = valor,
                     status = status,
+                    stripe_customer=stripe_customer
                 )
             except DatabaseError as e:
                 print(f'DatabaseError {e}')
@@ -337,6 +338,7 @@ def stripe_webhook(request):
                     assinatura_id = assinatura_id,
                     valor = valor,
                     status = status,
+                    stripe_customer=stripe_customer
                 )
 
                 relatorio = Relatorio.objects.create(
@@ -344,6 +346,7 @@ def stripe_webhook(request):
                     assinatura_id = assinatura_id,
                     valor = 0,
                     status = status,
+                    stripe_customer=stripe_customer
                 )
 
                 ad = Ad.objects.create(
@@ -355,6 +358,21 @@ def stripe_webhook(request):
             except DatabaseError as e:
                 print(f'DatabaseError {e}')
 
+    if event.type == 'customer.subscription.updated':
+        assinatura_id = event.data.object.id
+        pass
+
     # Passed signature verification
     return HttpResponse(status=200)
 
+
+def gerenciar_assinaturas(request):
+    email_usuario = request.user.email
+    stripe_customer = request.POST.get('stripe_customer')
+    if request.method == 'POST':
+        portal = stripe.billing_portal.Session.create(
+            customer=stripe_customer,
+            return_url="http://localhost:8000",
+        )
+        url = portal.url
+        return HttpResponseRedirect(url)
