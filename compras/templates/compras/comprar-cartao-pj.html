@@ -4,21 +4,20 @@
     {% include 'core/menu.html' %}
     {% include 'core/mensagens.html' %}
 
-    <!--MERCADO PAGO SDK-->
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <!--STRIPE-->
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 
-    <!--INFORMAÇÕES DO PRODUTO E FORMULÁRIO PARA PAGAMENTO-->
+    <!--PRODUTO-->
     <div class="container mt-5">
         <div class="row justify-content-md-center justify-content-lg-center">
-            <!--INFORMAÇÕES DO PRODUTO-->
-            {% if not compra or nova_compra %}
+            
+            {% if not comprou_cartao_pj or nova_compra %}
             <div class="col-md-4 mb-4">
                 <h4>Cartão Empresarial</h4>
                 <div class="border rounded-2 shadow text-center">
                     <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
                         <i class="bi bi-briefcase text-warning" style="font-size: 4em;"></i>
                     </div>
-                    <!-- <img src="{% static 'core/img/person.jpg'%}" alt="Foto do perfil" class="rounded-circle w-50 my-3 border-2 border"> -->
                     <h2 class="fw-normal">Seu nome</h2>
                     <h4 class="lead">Seu cargo</h4>
                     <h4 class="lead">Sua empresa</h4>
@@ -35,11 +34,14 @@
                         </ul>
                     </div>
                     <h4 class="fs-4 lead pb-3">R$ 49,90/mês</h4>
+                    <stripe-buy-button
+                    buy-button-id="buy_btn_1PUCGWEfa8nOJrr9Nmv6XH4p"
+                    publishable-key="pk_test_51PL7XdEfa8nOJrr99uOTyOp29hmSCb0ZMhzR4P4U3knCHiGt0c6lflKNqgpFrnYTXReFdTRedxEJk4a2jT4w6QqI00frtaQrxb"
+                    customer-email="{{email_usuario}}"
+                    >
+                    </stripe-buy-button>
                 </div>
             </div>
-
-            <!--FORMULÁRIO DE PAGAMENTO-->
-            <div id="cardPaymentBrick_container" class="col-6"></div>
 
             {% else %}
             <div class="col-md-4 mb-4">
@@ -56,90 +58,5 @@
             {% endif %}
         </div>
     </div>
-
-    <!--INICIALIZA FORM DE PAGAMENTO-->
-    <script>
-        const slug_empresa = '{{card.empresa.slug}}';
-        const slug_card = '{{card.slug}}';
-        const usuario = '{{user}}'
-        const slugEmpresa = slug_empresa.replace(/\u002D/g, '-');
-        const slugCard = slug_card.replace(/\u002D/g, '-');
-        const mp = new MercadoPago('APP_USR-f3b270fa-77ec-44e6-b09c-95a30bc6915c', {
-          locale: 'pt-BR'
-        });
-        const bricksBuilder = mp.bricks();
-        const renderCardPaymentBrick = async (bricksBuilder) => {
-          const settings = {
-            initialization: {
-              amount: 49.90, // valor total a ser pago
-              payer: {
-                email: "",
-              },
-            },
-            customization: {
-              visual: {
-                style: {
-                    customVariables:{
-                        theme: 'bootstrap',
-                        baseColor: '#ffc108',
-                    }
-                },
-                texts: {
-                    formTitle: "Cartão de crédito",
-                  },
-                paymentMethods: {
-                    types: {
-                        excluded: ['debit_card']
-                    }, 
-                    maxInstallments: 1,
-                }
-              },
-            },
-            callbacks: {
-              onReady: () => {
-                // callback chamado quando o Brick estiver pronto
-              },
-              onSubmit: (cardFormData) => {
-                //  callback chamado o usuário clicar no botão de submissão dos dados
-                //  exemplo de envio dos dados coletados pelo Brick para seu servidor
-                return new Promise((resolve, reject) => {
-                  fetch("/compras/comprar-cartao-pj/", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(cardFormData)
-                  })
-                    .then((response) => {
-                        // Verifica o resultado do pagamento
-                        console.log(response)
-                        console.log(response.status)
-                        if (response.status === 201) {
-                            // Pagamento bem-sucedido, redirecione para a página de sucesso
-                            console.log('Pagamento bem-sucedido, redirecione para a página de sucesso')
-                            window.location.href = "/usuarios/minha-conta/"  + usuario;
-                        } else {
-                            // Trate outros cenários de resposta aqui, como erros
-                            // Pode redirecionar para uma página de erro, se aplicável
-                            console.log('Pagamento falhou')
-                            window.location.href = "/";
-    }
-                      resolve();
-                    })
-                    .catch((error) => {
-                      // lidar com a resposta de erro ao tentar criar o pagamento
-                      reject();
-                    })
-                });
-              },
-              onError: (error) => {
-                // callback chamado para todos os casos de erro do Brick
-              },
-            },
-          };
-          window.cardPaymentBrickController = await bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', settings);
-        };
-        renderCardPaymentBrick(bricksBuilder);
-    </script>
 
 {% endblock %}

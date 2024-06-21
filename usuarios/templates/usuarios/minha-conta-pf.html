@@ -13,7 +13,7 @@
 <section class="d-flex flex-md-row flex-lg-row flex-column justify-content-around">
 
     <!--CARTÃO-->
-    {% if pgto_cartao_pf and card %}
+    {% if comprou_cartao_pf and card %}
     <div class="pb-5 px-3 col-lg-3 col-md-3">
         <h3 class="my-4 display-6 text-center">Cartão</h3>
         <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
@@ -38,7 +38,7 @@
             </a>
         </div>
     </div>
-    {% elif pgto_cartao_pf and not card %}
+    {% elif comprou_cartao_pf and not card %}
     <div class="pb-5 px-3  col-lg-3 col-md-3">
         <h3 class="my-4 display-6 text-center">Cartão</h3>
         <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
@@ -67,7 +67,7 @@
     {% endif %}
 
     <!--ANUNCIOS-->
-    {% if comprou_anuncio %}
+    {% if comprou_ad %}
     <div class="pb-5 px-3 col-lg-3 col-md-3">
         <h3 class="my-4 display-6 text-center">Anúncios</h3>
         <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
@@ -76,10 +76,8 @@
                     <i class="bi bi-megaphone text-warning" style="font-size: 4em;"></i>
                 </div>
                 <div class="p-3">
-                    <h2 class="fw-normal">Pacote de 10 anúncios</h2>
-                    <h4 class="lead">Comprado em: {{ anuncio.date_created|date:"D d/m/y" }}</h4>
-                    <h4 class="lead">Valor: R$ {{ anuncio.valor }}</h4>
-                    <h4 class="lead pb-5">Anúncios: {{ numero_anuncios_criados }}</h4>
+                    <h2 class="fw-normal">Criados: {{anuncios_criados|length}}</h2>
+                    <h4 class="lead">Restam: {{anuncios_criados|length|calculate}}</h4>
                 </div>
             </div>
         </div>
@@ -109,13 +107,8 @@
                     <i class="bi bi-bar-chart-line text-warning" style="font-size: 4em;"></i>
                 </div>
                 <div class="p-3">
-                    <h4 class="lead">Status: {{relatorio.status|translate}}</h4>
-                    <h4 class="lead">Início: {{relatorio.start_date|date:"D d/m/y"}}</h4>
-                    {% if relatorio.status == 'authorized' %}
-                        <h4 class="lead">Renova: {{relatorio.next_payment_date|date:"D d/m/y"}}</h4>
-                        {% else %}
-                        <h4 class="lead">Fim: {{relatorio.last_modified|date:"D d/m/y"}}</li>
-                    {% endif %}
+                    <h2 class="fw-normal">Status: {{relatorio.status|translate}}</h2>
+                    <h4><a class="text-decoration-none lead" href="https://billing.stripe.com/p/login/test_3cseYecnL2l90mY8ww">Gerencial assinatura</a></h4>
                 </div>
                 <div class="d-flex justify-content-center">
                     {% if relatorio.status == 'authorized' %}
@@ -178,17 +171,17 @@
 
         <!--DADOS PESSOAIS-->
         <div class="p-3">
-            <ul class="list-unstyled lh-lg">
+            <ul class="list-unstyled lh-lg text-start">
                 <li class="card-text lead">Nome: {{usuario.first_name}} {{ usuario.last_name}}</li>
                 <li class="card-text lead">E-mail: {{usuario.email}}</li>
+                <li class="card-text lead">Senha: <a href="{% url 'usuarios:trocar-senha' %}" class="text-decoration-none">Trocar senha</a></li>
+                <li class="card-text lead">Conta: <a href="#" class="text-decoration-none mx-1" data-bs-toggle="modal"
+                    data-bs-target="#modalConfirmaDesativação">Desativar conta</a></li>
             </ul>
         </div>
 
         <!--ACOES-->
         <div class="d-flex justify-content-around mb-4">
-            <a href="{% url 'usuarios:trocar-senha' %}" class="text-decoration-none">Trocar senha</a>
-            <a href="#" class="text-decoration-none mx-1" data-bs-toggle="modal"
-                data-bs-target="#modalConfirmaDesativação">Desativar conta</a>
 
             <!--MODAL DE DESATIVAÇÃO DE CONTA-->
             <div class="modal fade" tabindex="-1" id="modalConfirmaDesativação">
@@ -231,10 +224,10 @@
                 <tbody>
                     {% for produto in produtos %}
                     <tr>
-                        <td>{{produto.id}}</td>
+                        <td>{{produto|get_name}}</td>
                         <td>{{produto.valor}}</td>
                         <td>{{produto.date_created}}</td>
-                        <td>{{produto.status}}</td>
+                        <td>{{produto.status|translate}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

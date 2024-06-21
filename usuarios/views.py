@@ -263,50 +263,59 @@ class MinhaConta(LoginRequiredMixin, ListView):
         empresa = usuario.empresas.first()
         card = Card.objects.filter(proprietario=usuario).first()
         anuncios_criados = empresa.anuncios.all() if empresa else None
+        relatorio = usuario.relatorios.all().last()
         produtos = []
-        pgto_cartao_pf = False
+        comprou_cartao_pf = False
+        comprou_cartao_pj = False
+        comprou_relatorio = False
+        comprou_ad = False
         try:
-            comprou_cartao_pf = usuario.cartoespf.all() # cartoes comprados pf
-            comprou_cartao_pj = usuario.cartoespj.all() # cartoes comprados pj
-            comprou_anuncio = usuario.ads.all() # anuncios comprados
-            comprou_relatorio = usuario.relatorios.all() # relatorios comprados
+            cartoes_pf = usuario.cartoespf.all() # cartoes comprados pf
+            cartoes_pj = usuario.cartoespj.all() # cartoes comprados pj
+            ads = usuario.ads.all() # ads comprados
+            relatorios = usuario.relatorios.all() # relatorios comprados
             cards_criados = usuario.cards.all() # cards criados pelo usuário depois de pagar pela compra
-            anuncio = comprou_anuncio
-            relatorio = comprou_relatorio
 
-            if comprou_cartao_pf:
-                for cartao_pf in comprou_cartao_pf:
-                    produtos.append(cartao_pf)
-                    if cartao_pf.status == 'Aprovado':
-                        pgto_cartao_pf = True
+            if cartoes_pf:
+                for cartao_pf in cartoes_pf:
+                    if cartao_pf.status == 'paid':
+                        produtos.append(cartao_pf)
+                        comprou_cartao_pf = True
 
-            if comprou_cartao_pj:
-                for cartao_pj in comprou_cartao_pj:
-                    produtos.append(cartao_pj)
+            if cartoes_pj:
+                for cartao_pj in cartoes_pj:
+                    if cartao_pj.status == 'paid':
+                        produtos.append(cartao_pj)
+                        comprou_cartao_pj = True
 
-            if comprou_anuncio:
-                for ad in comprou_anuncio:
-                    produtos.append(ad)
+            if ads:
+                for ad in ads:
+                    if ad.status == 'paid':
+                        produtos.append(ad)
+                        comprou_ad = True
 
-            if comprou_relatorio:
-                for rel in comprou_relatorio:
-                    produtos.append(rel)
+            if relatorios:
+                for rel in relatorios:
+                    if rel.status == 'paid':
+                        produtos.append(rel)
+                        comprou_relatorio = True
 
             context['usuario'] = usuario
-            context['comprou_cartao_pf'] = comprou_cartao_pf
-            context['comprou_cartao_pj'] = comprou_cartao_pj
-            context['comprou_anuncio'] = comprou_anuncio
-            context['anuncio'] = anuncio
-            context['cards_criados'] = cards_criados
+            context['empresa'] = empresa
             context['card'] = card
             context['anuncios_criados'] = anuncios_criados
-            context['comprou_relatorio'] = comprou_relatorio
-            context['relatorio'] = relatorio
-            context['numero_cards_criados'] = len(cards_criados)
-            context['numero_anuncios_criados'] = len(anuncios_criados) if anuncios_criados else 0
-            context['numero_cartoes_pj'] = len(comprou_cartao_pj)
             context['produtos'] = produtos
-            context['pgto_cartao_pf'] = pgto_cartao_pf
+            context['comprou_cartao_pf'] = comprou_cartao_pf
+            context['comprou_cartao_pj'] = comprou_cartao_pj
+            context['comprou_relatorio'] = comprou_relatorio
+            context['comprou_ad'] = comprou_ad
+            # context['cartoes_pf'] = cartoes_pf
+            context['cartoes_pj'] = cartoes_pj
+            # context['ads'] = ads
+            context['relatorio'] = relatorio
+            context['cards_criados'] = cards_criados
+            context['numero_cards_criados'] = len(cards_criados)
+            context['numero_cartoes_pj'] = len(cartoes_pj)
         except ObjectDoesNotExist as err:
             print(err)
             card = None

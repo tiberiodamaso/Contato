@@ -5,27 +5,13 @@
     {% include 'core/mensagens.html' %}
 
     <!--STRIPE-->
-    <script src="https://js.stripe.com/v3/"></script>
-    <link rel="stylesheet" href="{% static 'core/checkout.css' %}" />
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 
-
-    <!--MENSAGEM, PRODUTO E FORMULÁRIO PARA PAGAMENTO-->
+    <!--PRODUTO-->
     <div class="container mt-5">
-
-        <!--MESSAGEM-->
-        <div class="row justify-content-center my-5 hidden" id="id-message-div">
-            <div class="alert alert-success text-center col-10 d-flex align-items-center justify-content-around alert-dismissible" role="alert">
-              <span id="id-message-content"></span>
-              <a href="{% url 'core:modelos' %}" type="button" class="btn btn-warning">Criar meu cartão</a>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-
-        <!--PRODUTO E FORMULARIO DE PAGAMENTO-->
         <div class="row justify-content-md-center justify-content-lg-center">
 
-            <!--PRODUTO-->
-            {% if not pgto_cartao_pf %}
+            {% if not comprou_cartao_pf %}
                 <div class="col-md-4 mb-4">
                     <h4>Cartão Pessoal</h4>
                     <div class="border rounded-2 shadow text-center">
@@ -44,25 +30,14 @@
                             </ul>
                         </div>
                         <h4 class="fs-4 lead pb-3">R$ 29,90</h4>
+                        <stripe-buy-button
+                        buy-button-id="buy_btn_1PUBSEEfa8nOJrr95ARMa19E"
+                        publishable-key="pk_test_51PL7XdEfa8nOJrr99uOTyOp29hmSCb0ZMhzR4P4U3knCHiGt0c6lflKNqgpFrnYTXReFdTRedxEJk4a2jT4w6QqI00frtaQrxb"
+                        customer-email="{{email_usuario}}"
+                        >
+                        </stripe-buy-button>
                     </div>
                 </div>
-
-                <!--FORMULÁRIO DE PAGAMENTO-->
-                <div id="cardPaymentBrick_container" class="col-6">
-                    <form id="payment-form">
-                        <div id="payment-element">
-                        <!--Stripe.js injects the Payment Element-->
-                        </div>
-                        <div id="address-element">
-                            <!--Stripe.js injects the Payment Element-->
-                            </div>
-                        <button id="submit">
-                            <div class="spinner hidden" id="spinner"></div>
-                            <span id="button-text">Pagar</span>
-                        </button>
-                    </form>
-                </div>
-
 
             {% else %}
                 <div class="col-md-4 mb-4">
@@ -80,135 +55,5 @@
             {% endif %}
         </div>
     </div>
-
-
-    <!--STRIPE-->
-    <script>
-        // This is your test publishable API key.
-        const stripe = Stripe("pk_test_51PL7XdEfa8nOJrr99uOTyOp29hmSCb0ZMhzR4P4U3knCHiGt0c6lflKNqgpFrnYTXReFdTRedxEJk4a2jT4w6QqI00frtaQrxb");
-
-        // The items the customer wants to buy
-        const items = [{ id: "xl-prod_QBWbRYkQXCsIZN" }];
-
-        let username = '{{username|safe}}'
-
-        let elements;
-
-        initialize();
-        checkStatus();
-
-
-        // Fetches a payment intent and captures the client secret
-        async function initialize() {
-            const response = await fetch("/compras/comprar-cartao-pf/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ items }),
-            });
-            const { clientSecret } = await response.json();
-
-            const appearance = {
-                theme: 'stripe',
-            };
-
-            elements = stripe.elements({ appearance, clientSecret });
-
-            const addressOptions = { mode: 'billing' };
-            const paymentElementOptions = {layout: "tabs",};
-            const addressElement = elements.create('address', addressOptions);
-            const paymentElement = elements.create('payment', paymentElementOptions);
-            addressElement.mount('#address-element');
-            paymentElement.mount('#payment-element');
-
-            const form = document.getElementById('payment-form');
-            form.addEventListener('submit', handleSubmit)
-        }
-
-        async function handleSubmit(e) {
-            e.preventDefault();
-            setLoading(true);
-            const domain = window.location.origin;
-
-            const { error } = await stripe.confirmPayment({
-                elements,
-                confirmParams: {
-                    // Make sure to change this to your payment completion page
-                    return_url: `${domain}/compras/comprar-cartao-pf/`
-                    // return_url: `${domain}/usuarios/minha-conta/${username}/`
-                },
-            });
-
-            // This point will only be reached if there is an immediate error when
-            // confirming the payment. Otherwise, your customer will be redirected to
-            // your `return_url`. For some payment methods like iDEAL, your customer will
-            // be redirected to an intermediate site first to authorize the payment, then
-            // redirected to the `return_url`.
-            if (error.type === "card_error" || error.type === "validation_error") {
-                showMessage(error.message);
-            } else {
-                showMessage("Um erro inesperado ocorreu.");
-            }
-
-            setLoading(false);
-        }
-
-        // Fetches the payment intent status after payment submission
-        async function checkStatus() {
-            const clientSecret = new URLSearchParams(window.location.search).get(
-                "payment_intent_client_secret"
-            );
-
-            if (!clientSecret) {
-                return;
-            }
-
-            const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
-
-            switch (paymentIntent.status) {
-                case "succeeded":
-                    showMessage("Pagamento aprovado!");
-                    break;
-                case "processing":
-                    showMessage("Estamos processando o seu pagamento.");
-                    break;
-                case "requires_payment_method":
-                    showMessage("Erro ao realizar o pagamento. Favor tentar novamente.");
-                    break;
-                default:
-                    showMessage("Alguma coisa deu errado.");
-                    break;
-            }
-        }
-
-        // ------- UI helpers -------
-
-        function showMessage(messageText) {
-            const messageContainer = document.querySelector("#id-message-div");
-            const messageContent = document.querySelector('#id-message-content');
-
-            messageContainer.classList.remove("hidden");
-            messageContent.textContent = messageText;
-
-            // setTimeout(function () {
-            //     messageContainer.classList.add("hidden");
-            //     messageContainer.textContent = "";
-            // }, 4000);
-        }
-
-        // Show a spinner on payment submission
-        function setLoading(isLoading) {
-            if (isLoading) {
-                // Disable the button and show a spinner
-                document.querySelector("#submit").disabled = true;
-                document.querySelector("#spinner").classList.remove("hidden");
-                document.querySelector("#button-text").classList.add("hidden");
-            } else {
-                document.querySelector("#submit").disabled = false;
-                document.querySelector("#spinner").classList.add("hidden");
-                document.querySelector("#button-text").classList.remove("hidden");
-            }
-        }
-    </script>
-    
 
 {% endblock %}

@@ -103,7 +103,7 @@ class Modelos(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         else:
             cartoes_comprados = self.request.user.cartoespf.all()
         for cartao in cartoes_comprados:
-            if cartao.status == 'Aprovado' or cartao.status == 'Autorizado':
+            if cartao.status == 'paid' or cartao.status == 'Autorizado':
                 return True
 
     def handle_no_permission(self):
@@ -124,7 +124,7 @@ class TrocarModelo(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         autorizado_cartao_pj = False
         
         for cartao in cartoes_pf_comprados:
-            if cartao.status == 'Aprovado':
+            if cartao.status == 'paid':
                 autorizado_cartao_pf = True
         
         for cartao in cartoes_pj_comprados:
@@ -188,7 +188,7 @@ class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
     def test_func(self):
         cartoes_comprados = self.request.user.cartoespf.all()
         for cartao in cartoes_comprados:
-            if cartao.status == 'Aprovado':
+            if cartao.status == 'paid':
                 return True
 
     def handle_no_permission(self):
@@ -343,7 +343,7 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
     def test_func(self):
         cartoes_comprados = self.request.user.cartoespf.all()
         for cartao in cartoes_comprados:
-            if cartao.status == 'Aprovado':
+            if cartao.status == 'paid':
                 return True
 
     def handle_no_permission(self):
@@ -670,7 +670,7 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         self.ads = Ad.objects.filter(usuario=usuario)
 
         for ad in self.ads:
-            if ad.status == 'Aprovado':
+            if ad.status == 'paid':
                 aprovado = True
 
         if aprovado and len(anuncios) < 10:
@@ -754,7 +754,7 @@ class ListarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         usuario = self.request.user
         ads = Ad.objects.filter(usuario=usuario)
         for ad in ads:
-            if ad.status == 'Aprovado':
+            if ad.status == 'paid':
                 return True
 
     def handle_no_permission(self):
@@ -787,7 +787,7 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         ads = Ad.objects.filter(usuario=usuario)
 
         for ad in ads:
-            if ad.status == 'Aprovado':
+            if ad.status == 'paid':
                 autorizado = True
 
         if autorizado and len(anuncios) < 10:
@@ -901,7 +901,7 @@ class RelatorioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
     def test_func(self):
         relatorios_comprados = self.request.user.relatorios.all()
         for relatorio in relatorios_comprados:
-            if relatorio.status == 'authorized':
+            if relatorio.status == 'paid':
                 return True
 
     def handle_no_permission(self):

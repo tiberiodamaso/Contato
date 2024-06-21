@@ -12,9 +12,11 @@ def get_values(value):
 @register.filter
 def translate(value):
     if value == 'cancelled':
-        return 'cancelada'
+        return 'Cancelada'
     if value == 'authorized':
-        return 'ativa'
+        return 'Ativa'
+    if value == 'paid':
+        return 'Pago'
     return value
 
 
@@ -22,3 +24,19 @@ def translate(value):
 def formata_telefone(value):
     value = cleaner(value)
     return value
+
+
+@register.filter
+def get_name(value):
+    if value._meta.object_name == 'CartaoPF':
+        return 'Cartão Pessoal'
+    if value._meta.object_name == 'Ad':
+        return 'Anúncios'
+    if value._meta.object_name == 'Relatorio':
+        return 'Relatório'
+    return 'Cartão Empresarial'
+
+
+@register.filter
+def calculate(value):
+    return 10 - value

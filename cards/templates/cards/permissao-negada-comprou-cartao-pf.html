@@ -7,7 +7,7 @@
 <div class="d-flex flex-column align-items-center py-5">
     <div class="container col-xxl-8 px-4 py-5">
         <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-            <h1 class="fw-normal">Para comprar Relatórios ou Pacote de Anúncios é necessário criar um Cartão</h1>
+            <h1 class="fw-normal">Para comprar um Cartão Empresarial você precisa criar uma nova conta.</h1>
             <h5 class="py-3">Compre seu cartão de negócios virtual e comece a compartilhar com seus clientes</h5>
         </div>
 
@@ -16,31 +16,28 @@
 
             <div class="row row-cols-1 row-cols-md-3 mb-3 text-center justify-content-center">
 
-                <!--PRODUTO 1-->
-                <div class="col-10">
+                <!-- PRODUTO 2 -->
+                <div class="col-10" style="width: 300px;">
                     <div class="card mb-4 rounded-3 shadow-sm">
                         <div class="card-header py-3">
-                            <h4 class="my-0 fw-normal">Pessoal</h4>
+                            <h4 class="my-0 fw-normal">Para empresas</h4>
                         </div>
                         <div class="card-body">
-                            <h1 class="card-title pricing-card-title">R$ 29,90</h1>
+                            <h1 class="card-title pricing-card-title fs-2">R$ 49,90/mês</h1>
                             <ul class="list-unstyled mt-3 mb-4">
-                                <li>Seu whatsapp</li>
-                                <li>Seu email</li>
-                                <li>Seu site</li>
-                                <li>Suas redes sociais</li>
+                                <li>Cartão, Anúncios e Relatórios</li>
+                                <li>Monitore o cartão mais popular</li>
+                                <li>Reutilize o cartão</li>
+                                <li>Conquiste mais clientes</li>
                             </ul>
-                            <a type="button" href="{% url 'compras:comprar-cartao-pf' %}"
-                                class="w-100 btn btn-lg btn-warning">Comprar</a>
+                            <a type="button" href="{% url 'usuarios:registrar' %}" class="w-100 btn btn-lg btn-warning">Comprar</a>
                         </div>
                     </div>
                 </div>
-
-                
             </div>
 
         </section>
 
     </div>
 </div>
-    {% endblock %}
+{% endblock %}
