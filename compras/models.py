@@ -8,6 +8,7 @@ class Relatorio(models.Model):
     status = models.CharField(verbose_name='Status', max_length=20, default='pendente')
     stripe_customer = models.CharField(verbose_name='Stripe customer', max_length=100)
     date_created = models.DateField(verbose_name='Criado', auto_now_add=True)
+    cancelamento = models.DateField(verbose_name='Cancelamento', default=None, blank=True, null=True)
 
 
     class Meta:
@@ -56,6 +57,7 @@ class CartaoPJ(models.Model):
     status = models.CharField(verbose_name='Status', max_length=20, default='pendente')
     stripe_customer = models.CharField(verbose_name='Stripe customer', max_length=100)
     date_created = models.DateField(verbose_name='Criado', auto_now_add=True)
+    cancelamento = models.DateField(verbose_name='Cancelamento', default=None, blank=True, null=True)
 
 
     class Meta:

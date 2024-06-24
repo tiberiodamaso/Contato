@@ -98,7 +98,7 @@
     {% endif %}
 
     <!--RELATORIOS-->
-    {% if comprou_relatorio %}
+    {% if comprou_relatorio and relatorio.status == 'paid' %}
     <div class="pb-5 px-3 col-lg-3 col-md-3">
         <h3 class="my-4 display-6 text-center">Relatórios</h3>
         <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
@@ -111,39 +111,8 @@
                     <form method="POST" action="{% url 'compras:gerenciar-assinaturas' %}">
                         {% csrf_token %}
                         <input type="hidden" name="stripe_customer" value="{{relatorio.stripe_customer}}">
-                        <button type="submit" >Gerenciar assinatura</button>
+                        <button type="submit" class="btn btn-warning">Gerenciar assinatura</button>
                     </form>
-                </div>
-                <div class="d-flex justify-content-center">
-                    {% if relatorio.status == 'authorized' %}
-                    <a href="#" class="text-danger text-decoration-none mx-1" class="text-decoration-none" data-bs-toggle="modal"
-                        data-bs-target="#modalConfirmaCancelamento{{ relatorio.id }}">Cancelar</a>
-                    <a href="{% url 'compras:atualizar-cartao-relatorio' relatorio.id %}"
-                        class="text-success text-decoration-none mx-1">Atualizar cartão</a>
-
-                    <!--MODAL DE CANCELAMENTO DE ASSINATURA-->
-                    <div class="modal fade" tabindex="-1" id="modalConfirmaCancelamento{{ relatorio.id }}">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Confirma cancelamento</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Confirma a cancelamento do relatório?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <a href="{% url 'compras:cancelar-relatorio' relatorio.id %}"
-                                        class="btn btn-warning mx-1">Sim</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
-                    {% if relatorio.status == 'cancelled' %}
-                    <a href="{% url 'compras:comprar-relatorio' %}" type="button" class="btn btn-warning">Comprar novamente</a>
-                    {% endif %}
                 </div>
             </div>
         </div>
@@ -158,7 +127,7 @@
                 </div>
                 <h4 class="lead p-3 lh-base">Analise o desempenho do seu cartão.
                     Quais cidades mais acessam, quantos usuários e muito mais.</h4>
-                <a href="{% url 'compras:comprar-relatorio' %}" type="button" class="btn btn-warning">Comprar relatório</a>
+                <a href="{% url 'compras:comprar-relatorio' %}" type="button" class="btn btn-warning">Assinar relatório</a>
             </div>
         </div>
     </div>

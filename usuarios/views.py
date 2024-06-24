@@ -1,6 +1,6 @@
 import requests
 from typing import Any, Dict
-from datetime import datetime
+from datetime import datetime, date
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import CreateView, TemplateView, View, ListView, DeleteView
 from django.views.generic.base import TemplateResponseMixin
@@ -259,16 +259,23 @@ class MinhaConta(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        data_atual = date.today()
         usuario = self.request.user
         empresa = usuario.empresas.first()
         card = Card.objects.filter(proprietario=usuario).first()
         anuncios_criados = empresa.anuncios.all() if empresa else None
         relatorio = usuario.relatorios.all().last()
+        cancelamento = relatorio.cancelamento if relatorio.cancelamento else None
         produtos = []
         comprou_cartao_pf = False
         comprou_cartao_pj = False
         comprou_relatorio = False
         comprou_ad = False
+
+        if cancelamento and data_atual > cancelamento:
+            relatorio.status = 'cancelled'
+            relatorio.save()
+
         try:
             cartoes_pf = usuario.cartoespf.all() # cartoes comprados pf
             cartoes_pj = usuario.cartoespj.all() # cartoes comprados pj

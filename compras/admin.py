@@ -11,11 +11,11 @@ class AdAdmin(admin.ModelAdmin):
     search_fields = ['usuario']
     
 class RelatorioAdmin(admin.ModelAdmin):
-    list_display = ('id', 'usuario', 'assinatura_id', 'valor', 'status', 'stripe_customer', 'date_created')
+    list_display = ('id', 'usuario', 'assinatura_id', 'valor', 'status', 'stripe_customer', 'date_created', 'cancelamento')
     search_fields = ['usuario']
 
 class CartaoPJAdmin(admin.ModelAdmin):
-    list_display = ('id', 'usuario', 'assinatura_id', 'valor', 'status', 'stripe_customer', 'date_created')
+    list_display = ('id', 'usuario', 'assinatura_id', 'valor', 'status', 'stripe_customer', 'date_created', 'cancelamento')
     search_fields = ['usuario']
 
 class PagamentoAdmin(admin.ModelAdmin):

@@ -56,117 +56,117 @@ class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
         return render(request, 'compras/comprar-relatorio.html', context=context)
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class CancelarRelatorio(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
+# @method_decorator(csrf_exempt, name='dispatch')
+# class CancelarRelatorio(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
 
-    template_name = 'usuarios/minha-conta.html'
+#     template_name = 'usuarios/minha-conta.html'
 
-    def render_to_response(self, context, **response_kwargs):
-        response_kwargs.setdefault('content_type', self.content_type)
-        return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine, **response_kwargs)
+#     def render_to_response(self, context, **response_kwargs):
+#         response_kwargs.setdefault('content_type', self.content_type)
+#         return self.response_class(request=self.request, template=self.get_template_names(), context=context, using=self.template_engine, **response_kwargs)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context['relatorios'] = self.request.user.relatorios.all()
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data()
+#         context['relatorios'] = self.request.user.relatorios.all()
+#         return context
 
-    def get(self, request, *args, **kwargs):    
-        usuario = self.request.user
-        relatorio = Relatorio.objects.get(id=self.kwargs['pk'])
-        assinatura_id = relatorio.assinatura_id
-        access_token = settings.MERCADOPAGO_ACCESS_TOKEN_RELATORIO
+#     def get(self, request, *args, **kwargs):    
+#         usuario = self.request.user
+#         relatorio = Relatorio.objects.get(id=self.kwargs['pk'])
+#         assinatura_id = relatorio.assinatura_id
+#         access_token = settings.MERCADOPAGO_ACCESS_TOKEN_RELATORIO
 
-        # Defina a URL da API do MercadoPago
-        url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
+#         # Defina a URL da API do MercadoPago
+#         url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
 
-        # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
-        headers = {
-            'Authorization': f'Bearer {access_token}',
-            'Content-Type': 'application/json'
-        }
+#         # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
+#         headers = {
+#             'Authorization': f'Bearer {access_token}',
+#             'Content-Type': 'application/json'
+#         }
 
-        # Defina os dados da solicitação em formato JSON
-        data = {
-            "status": "cancelled",
-        }
+#         # Defina os dados da solicitação em formato JSON
+#         data = {
+#             "status": "cancelled",
+#         }
 
-        # Faça a solicitação PUT para a API do MercadoPago
-        response = requests.put(url, json=data, headers=headers)
+#         # Faça a solicitação PUT para a API do MercadoPago
+#         response = requests.put(url, json=data, headers=headers)
 
-        # Verifique se a solicitação foi bem-sucedida
-        if response.status_code == 200:
-            data = response.json()
-            context = self.get_context_data(**kwargs)
-            formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
-            relatorio.status = data['status']
-            relatorio.last_modified = datetime.strptime(data['last_modified'], formato_da_string)
-            relatorio.save()
-            messages.success(self.request, 'Assinatura cancelada com sucesso!')
-            return self.render_to_response(context=context)
-        else:
-            # Lidar com erros de solicitação, se necessário
-            error_message = response.text
-            return JsonResponse({'error': error_message}, status=response.status_code)
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class AtualizarCartaoRelatorio(LoginRequiredMixin, SuccessMessageMixin, View):
+#         # Verifique se a solicitação foi bem-sucedida
+#         if response.status_code == 200:
+#             data = response.json()
+#             context = self.get_context_data(**kwargs)
+#             formato_da_string = "%Y-%m-%dT%H:%M:%S.%f%z"
+#             relatorio.status = data['status']
+#             relatorio.last_modified = datetime.strptime(data['last_modified'], formato_da_string)
+#             relatorio.save()
+#             messages.success(self.request, 'Assinatura cancelada com sucesso!')
+#             return self.render_to_response(context=context)
+#         else:
+#             # Lidar com erros de solicitação, se necessário
+#             error_message = response.text
+#             return JsonResponse({'error': error_message}, status=response.status_code)
 
 
-    def get(self, request, *args, **kwargs):
-        usuario = self.request.user
-        relatorio = Relatorio.objects.get(id=self.kwargs['pk'])
-        assinatura_id = relatorio.assinatura_id
-        pk = relatorio.id
-        card = usuario.cards.all().last()
-        contexto = {'usuario': usuario, 'pk': pk, 'card': card}
-        return render(request, 'compras/atualizar-cartao-relatorio.html', contexto)
+# @method_decorator(csrf_exempt, name='dispatch')
+# class AtualizarCartaoRelatorio(LoginRequiredMixin, SuccessMessageMixin, View):
 
-    def post(self, request, *args, **kwargs):
-        usuario = self.request.user
-        relatorio = Relatorio.objects.get(id=self.kwargs['pk'])
-        assinatura_id = relatorio.assinatura_id
-        access_token = settings.MERCADOPAGO_ACCESS_TOKEN_RELATORIO
-        form_data = json.loads(self.request.body.decode('utf-8'))
 
-        # Defina a URL da API do MercadoPago
-        url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
+#     def get(self, request, *args, **kwargs):
+#         usuario = self.request.user
+#         relatorio = Relatorio.objects.get(id=self.kwargs['pk'])
+#         assinatura_id = relatorio.assinatura_id
+#         pk = relatorio.id
+#         card = usuario.cards.all().last()
+#         contexto = {'usuario': usuario, 'pk': pk, 'card': card}
+#         return render(request, 'compras/atualizar-cartao-relatorio.html', contexto)
 
-        # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
-        headers = {
-            'Authorization': f'Bearer {access_token}',
-            'Content-Type': 'application/json'
-        }
+#     def post(self, request, *args, **kwargs):
+#         usuario = self.request.user
+#         relatorio = Relatorio.objects.get(id=self.kwargs['pk'])
+#         assinatura_id = relatorio.assinatura_id
+#         access_token = settings.MERCADOPAGO_ACCESS_TOKEN_RELATORIO
+#         form_data = json.loads(self.request.body.decode('utf-8'))
 
-        # Defina os dados da solicitação em formato JSON
-        data = {
-            "reason": "Plano individual",
-            "back_url": "https://meucontato.pythonanywhere.com",
-            "auto_recurring": {
-                "transaction_amount": 9.90,
-                "currency_id": "BRL"
-            },
-            "card_token_id": form_data.get('token'),
-            "status": "authorized",
-        }
+#         # Defina a URL da API do MercadoPago
+#         url = f'https://api.mercadopago.com/preapproval/{assinatura_id}'
 
-        # Faça a solicitação POST para a API do MercadoPago
-        response = requests.put(url, json=data, headers=headers)
+#         # Defina o cabeçalho com o token de acesso e o tipo de conteúdo
+#         headers = {
+#             'Authorization': f'Bearer {access_token}',
+#             'Content-Type': 'application/json'
+#         }
 
-        # Verifique se a solicitação foi bem-sucedida
-        if response.status_code == 200:
+#         # Defina os dados da solicitação em formato JSON
+#         data = {
+#             "reason": "Plano individual",
+#             "back_url": "https://meucontato.pythonanywhere.com",
+#             "auto_recurring": {
+#                 "transaction_amount": 9.90,
+#                 "currency_id": "BRL"
+#             },
+#             "card_token_id": form_data.get('token'),
+#             "status": "authorized",
+#         }
+
+#         # Faça a solicitação POST para a API do MercadoPago
+#         response = requests.put(url, json=data, headers=headers)
+
+#         # Verifique se a solicitação foi bem-sucedida
+#         if response.status_code == 200:
             
-            mensagem = 'Cartão atualizado com sucesso!'
-            messages.success(self.request, mensagem)
-            response_data = {
-                'status_code': response.status_code,
-                'message': mensagem,
-            }
-            return JsonResponse(response_data, status=response.status_code)
-        else:
-            # Lidar com erros de solicitação, se necessário
-            error_message = response.text
-            return JsonResponse({'error': error_message}, status=response.status_code)
+#             mensagem = 'Cartão atualizado com sucesso!'
+#             messages.success(self.request, mensagem)
+#             response_data = {
+#                 'status_code': response.status_code,
+#                 'message': mensagem,
+#             }
+#             return JsonResponse(response_data, status=response.status_code)
+#         else:
+#             # Lidar com erros de solicitação, se necessário
+#             error_message = response.text
+#             return JsonResponse({'error': error_message}, status=response.status_code)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -358,9 +358,21 @@ def stripe_webhook(request):
             except DatabaseError as e:
                 print(f'DatabaseError {e}')
 
+
     if event.type == 'customer.subscription.updated':
         assinatura_id = event.data.object.id
-        pass
+        cancelamento = event.data.object.cancel_at if event.data.object.cancel_at else None
+        try:
+            relatorio = Relatorio.objects.get(assinatura_id=assinatura_id)
+            if cancelamento:
+                relatorio.cancelamento = datetime.fromtimestamp(cancelamento).date()
+                relatorio.save()
+        except OperationalError as e:
+            cartao_pj = CartaoPJ.objects.get(assinatura_id=assinatura_id)
+            if cancelamento:
+                cartao.cancelamento = datetime.fromtimestamp(cancelamento).date()
+                cartao_pj.save()
+
 
     # Passed signature verification
     return HttpResponse(status=200)
