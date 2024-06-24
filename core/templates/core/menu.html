@@ -138,6 +138,7 @@
                                 <ul class="dropdown-menu border">
                                     <li><a class="dropdown-item nav-link" href="{% url 'core:listar-card-pj' user.empresas.first.slug %}">Meus cartões</a></li>
                                     <li><a class="dropdown-item nav-link" href="{% url 'core:modelos' %}">Criar cartão</a></li>
+                                    <li><a class="dropdown-item nav-link" href="{% url 'compras:comprar-cartao-pj' %}?nova_compra=True">Comprar mais cartões</a></li>
                                 </ul>
                             </div>    
                             <div class="dropdown">
@@ -158,7 +159,10 @@
                             <a class="nav-link" href="{% url 'usuarios:minha-conta' user.username %}">Minha conta</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>
+                            <form method="post" action="{% url 'usuarios:logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link">Sair</button>
+                            </form>
                         </li>
                     {% endif %}
 
@@ -191,7 +195,10 @@
                             <a class="nav-link" href="{% url 'usuarios:minha-conta' user.username %}">Minha conta</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'usuarios:logout' %}">Sair</a>
+                            <form method="post" action="{% url 'usuarios:logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link">Sair</button>
+                            </form>
                         </li>
                     {% endif %}
 

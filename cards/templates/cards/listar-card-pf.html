@@ -14,7 +14,9 @@
         {% if card.img_perfil %}
         <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
         {% else %}
-        <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
+        <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+            <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+        </div>
         {% endif %}
         <h2 class="fw-normal">{{card.usuario.first_name}} {{card.usuario.last_name}}</h2>
         {% if card.cargo %}

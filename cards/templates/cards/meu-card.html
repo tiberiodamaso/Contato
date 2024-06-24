@@ -20,8 +20,9 @@
         <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="rounded-circle col-6 col-md-3 col-lg-3 img-fluid"
             loading="lazy" />
         {% else %}
-        <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
-            class="col col-lg-2 col-md-4 img-fluid rounded-circle my-3" loading="lazy" />
+        <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+            <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+        </div>
         {% endif %}
 
         <!--NOME DO USUÁRIO-->

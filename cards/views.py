@@ -36,7 +36,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.db.models import Count
 from django import forms
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, QueryDict
 
 
 reg_b = re.compile(r"(android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\\.(browser|link)|vodafone|wap|windows ce|xda|xiino", re.I | re.M)
@@ -98,18 +98,24 @@ class Modelos(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
     def test_func(self):
         usuario = self.request.user
+        cartoes_pagos = 0
+        cartoes_criados = self.request.user.cards.all()
         if usuario.perfil.is_pj:
             cartoes_comprados = self.request.user.cartoespj.all()
         else:
             cartoes_comprados = self.request.user.cartoespf.all()
         for cartao in cartoes_comprados:
-            if cartao.status == 'paid' or cartao.status == 'Autorizado':
-                return True
+            if cartao.status == 'paid':
+                cartoes_pagos += 1
+
+        if len(cartoes_criados) < cartoes_pagos:
+            return True
+
 
     def handle_no_permission(self):
         usuario = self.request.user
         if usuario.perfil.is_pj:
-            return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
+            return render(self.request, 'cards/permissao-negada-cartoes-criados-atingiu-limite.html', status=403)
         else:
             return render(self.request, 'cards/permissao-negada-nao-comprou-cartao.html', status=403)
 
@@ -128,7 +134,7 @@ class TrocarModelo(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
                 autorizado_cartao_pf = True
         
         for cartao in cartoes_pj_comprados:
-            if cartao.status == 'authorized':
+            if cartao.status == 'paid':
                 autorizado_cartao_pj = True
 
         if autorizado_cartao_pf or autorizado_cartao_pj:
@@ -229,7 +235,6 @@ class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         qr_code.save(blob)
         card.qr_code.save(name, File(blob))
 
-
     def form_valid(self, form):
         card = form.save(commit=False)
         proprietario = self.request.user
@@ -313,10 +318,15 @@ class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         return HttpResponseRedirect(self.get_success_url(card))
 
     def form_invalid(self, form):
+        response = super().form_invalid(form)
         for field, errors in form.errors.items():
             for error in errors:
                 messages.error(self.request, f"{field}: {error}")
-        return super().form_invalid(form)
+
+        modelo = self.request.POST.get('modelo', '')
+        if modelo:
+            response.context_data['modelo'] = modelo
+        return response
 
 
 class ListarCardPF(LoginRequiredMixin, ListView):
@@ -632,7 +642,7 @@ class DetalharCardPF(DetailView):
 class ExcluirCardPF(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
     model = Card
-    success_message = 'Card apagado com sucesso!'
+    success_message = 'Cartão apagado com sucesso!'
     template_name = 'cards/modelos.html'
 
     def get_success_url(self):
@@ -640,9 +650,11 @@ class ExcluirCardPF(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         card = self.get_object()
-        anuncios = Anuncio.objects.filter(card=card)
-        for anuncio in anuncios:
-            anuncio.delete()
+        empresa = card.empresa
+        anuncios = Anuncio.objects.filter(empresa=empresa)
+        if anuncios:
+            for anuncio in anuncios:
+                anuncio.delete()
 
         # Apagar arquivos associados ao conteúdo
         path = os.path.join(settings.MEDIA_ROOT, self.request.user.id.hex)
@@ -985,7 +997,7 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         cartoes_criados = self.request.user.cards.all()
         self.cartoes_autorizados = 0
         for cartao in cartoes_comprados:
-            if cartao.status == 'authorized':
+            if cartao.status == 'paid':
                 self.cartoes_autorizados += 1
         
         if len(cartoes_criados) < self.cartoes_autorizados:
@@ -1031,7 +1043,6 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         blob = BytesIO()
         qr_code.save(blob)
         card.qr_code.save(name, File(blob))
-
     
     def form_valid(self, form):
         card = form.save(commit=False)
@@ -1124,10 +1135,15 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         return HttpResponseRedirect(self.get_success_url(card))
 
     def form_invalid(self, form):
+        response = super().form_invalid(form)
         for field, errors in form.errors.items():
             for error in errors:
                 messages.error(self.request, f"{field}: {error}")
-        return super().form_invalid(form)
+
+        modelo = self.request.POST.get('modelo', '')
+        if modelo:
+            response.context_data['modelo'] = modelo
+        return response
 
 
 class ListarCardPJ(LoginRequiredMixin, ListView):
@@ -1244,7 +1260,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
     def test_func(self):
         cartoes_comprados = self.request.user.cartoespj.all()
         for cartao in cartoes_comprados:
-            if cartao.status == 'authorized':
+            if cartao.status == 'paid':
                 return True
 
     def handle_no_permission(self):
@@ -1503,7 +1519,7 @@ class CriarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         quantidade_anuncios = len(anuncios)
 
         for cartaopj in cartoespj:
-            if cartaopj.status == 'authorized':
+            if cartaopj.status == 'paid':
                 autorizado = True
 
         if autorizado and len(anuncios) < 10:
@@ -1615,7 +1631,7 @@ class EditarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         ads = Ad.objects.filter(usuario=usuario)
 
         for ad in ads:
-            if ad.status == 'authorized':
+            if ad.status == 'paid':
                 autorizado = True
 
         if autorizado and len(anuncios) < 10:

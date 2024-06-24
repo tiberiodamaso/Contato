@@ -10,10 +10,10 @@
 <h2 class="text-center my-5 display-4">Minha conta</h2>
 
 <!--PRODUTOS PARA PJ-->
-<section class="d-flex flex-md-row flex-lg-row flex-column justify-content-center">
+<!-- <section class="d-flex flex-md-row flex-lg-row flex-column justify-content-center"> -->
 
     <!--CARTÃO-->
-    {% if comprou_cartao_pj and cards_criados %}
+    <!-- {% if comprou_cartao_pj and cards_criados %}
     <div class="pb-5 px-3 col-lg-3 col-md-3">
         <h3 class="my-4 display-6 text-center">Cartões</h3>
         <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
@@ -26,7 +26,7 @@
                         <h4 class="lead">Cartões criados: {{numero_cards_criados}}</h4>
                     </div>
                     <div>
-                        <a href="{% url 'core:listar-card-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning">Ver cartões</a>
+                        <a class="btn btn-warning" href="{% url 'compras:comprar-cartao-pj' %}?nova_compra=True">Comprar mais cartões</a>
                     </div>
                 </div>
             </div>
@@ -70,10 +70,10 @@
             </div>
         </div>
     </div>
-    {% endif %}
+    {% endif %} -->
 
     <!--ANUNCIOS-->
-    {% if cards_criados %}
+    <!-- {% if cards_criados %}
     <div class="pb-5 px-3 col-lg-3 col-md-3">
         <h3 class="my-4 display-6 text-center">Anúncios</h3>
         <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
@@ -83,10 +83,7 @@
                 </div>
                 <div class="d-flex flex-column justify-content-between p-3" style="height: 255px;">
                     <div>
-                        <h4 class="lead">Anúncios criados: {{numero_anuncios_criados}}</h4>
-                    </div>
-                    <div>
-                        <a href="{% url 'core:listar-anuncio-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning">Ver anúncios</a>
+                        <h4 class="lead">Anúncios criados: {{anuncios_criados|length}}</h4>
                     </div>
                 </div>
             </div>
@@ -108,10 +105,10 @@
             </div>
         </div>
     </div>
-    {% endif %}
+    {% endif %} -->
 
     <!--RELATORIOS-->
-    {% if cards_criados %}
+    <!-- {% if cards_criados %}
     <div class="pb-5 px-3 col-lg-3 col-md-3">
         <h3 class="my-4 display-6 text-center">Relatórios</h3>
         <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
@@ -122,9 +119,6 @@
                 <div class="d-flex flex-column justify-content-between p-3" style="height: 255px;">
                     <div>
                         <h4 class="lead">Analise o desempenho dos seus cartões</h4>
-                    </div>
-                    <div>
-                        <a href="{% url 'core:relatorio-pj' user.empresas.first.slug %}" type="button" class="btn btn-warning">Ver relatórios</a>
                     </div>
                 </div>
             </div>
@@ -148,7 +142,7 @@
     </div>
     {% endif %}
 
-</section>
+</section> -->
 
 <!--PERFIL-->
 <section class="d-flex flex-md-row flex-lg-row flex-column justify-content-around">
@@ -159,18 +153,19 @@
 
         <!--DADOS PESSOAIS-->
         <div class="p-3">
-            <ul class="list-unstyled lh-lg">
+            <ul class="list-unstyled lh-lg text-start">
                 <li class="card-text lead">Nome: {{usuario.first_name}} {{ usuario.last_name}}</li>
                 <li class="card-text lead">E-mail: {{usuario.email}}</li>
                 <li class="card-text lead">Cartões comprados: {{numero_cartoes_pj}}</li>
                 <li class="card-text lead">Cartões criados: {{numero_cards_criados}}</li>
+                <li class="card-text lead">Senha: <a href="{% url 'usuarios:trocar-senha' %}" class="text-decoration-none">Trocar senha</a></li>
+                <li class="card-text lead">Conta: <a href="#" class="text-decoration-none mx-1" data-bs-toggle="modal"
+                    data-bs-target="#modalConfirmaDesativação">Desativar conta</a></li>
             </ul>
         </div>
 
         <!--ACOES-->
         <div class="d-flex justify-content-around mb-4">
-            <a href="{% url 'usuarios:trocar-senha' %}" class="text-decoration-none">Trocar senha</a>
-            <a href="#" class="text-decoration-none mx-1" data-bs-toggle="modal" data-bs-target="#modalConfirmaDesativação">Desativar conta</a>
 
             <!--MODAL DE DESATIVAÇÃO DE CONTA-->
             <div class="modal fade" tabindex="-1" id="modalConfirmaDesativação">
@@ -195,8 +190,8 @@
     </div>
 
     <!--COMPRAS-->
-    <div class="pb-5 px-3 col-lg-6 col-md-6 text-center">
-        <h3 class="my-4 display-6 text-center">Minhas compras</h3>
+    <div class="pb-5 px-3 col-lg-8 col-md-8 text-center">
+        <h3 class="my-4 display-6 text-center">Compras</h3>
 
         <!--PRODUTOS-->
         {% if produtos %}
@@ -206,17 +201,27 @@
                     <tr>
                         <th>Produto</th>
                         <th>Valor</th>
-                        <th>Data</th>
+                        <th>Aquisição</th>
+                        <th>Cancelamento</th>
                         <th>Status</th>
+                        <th>Assinatura</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for produto in produtos %}
+                    {% for cartao_pj in cartoes_pj %}
                     <tr>
-                        <td>{{produto.id}}</td>
-                        <td>{{produto.valor}}</td>
-                        <td>{{produto.date_created}}</td>
-                        <td>{{produto.status}}</td>
+                        <td>{{cartao_pj|get_name}}</td>
+                        <td>{{cartao_pj.valor}}/mês</td>
+                        <td>{{cartao_pj.date_created|date:"d/m/y"}}</td>
+                        <td>{{cartao_pj.cancelamento|default_if_none:"-"|date:"d/m/y"}}</td>
+                        <td>{{cartao_pj.status|translate}}</td>
+                        <td>
+                            <form method="POST" action="{% url 'compras:gerenciar-assinaturas' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="stripe_customer" value="{{cartao_pj.stripe_customer}}">
+                                <button type="submit" class="btn btn-warning">Gerenciar assinatura</button>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -15,8 +15,9 @@
     <img src="{{card.img_perfil.url}}" alt="Foto do perfil" class="mb-4 rounded-circle col-6 col-md-3 col-lg-3 img-fluid"
         loading="lazy">
     {% else %}
-    <img src="{% static 'core/img/person.jpg' %}" alt="Foto do perfil"
-        class="mb-4 rounded-circle col-6 col-md-3 col-lg-3 img-fluid" loading="lazy">
+    <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+        <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+    </div>
     {% endif %}
 
     <!-- Button trigger modal -->

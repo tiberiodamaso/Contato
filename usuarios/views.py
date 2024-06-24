@@ -265,16 +265,19 @@ class MinhaConta(LoginRequiredMixin, ListView):
         card = Card.objects.filter(proprietario=usuario).first()
         anuncios_criados = empresa.anuncios.all() if empresa else None
         relatorio = usuario.relatorios.all().last()
-        cancelamento = relatorio.cancelamento if relatorio.cancelamento else None
+        cartao_pj = usuario.cartoespj.all().last()
         produtos = []
         comprou_cartao_pf = False
         comprou_cartao_pj = False
         comprou_relatorio = False
         comprou_ad = False
 
-        if cancelamento and data_atual > cancelamento:
-            relatorio.status = 'cancelled'
-            relatorio.save()
+        if relatorio:
+            cancelamento_relatorio = relatorio.cancelamento if relatorio.cancelamento else None
+            if cancelamento_relatorio and data_atual > cancelamento_relatorio:
+                relatorio.status = 'cancelled'
+                relatorio.save()
+
 
         try:
             cartoes_pf = usuario.cartoespf.all() # cartoes comprados pf
@@ -291,8 +294,11 @@ class MinhaConta(LoginRequiredMixin, ListView):
 
             if cartoes_pj:
                 for cartao_pj in cartoes_pj:
+                    cancelamento_cartao_pj = cartao_pj.cancelamento if cartao_pj.cancelamento else None
+                    if cancelamento_cartao_pj and data_atual > cancelamento_cartao_pj:
+                        cartao_pj.status = 'cancelled'
+                        cartao_pj.save()
                     if cartao_pj.status == 'paid':
-                        produtos.append(cartao_pj)
                         comprou_cartao_pj = True
 
             if ads:
