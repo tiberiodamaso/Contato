@@ -14,22 +14,16 @@
             <div class="align-items-center d-flex flex-column">
                 {% if card.img_perfil %}
                 <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
-                <form action="{% url 'core:excluir-card-pj' card.empresa.slug card.slug %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="position-relative bg-white border-0" style="left: 124px; top: -185px;">
-                        <i class="bi bi-trash text-danger"></i>
-                    </button>
-                </form>
+                <button type="submit" class="position-relative bg-white border-0" style="left: 124px; top: -185px;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <i class="bi bi-trash text-danger"></i>
+                </button>
                 {% else %}
                 <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
                     <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
                 </div>
-                <form action="{% url 'core:excluir-card-pj' card.empresa.slug card.slug %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="position-relative bg-white border-0" style="left: 124px; top: -185px;">
-                        <i class="bi bi-trash text-danger"></i>
-                    </button>
-                </form>
+                <button type="submit" class="position-relative bg-white border-0" style="left: 124px; top: -185px;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <i class="bi bi-trash text-danger"></i>
+                </button>
                 {% endif %}
             </div>
             <h2 class="fw-normal">{{card.nome_display}}</h2>
@@ -43,6 +37,30 @@
                         href="{% url 'core:relatorio-pf' empresa.slug card.slug %}">Relatório</a></p>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Apagar cartão</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Deseja realmente apagar esse cartão ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form action="{% url 'core:excluir-card-pj' card.empresa.slug card.slug %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Apagar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+
         {% endif %}
     {% empty %}
         <h4 class="lead p-3 lh-base">Você ainda não criou um cartão. Crie um agora mesmo comece a compartilhar.</h4>
