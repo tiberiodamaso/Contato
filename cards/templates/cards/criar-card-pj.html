@@ -36,13 +36,15 @@
         <div class="mb-3">
             <div class="d-flex justify-content-between">
                 <label for="id_img_perfil">Foto do cartão e perfil:</label>
-                <div>
+
+                <!--TOOLTIP-->
+                <!-- <div>
                     <span class="ms-4 text-secondary">instruções </span>
                     <button type="button" class="btn p-0" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
                         data-bs-html="true" data-bs-title="Tamanho máximo de 1MB, dimensões recomendadas de 500x500 pixels e formatos JPG ou PNG apenas">
                     <i class="bi bi-info-circle-fill text-warning"></i>
                     </button>
-                </div>
+                </div> -->
             </div>
             {{form.img_perfil}}
         </div>
@@ -93,12 +95,14 @@
         <div class="mb-3">
             <div class="d-flex justify-content-between">
                 <label for="id_empresa">Logotipo:</label>
-                <div>
+
+                <!--TOOLTIP-->
+                <!-- <div>
                     <span class="ms-4 text-secondary">instruções </span><button type="button" class="btn p-0" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
                     data-bs-html="true" data-bs-title="Tamanho máximo de 1MB, dimensões recomendadas de 500x500 pixels e formatos JPG ou PNG apenas">
                     <i class="bi bi-info-circle-fill text-warning"></i>
                     </button>
-                </div>
+                </div> -->
             </div>
             {{form.logotipo}}
         </div>
@@ -202,7 +206,7 @@
 </div>
 
 <!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
-<script>
+<!-- <script>
     function validarTamanhoArquivo(inputElement) {
         const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
 
@@ -226,7 +230,7 @@
     inputLogotipo.addEventListener("change", function () {
         validarTamanhoArquivo(inputLogotipo);
     });
-</script>
+</script> -->
 
 <!--MÁSCARA DE TELEFONE-->
 <script>
@@ -296,12 +300,12 @@
 </script>
 
 <!--TOOLTIPS-->
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function () {
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     });
-</script>
+</script> -->
 
 <!--VALIDA FACEBOOK-->
 <script>

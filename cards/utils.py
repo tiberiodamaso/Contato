@@ -1,6 +1,7 @@
-import os, re, io
+import os, re, io, sys
 from PIL import Image
 from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 def validate_file_extension(value):
     ext = os.path.splitext(value.name)[1]  # [0] returns path & filename
@@ -82,27 +83,35 @@ def valida_cnpj(cnpj:str) -> bool:
 
 def resize_image(imagem, largura_desejada, altura_desejada):
     try:
-        imagem = Image.open(imagem)
+        with Image.open(imagem) as imagem:
 
-        largura_atual, altura_atual = imagem.size
+            largura_atual, altura_atual = imagem.size
 
-        if largura_atual <= largura_desejada and altura_atual <= altura_desejada:
-            # Não é necessário redimensionar a imagem
-            return imagem
+            if largura_atual <= largura_desejada and altura_atual <= altura_desejada:
+                # Não é necessário redimensionar a imagem
+                buffer = io.BytesIO()
+                imagem.save(buffer, format=imagem.format)
+                buffer.seek(0)
+                return imagem, buffer
 
-        proporcao_largura = largura_desejada / largura_atual
-        proporcao_altura = altura_desejada / altura_atual
+            proporcao_largura = largura_desejada / largura_atual
+            proporcao_altura = altura_desejada / altura_atual
 
-        if proporcao_largura < proporcao_altura:
-            nova_largura = largura_desejada
-            nova_altura = int(altura_atual * proporcao_largura)
-        else:
-            nova_largura = int(largura_atual * proporcao_altura)
-            nova_altura = altura_desejada
+            if proporcao_largura < proporcao_altura:
+                nova_largura = largura_desejada
+                nova_altura = int(altura_atual * proporcao_largura)
+            else:
+                nova_largura = int(largura_atual * proporcao_altura)
+                nova_altura = altura_desejada
 
-        img_redimensionada = imagem.resize((nova_largura, nova_altura))
+            img_redimensionada = imagem.resize((nova_largura, nova_altura))
 
-        return img_redimensionada
+            buffer = io.BytesIO()
+            img_redimensionada.save(buffer, format=imagem.format)
+            buffer.seek(0)
+
+            return img_redimensionada, buffer
+
 
     except Exception as e:
         print(f"Erro ao redimensionar a imagem: {e}")
@@ -131,4 +140,28 @@ def cleaner(text: str) -> str:
 
     return text
 
+def create_in_memory_file(buffer, filename):
+    try:
+        # Extrair a extensão do formato do buffer
+        buffer.seek(0)
+        img_format = Image.open(buffer).format.lower()
+        if img_format in ['jpeg', 'jpg']:
+            content_type = 'image/jpeg'
+        elif img_format == 'png':
+            content_type = 'image/png'
+        else:
+            content_type = f'image/{img_format}'
 
+        in_memory_file = InMemoryUploadedFile(
+            buffer,
+            None,
+            filename,
+            content_type,
+            buffer.getbuffer().nbytes,
+            None
+        )
+        return in_memory_file
+
+    except Exception as e:
+        print(f"Ocorreu um erro ao criar InMemoryUploadedFile: {e}")
+        return None

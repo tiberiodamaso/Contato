@@ -26,7 +26,7 @@ from .models import Card, Anuncio, Estado, Municipio, Categoria, Subcategoria, E
 from usuarios.models import Usuario
 from compras.models import Ad
 from .forms import CardEditForm, AnuncioEditForm, CardEditFormPJ
-from .utils import make_vcf, cleaner, resize_image
+from .utils import make_vcf, cleaner, resize_image, create_in_memory_file
 from django.template.defaultfilters import slugify
 from usuarios.tokens import account_activation_token
 from django.core.mail import EmailMessage
@@ -261,38 +261,58 @@ class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         endereco = form.cleaned_data['endereco']
         img_perfil = form.cleaned_data.get('img_perfil')
         logotipo = form.cleaned_data.get('logotipo')
-        tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
+        largura_desejada = 500
+        altura_desejada = 500
+        # tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
 
-        # VALIDA TAMANHO DE ARQUIVOS
+        # VALIDA EXTENSAO E TAMANHO DE ARQUIVOS
         if img_perfil:
-            if img_perfil.size > tamanho_maximo:
-                messages.error(
-                    self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
+
+            if not img_perfil.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos.')
                 return self.form_invalid(form)
 
+
+            extensao = slugify(os.path.splitext(img_perfil.name)[1])
+            if extensao == 'jpg' or extensao == 'JPG':
+                extensao = 'jpeg'
+
+            # Redimensiona img_perfil se existe
+            img_perfil_redimensionado, buffer_img_perfil = resize_image(img_perfil, largura_desejada, altura_desejada)
+
+            # Cria in_memory_file para possibilitar associar ao card.img_perfil antes de salvar
+            if img_perfil_redimensionado and buffer_img_perfil:
+                in_memory_file = create_in_memory_file(buffer_img_perfil, img_perfil.name)
+                card.img_perfil = in_memory_file
+
+            # if img_perfil.size > tamanho_maximo:
+            #     messages.error(
+            #         self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
+            #     return self.form_invalid(form)
 
         if logotipo:
-            tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
-            if logotipo.size > tamanho_maximo:
-                messages.error(
-                    self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
+
+            if not logotipo.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos.')
                 return self.form_invalid(form)
 
-            # Redimensiona logotipo se existe
-            largura_desejada = 300
-            altura_desejada = 300
-            _, extensao = os.path.splitext(logotipo.name)
-            extensao = extensao.lstrip('.').upper()
-            if extensao == 'JPG':
-                extensao = 'JPEG'
-            logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
+            extensao = slugify(os.path.splitext(logotipo.name)[1])
+            if extensao == 'jpg' or extensao == 'JPG':
+                extensao = 'jpeg'
 
-            # Crie um arquivo temporário para a imagem redimensionada
-            temp_file = tempfile.NamedTemporaryFile(delete=False)
-            logotipo_redimensionado.save(temp_file, format=extensao) 
-            card.logotipo.save(name=logotipo.name, content=temp_file, save=True)
-            temp_file.close()
-            os.remove(temp_file.name)
+            # Redimensiona logotipo se existe
+            logotipo_redimensionado, buffer_logotipo = resize_image(logotipo, largura_desejada, altura_desejada)
+
+            # Cria in_memory_file para possibilitar associar ao card.logotipo antes de salvar
+            if logotipo_redimensionado and buffer_logotipo:
+                in_memory_file = create_in_memory_file(buffer_logotipo, logotipo.name)
+                card.logotipo = in_memory_file
+
+            # tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
+            # if logotipo.size > tamanho_maximo:
+            #     messages.error(
+            #         self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
+            #     return self.form_invalid(form)
 
         if empresa:
             empresa_atual.nome_fantasia = empresa
@@ -426,29 +446,46 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         tik_tok = form.cleaned_data['tik_tok']
         img_perfil = self.request.FILES['img_perfil'] if 'img_perfil' in self.request.FILES else ''
         logotipo = self.request.FILES['logotipo'] if 'logotipo' in self.request.FILES else ''
-        tamanho_maximo = 1 * 1024 * 1024
+        largura_desejada = 500
+        altura_desejada = 500
+        # tamanho_maximo = 1 * 1024 * 1024
 
         # VALIDA TAMANHO DE ARQUIVOS
-        if img_perfil and img_perfil.size > tamanho_maximo:
-            messages.error(
-                self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
-            return self.form_invalid(form)
+        # if img_perfil and img_perfil.size > tamanho_maximo:
+        #     messages.error(
+        #         self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
+        #     return self.form_invalid(form)
 
-        if logotipo and logotipo.size > tamanho_maximo:
-            messages.error(
-                self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
-            return self.form_invalid(form)
+        # if logotipo and logotipo.size > tamanho_maximo:
+        #     messages.error(
+        #         self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
+        #     return self.form_invalid(form)
 
         # APAGA IMGAGEM PERFIL ANTIGA
         if img_perfil:
+
+            if not img_perfil.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos.')
+                return self.form_invalid(form)
+
             if card.img_perfil:
                 try:
                     os.remove(card.img_perfil.path)
                     card.img_perfil.delete()
                 except FileNotFoundError as err:
                     print(err)
-            card.img_perfil = img_perfil
-            card.img_perfil.save(name=img_perfil.name, content=img_perfil.file)
+
+            extensao = slugify(os.path.splitext(img_perfil.name)[1])
+            if extensao == 'jpg' or extensao == 'JPG':
+                extensao = 'jpeg'
+
+            # Redimensiona img_perfil se existe
+            img_perfil_redimensionado, buffer_img_perfil = resize_image(img_perfil, largura_desejada, altura_desejada)
+
+            # Cria in_memory_file para possibilitar associar ao card.img_perfil antes de salvar
+            if img_perfil_redimensionado and buffer_img_perfil:
+                in_memory_file = create_in_memory_file(buffer_img_perfil, img_perfil.name)
+                card.img_perfil.save(name=img_perfil.name, content=in_memory_file)
 
         if 'sem_foto' in self.request.POST:
             if card.img_perfil:
@@ -461,8 +498,8 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
 
         # APAGA LOGOTIPO ANTIGO E SALVA NOVO
         if logotipo:
-            if not logotipo.name.endswith(('.jpg', '.jpeg', '.png')):
-                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o logotipo.')
+            if not logotipo.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos.')
                 return self.form_invalid(form)
 
             if card.logotipo:
@@ -472,21 +509,17 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                 except FileNotFoundError as err:
                     print(err)
 
-            # Redimensiona logotipo se existe
-            largura_desejada = 300
-            altura_desejada = 300
-            _, extensao = os.path.splitext(logotipo.name)
-            extensao = extensao.lstrip('.').upper()
-            if extensao == 'JPG':
-                extensao = 'JPEG'
-            logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
+            extensao = slugify(os.path.splitext(logotipo.name)[1])
+            if extensao == 'jpg' or extensao == 'JPG':
+                extensao = 'jpeg'
 
-            # Crie um arquivo temporário para a imagem redimensionada
-            temp_file = tempfile.NamedTemporaryFile(delete=False)
-            logotipo_redimensionado.save(temp_file, format=extensao) 
-            card.logotipo.save(name=logotipo.name, content=temp_file, save=True)
-            temp_file.close()
-            os.remove(temp_file.name)
+            # Redimensiona logotipo se existe
+            logotipo_redimensionado, buffer_logotipo  = resize_image(logotipo, largura_desejada, altura_desejada)
+
+            if logotipo_redimensionado and buffer_logotipo:
+                in_memory_file = create_in_memory_file(buffer_logotipo, logotipo.name)
+                card.logotipo = in_memory_file
+                card.logotipo.save(name=logotipo.name, content=in_memory_file)
 
         if 'sem_logo' in self.request.POST:
             if card.logotipo:
@@ -529,9 +562,9 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
             except FileNotFoundError as err:
                 print(err)
 
+        # card.empresa = empresa
         card.nome_display = nome_display
         card.cor = cor
-        # card.empresa = empresa
         card.site = site
         card.cargo = cargo
         card.categoria = categoria
@@ -722,29 +755,27 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         altura_desejada = 300
         # tamanho_maximo = 1 * 1024 * 1024
 
-        # Valida tamanho da imagem
         if img:
             if not img.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
-                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o conteúdo.')
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos.')
                 return self.form_invalid(form)
 
-            # if img.size > tamanho_maximo:
-            #     messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
-            #     return self.form_invalid(form)
-            
             extensao = slugify(os.path.splitext(img.name)[1])
             if extensao == 'jpg' or extensao == 'JPG':
                 extensao = 'jpeg'
 
             # Redimensiona imagem se existe
-            img_redimensionada = resize_image(img, largura_desejada, altura_desejada)
+            img_redimensionada, buffer_img = resize_image(img, largura_desejada, altura_desejada)
 
-            # Crie um arquivo temporário para a imagem redimensionada
-            temp_file = tempfile.NamedTemporaryFile(delete=False)
-            img_redimensionada.save(temp_file, format=extensao) 
-            anuncio.img.save(name=img.name, content=temp_file, save=True)
-            temp_file.close()
-            os.remove(temp_file.name)
+            # Cria in_memory_file para possibilitar associar ao anuncio.img antes de salvar
+            if img_redimensionada and buffer_img:
+                in_memory_file = create_in_memory_file(buffer_img, img.name)
+                anuncio.img = in_memory_file
+
+            # Valida tamanho da imagem
+            # if img.size > tamanho_maximo:
+            #     messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
+            #     return self.form_invalid(form)
 
         anuncio.save()
 
@@ -836,20 +867,11 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         altura_desejada = 300
         # tamanho_maximo = 1 * 1024 * 1024
 
-        # Valida tamanho da imagem
         if 'img' in form.changed_data:
 
             if not img.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
-                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o conteúdo.')
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos.')
                 return self.form_invalid(form)
-
-            # if img.size > tamanho_maximo:
-            #     messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
-            #     return self.form_invalid(form)
-            
-            extensao = slugify(os.path.splitext(img.name)[1])
-            if extensao == 'jpg' or extensao == 'JPG':
-                extensao = 'jpeg'
 
             # APAGA IMGAGEM ANTIGA
             try:
@@ -859,16 +881,24 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
                 anuncio_anterior.img.delete()
             except FileNotFoundError as err:
                 print(err)
+            
+            extensao = slugify(os.path.splitext(img.name)[1])
+            if extensao == 'jpg' or extensao == 'JPG':
+                extensao = 'jpeg'
 
             # Redimensiona imagem se existe
-            img_redimensionada = resize_image(img, largura_desejada, altura_desejada)
+            img_redimensionada, buffer_img = resize_image(img, largura_desejada, altura_desejada)
 
-            # Crie um arquivo temporário para a imagem redimensionada
-            temp_file = tempfile.NamedTemporaryFile(delete=False)
-            img_redimensionada.save(temp_file, format=extensao) 
-            anuncio.img.save(name=img.name, content=temp_file, save=True)
-            temp_file.close()
-            os.remove(temp_file.name)
+            # Cria in_memory_file para possibilitar associar ao anuncio.img antes de salvar
+            if img_redimensionada and buffer_img:
+                in_memory_file = create_in_memory_file(buffer_img, img.name)
+                anuncio.img.save(name=img.name, content=in_memory_file)
+
+            # Valida tamanho da imagem
+            # if img.size > tamanho_maximo:
+            #     messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
+            #     return self.form_invalid(form)
+            
 
         anuncio.save()
 
@@ -1050,8 +1080,7 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         email = form.cleaned_data['email']
         username = slugify(f'{first_name}-{last_name}')
 
-        # TODO Colocar uma senha mais forte
-        password = make_password('S3nh@n0v@')
+        password = make_password('(LaXX)((4s@Ls$lLt2')
 
         if email:
             email_existente = Usuario.objects.filter(email=email)
@@ -1084,38 +1113,59 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         endereco = form.cleaned_data['endereco']
         img_perfil = form.cleaned_data.get('img_perfil')
         logotipo = form.cleaned_data.get('logotipo')
-        tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
+        largura_desejada = 500
+        altura_desejada = 500
+        # tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
 
-        # VALIDA TAMANHO DE ARQUIVOS
         if img_perfil:
-            if img_perfil.size > tamanho_maximo:
-                messages.error(
-                    self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
+
+            if not img_perfil.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos.')
                 return self.form_invalid(form)
+
+            extensao = slugify(os.path.splitext(img_perfil.name)[1])
+            if extensao == 'jpg' or extensao == 'JPG':
+                extensao = 'jpeg'
+
+            # Redimensiona img_perfil se existe
+            img_perfil_redimensionado, buffer_img_perfil = resize_image(img_perfil, largura_desejada, altura_desejada)
+
+            # Cria in_memory_file para possibilitar associar ao card.img_perfil antes de salvar
+            if img_perfil_redimensionado and buffer_img_perfil:
+                in_memory_file = create_in_memory_file(buffer_img_perfil, img_perfil.name)
+                card.img_perfil = in_memory_file
+
+            # Valida tamanho de arquivo
+            # if img_perfil.size > tamanho_maximo:
+            #     messages.error(
+            #         self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
+            #     return self.form_invalid(form)
 
 
         if logotipo:
-            tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
-            if logotipo.size > tamanho_maximo:
-                messages.error(
-                    self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
+
+            if not logotipo.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos.')
                 return self.form_invalid(form)
 
-            # Redimensiona logotipo se existe
-            largura_desejada = 300
-            altura_desejada = 300
-            _, extensao = os.path.splitext(logotipo.name)
-            extensao = extensao.lstrip('.').upper()
-            if extensao == 'JPG':
-                extensao = 'JPEG'
-            logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
+            extensao = slugify(os.path.splitext(logotipo.name)[1])
+            if extensao == 'jpg' or extensao == 'JPG':
+                extensao = 'jpeg'
 
-            # Crie um arquivo temporário para a imagem redimensionada
-            temp_file = tempfile.NamedTemporaryFile(delete=False)
-            logotipo_redimensionado.save(temp_file, format=extensao) 
-            card.logotipo.save(name=logotipo.name, content=temp_file, save=True)
-            temp_file.close()
-            os.remove(temp_file.name)
+            # Redimensiona logotipo se existe
+            logotipo_redimensionado, buffer_logotipo = resize_image(logotipo, largura_desejada, altura_desejada)
+
+            # Cria in_memory_file para possibilitar associar ao card.logotipo antes de salvar
+            if logotipo_redimensionado and buffer_logotipo:
+                in_memory_file = create_in_memory_file(buffer_logotipo, logotipo.name)
+                card.logotipo = in_memory_file
+
+            # Valida tamanho de arquivos
+            # tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
+            # if logotipo.size > tamanho_maximo:
+            #     messages.error(
+            #         self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
+            #     return self.form_invalid(form)
 
 
         #CRIA VCF
@@ -1340,7 +1390,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         tik_tok = form.cleaned_data['tik_tok']
         img_perfil = self.request.FILES['img_perfil'] if 'img_perfil' in self.request.FILES else ''
         logotipo = self.request.FILES['logotipo'] if 'logotipo' in self.request.FILES else ''
-        tamanho_maximo = 1 * 1024 * 1024
+        # tamanho_maximo = 1 * 1024 * 1024
 
         if 'email' in form.changed_data:
             email_existente = Usuario.objects.filter(email=email)
@@ -1349,27 +1399,42 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                 return self.form_invalid(form)
 
         # VALIDA TAMANHO DE ARQUIVOS
-        if img_perfil and img_perfil.size > tamanho_maximo:
-            messages.error(
-                self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
-            return self.form_invalid(form)
+        # if img_perfil and img_perfil.size > tamanho_maximo:
+        #     messages.error(
+        #         self.request, 'O arquivo de foto excede o tamanho máximo permitido 1 MB.')
+        #     return self.form_invalid(form)
 
 
-        if logotipo and logotipo.size > tamanho_maximo:
-            messages.error(
-                self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
-            return self.form_invalid(form)
+        # if logotipo and logotipo.size > tamanho_maximo:
+        #     messages.error(
+        #         self.request, 'O arquivo de logotipo excede o tamanho máximo permitido 1 MB.')
+        #     return self.form_invalid(form)
 
         # APAGA IMGAGEM PERFIL ANTIGA
         if img_perfil:
+
+            if not img_perfil.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos.')
+                return self.form_invalid(form)
+
             if card.img_perfil:
                 try:
                     os.remove(card.img_perfil.path)
                     card.img_perfil.delete()
                 except FileNotFoundError as err:
                     print(err)
-            card.img_perfil = img_perfil
-            card.img_perfil.save(name=img_perfil.name, content=img_perfil.file)
+
+            extensao = slugify(os.path.splitext(img_perfil.name)[1])
+            if extensao == 'jpg' or extensao == 'JPG':
+                extensao = 'jpeg'
+
+            # Redimensiona img_perfil se existe
+            img_perfil_redimensionado, buffer_img_perfil = resize_image(img_perfil, largura_desejada, altura_desejada)
+
+            # Cria in_memory_file para possibilitar associar ao card.img_perfil antes de salvar
+            if img_perfil_redimensionado and buffer_img_perfil:
+                in_memory_file = create_in_memory_file(buffer_img_perfil, img_perfil.name)
+                card.img_perfil.save(name=img_perfil.name, content=in_memory_file)
 
 
         if 'sem_foto' in self.request.POST:
@@ -1383,8 +1448,8 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
 
         # APAGA LOGOTIPO ANTIGO E SALVA NOVO
         if logotipo:
-            if not logotipo.name.endswith(('.jpg', '.jpeg', '.png')):
-                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o logotipo.')
+            if not logotipo.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos.')
                 return self.form_invalid(form)
 
             if card.logotipo:
@@ -1394,21 +1459,17 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                 except FileNotFoundError as err:
                     print(err)
 
-            # Redimensiona logotipo se existe
-            largura_desejada = 300
-            altura_desejada = 300
-            _, extensao = os.path.splitext(logotipo.name)
-            extensao = extensao.lstrip('.').upper()
-            if extensao == 'JPG':
-                extensao = 'JPEG'
-            logotipo_redimensionado = resize_image(logotipo, largura_desejada, altura_desejada)
+            extensao = slugify(os.path.splitext(logotipo.name)[1])
+            if extensao == 'jpg' or extensao == 'JPG':
+                extensao = 'jpeg'
 
-            # Crie um arquivo temporário para a imagem redimensionada
-            temp_file = tempfile.NamedTemporaryFile(delete=False)
-            logotipo_redimensionado.save(temp_file, format=extensao) 
-            card.logotipo.save(name=logotipo.name, content=temp_file, save=True)
-            temp_file.close()
-            os.remove(temp_file.name)
+            # Redimensiona logotipo se existe
+            logotipo_redimensionado, buffer_logotipo  = resize_image(logotipo, largura_desejada, altura_desejada)
+
+            if logotipo_redimensionado and buffer_logotipo:
+                in_memory_file = create_in_memory_file(buffer_logotipo, logotipo.name)
+                card.logotipo = in_memory_file
+                card.logotipo.save(name=logotipo.name, content=in_memory_file)
 
 
         if 'sem_logo' in self.request.POST:
@@ -1554,29 +1615,28 @@ class CriarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         altura_desejada = 300
         # tamanho_maximo = 1 * 1024 * 1024
 
-        # Valida tamanho da imagem
         if img:
             if not img.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
-                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o anúncio.')
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos.')
                 return self.form_invalid(form)
 
-            # if img.size > tamanho_maximo:
-            #     messages.error(self.request, 'A imagem excede o tamanho máximo permitido de 1 MB.')
-            #     return self.form_invalid(form)
             
             extensao = slugify(os.path.splitext(img.name)[1])
             if extensao == 'jpg' or extensao == 'JPG':
                 extensao = 'jpeg'
 
             # Redimensiona imagem se existe
-            img_redimensionada = resize_image(img, largura_desejada, altura_desejada)
+            img_redimensionada, buffer_img = resize_image(img, largura_desejada, altura_desejada)
 
-            # Crie um arquivo temporário para a imagem redimensionada
-            temp_file = tempfile.NamedTemporaryFile(delete=False)
-            img_redimensionada.save(temp_file, format=extensao) 
-            anuncio.img.save(name=img.name, content=temp_file, save=True)
-            temp_file.close()
-            os.remove(temp_file.name)
+            # Cria in_memory_file para possibilitar associar ao anuncio.img antes de salvar
+            if img_redimensionada and buffer_img:
+                in_memory_file = create_in_memory_file(buffer_img, img.name)
+                anuncio.img = in_memory_file
+
+            # Valida tamanho da imagem
+            # if img.size > tamanho_maximo:
+            #     messages.error(self.request, 'A imagem excede o tamanho máximo permitido de 1 MB.')
+            #     return self.form_invalid(form)
 
         anuncio.save()
 
@@ -1667,20 +1727,11 @@ class EditarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         altura_desejada = 300
         # tamanho_maximo = 1 * 1024 * 1024
 
-        # Valida tamanho da imagem
         if 'img' in form.changed_data:
 
             if not img.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
-                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o conteúdo.')
+                messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos.')
                 return self.form_invalid(form)
-
-            # if img.size > tamanho_maximo:
-            #     messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
-            #     return self.form_invalid(form)
-            
-            extensao = slugify(os.path.splitext(img.name)[1])
-            if extensao == 'jpg' or extensao == 'JPG':
-                extensao = 'jpeg'
 
             # APAGA IMGAGEM ANTIGA
             try:
@@ -1690,16 +1741,23 @@ class EditarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
                 anuncio_anterior.img.delete()
             except FileNotFoundError as err:
                 print(err)
+            
+            extensao = slugify(os.path.splitext(img.name)[1])
+            if extensao == 'jpg' or extensao == 'JPG':
+                extensao = 'jpeg'
 
             # Redimensiona imagem se existe
-            img_redimensionada = resize_image(img, largura_desejada, altura_desejada)
+            img_redimensionada, buffer_img = resize_image(img, largura_desejada, altura_desejada)
 
-            # Crie um arquivo temporário para a imagem redimensionada
-            temp_file = tempfile.NamedTemporaryFile(delete=False)
-            img_redimensionada.save(temp_file, format=extensao) 
-            anuncio.img.save(name=img.name, content=temp_file, save=True)
-            temp_file.close()
-            os.remove(temp_file.name)
+            # Cria in_memory_file para possibilitar associar ao anuncio.img antes de salvar
+            if img_redimensionada and buffer_img:
+                in_memory_file = create_in_memory_file(buffer_img, img.name)
+                anuncio.img.save(name=img.name, content=in_memory_file)
+
+            # Valida tamanho da imagem
+            # if img.size > tamanho_maximo:
+            #     messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
+            #     return self.form_invalid(form)
 
         anuncio.save()
 

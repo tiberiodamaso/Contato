@@ -310,7 +310,6 @@ class MinhaConta(LoginRequiredMixin, ListView):
             if relatorios:
                 for rel in relatorios:
                     if rel.status == 'paid':
-                        produtos.append(rel)
                         comprou_relatorio = True
 
             context['usuario'] = usuario
