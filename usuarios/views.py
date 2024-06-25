@@ -275,7 +275,7 @@ class MinhaConta(LoginRequiredMixin, ListView):
         if relatorio:
             cancelamento_relatorio = relatorio.cancelamento if relatorio.cancelamento else None
             if cancelamento_relatorio and data_atual > cancelamento_relatorio:
-                relatorio.status = 'cancelled'
+                relatorio.status = 'canceled'
                 relatorio.save()
 
 
@@ -295,9 +295,9 @@ class MinhaConta(LoginRequiredMixin, ListView):
             if cartoes_pj:
                 for cartao_pj in cartoes_pj:
                     cancelamento_cartao_pj = cartao_pj.cancelamento if cartao_pj.cancelamento else None
-                    if cancelamento_cartao_pj and data_atual > cancelamento_cartao_pj:
-                        cartao_pj.status = 'cancelled'
-                        cartao_pj.save()
+                    # if cancelamento_cartao_pj and data_atual > cancelamento_cartao_pj:
+                    #     cartao_pj.status = 'canceled'
+                    #     cartao_pj.save()
                     if cartao_pj.status == 'paid':
                         comprou_cartao_pj = True
 

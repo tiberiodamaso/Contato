@@ -11,7 +11,7 @@ def get_values(value):
 
 @register.filter
 def translate(value):
-    if value == 'cancelled':
+    if value == 'canceled':
         return 'Cancelada'
     if value == 'authorized':
         return 'Ativa'

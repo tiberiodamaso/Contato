@@ -6,33 +6,34 @@
 
 {% include 'core/menu.html'%}
 
-<!-- <div class="container-fluid"> -->
-<div class="row text-center p-3 justify-content-center">
-    {% for card in cards %}
-    {% if card.usuario.is_active %}
-    <div class="col-lg-3 col-sm-5 col-12 mt-5 border border-2 rounded-2 mx-2">
-        {% if card.img_perfil %}
-        <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
-        {% else %}
-        <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
-            <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+<div>
+    <h2 class="text-center my-5 display-5">Meus cartões</h2>
+    <div class="row text-center p-3 justify-content-center">
+        {% for card in cards %}
+        {% if card.usuario.is_active %}
+        <div class="col-lg-3 col-sm-5 col-12 mt-5 border border-2 rounded-2 mx-2">
+            {% if card.img_perfil %}
+            <img src="{{ card.img_perfil.url }}" alt="Foto do perfil" class="rounded-circle w-50 py-4">
+            {% else %}
+            <div class="align-items-center border border-2 d-flex justify-content-center m-auto my-4 rounded rounded-circle" style="width: 145px; height: 145px;">
+                <i class="bi bi-person text-warning" style="font-size: 4em;"></i>
+            </div>
+            {% endif %}
+            <h2 class="fw-normal">{{card.usuario.first_name}} {{card.usuario.last_name}}</h2>
+            {% if card.cargo %}
+            <h4 class="lead">{{ card.cargo }}</h4>
+            {% endif %}
+            <!-- <p>Informações sobre a performance</p> -->
+            <div class="d-flex justify-content-center py-3 mx-2">
+                <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:editar-card-pf' empresa.slug card.slug %}">Editar</a>
+                <p class="mx-2"><a class="btn btn-warning"
+                        href="{% url 'core:relatorio-pf' empresa.slug %}">Performance</a></p>
+            </div>
         </div>
         {% endif %}
-        <h2 class="fw-normal">{{card.usuario.first_name}} {{card.usuario.last_name}}</h2>
-        {% if card.cargo %}
-        <h4 class="lead">{{ card.cargo }}</h4>
-        {% endif %}
-        <!-- <p>Informações sobre a performance</p> -->
-        <div class="d-flex justify-content-center py-3 mx-2">
-            <p class="mx-2"><a class="btn btn-warning" href="{% url 'core:editar-card-pf' empresa.slug card.slug %}">Editar</a>
-            <p class="mx-2"><a class="btn btn-warning"
-                    href="{% url 'core:relatorio-pf' empresa.slug %}">Performance</a></p>
-        </div>
+        {% endfor %}
     </div>
-    {% endif %}
-    {% endfor %}
 </div>
-<!-- </div> -->
 
 
 {% endblock %}

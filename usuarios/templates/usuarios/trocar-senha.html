@@ -3,7 +3,7 @@
 {% include 'core/menu.html' %}
 <script src="https://www.google.com/recaptcha/api.js?render=6Ldekb4pAAAAAJxIxYU4JW-irGk1bYfEvSk8gRJi"></script>
 <div class="container d-flex flex-column h-100 justify-content-center align-items-center">
-    <h2 class="text-center my-5 display-4">Trocar a senha</h2>
+    <h2 class="text-center my-5 display-5">Trocar a senha</h2>
     <form method="post" id="id-form-trocar-senha" class="col-4">
         {% csrf_token %}
         <input type="hidden" id="recaptcha_token" name="recaptcha_token"/> 

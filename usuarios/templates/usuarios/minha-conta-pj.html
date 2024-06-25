@@ -7,7 +7,7 @@
 {% include 'core/menu.html' %}
 {% include 'core/mensagens.html' %}
 
-<h2 class="text-center my-5 display-4">Minha conta</h2>
+<h2 class="text-center my-5 display-5">Minha conta</h2>
 
 <!--PRODUTOS PARA PJ-->
 <!-- <section class="d-flex flex-md-row flex-lg-row flex-column justify-content-center"> -->
@@ -194,7 +194,7 @@
         <h3 class="my-4 display-6 text-center">Compras</h3>
 
         <!--PRODUTOS-->
-        {% if produtos %}
+        {% if cartoes_pj %}
         <div class="p-3">
             <table class="table table-striped">
                 <thead>
@@ -204,17 +204,18 @@
                         <th>Aquisição</th>
                         <th>Cancelamento</th>
                         <th>Status</th>
-                        <th>Assinatura</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for cartao_pj in cartoes_pj %}
-                    <tr>
+                    <tr class="align-baseline">
                         <td>{{cartao_pj|get_name}}</td>
                         <td>{{cartao_pj.valor}}/mês</td>
                         <td>{{cartao_pj.date_created|date:"d/m/y"}}</td>
-                        <td>{{cartao_pj.cancelamento|default_if_none:"-"|date:"d/m/y"}}</td>
+                        <td>{{cartao_pj.cancelamento|date:"d/m/y"}}</td>
                         <td>{{cartao_pj.status|translate}}</td>
+                        {% if not cartao_pj.status == 'canceled' %}
                         <td>
                             <form method="POST" action="{% url 'compras:gerenciar-assinaturas' %}">
                                 {% csrf_token %}
@@ -222,6 +223,9 @@
                                 <button type="submit" class="btn btn-warning">Gerenciar assinatura</button>
                             </form>
                         </td>
+                        {% else %}
+                        <td>-</td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>

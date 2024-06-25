@@ -3,7 +3,7 @@ from usuarios.models import Usuario
 
 class Relatorio(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name='Usuário', related_name='relatorios')
-    assinatura_id = models.CharField(verbose_name='Assinatura ID', max_length=50)
+    stripe_id = models.CharField(verbose_name='Stripe ID', max_length=50)
     valor = models.DecimalField(verbose_name='Valor', max_digits=10, decimal_places=2)
     status = models.CharField(verbose_name='Status', max_length=20, default='pendente')
     stripe_customer = models.CharField(verbose_name='Stripe customer', max_length=100)
@@ -21,10 +21,12 @@ class Relatorio(models.Model):
 
 class CartaoPF(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name='Usuário', related_name='cartoespf')
-    pagamento_id = models.CharField(verbose_name='Pagamento ID', max_length=50)
+    stripe_id = models.CharField(verbose_name='Stripe ID', max_length=50)
     valor = models.DecimalField(verbose_name='Valor', max_digits=10, decimal_places=2)
     status = models.CharField(verbose_name='Status', max_length=20, default='pendente')
     date_created = models.DateField(verbose_name='Criado', auto_now_add=True)
+    cancelamento = models.DateField(verbose_name='Cancelamento', default=None, blank=True, null=True)
+
 
     class Meta:
         verbose_name = 'Cartão PF'
@@ -36,10 +38,12 @@ class CartaoPF(models.Model):
 
 class Ad(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name='Usuário', related_name='ads')
-    pagamento_id = models.CharField(verbose_name='Pagamento ID', max_length=50)
+    stripe_id = models.CharField(verbose_name='Stripe ID', max_length=50)
     valor = models.DecimalField(verbose_name='Valor', max_digits=10, decimal_places=2)
     status = models.CharField(verbose_name='Status', max_length=20, default='pendente')
     date_created = models.DateField(verbose_name='Criado', auto_now_add=True)
+    cancelamento = models.DateField(verbose_name='Cancelamento', default=None, blank=True, null=True)
+
 
     class Meta:
         verbose_name = 'Ad'
@@ -52,7 +56,7 @@ class Ad(models.Model):
 class CartaoPJ(models.Model):
 
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name='Usuário', related_name='cartoespj')
-    assinatura_id = models.CharField(verbose_name='Assinatura ID', max_length=50)
+    stripe_id = models.CharField(verbose_name='Stripe ID', max_length=50)
     valor = models.DecimalField(verbose_name='Valor', max_digits=10, decimal_places=2)
     status = models.CharField(verbose_name='Status', max_length=20, default='pendente')
     stripe_customer = models.CharField(verbose_name='Stripe customer', max_length=100)

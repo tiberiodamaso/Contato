@@ -3,24 +3,24 @@ from .models import Relatorio, CartaoPF, Ad, CartaoPJ
 
 
 class CartaoPFAdmin(admin.ModelAdmin):
-    list_display = ('id', 'usuario', 'pagamento_id', 'valor', 'status', 'date_created')
+    list_display = ('id', 'usuario', 'stripe_id', 'valor', 'status', 'date_created', 'cancelamento')
     search_fields = ['usuario']
 
 class AdAdmin(admin.ModelAdmin):
-    list_display = ('id', 'usuario', 'pagamento_id', 'valor', 'status', 'date_created')
+    list_display = ('id', 'usuario', 'stripe_id', 'valor', 'status', 'date_created', 'cancelamento')
     search_fields = ['usuario']
     
 class RelatorioAdmin(admin.ModelAdmin):
-    list_display = ('id', 'usuario', 'assinatura_id', 'valor', 'status', 'stripe_customer', 'date_created', 'cancelamento')
+    list_display = ('id', 'usuario', 'stripe_id', 'valor', 'status', 'stripe_customer', 'date_created', 'cancelamento')
     search_fields = ['usuario']
 
 class CartaoPJAdmin(admin.ModelAdmin):
-    list_display = ('id', 'usuario', 'assinatura_id', 'valor', 'status', 'stripe_customer', 'date_created', 'cancelamento')
+    list_display = ('id', 'usuario', 'stripe_id', 'valor', 'status', 'stripe_customer', 'date_created', 'cancelamento')
     search_fields = ['usuario']
 
-class PagamentoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'stripe_session_id', 'customer_email', 'amount', 'status', 'created_at', 'updated_at')
-    search_fields = ['customer_email']
+# class PagamentoAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'stripe_session_id', 'customer_email', 'amount', 'status', 'created_at', 'updated_at')
+#     search_fields = ['customer_email']
 
 admin.site.register(CartaoPF, CartaoPFAdmin)
 admin.site.register(Ad, AdAdmin)

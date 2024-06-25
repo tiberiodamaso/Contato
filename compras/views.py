@@ -289,16 +289,20 @@ def stripe_webhook(request):
         usuario = Usuario.objects.get(email=email_usuario)
         valor = event.data.object.amount_total / 100.0
         status = event.data.object.payment_status
-        assinatura_id = event.data.object.subscription if event.data.object.subscription else None
-        pagamento_id = event.data.object.payment_intent if event.data.object.payment_intent else None
         stripe_customer = event.data.object.customer
+        if event.data.object.subscription:
+            stripe_id = event.data.object.subscription
+        elif event.data.object.payment_intent:
+            stripe_id = event.data.object.payment_intent
+        else:
+            stripe_id = None
 
         # Cria Relatório
         if event.data.object.metadata.produto == 'relatorio':
             try:
                 relatorio = Relatorio.objects.create(
                     usuario = usuario,
-                    assinatura_id = assinatura_id,
+                    stripe_id = stripe_id,
                     valor = valor,
                     status = status,
                     stripe_customer=stripe_customer
@@ -335,7 +339,7 @@ def stripe_webhook(request):
             try:
                 cartao_pj = CartaoPJ.objects.create(
                     usuario = usuario,
-                    assinatura_id = assinatura_id,
+                    stripe_id = stripe_id,
                     valor = valor,
                     status = status,
                     stripe_customer=stripe_customer
@@ -343,7 +347,7 @@ def stripe_webhook(request):
 
                 relatorio = Relatorio.objects.create(
                     usuario = usuario,
-                    assinatura_id = assinatura_id,
+                    stripe_id = stripe_id,
                     valor = 0,
                     status = status,
                     stripe_customer=stripe_customer
@@ -351,7 +355,7 @@ def stripe_webhook(request):
 
                 ad = Ad.objects.create(
                     usuario = usuario,
-                    pagamento_id = assinatura_id,
+                    stripe_id = stripe_id,
                     valor = 0,
                     status = status,
                 )                
@@ -360,18 +364,53 @@ def stripe_webhook(request):
 
 
     if event.type == 'customer.subscription.updated':
-        assinatura_id = event.data.object.id
+        stripe_id = event.data.object.id
         cancelamento = event.data.object.cancel_at if event.data.object.cancel_at else None
-        try:
-            relatorio = Relatorio.objects.get(assinatura_id=assinatura_id)
-            if cancelamento:
-                relatorio.cancelamento = datetime.fromtimestamp(cancelamento).date()
-                relatorio.save()
-        except OperationalError as e:
-            cartao_pj = CartaoPJ.objects.get(assinatura_id=assinatura_id)
-            if cancelamento:
-                cartao.cancelamento = datetime.fromtimestamp(cancelamento).date()
+        if cancelamento:
+            if event.data.object.plan.product == 'prod_QKrz38Vn9as8Ak':
+                try:
+                    cartao_pj = CartaoPJ.objects.get(stripe_id=stripe_id)
+                    cartao_pj.cancelamento = datetime.fromtimestamp(cancelamento).date()
+                    cartao_pj.save()
+                    relatorio = Relatorio.objects.get(stripe_id=stripe_id)
+                    relatorio.cancelamento = datetime.fromtimestamp(cancelamento).date()
+                    relatorio.save()
+                    ad = Ad.objects.get(stripe_id=stripe_id)
+                    ad.cancelamento = datetime.fromtimestamp(cancelamento).date()
+                    ad.save()
+                except OperationalError as e:
+                    print(f'Erro ao salvar data de cancelamento no banco de dados {e}')
+            else:
+                try:
+                    relatorio = Relatorio.objects.get(stripe_id=stripe_id)
+                    relatorio.cancelamento = datetime.fromtimestamp(cancelamento).date()
+                    relatorio.save()
+                except OperationalError as e:
+                    print(f'Erro ao salvar data de cancelamento no banco de dados {e}')
+
+    if event.type == 'customer.subscription.deleted':
+        stripe_id = event.data.object.id
+        status = event.data.object.status
+        if event.data.object.plan.product == 'prod_QKrz38Vn9as8Ak':
+            try:
+                cartao_pj = CartaoPJ.objects.get(stripe_id=stripe_id)
+                cartao_pj.status = status
                 cartao_pj.save()
+                relatorio = Relatorio.objects.get(stripe_id=stripe_id)
+                relatorio.status = status
+                relatorio.save()
+                ad = Ad.objects.get(stripe_id=stripe_id)
+                ad.status = status
+                ad.save()
+            except OperationalError as e:
+                print(f'Erro ao salvar informações do status no banco de dados {e}')
+        else:
+            try:
+                relatorio = Relatorio.objects.get(stripe_id=stripe_id)
+                relatorio.status = status
+                relatorio.save()
+            except OperationalError as e:
+                print(f'Erro ao salvar informações do status no banco de dados {e}')
 
 
     # Passed signature verification

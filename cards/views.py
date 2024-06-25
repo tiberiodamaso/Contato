@@ -98,24 +98,29 @@ class Modelos(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
     def test_func(self):
         usuario = self.request.user
-        cartoes_pagos = 0
+        self.cartoes_pagos = 0
         cartoes_criados = self.request.user.cards.all()
         if usuario.perfil.is_pj:
             cartoes_comprados = self.request.user.cartoespj.all()
         else:
             cartoes_comprados = self.request.user.cartoespf.all()
-        for cartao in cartoes_comprados:
-            if cartao.status == 'paid':
-                cartoes_pagos += 1
 
-        if len(cartoes_criados) < cartoes_pagos:
+        if cartoes_comprados:    
+            for cartao in cartoes_comprados:
+                if cartao.status == 'paid':
+                    self.cartoes_pagos += 1
+
+        if len(cartoes_criados) < self.cartoes_pagos:
             return True
 
 
     def handle_no_permission(self):
         usuario = self.request.user
         if usuario.perfil.is_pj:
-            return render(self.request, 'cards/permissao-negada-cartoes-criados-atingiu-limite.html', status=403)
+            if not self.cartoes_pagos:
+                return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
+            else:    
+                return render(self.request, 'cards/permissao-negada-cartoes-criados-atingiu-limite.html', status=403)
         else:
             return render(self.request, 'cards/permissao-negada-nao-comprou-cartao.html', status=403)
 
@@ -1021,18 +1026,26 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
     success_message = 'Cartão criado com sucesso.'
 
     def test_func(self):
-        cartoes_comprados = self.request.user.cartoespj.all()
-        cartoes_criados = self.request.user.cards.all()
+        self.comprou_cartao_pj = False
+        self.assinatura_ativa = False
         self.cartoes_autorizados = 0
-        for cartao in cartoes_comprados:
-            if cartao.status == 'paid':
-                self.cartoes_autorizados += 1
-        
+        usuario = self.request.user
+        empresa = self.request.user.empresas.first()
+        cartoes_pj = usuario.cartoespj.all()
+        cartoes_criados = self.request.user.cards.all()
+
+        if len(cartoes_pj) > 0:
+            self.comprou_cartao_pj = True
+            for cartao_pj in cartoes_pj:
+                if cartao_pj.status == 'paid':
+                    self.assinatura_ativa = True
+                    self.cartoes_autorizados += 1
+                    
         if len(cartoes_criados) < self.cartoes_autorizados:
             return True
 
     def handle_no_permission(self):
-        if self.cartoes_autorizados == 0:
+        if not self.assinatura_ativa:
             return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
         else:
             return render(self.request, 'cards/permissao-negada-cartoes-criados-atingiu-limite.html', status=403)
@@ -1194,10 +1207,28 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         return response
 
 
-class ListarCardPJ(LoginRequiredMixin, ListView):
+class ListarCardPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Card
     template_name = 'cards/listar-card-pj.html'
     context_object_name = 'cards'
+
+    def test_func(self):
+        self.comprou_cartao_pj = False
+        self.assinatura_ativa = False
+        usuario = self.request.user
+        empresa = self.request.user.empresas.first()
+        cartoes_pj = usuario.cartoespj.all()
+
+        if len(cartoes_pj) > 0:
+            self.comprou_cartao_pj = True
+            for cartao_pj in cartoes_pj:
+                if cartao_pj.status == 'paid':
+                    self.assinatura_ativa = True
+                    return True
+                    
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1306,10 +1337,19 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
     success_message = 'Cartão atualizado com sucesso!'
 
     def test_func(self):
-        cartoes_comprados = self.request.user.cartoespj.all()
-        for cartao in cartoes_comprados:
-            if cartao.status == 'paid':
-                return True
+        self.comprou_cartao_pj = False
+        self.assinatura_ativa = False
+        usuario = self.request.user
+        empresa = self.request.user.empresas.first()
+        cartoes_pj = usuario.cartoespj.all()
+
+        if len(cartoes_pj) > 0:
+            self.comprou_cartao_pj = True
+            for cartao_pj in cartoes_pj:
+                if cartao_pj.status == 'paid':
+                    self.assinatura_ativa = True
+                    return True
+                    
 
     def handle_no_permission(self):
         return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
@@ -1571,21 +1611,30 @@ class CriarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     success_message = 'Anúncio criado com sucesso!'
 
     def test_func(self):
-        autorizado = False
-        cartoespj = self.request.user.cartoespj.all()
+        self.comprou_cartao_pj = False
+        self.assinatura_ativa = False
+        usuario = self.request.user
+        ads = usuario.ads.all()
         empresa = self.request.user.empresas.first()
         anuncios = empresa.anuncios.all()
         quantidade_anuncios = len(anuncios)
 
-        for cartaopj in cartoespj:
-            if cartaopj.status == 'paid':
-                autorizado = True
+        if len(ads) > 0:
+            self.comprou_cartao_pj = True
+            for ad in ads:
+                if ad.status == 'paid':
+                    self.assinatura_ativa = True
 
-        if autorizado and len(anuncios) < 10:
+        if self.assinatura_ativa and len(anuncios) < 10:
             return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-anuncios-criados-atingiu-limite.html', status=403)
+        # if not self.assinatura_ativa:
+            # return render(self.request, 'cards/permissao-negada-assinatura-cartao-pj-cancelada.html', status=403)
+        if not self.comprou_cartao_pj or not self.assinatura_ativa:
+            return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
+        else:
+            return render(self.request, 'cards/permissao-negada-anuncios-criados-atingiu-limite.html', status=403)
 
     def get_success_url(self):
         usuario = self.request.user
@@ -1655,12 +1704,34 @@ class ListarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'cards/listar-anuncio-pj.html'
 
     def test_func(self):
+        self.comprou_cartao_pj = False
+        self.criou_card = False
+        self.assinatura_ativa = False
+        usuario = self.request.user
+        empresa = self.request.user.empresas.first()
+        ads = usuario.ads.all()
+        anuncios = empresa.anuncios.all()
         cards = self.request.user.cards.all()
+        quantidade_anuncios = len(anuncios)
+
+        if len(ads) > 0:
+            self.comprou_cartao_pj = True
+            for ad in ads:
+                if ad.status == 'paid':
+                    self.assinatura_ativa = True
+                    
         if cards:
+            self.criou_card = True
+
+        if self.assinatura_ativa and len(anuncios) < 10 and self.criou_card:
             return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
+        if not self.comprou_cartao_pj or not self.assinatura_ativa:
+            return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
+        else:
+            return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1682,21 +1753,33 @@ class EditarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
     success_message = 'Anúncio atualizado com sucesso!'
 
     def test_func(self):
-        autorizado = False
+        self.comprou_cartao_pj = False
+        self.criou_card = False
+        self.assinatura_ativa = False
         usuario = self.request.user
-        empresa = usuario.empresas.first()
+        empresa = self.request.user.empresas.first()
+        ads = usuario.ads.all()
         anuncios = empresa.anuncios.all()
-        ads = Ad.objects.filter(usuario=usuario)
+        cards = self.request.user.cards.all()
+        quantidade_anuncios = len(anuncios)
 
-        for ad in ads:
-            if ad.status == 'paid':
-                autorizado = True
+        if len(ads) > 0:
+            self.comprou_cartao_pj = True
+            for ad in ads:
+                if ad.status == 'paid':
+                    self.assinatura_ativa = True
+                    
+        if cards:
+            self.criou_card = True
 
-        if autorizado and len(anuncios) < 10:
+        if self.assinatura_ativa and len(anuncios) < 10 and self.criou_card:
             return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-anuncios-criados-atingiu-limite.html', status=403)
+        if not self.comprou_cartao_pj or not self.assinatura_ativa:
+            return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
+        else:
+            return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
 
     def get_success_url(self):
         usuario = self.request.user
