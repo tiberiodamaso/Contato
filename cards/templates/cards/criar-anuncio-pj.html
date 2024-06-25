@@ -24,7 +24,9 @@
 
             <!--ANUNCIO IMAGEM-->
             <div>
-                <label for="id_tik_tok">Imagem: <span class="small text-danger">(máximo 1MB)</span></label>
+                <label for="id_tik_tok">Imagem: 
+                    <!-- <span class="small text-danger">(máximo 1MB)</span> -->
+                </label>
                 <div class="mb-3">
                     {{form.img}}
                 </div>
@@ -70,27 +72,27 @@
 
 
 <!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
-<script>
-    function validarTamanhoArquivo(inputElement) {
-        const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
+<!-- <script>
+    // function validarTamanhoArquivo(inputElement) {
+    //     const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
 
-        if (inputElement.files.length > 0) {
-            const arquivo = inputElement.files[0];
+    //     if (inputElement.files.length > 0) {
+    //         const arquivo = inputElement.files[0];
 
-            if (arquivo.size > tamanhoMaximo) {
-                alert("O arquivo excede o tamanho máximo permitido 1 MB.");
-                inputElement.value = ""; // Limpa o campo de arquivo, se necessário
-            }
-        }
-    }
+    //         if (arquivo.size > tamanhoMaximo) {
+    //             alert("O arquivo excede o tamanho máximo permitido 1 MB.");
+    //             inputElement.value = ""; // Limpa o campo de arquivo, se necessário
+    //         }
+    //     }
+    // }
 
-    const inputImg = document.getElementById("id_img");
+    // const inputImg = document.getElementById("id_img");
 
-    inputImg.addEventListener("change", function () {
-        validarTamanhoArquivo(inputImg);
-    });
+    // inputImg.addEventListener("change", function () {
+    //     validarTamanhoArquivo(inputImg);
+    // });
 
-</script>
+</script> -->
 
 
 {% endblock %}

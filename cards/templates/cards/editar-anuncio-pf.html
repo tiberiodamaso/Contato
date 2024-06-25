@@ -24,7 +24,9 @@
         <!--ANUNCIO IMAGEM-->
         <div>
             <img src="{{ anuncio.img.url }}" class="card-img-top mb-3" alt="...">
-            <label for="id_tik_tok">Imagem: <span class="small text-danger">(máximo 1MB)</span></label>
+            <label for="id_tik_tok">Imagem: 
+                <!-- <span class="small text-danger">(máximo 1MB)</span> -->
+            </label>
             <div class="mb-3">
                 {{form.img}}
             </div>
@@ -96,7 +98,7 @@
 
 
 <!--VALIDAÇÃO TAMANHO DE ARQUIVO FRONTEND-->
-<script>
+<!-- <script>
     function validarTamanhoArquivo(inputElement) {
         const tamanhoMaximo = 1 * 1024 * 1024; // 1 MB em bytes
 
@@ -116,7 +118,7 @@
         validarTamanhoArquivo(inputImg);
     });
 
-</script>
+</script> -->
 
 
 {% endblock %}

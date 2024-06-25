@@ -720,7 +720,7 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         img = form.cleaned_data['img']
         largura_desejada = 300
         altura_desejada = 300
-        tamanho_maximo = 1 * 1024 * 1024
+        # tamanho_maximo = 1 * 1024 * 1024
 
         # Valida tamanho da imagem
         if img:
@@ -728,9 +728,9 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
                 messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o conteúdo.')
                 return self.form_invalid(form)
 
-            if img.size > tamanho_maximo:
-                messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
-                return self.form_invalid(form)
+            # if img.size > tamanho_maximo:
+            #     messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
+            #     return self.form_invalid(form)
             
             extensao = slugify(os.path.splitext(img.name)[1])
             if extensao == 'jpg' or extensao == 'JPG':
@@ -834,18 +834,18 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         img = form.cleaned_data['img']
         largura_desejada = 300
         altura_desejada = 300
-        tamanho_maximo = 1 * 1024 * 1024
+        # tamanho_maximo = 1 * 1024 * 1024
 
         # Valida tamanho da imagem
-        if form.changed_data == ['img']:
+        if 'img' in form.changed_data:
 
             if not img.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
                 messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o conteúdo.')
                 return self.form_invalid(form)
 
-            if img.size > tamanho_maximo:
-                messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
-                return self.form_invalid(form)
+            # if img.size > tamanho_maximo:
+            #     messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
+            #     return self.form_invalid(form)
             
             extensao = slugify(os.path.splitext(img.name)[1])
             if extensao == 'jpg' or extensao == 'JPG':
@@ -942,11 +942,9 @@ class RelatorioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         if self.process_request():
             context['mobile'] = True
         card = self.request.user.cards.first()
-        pagina = f'/{self.request.user.empresas.first().slug}/card/{card.slug}/'
-        data_city = analytics_data_api.run_report_city(
-            property_id=None, pagina=pagina)
-        data_session_origin = analytics_data_api.run_report_session_origin(
-            property_id=None, pagina=pagina)
+        pagina = f'/{self.request.user.empresas.first().slug}/relatorio-pf/{card.slug}/'
+        data_city = analytics_data_api.run_report_city(property_id=None, pagina=pagina)
+        data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
 
         resultados = {}
         origens = []
@@ -1554,20 +1552,20 @@ class CriarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         img = form.cleaned_data['img']
         largura_desejada = 300
         altura_desejada = 300
-        tamanho_maximo = 1 * 1024 * 1024
+        # tamanho_maximo = 1 * 1024 * 1024
 
         # Valida tamanho da imagem
         if img:
-            if not img.name.endswith(('.jpg', '.jpeg', '.png')):
+            if not img.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
                 messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o anúncio.')
                 return self.form_invalid(form)
 
-            if img.size > tamanho_maximo:
-                messages.error(self.request, 'A imagem excede o tamanho máximo permitido de 1 MB.')
-                return self.form_invalid(form)
+            # if img.size > tamanho_maximo:
+            #     messages.error(self.request, 'A imagem excede o tamanho máximo permitido de 1 MB.')
+            #     return self.form_invalid(form)
             
             extensao = slugify(os.path.splitext(img.name)[1])
-            if extensao == 'jpg':
+            if extensao == 'jpg' or extensao == 'JPG':
                 extensao = 'jpeg'
 
             # Redimensiona imagem se existe
@@ -1646,7 +1644,6 @@ class EditarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         empresa = usuario.empresas.first()
         return reverse_lazy('core:listar-anuncio-pj', kwargs={'empresa': empresa.slug})
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
@@ -1660,7 +1657,6 @@ class EditarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         context['quantidade_anuncios'] = quantidade_anuncios
         return context
 
-
     def form_valid(self, form):
         anuncio = form.save(commit=False)
         usuario = self.request.user
@@ -1669,21 +1665,21 @@ class EditarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         img = form.cleaned_data['img']
         largura_desejada = 300
         altura_desejada = 300
-        tamanho_maximo = 1 * 1024 * 1024
+        # tamanho_maximo = 1 * 1024 * 1024
 
         # Valida tamanho da imagem
         if 'img' in form.changed_data:
 
-            if not img.name.endswith(('.jpg', '.jpeg', '.png')):
+            if not img.name.endswith(('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')):
                 messages.error(self.request, 'Apenas arquivos JPG ou PNG são permitidos para o conteúdo.')
                 return self.form_invalid(form)
 
-            if img.size > tamanho_maximo:
-                messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
-                return self.form_invalid(form)
+            # if img.size > tamanho_maximo:
+            #     messages.error(self.request, 'O arquivo excede o tamanho máximo permitido 1 MB.')
+            #     return self.form_invalid(form)
             
             extensao = slugify(os.path.splitext(img.name)[1])
-            if extensao == 'jpg':
+            if extensao == 'jpg' or extensao == 'JPG':
                 extensao = 'jpeg'
 
             # APAGA IMGAGEM ANTIGA
@@ -1765,13 +1761,11 @@ class RelatorioPJ(TemplateView):
             context['mobile'] = True
         empresa = Empresa.objects.get(slug=self.kwargs['empresa'])
         cards = Card.objects.filter(empresa=empresa)
-        paginas = [f'/{empresa.slug}/card/{card.slug}/' for card in cards]
+        paginas = [f'/{empresa.slug}/relatorio-pj/{card.slug}/' for card in cards]
         # data_city = analytics_data_api.run_report_city(property_id=None, pagina=paginas)
         # data_session_origin = analytics_data_api.run_report_session_origin(property_id=None, pagina=pagina)
-        data_page_path = analytics_data_api.run_report_page_path(
-            property_id=None, pagina=paginas)
-        data_source_traffic = analytics_data_api.run_report_source_traffic(
-            property_id=None, pagina=paginas)
+        data_page_path = analytics_data_api.run_report_page_path(property_id=None, pagina=paginas)
+        data_source_traffic = analytics_data_api.run_report_source_traffic(property_id=None, pagina=paginas)
 
         resultados = {}
         # origens = []
