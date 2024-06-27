@@ -316,7 +316,7 @@ def stripe_webhook(request):
             try:
                 cartao_pf = CartaoPF.objects.create(
                     usuario = usuario,
-                    pagamento_id = pagamento_id,
+                    stripe_id = stripe_id,
                     valor = valor,
                     status = status,
                 )
@@ -328,7 +328,7 @@ def stripe_webhook(request):
             try:
                 ad = Ad.objects.create(
                     usuario = usuario,
-                    pagamento_id = pagamento_id,
+                    stripe_id = stripe_id,
                     valor = valor,
                     status = status,
                 )

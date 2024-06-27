@@ -147,7 +147,7 @@
                     </a>
                 <!--WHATSAPP-->
                 {% elif atributo == 'whatsapp' %}
-                    <a href="https://wa.me/{{card.whatsapp|formata_telefone}}" 
+                    <a href="https://wa.me/{{card.cod_pais|formata_cod_pais}}{{card.whatsapp|formata_telefone}}" 
                         class="btn rounded-circle bg-body-secondary d-flex justify-content-center align-items-center" 
                         style="width: 4em; height: 4em;">
                         <i class="bi bi-whatsapp fs-1 text-black text-opacity-75"></i>

@@ -148,15 +148,15 @@
 <section class="d-flex flex-md-row flex-lg-row flex-column justify-content-around">
 
     <!--PERFIL-->
-    <div class="pb-5 px-3 col-lg-4 col-md-4 text-center">
+    <div class="pb-5 col-lg-3 col-md-3">
         <h3 class="my-4 display-6 text-center">Perfil</h3>
 
         <!--DADOS PESSOAIS-->
-        <div class="p-3">
+        <div>
             <ul class="list-unstyled lh-lg text-start">
                 <li class="card-text lead">Nome: {{usuario.first_name}} {{ usuario.last_name}}</li>
                 <li class="card-text lead">E-mail: {{usuario.email}}</li>
-                <li class="card-text lead">Cartões comprados: {{cartoes_pj|length}}</li>
+                <li class="card-text lead">Cartões comprados: {{cartoes_pj_ativos}}</li>
                 <li class="card-text lead">Cartões criados: {{cards_criados|length}}</li>
                 <li class="card-text lead">Senha: <a href="{% url 'usuarios:trocar-senha' %}" class="text-decoration-none">Trocar senha</a></li>
                 <li class="card-text lead">Conta: <a href="#" class="text-decoration-none mx-1" data-bs-toggle="modal"
@@ -190,14 +190,14 @@
     </div>
 
     <!--COMPRAS-->
-    <div class="pb-5 px-3 col-lg-8 col-md-8 text-center">
+    <div class="pb-5 col-lg-9 col-md-9">
         <h3 class="my-4 display-6 text-center">Compras</h3>
 
         <!--PRODUTOS-->
         {% if cartoes_pj %}
         <div class="p-3 d-flex flex-column flex-lg-row flex-md-row justify-content-evenly">
             {% for cartao_pj in cartoes_pj %}
-            <div class="col-lg-4 col-md-4 col">
+            <div class="col-lg-3 col-md-3 col">
                 <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
                     <div class="border rounded-2 shadow mx-lg-0 mx-md-0">
                         <div class="d-flex flex-column justify-content-between p-3" style="height: 255px;">

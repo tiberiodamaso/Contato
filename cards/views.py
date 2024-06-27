@@ -251,9 +251,10 @@ class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         modelo = form.cleaned_data['modelo']
         empresa = form.data['empresa']
         site = form.cleaned_data['site']
-        cod_pais = form.cleaned_data['cod_pais'].codigo
-        whatsapp_temp = form.cleaned_data['whatsapp']
-        whatsapp = cleaner(cod_pais) + cleaner(whatsapp_temp)
+        cod_pais = form.cleaned_data['cod_pais']
+        cod_pais_vcf = cod_pais.codigo
+        whatsapp = form.cleaned_data['whatsapp']
+        whatsapp_vcf = cleaner(cod_pais) + cleaner(whatsapp_vcf)
         facebook = form.cleaned_data['facebook']
         instagram = form.cleaned_data['instagram']
         linkedin = form.cleaned_data['linkedin']
@@ -330,7 +331,7 @@ class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
 
         #CRIA VCF
         vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
-                               whatsapp, site, endereco, estado, municipio, proprietario.email)
+                               whatsapp_vcf, site, endereco, estado, municipio, proprietario.email)
 
         vcf_name = f'{uuid.uuid4().hex}.vcf'
         content = '\n'.join([str(line) for line in vcf_content])
@@ -450,9 +451,10 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         estado = form.cleaned_data['estado']
         municipio = form.cleaned_data['municipio']
         endereco = form.cleaned_data['endereco']
-        cod_pais = form.cleaned_data['cod_pais'].codigo
-        whatsapp_temp = form.cleaned_data['whatsapp']
-        whatsapp = cleaner(cod_pais) + cleaner(whatsapp_temp)
+        cod_pais = form.cleaned_data['cod_pais']
+        cod_pais_vcf = cod_pais.codigo
+        whatsapp = form.cleaned_data['whatsapp']
+        whatsapp_vcf = cleaner(cod_pais_vcf) + cleaner(whatsapp)
         facebook = form.cleaned_data['facebook']
         instagram = form.cleaned_data['instagram']
         linkedin = form.cleaned_data['linkedin']
@@ -558,7 +560,7 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                 os.remove(card.vcf.path)
                 card.vcf.delete()
                 vcf_content = make_vcf(proprietario.first_name, proprietario.last_name, empresa,
-                                    whatsapp, site, endereco, estado, municipio, proprietario.email)
+                                    whatsapp_vcf, site, endereco, estado, municipio, proprietario.email)
 
                 vcf_name = f'{uuid.uuid4().hex}.vcf'
                 content = '\n'.join([str(line) for line in vcf_content])
@@ -578,6 +580,7 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
 
         # card.empresa = empresa
         card.nome_display = nome_display
+        card.slug = slugify(nome_display)
         card.cor = cor
         card.site = site
         card.cargo = cargo
@@ -585,6 +588,7 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         card.subcategoria = subcategoria
         card.estado = estado
         card.municipio = municipio
+        card.cod_pais = cod_pais
         card.whatsapp = whatsapp
         card.facebook = facebook
         card.instagram = instagram
@@ -594,6 +598,13 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         card.save()
 
         return HttpResponseRedirect(self.get_success_url(card))
+
+    def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
+
+        return super().form_invalid(form)
 
 
 class DetalharCardPF(DetailView):
@@ -731,7 +742,7 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         ads = usuario.ads.all()
 
         if ads:
-            for ad in self.ads:
+            for ad in ads:
                 if ad.status == 'paid':
                     self.comprou_ads = True
 
@@ -826,7 +837,7 @@ class ListarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         ads = usuario.ads.all()
 
         if ads:
-            for ad in self.ads:
+            for ad in ads:
                 if ad.status == 'paid':
                     self.comprou_ads = True
 
@@ -1157,9 +1168,10 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         empresa = self.request.user.empresas.first()
         card.empresa = empresa
         site = form.cleaned_data['site']
-        cod_pais = form.cleaned_data['cod_pais'].codigo
-        whatsapp_temp = form.cleaned_data['whatsapp']
-        whatsapp = cleaner(cod_pais) + cleaner(whatsapp_temp)
+        cod_pais = form.cleaned_data['cod_pais']
+        cod_pais_vcf = cod_pais.codigo
+        whatsapp = form.cleaned_data['whatsapp']
+        whatsapp_vcf = cleaner(cod_pais_vcf) + cleaner(whatsapp)
         facebook = form.cleaned_data['facebook']
         instagram = form.cleaned_data['instagram']
         linkedin = form.cleaned_data['linkedin']
@@ -1485,9 +1497,10 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         estado = form.cleaned_data['estado']
         municipio = form.cleaned_data['municipio']
         endereco = form.cleaned_data['endereco']
-        cod_pais = form.cleaned_data['cod_pais'].codigo
-        whatsapp_temp = form.cleaned_data['whatsapp']
-        whatsapp = cleaner(cod_pais) + cleaner(whatsapp_temp)
+        cod_pais = form.cleaned_data['cod_pais']
+        cod_pais_vcf = cod_pais.codigo
+        whatsapp = form.cleaned_data['whatsapp']
+        whatsapp_vcf = cleaner(cod_pais_vcf) + cleaner(whatsapp)
         facebook = form.cleaned_data['facebook']
         instagram = form.cleaned_data['instagram']
         linkedin = form.cleaned_data['linkedin']
@@ -1592,7 +1605,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                 os.remove(card.vcf.path)
                 card.vcf.delete()
                 vcf_content = make_vcf(usuario_do_card.first_name, usuario_do_card.last_name, empresa,
-                                    whatsapp, site, endereco, estado, municipio, usuario_do_card.email)
+                                    whatsapp_vcf, site, endereco, estado, municipio, usuario_do_card.email)
 
                 vcf_name = f'{uuid.uuid4().hex}.vcf'
                 content = '\n'.join([str(line) for line in vcf_content])
@@ -1627,6 +1640,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         card.subcategoria = subcategoria
         card.estado = estado
         card.municipio = municipio
+        card.cod_pais = cod_pais
         card.whatsapp = whatsapp
         card.facebook = facebook
         card.instagram = instagram

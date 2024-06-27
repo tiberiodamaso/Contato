@@ -273,8 +273,11 @@ class MinhaConta(LoginRequiredMixin, ListView):
             cartoes_pj = usuario.cartoespj.all() # cartoes comprados pj
             ads = usuario.ads.all() # ads comprados
             relatorios = usuario.relatorios.all() # relatorios comprados
-            cards_criados = empresa.cards.all() # cards criados
-            anuncios_criados = empresa.anuncios.all() # anúncios criados
+            if empresa:
+                cards_criados = empresa.cards.all() # cards criados
+                anuncios_criados = empresa.anuncios.all() # anúncios criados
+                context['anuncios_criados'] = anuncios_criados
+                context['cards_criados'] = cards_criados
 
             if cartoes_pf:
                 for cartao_pf in cartoes_pf:
@@ -283,9 +286,11 @@ class MinhaConta(LoginRequiredMixin, ListView):
                         comprou_cartao_pf = True
 
             if cartoes_pj:
+                cartoes_pj_ativos = 0
                 for cartao_pj in cartoes_pj:
                     if cartao_pj.status == 'paid':
                         comprou_cartao_pj = True
+                        cartoes_pj_ativos += 1
 
             if ads:
                 for ad in ads:
@@ -306,8 +311,7 @@ class MinhaConta(LoginRequiredMixin, ListView):
             context['comprou_relatorio'] = comprou_relatorio
             context['comprou_ad'] = comprou_ad
             context['cartoes_pj'] = cartoes_pj
-            context['anuncios_criados'] = anuncios_criados
-            context['cards_criados'] = cards_criados
+            context['cartoes_pj_ativos'] = cartoes_pj_ativos
             context['produtos'] = produtos
         except ObjectDoesNotExist as err:
             print(err)

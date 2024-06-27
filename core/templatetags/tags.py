@@ -1,3 +1,4 @@
+import re
 from django import template
 from datetime import date, timedelta
 from cards.utils import cleaner
@@ -24,6 +25,11 @@ def translate(value):
 def formata_telefone(value):
     value = cleaner(value)
     return value
+
+
+@register.filter
+def formata_cod_pais(value):
+    return value.codigo
 
 
 @register.filter
