@@ -2,6 +2,7 @@ import json, os, requests
 import hmac
 import hashlib
 import stripe
+import shutil
 from datetime import datetime
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.urls import reverse, reverse_lazy
@@ -38,7 +39,7 @@ class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
 
 
     def handle_no_permission(self):
-            return render(self.request, 'cards/permissao-negada-nao-comprou-cartao.html', status=403)
+            return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pf.html', status=403)
 
 
     def get(self, request, *args, **kwargs):
@@ -207,7 +208,7 @@ class ComprarAnuncio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
                 return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-nao-comprou-cartao.html', status=403)
+        return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pf.html', status=403)
 
     def get(self, request, *args, **kwargs):
         context = {}
@@ -362,7 +363,6 @@ def stripe_webhook(request):
             except DatabaseError as e:
                 print(f'DatabaseError {e}')
 
-
     if event.type == 'customer.subscription.updated':
         stripe_id = event.data.object.id
         cancelamento = event.data.object.cancel_at if event.data.object.cancel_at else None
@@ -388,6 +388,28 @@ def stripe_webhook(request):
                 except OperationalError as e:
                     print(f'Erro ao salvar data de cancelamento no banco de dados {e}')
 
+        if not event.data.object.cancel_at_period_end:
+            if event.data.object.plan.product == 'prod_QKrz38Vn9as8Ak':
+                try:
+                    cartao_pj = CartaoPJ.objects.get(stripe_id=stripe_id)
+                    cartao_pj.cancelamento = None
+                    cartao_pj.save()
+                    relatorio = Relatorio.objects.get(stripe_id=stripe_id)
+                    relatorio.cancelamento = None
+                    relatorio.save()
+                    ad = Ad.objects.get(stripe_id=stripe_id)
+                    ad.cancelamento = None
+                    ad.save()
+                except OperationalError as e:
+                    print(f'Erro ao salvar data de cancelamento no banco de dados {e}')
+            else:
+                try:
+                    relatorio = Relatorio.objects.get(stripe_id=stripe_id)
+                    relatorio.cancelamento = None
+                    relatorio.save()
+                except OperationalError as e:
+                    print(f'Erro ao salvar data de cancelamento no banco de dados {e}')
+            
     if event.type == 'customer.subscription.deleted':
         stripe_id = event.data.object.id
         status = event.data.object.status
@@ -402,6 +424,32 @@ def stripe_webhook(request):
                 ad = Ad.objects.get(stripe_id=stripe_id)
                 ad.status = status
                 ad.save()
+
+                usuario = cartao_pj.usuario
+                empresa = usuario.empresas.first()
+                cards = empresa.cards.all()
+                anuncios = empresa.anuncios.all()
+
+                if cards:
+                    for card in cards:
+                        usuario_do_card = card.usuario_do_card
+                        path = os.path.join(settings.MEDIA_ROOT, usuario_do_card.id.hex)
+                        try:
+                            card.delete()
+                            usuario_do_card.delete()
+                            shutil.rmtree(path)
+                        except FileNotFoundError as err:
+                            print(err)
+
+                if anuncios:
+                    for anuncio in anuncios:
+                        path = anuncio.img.path
+                        try:
+                            anuncio.delete()
+                            shutil.rmtree(path)
+                        except FileNotFoundError as err:
+                            print(err)
+
             except OperationalError as e:
                 print(f'Erro ao salvar informações do status no banco de dados {e}')
         else:

@@ -182,6 +182,7 @@ class Card(models.Model):
     # histórico
     criado = models.DateField(verbose_name='Criado', auto_now_add=True)
     atualizado = models.DateField(verbose_name='Atualizado', auto_now=True)
+    ativo = models.BooleanField(verbose_name='Ativo', default=True)
 
     class Meta:
         verbose_name = 'Card'
@@ -248,6 +249,9 @@ class Anuncio(models.Model):
     )
     nome = models.CharField(verbose_name='Nome', max_length=50)
     descricao = models.TextField(verbose_name='Descrição', blank=True)
+    criado = models.DateField(verbose_name='Criado', auto_now_add=True)
+    atualizado = models.DateField(verbose_name='Atualizado', auto_now=True)
+    ativo = models.BooleanField(verbose_name='Ativo', default=True)
 
     class Meta:
         verbose_name = 'Anúncio'

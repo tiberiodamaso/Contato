@@ -5,7 +5,7 @@ class CardEditForm(forms.ModelForm):
 
     class Meta:
         model = Card
-        exclude = ['proprietario', 'vcf', 'qr_code', 'empresa', 'usuario_do_card']
+        exclude = ['proprietario', 'vcf', 'qr_code', 'empresa', 'usuario_do_card', 'ativo']
         widgets = {
             'img_perfil': forms.FileInput(attrs={'class': 'form-control', 'label': 'Foto', 'accept': 'image/jpeg, image/png'}),
             'logotipo': forms.FileInput(attrs={'class': 'form-control', 'label': 'Logotipo', 'accept': 'image/jpeg, image/png'}),
@@ -46,7 +46,7 @@ class AnuncioEditForm(forms.ModelForm):
 
     class Meta:
         model = Anuncio
-        exclude = ['empresa']
+        exclude = ['empresa', 'ativo']
         widgets = {
             'img': forms.FileInput(attrs={'class': 'form-control', 'accept': 'image/jpeg, image/png'}),
             'link': forms.URLInput(attrs={'class': 'form-control'}),

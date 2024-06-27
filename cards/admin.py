@@ -38,6 +38,7 @@ class CardAdmin(admin.ModelAdmin):
         'proprietario',
         'cod_pais',
         'whatsapp',
+        'ativo',
     ]
 
     readonly_fields = ['conteudo_pesquisavel']
@@ -54,7 +55,7 @@ class TipoAnuncioAdmin(admin.ModelAdmin):
 
 
 class AnuncioAdmin(admin.ModelAdmin):
-    list_display = ['id', 'empresa', 'img', 'tipo', 'link', 'nome']
+    list_display = ['id', 'empresa', 'img', 'tipo', 'link', 'nome', 'ativo']
 
 
 admin.site.register(Categoria, CategoriaAdmin)

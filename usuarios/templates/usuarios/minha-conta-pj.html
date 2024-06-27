@@ -156,8 +156,8 @@
             <ul class="list-unstyled lh-lg text-start">
                 <li class="card-text lead">Nome: {{usuario.first_name}} {{ usuario.last_name}}</li>
                 <li class="card-text lead">E-mail: {{usuario.email}}</li>
-                <li class="card-text lead">Cartões comprados: {{numero_cartoes_pj}}</li>
-                <li class="card-text lead">Cartões criados: {{numero_cards_criados}}</li>
+                <li class="card-text lead">Cartões comprados: {{cartoes_pj|length}}</li>
+                <li class="card-text lead">Cartões criados: {{cards_criados|length}}</li>
                 <li class="card-text lead">Senha: <a href="{% url 'usuarios:trocar-senha' %}" class="text-decoration-none">Trocar senha</a></li>
                 <li class="card-text lead">Conta: <a href="#" class="text-decoration-none mx-1" data-bs-toggle="modal"
                     data-bs-target="#modalConfirmaDesativação">Desativar conta</a></li>
@@ -195,41 +195,62 @@
 
         <!--PRODUTOS-->
         {% if cartoes_pj %}
-        <div class="p-3">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Produto</th>
-                        <th>Valor</th>
-                        <th>Aquisição</th>
-                        <th>Cancelamento</th>
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for cartao_pj in cartoes_pj %}
-                    <tr class="align-baseline">
-                        <td>{{cartao_pj|get_name}}</td>
-                        <td>{{cartao_pj.valor}}/mês</td>
-                        <td>{{cartao_pj.date_created|date:"d/m/y"}}</td>
-                        <td>{{cartao_pj.cancelamento|date:"d/m/y"}}</td>
-                        <td>{{cartao_pj.status|translate}}</td>
-                        {% if not cartao_pj.status == 'canceled' %}
-                        <td>
+        <div class="p-3 d-flex flex-column flex-lg-row flex-md-row justify-content-evenly">
+            {% for cartao_pj in cartoes_pj %}
+            <div class="col-lg-4 col-md-4 col">
+                <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+                    <div class="border rounded-2 shadow mx-lg-0 mx-md-0">
+                        <div class="d-flex flex-column justify-content-between p-3" style="height: 255px;">
+                            <h5 class="my-2 text-center">{{cartao_pj|get_name}}</h5>
+                            <ul class="list-unstyled text-start">
+                                <li>Valor: {{cartao_pj.valor}}/mês</li>
+                                <li>Aquisição: {{cartao_pj.date_created|date:"d/m/y"}}</li>
+                                <li>Cancelamento: {{cartao_pj.cancelamento|date:"d/m/y"}}</li>
+                                <li>Status: {{cartao_pj.status|translate}}</li>
+                            </ul>
+                            <div>
+                                {% if not cartao_pj.status == 'canceled' and cartao_pj.cancelamento %}
+                                <form method="POST" action="{% url 'compras:gerenciar-assinaturas' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="stripe_customer" value="{{cartao_pj.stripe_customer}}">
+                                    <button type="submit" class="btn btn-warning mx-2">Renovar assinatura</button>
+                                </form>
+                                {% elif not cartao_pj.status == 'canceled' %}
+                                    <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        Cancelar assinatura
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Cancelar assinatura</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Deseja realmente cancelar assinatura ?</p>
+                            <p>Todos os seus cartões e anúncios serão excluídos.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Manter assinatura</button>
                             <form method="POST" action="{% url 'compras:gerenciar-assinaturas' %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="stripe_customer" value="{{cartao_pj.stripe_customer}}">
-                                <button type="submit" class="btn btn-warning">Gerenciar assinatura</button>
+                                <button type="submit" class="btn btn-danger">Cancelar assinatura</button>
                             </form>
-                        </td>
-                        {% else %}
-                        <td>-</td>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
         {% else %}
         <h5>Você ainda não comprou nenhum produto</h5>

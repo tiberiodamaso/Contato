@@ -207,7 +207,7 @@
         <h3 class="my-4 display-6 text-center">Compras</h3>
 
         <!--PRODUTOS-->
-        {% if produtos %}
+        <!-- {% if produtos %}
         <div class="p-3">
             <table class="table table-striped">
                 <thead>
@@ -232,10 +232,10 @@
         </div>
         {% else %}
         <h5>Você ainda não comprou nenhum produto</h5>
-        {% endif %}
+        {% endif %} -->
 
         <!--RELATORIO-->
-        {% if relatorio %}
+        <!-- {% if relatorio %}
         <div class="p-3">
             <table class="table table-striped">
                 <thead>
@@ -245,7 +245,7 @@
                         <th>Aquisição</th>
                         <th>Cancelamento</th>
                         <th>Status</th>
-                        <th>Assinatura</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -255,17 +255,107 @@
                         <td>{{relatorio.date_created|date:"d/m/y"}}</td>
                         <td>{{relatorio.cancelamento|date:"d/m/y"}}</td>
                         <td>{{relatorio.status|translate}}</td>
+                        {% if not relatorio.status == 'canceled' %}
                         <td>
-                            <form method="POST" action="{% url 'compras:gerenciar-assinaturas' %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="stripe_customer" value="{{relatorio.stripe_customer}}">
-                                <button type="submit" class="btn btn-warning">Gerenciar assinatura</button>
-                            </form>
+                            <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                Cancelar assinatura
+                            </button>
                         </td>
-                    </tr>
+                        {% else %}
+                        <td>-</td>
+                        {% endif %}
+                    </tr> -->
+
+                    <!-- Modal -->
+                    <!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Cancelar Relatório</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Deseja realmente cancelar Relatório ?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Manter Relatório</button>
+                                    <form method="POST" action="{% url 'compras:gerenciar-assinaturas' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="stripe_customer" value="{{relatorio.stripe_customer}}">
+                                        <button type="submit" class="btn btn-danger">Cancelar Relatório</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </tbody>
               </table>
         </div>
+        {% endif %} -->
+
+        <!--PRODUTOS-->
+        {% if produtos %}
+        <div class="p-3 d-flex flex-column flex-lg-row flex-md-row justify-content-evenly">
+            {% for produto in produtos %}
+            <div class="col-lg-4 col-md-4 col">
+                <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
+                    <div class="border rounded-2 shadow mx-lg-0 mx-md-0">
+                        <div class="d-flex flex-column justify-content-between p-3" style="height: 255px;">
+                            <h5 class="my-2 text-center">{{produto|get_name}}</h5>
+                            <ul class="list-unstyled text-start">
+                                <li>Valor: {{produto.valor}}/mês</li>
+                                <li>Aquisição: {{produto.date_created|date:"d/m/y"}}</li>
+                                <li>Cancelamento: {{produto.cancelamento|date:"d/m/y"}}</li>
+                                <li>Status: {{produto.status|translate}}</li>
+                            </ul>
+                            <div>
+                                {% if produto|get_name == 'Relatório' and not produto.status == 'canceled' and produto.cancelamento %}
+                                <form method="POST" action="{% url 'compras:gerenciar-assinaturas' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="stripe_customer" value="{{produto.stripe_customer}}">
+                                    <button type="submit" class="btn btn-warning mx-2">Renovar assinatura</button>
+                                </form>
+                                {% elif produto|get_name == 'Relatório' and not produto.status == 'canceled' %}
+                                    <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        Cancelar assinatura
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Cancelar assinatura</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Deseja realmente cancelar assinatura ?</p>
+                                                    <p>Todos os seus cartões e anúncios serão excluídos.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Manter assinatura</button>
+                                                    <form method="POST" action="{% url 'compras:gerenciar-assinaturas' %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="stripe_customer" value="{{produto.stripe_customer}}">
+                                                        <button type="submit" class="btn btn-danger">Cancelar assinatura</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <h5>Você ainda não comprou nenhum produto</h5>
         {% endif %}
 
     </div>

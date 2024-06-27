@@ -124,9 +124,12 @@
                     <a class="nav-link" aria-current="page" href="{% url 'core:pesquisar' %}">Pesquisar</a>
                 </li>
 
+                <!--USUARIO PJ-->
                 {% if user.perfil.is_pj %}
 
                     {% if user.is_authenticated %}
+
+                        <!--TEM CARTAO CRIADO-->
                         {% if user.cards.first %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'core:relatorio-pj' user.empresas.first.slug %}">Relatórios</a>
@@ -150,11 +153,15 @@
                                     <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pj' user.empresas.first.slug %}">Criar anúncio</a></li>
                                 </ul>
                             </div>
+
+                        <!--NAO TEM CARTAO CRIADO-->
                         {% else %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'core:modelos' %}">Criar cartão</a>
                             </li>
                         {% endif %}
+
+                        <!--MINHA CONTA E SAIR-->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'usuarios:minha-conta' user.username %}">Minha conta</a>
                         </li>
@@ -166,9 +173,12 @@
                         </li>
                     {% endif %}
 
+                <!--USUARIO PF-->
                 {% else %}
 
                     {% if user.is_authenticated %}
+
+                        <!--TEM CARTAO CRIADO-->
                         {% if user.cards.first %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'core:relatorio-pf' user.empresas.first.slug user.cards.first.slug %}">Relatórios</a>
@@ -186,11 +196,15 @@
                                 <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pf' user.empresas.first.slug %}">Criar anúncio</a></li>
                                 </ul>
                             </div>
+                        
+                        <!--NAO TEM CARTAO CRIADO-->
                         {% else %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'core:modelos' %}">Criar meu cartão</a>
                             </li>
                         {% endif %}
+
+                        <!--MINHA CONTA E SAIR-->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'usuarios:minha-conta' user.username %}">Minha conta</a>
                         </li>

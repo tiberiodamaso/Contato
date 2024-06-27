@@ -18,7 +18,7 @@ urlpatterns = [
     path('card/modelos/', Modelos.as_view(), name='modelos'),
     path('card/trocar-modelo/', TrocarModelo.as_view(), name='trocar-modelo'),
 
-    # CARDS PF
+    # PRODUTOS PF
     path('<slug:empresa>/card-pf/criar/', CriarCardPF.as_view(), name='criar-card-pf'),
     path('<slug:empresa>/card-pf/', ListarCardPF.as_view(), name='lista-card-pf'),
     path('<slug:empresa>/card-pf/<slug:slug>/', DetalharCardPF.as_view(), name='detalhar-card-pf'),
@@ -30,7 +30,7 @@ urlpatterns = [
     path('<slug:empresa>/card-pf/anuncio/editar/<int:pk>/', EditarAnuncioPF.as_view(), name='editar-anuncio-pf'),
     path('<slug:empresa>/card-pf/anuncio/excluir/<int:pk>/', ExcluirAnuncioPF.as_view(), name='excluir-anuncio-pf'),
 
-    # CARDS PJ
+    # PRODUTOS PJ
     path('<slug:empresa>/card-pj/criar/', CriarCardPJ.as_view(), name='criar-card-pj'),
     path('<slug:empresa>/card-pj/', ListarCardPJ.as_view(), name='listar-card-pj'),
     path('<slug:empresa>/card-pj/<slug:slug>/', DetalharCardPJ.as_view(), name='detalhar-card-pj'),

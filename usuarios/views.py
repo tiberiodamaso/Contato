@@ -24,7 +24,7 @@ from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import slugify
 from .models import Usuario, Perfil
-from cards.models import Empresa, Card
+from cards.models import Empresa, Card, Anuncio
 from django.shortcuts import redirect, render
 from compras.models import Relatorio, CartaoPF, CartaoPJ, Ad
 from django.contrib.auth.hashers import check_password
@@ -259,24 +259,13 @@ class MinhaConta(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        data_atual = date.today()
         usuario = self.request.user
         empresa = usuario.empresas.first()
-        card = Card.objects.filter(proprietario=usuario).first()
-        anuncios_criados = empresa.anuncios.all() if empresa else None
-        relatorio = usuario.relatorios.all().last()
-        cartao_pj = usuario.cartoespj.all().last()
-        produtos = []
         comprou_cartao_pf = False
         comprou_cartao_pj = False
         comprou_relatorio = False
         comprou_ad = False
-
-        if relatorio:
-            cancelamento_relatorio = relatorio.cancelamento if relatorio.cancelamento else None
-            if cancelamento_relatorio and data_atual > cancelamento_relatorio:
-                relatorio.status = 'canceled'
-                relatorio.save()
+        produtos = []
 
 
         try:
@@ -284,7 +273,8 @@ class MinhaConta(LoginRequiredMixin, ListView):
             cartoes_pj = usuario.cartoespj.all() # cartoes comprados pj
             ads = usuario.ads.all() # ads comprados
             relatorios = usuario.relatorios.all() # relatorios comprados
-            cards_criados = usuario.cards.all() # cards criados pelo usuário depois de pagar pela compra
+            cards_criados = empresa.cards.all() # cards criados
+            anuncios_criados = empresa.anuncios.all() # anúncios criados
 
             if cartoes_pf:
                 for cartao_pf in cartoes_pf:
@@ -294,10 +284,6 @@ class MinhaConta(LoginRequiredMixin, ListView):
 
             if cartoes_pj:
                 for cartao_pj in cartoes_pj:
-                    cancelamento_cartao_pj = cartao_pj.cancelamento if cartao_pj.cancelamento else None
-                    # if cancelamento_cartao_pj and data_atual > cancelamento_cartao_pj:
-                    #     cartao_pj.status = 'canceled'
-                    #     cartao_pj.save()
                     if cartao_pj.status == 'paid':
                         comprou_cartao_pj = True
 
@@ -310,24 +296,19 @@ class MinhaConta(LoginRequiredMixin, ListView):
             if relatorios:
                 for rel in relatorios:
                     if rel.status == 'paid':
+                        produtos.append(rel)
                         comprou_relatorio = True
 
             context['usuario'] = usuario
             context['empresa'] = empresa
-            context['card'] = card
-            context['anuncios_criados'] = anuncios_criados
-            context['produtos'] = produtos
             context['comprou_cartao_pf'] = comprou_cartao_pf
             context['comprou_cartao_pj'] = comprou_cartao_pj
             context['comprou_relatorio'] = comprou_relatorio
             context['comprou_ad'] = comprou_ad
-            # context['cartoes_pf'] = cartoes_pf
             context['cartoes_pj'] = cartoes_pj
-            # context['ads'] = ads
-            context['relatorio'] = relatorio
+            context['anuncios_criados'] = anuncios_criados
             context['cards_criados'] = cards_criados
-            context['numero_cards_criados'] = len(cards_criados)
-            context['numero_cartoes_pj'] = len(cartoes_pj)
+            context['produtos'] = produtos
         except ObjectDoesNotExist as err:
             print(err)
             card = None
@@ -354,7 +335,7 @@ class DesativarConta(LoginRequiredMixin, DeleteView):
         usuario.save()
         return redirect(reverse_lazy('usuarios:logout'))
 
-
+# TODO verificar edição do perfil
 class PerfilPF(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Perfil
     form_class = PerfilFormPF
