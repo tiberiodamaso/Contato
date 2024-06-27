@@ -271,7 +271,11 @@ class ComprarCartaoPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
 def stripe_webhook(request):
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-    endpoint_secret = 'whsec_de06a86430dc9c76f4097be20ebe6fb84f596936734543fb5bcb7ffacd9fff5d'
+    # Local
+    # endpoint_secret = 'whsec_de06a86430dc9c76f4097be20ebe6fb84f596936734543fb5bcb7ffacd9fff5d'
+
+    # Online
+    endpoint_secret = 'whsec_CouEVPKqgTvMMxMcABCK5azmE5Xmdn2Y'
 
     try:
         event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
