@@ -7,7 +7,7 @@
 <script src="https://www.google.com/recaptcha/api.js?render=6Ldekb4pAAAAAJxIxYU4JW-irGk1bYfEvSk8gRJi"></script>
 <div class="container">
 
-    <form method="post" id="id-form-criar-conta" action="{% url 'usuarios:registrar' %}" class="col-10 col-lg-6 py-5 d-flex flex-column m-auto">
+    <form method="post" id="id-form-criar-conta" action="{% url 'usuarios:registrar' %}" class="col col-lg-4 col-md-6 py-5 d-flex flex-column m-auto">
         {% csrf_token %}
         <input type="hidden" id="recaptcha_token" name="recaptcha_token"/> 
         <p class="text-center display-5 mb-5">Criar minha conta</p>
@@ -57,10 +57,11 @@
         </div>
         <small id="passwordMatchHelp" class="form-text text-danger font-weight-bold"></small>
 
-        <div class="mb-3">
-            Ao se registrar você aceita os <a href="{% url 'core:termos-de-uso' %}" class="text-decoration-none">Termos
-                de uso</a> e <a href="{% url 'core:politica-de-privacidade' %}" class="text-decoration-none">Política de
-                privacidade</a></span>
+        <div class="mb-3 d-flex">
+            <span class="text-center">Ao se registrar você aceita os 
+                <a href="{% url 'core:termos-de-uso' %}" class="text-decoration-none">Termos de uso</a> e 
+                <a href="{% url 'core:politica-de-privacidade' %}" class="text-decoration-none">Política de privacidade</a>
+            </span>
         </div>
 
         <button type="submit" class="btn btn-warning" onclick="onClick(event)">Criar</button>

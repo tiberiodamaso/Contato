@@ -11,7 +11,7 @@
     <!--FORMULÁRIO PARA CRIAR ANUNCIO-->
     {% if quantidade_anuncios < 10 %}
         <form action="{% url 'core:criar-anuncio-pf' card.empresa.slug %}" method="post"
-            class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+            class="col col-md-8 col-lg-4 p-4" enctype="multipart/form-data">
             {% csrf_token %}
 
             <!--TIPO ANUNCIO-->

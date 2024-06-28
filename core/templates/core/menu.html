@@ -138,7 +138,7 @@
                                 <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Cartões
                                 </a>
-                                <ul class="dropdown-menu border">
+                                <ul class="dropdown-menu border-1 p-lg-0 p-2">
                                     <li><a class="dropdown-item nav-link" href="{% url 'core:listar-card-pj' user.empresas.first.slug %}">Meus cartões</a></li>
                                     <li><a class="dropdown-item nav-link" href="{% url 'core:modelos' %}">Criar cartão</a></li>
                                     <li><a class="dropdown-item nav-link" href="{% url 'compras:comprar-cartao-pj' %}?nova_compra=True">Comprar mais cartões</a></li>
@@ -148,7 +148,7 @@
                                 <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Anúncios
                                 </a>
-                                <ul class="dropdown-menu border">
+                                <ul class="dropdown-menu border-1 p-lg-0 p-2">
                                     <li><a class="dropdown-item nav-link" href="{% url 'core:listar-anuncio-pj' user.empresas.first.slug %}">Meus anúncios</a></li>
                                     <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pj' user.empresas.first.slug %}">Criar anúncio</a></li>
                                 </ul>
@@ -191,7 +191,7 @@
                                 <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Anúncios
                                 </a>
-                                <ul class="dropdown-menu border">
+                                <ul class="dropdown-menu border-1 p-lg-0 p-2">
                                 <li><a class="dropdown-item nav-link" href="{% url 'core:listar-anuncio-pf' user.empresas.first.slug %}">Meus anúncios</a></li>
                                 <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pf' user.empresas.first.slug %}">Criar anúncio</a></li>
                                 </ul>

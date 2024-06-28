@@ -145,10 +145,10 @@
 </section> -->
 
 <!--PERFIL-->
-<section class="d-flex flex-md-row flex-lg-row flex-column justify-content-around">
+<section class="d-flex flex-md-column flex-lg-row flex-column justify-content-around">
 
     <!--PERFIL-->
-    <div class="pb-5 col-lg-3 col-md-3">
+    <div class="pb-5 col-lg-3 col-md-12">
         <h3 class="my-4 display-6 text-center">Perfil</h3>
 
         <!--DADOS PESSOAIS-->
@@ -190,14 +190,14 @@
     </div>
 
     <!--COMPRAS-->
-    <div class="pb-5 col-lg-9 col-md-9 text-center">
+    <div class="pb-5 col-lg-9 col-md-12 text-center">
         <h3 class="my-4 display-6 text-center">Compras</h3>
 
         <!--PRODUTOS-->
         {% if cartoes_pj %}
-        <div class="p-3 d-flex flex-column flex-lg-row flex-md-row justify-content-evenly">
+        <div class="p-3 d-flex flex-column flex-lg-row flex-md-row justify-content-evenly align-items-center">
             {% for cartao_pj in cartoes_pj %}
-            <div class="col-lg-3 col-md-3 col">
+            <div class="col-lg-3 col-md-5 col-10">
                 <div class="mb-4 mb-md-4 mb-lg-4 text-center px-0">
                     <div class="border rounded-2 shadow mx-lg-0 mx-md-0">
                         <div class="d-flex flex-column justify-content-between p-3" style="height: 255px;">
@@ -253,7 +253,7 @@
             {% endfor %}
         </div>
         {% else %}
-        <h5>Você ainda não comprou nenhum produto</h5>
+        <h5 class="text-center">Você ainda não comprou nenhum produto</h5>
         {% endif %}
 
     </div>

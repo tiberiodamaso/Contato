@@ -1,10 +1,10 @@
 {% load static %}
 <!--FOOTER-->
 <div class="bg-dark mt-auto">
-    <footer class="container pt-4 pt-md-5 text-white">
+    <footer class="container py-lg-5 my-lg-5 text-white">
       <div class="row">
         <!--LOGO-->
-        <div class="col-12 col-md py-4 p-lg-0 d-flex justify-content-center">
+        <div class="col-12 col-md-12 col-lg py-5 p-lg-0 d-flex justify-content-center">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200"
             zoomAndPan="magnify" viewBox="0 0 150 37.5" height="50" preserveAspectRatio="xMidYMid meet" version="1.0">
             <defs>
@@ -116,7 +116,7 @@
 
         <!--TERMOS E POLITICA-->
         <div class="col-12 col-md">
-          <h5>Início</h5>
+          <h5>Termos</h5>
           <ul class="list-unstyled text-small">
             <li class="mb-1"><a class="link-secondary text-decoration-none" href="{% url 'core:termos-de-uso' %}">Termos de uso</a></li>
             <li class="mb-1"><a class="link-secondary text-decoration-none" href="{% url 'core:politica-de-privacidade' %}">Política de privacidade</a></li>
@@ -124,13 +124,13 @@
         </div>
 
         <!--EMPRESAS-->
-        <div class="col-12 col-md">
+        <!-- <div class="col-12 col-md">
           <h5>Para empresas</h5>
           <ul class="list-unstyled text-small">
-            <li class="mb-1"><a class="link-secondary text-decoration-none" href="mailto:contato@meucontato.app.br">Entre em contato</a></li>
+            <li class="mb-1"><a class="link-secondary text-decoration-none" href="mailto:contato@meucontato.app.br">Entre em contato</a></li> -->
             <!-- <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Apresentação</a></li> -->
-          </ul>
-        </div>
+          <!-- </ul> -->
+        <!-- </div> -->
 
         <!--AJUDA-->
         <div class="col-12 col-md">
@@ -141,13 +141,15 @@
           </ul>
         </div>
 
-        <!--ATENDDIMENTO-->
+        <!--ATENDIMENTO-->
         <div class="col-12 col-md">
           <h5>Atendimento</h5>
           <ul class="list-unstyled text-small">
-            <li class="mb-1">08:00 às 21:00 - Seg à sex</li>
+            <li><a href="mailto:contato@meucontato.app.br"
+                class="text-decoration-none text-secondary">contato@meucontato.app.br</a></li>
+            <!-- <li class="mb-1">08:00 às 21:00 - Seg à sex</li>
             <li class="mb-1">08:00 às 14:00 - Sábado</li>
-            <li class="mb-3">(exceto feriados)</li>
+            <li class="mb-3">(exceto feriados)</li> -->
             <!-- <li class="mb-1">Rua da conquista, 27</li>
             <li class="mb-1">Ribeirão Preto - SP</li> -->
             <!-- <li class="mb-1"><i class="bi bi-whatsapp fs-1 me-3"></i></li> -->

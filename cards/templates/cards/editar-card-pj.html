@@ -55,7 +55,7 @@
 
     <!--FORMULÁRIO DE EDIÇÃO DO CARD-->
     <form id="editCard" action="{% url 'core:editar-card-pj' card.empresa.slug card.slug %}" method="post"
-        class="col col-md-4 col-lg-4 p-4" enctype="multipart/form-data">
+        class="col col-md-8 col-lg-4 p-4" enctype="multipart/form-data">
         {% csrf_token %}
 
         <!--MODELO DO CARD-->

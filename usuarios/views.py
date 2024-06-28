@@ -265,6 +265,7 @@ class MinhaConta(LoginRequiredMixin, ListView):
         comprou_cartao_pj = False
         comprou_relatorio = False
         comprou_ad = False
+        cartoes_pj_ativos = 0
         produtos = []
 
 
@@ -286,8 +287,6 @@ class MinhaConta(LoginRequiredMixin, ListView):
                         comprou_cartao_pf = True
 
             if cartoes_pj:
-                cartoes_pj_ativos = 0
-                context['cartoes_pj_ativos'] = cartoes_pj_ativos
                 for cartao_pj in cartoes_pj:
                     if cartao_pj.status == 'paid':
                         comprou_cartao_pj = True
@@ -313,6 +312,8 @@ class MinhaConta(LoginRequiredMixin, ListView):
             context['comprou_ad'] = comprou_ad
             context['cartoes_pj'] = cartoes_pj
             context['produtos'] = produtos
+            context['cartoes_pj_ativos'] = cartoes_pj_ativos
+
         except ObjectDoesNotExist as err:
             print(err)
             card = None
