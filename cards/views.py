@@ -254,7 +254,7 @@ class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         cod_pais = form.cleaned_data['cod_pais']
         cod_pais_vcf = cod_pais.codigo
         whatsapp = form.cleaned_data['whatsapp']
-        whatsapp_vcf = cleaner(cod_pais) + cleaner(whatsapp_vcf)
+        whatsapp_vcf = cleaner(cod_pais_vcf) + cleaner(whatsapp)
         facebook = form.cleaned_data['facebook']
         instagram = form.cleaned_data['instagram']
         linkedin = form.cleaned_data['linkedin']

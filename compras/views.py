@@ -23,8 +23,6 @@ from .models import Relatorio, Ad, CartaoPF, CartaoPJ
 from cards.views import CriarCardPF
 from usuarios.models import Usuario
 
-stripe.api_key = settings.STRIPE_SECRET_KEY
-
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
@@ -269,13 +267,10 @@ class ComprarCartaoPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
 # STRIPE
 @csrf_exempt
 def stripe_webhook(request):
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    endpoint_secret = settings.ENDPOINT_SECRET
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
-    # Local
-    # endpoint_secret = 'whsec_de06a86430dc9c76f4097be20ebe6fb84f596936734543fb5bcb7ffacd9fff5d'
-
-    # Online
-    endpoint_secret = 'whsec_CouEVPKqgTvMMxMcABCK5azmE5Xmdn2Y'
 
     try:
         event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
