@@ -28,6 +28,7 @@ from cards.models import Empresa, Card, Anuncio
 from django.shortcuts import redirect, render
 from compras.models import Relatorio, CartaoPF, CartaoPJ, Ad
 from django.contrib.auth.hashers import check_password
+from django.db import IntegrityError
 
 
 class UsusarioLoginView(LoginView):
@@ -349,20 +350,33 @@ class PerfilPF(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = "Informações salvas com sucesso."
 
     def form_valid(self, form):
-        perfil = form.save(commit=False)
-        perfil.usuario = self.request.user
-        perfil.is_pj = False
-        perfil.nome_fantasia = self.request.user.get_full_name()
-        perfil.save()
+        usuario = self.request.user
 
-        Empresa.objects.create(
-            nome_fantasia = perfil.nome_fantasia,
-            cnpj_cpf = form.cleaned_data['cnpj_cpf'],
-            proprietario = self.request.user,
-            slug = slugify(perfil.nome_fantasia)
-        )
+        try:
+            empresa = Empresa.objects.create(
+                nome_fantasia = usuario.get_full_name(),
+                cnpj_cpf = form.cleaned_data['cnpj_cpf'],
+                proprietario = usuario,
+                slug = slugify(usuario.get_full_name())
+            )
+            if empresa:
+                perfil = form.save(commit=False)
+                perfil.usuario = usuario
+                perfil.is_pj = False
+                perfil.nome_fantasia = usuario.get_full_name()
+                perfil.save()
+            return super().form_valid(form)
+        except IntegrityError:
+            messages.error(self.request, 'Já existe um perfil registrado com esse CPF.')
+            return self.form_invalid(form)
 
-        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
+
+        return super().form_invalid(form)
 
 
 class PerfilPJ(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -373,20 +387,33 @@ class PerfilPJ(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = "Informações salvas com sucesso."
 
     def form_valid(self, form):
-        perfil = form.save(commit=False)
-        perfil.usuario = self.request.user
-        perfil.is_pj = True
-        perfil.nome_fantasia = form.cleaned_data['nome_fantasia']
-        perfil.save()
+        usuario = self.request.user
 
-        Empresa.objects.create(
-            nome_fantasia = perfil.nome_fantasia,
-            cnpj_cpf = form.cleaned_data['cnpj_cpf'],
-            proprietario = self.request.user,
-            slug = slugify(perfil.nome_fantasia)
-        )
+        try:
+            empresa = Empresa.objects.create(
+                nome_fantasia = usuario.get_full_name(),
+                cnpj_cpf = form.cleaned_data['cnpj_cpf'],
+                proprietario = usuario,
+                slug = slugify(usuario.get_full_name())
+            )
+            if empresa:
+                perfil = form.save(commit=False)
+                perfil.usuario = usuario
+                perfil.is_pj = False
+                perfil.nome_fantasia = usuario.get_full_name()
+                perfil.save()
+            return super().form_valid(form)
+        except IntegrityError:
+            messages.error(self.request, 'Já existe um perfil registrado com esse CNPJ.')
+            return self.form_invalid(form)
 
-        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
+
+        return super().form_invalid(form)
 
 
 def ativar_conta(request, uidb64, token):
