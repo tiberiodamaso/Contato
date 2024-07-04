@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
-from pathlib import Path
 import environ
+from pathlib import Path
 from django.contrib.messages import constants as messages
 from django.core.management.utils import get_random_secret_key
 
@@ -184,10 +184,7 @@ RECAPTCHA_PRIVATE_KEY=os.environ.get('RECAPTCHA_PRIVATE_KEY')
 STRIPE_PUBLIC_KEY=os.environ.get('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY=os.environ.get('STRIPE_SECRET_KEY')
 
-if bool(int(os.getenv('DATABASE_LOCAL', '1'))):
-    ENDPOINT_SECRET=os.environ.get('ENDPOINT_SECRET')
-else:
-    ENDPOINT_SECRET=os.environ.get('ENDPOINT_SECRET')
+ENDPOINT_SECRET=os.environ.get('ENDPOINT_SECRET')
 
 
 

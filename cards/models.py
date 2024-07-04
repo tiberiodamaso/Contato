@@ -1,6 +1,6 @@
 import os, re, uuid, csv
 from io import BytesIO
-from django.core.validators import FileExtensionValidator, URLValidator
+from django.core.validators import FileExtensionValidator, URLValidator, MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
@@ -258,6 +258,16 @@ class Anuncio(models.Model):
         verbose_name_plural = 'Anúncios'
 
 
+class Avaliacao(models.Model):
+
+    valor = models.IntegerField(verbose_name='Valor', blank=True, null=True, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    card = models.ForeignKey(Card, verbose_name='Card', on_delete=models.PROTECT, related_name='avaliacoes')
+    usuario = models.ForeignKey(Usuario, verbose_name='Usuário', on_delete=models.PROTECT, related_name='avaliacoes')
+
+    class Meta:
+        verbose_name = 'Avaliação'
+        verbose_name_plural = 'Avaliações'
+
 
 ###### POPULA TABELAS NECESSÁRIAS APÓS MIGRATE ######
 
@@ -286,8 +296,6 @@ CATEGORIAS = [
     'Delivery e Transporte',
     'Artesanato',
     'Assistência Técnica',
-    'Automóveis',
-
 ]
 
 SUBCATEGORIAS = [
@@ -302,7 +310,6 @@ SUBCATEGORIAS = [
     (2, 'Terapeuta'),
     (2, 'Nutricionista'),
     (2, 'Remoção de tatuagem'),
-    (2, 'Cozinheira'),
     (2, 'Dentista'),
     (2, 'Fisioterapeuta'),
     (2, 'Fonoaudiólogo'),
@@ -403,8 +410,17 @@ SUBCATEGORIAS = [
     (11, 'Fotografia'),
     (11, 'Florista'),
     (12, 'Mecânico'),
-    (12, 'Funileiro'),
+    (12, 'Alarme'),
+    (12, 'Ar condicionado'),
+    (12, 'Som'),
+    (12, 'Funilaria'),
+    (12, 'Higienização e polimento'),
+    (12, 'Martelinho de ouro'),
     (12, 'Pintura'),
+    (12, 'Insulfim'),
+    (12, 'Borracharia'),
+    (12, 'Guincho'),
+    (12, 'Mecânia em geral'),
     (13, 'Jardineiro'),
     (13, 'Paisagista'),
     (14, 'Especialista em mídias sociais'),
@@ -434,17 +450,6 @@ SUBCATEGORIAS = [
     (17, 'Computador notebook'),
     (17, 'Tablet'),
     (17, 'Smartwatch'),
-    (18, 'Alarme'),
-    (18, 'Ar condicionado'),
-    (18, 'Som'),
-    (18, 'Funilaria'),
-    (18, 'Higienização e polimento'),
-    (18, 'Martelinho de ouro'),
-    (18, 'Pintura'),
-    (18, 'Insulfim'),
-    (18, 'Borracharia'),
-    (18, 'Guincho'),
-    (18, 'Mecânia em geral'),
 ]
 
 TIPOS_ANUNCIOS = [

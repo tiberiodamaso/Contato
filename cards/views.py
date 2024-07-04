@@ -6,6 +6,7 @@ import io
 import uuid
 import tempfile
 import qrcode.image.svg
+import math
 from io import BytesIO
 from pathlib import Path
 from django.conf import settings
@@ -20,9 +21,9 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView, DeleteView
+from django.views.generic import ListView, TemplateView, UpdateView, DetailView, CreateView, DeleteView, View
 from core import analytics_data_api
-from .models import Card, Anuncio, Estado, Municipio, Categoria, Subcategoria, Empresa
+from .models import Card, Anuncio, Estado, Municipio, Categoria, Subcategoria, Empresa, Avaliacao
 from usuarios.models import Usuario
 from compras.models import Ad
 from .forms import CardEditForm, AnuncioEditForm, CardEditFormPJ
@@ -643,10 +644,13 @@ class DetalharCardPF(DetailView):
         context = super().get_context_data(**kwargs)
         card = self.get_object()
         empresa = card.empresa
+        avaliacoes = card.avaliacoes.all()
         cor_de_fundo = card.cor
         luminosidade = self.luminosidade(cor_de_fundo)
         card_atributos = card.__dict__
         anuncios = empresa.anuncios.all()
+        avaliacao_valor = 0
+        avaliacoes_qtd = 0
         produtos = []
         servicos = []
         portfolios = []
@@ -682,6 +686,14 @@ class DetalharCardPF(DetailView):
             atributos.append('catalogo')
         linhas = self.chunk_list(atributos)
 
+        if avaliacoes:
+            for avaliacao in avaliacoes:
+                avaliacao_valor += avaliacao.valor
+                avaliacoes_qtd += 1
+        else:
+            avaliacoes_qtd = 1
+
+        context['avaliacao'] = math.ceil(avaliacao_valor / avaliacoes_qtd)    
         context['produtos'] = produtos
         context['servicos'] = servicos
         context['portfolios'] = portfolios
@@ -723,6 +735,25 @@ class ExcluirCardPF(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
         return super().post(request, *args, **kwargs)
 
+
+class AvaliarCardPF(LoginRequiredMixin, View):
+    
+    def post(self, request, *args, **kwargs):
+        card = Card.objects.get(slug=kwargs['slug'])
+        usuario = request.user
+        valor = request.POST.get('avaliacao')
+        try:
+            Avaliacao.objects.create(
+                valor=valor,
+                card=card,
+                usuario=usuario
+            )
+            messages.success(request, 'Avaliação salva com sucesso.')
+        except IntegrityError as e:
+            messages.error(request, 'Erro ao salvar a avaliação.')
+            print("Ocorreu um erro ao tentar salvar o objeto Avaliação:", e)
+
+        return redirect('core:pesquisar')
 
 
 # ANUNCIOS PF

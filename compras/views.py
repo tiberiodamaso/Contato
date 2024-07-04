@@ -24,6 +24,9 @@ from cards.views import CriarCardPF
 from usuarios.models import Usuario
 
 
+stripe.api_key = settings.STRIPE_SECRET_KEY
+endpoint_secret = settings.ENDPOINT_SECRET
+
 @method_decorator(csrf_exempt, name='dispatch')
 class ComprarRelatorio(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
 
@@ -267,8 +270,6 @@ class ComprarCartaoPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
 # STRIPE
 @csrf_exempt
 def stripe_webhook(request):
-    stripe.api_key = settings.STRIPE_SECRET_KEY
-    endpoint_secret = settings.ENDPOINT_SECRET
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
 

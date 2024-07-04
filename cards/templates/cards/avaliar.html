@@ -1,0 +1,73 @@
+<div>
+    <form id="id-form-avaliacao" method="POST" action="{% url 'core:avaliar-card-pf' card.empresa.slug card.slug %}">
+        {% csrf_token %}
+        <input type="hidden" name="avaliacao" id="id-avaliacao-valor">
+        <a href="#" id="id-avaliacao" class="text-decoration-none">
+            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star1"></i>
+            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star2"></i>
+            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star3"></i>
+            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star4"></i>
+            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star5"></i>
+        </a>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+    const stars = document.querySelectorAll('.star');
+    const avaliacaoValor = document.getElementById('id-avaliacao-valor');
+    const avaliacaoForm = document.getElementById('id-form-avaliacao');
+
+    stars.forEach(star => {
+        star.addEventListener('mouseover', function() {
+            const starId = parseInt(this.id.replace('star', ''));
+            highlightStars(starId);
+        });
+
+        star.addEventListener('mouseout', function() {
+            resetStars();
+        });
+
+        star.addEventListener('click', function() {
+            const starId = parseInt(this.id.replace('star', ''));
+            setRating(starId);
+            avaliacaoValor.value = starId;
+            avaliacaoForm.submit();
+        });
+    });
+
+    function highlightStars(starId) {
+        resetStars();
+        for (let i = 1; i <= starId; i++) {
+            const star = document.getElementById(`star${i}`);
+            star.classList.add('fill');
+            star.classList.remove('bi-star');
+            star.classList.add('bi-star-fill');
+        }
+    }
+
+    function resetStars() {
+        stars.forEach(star => {
+            if (!star.classList.contains('selected')) {
+                star.classList.remove('fill');
+                star.classList.remove('bi-star-fill');
+                star.classList.add('bi-star');
+            }
+        });
+    }
+
+    function setRating(starId) {
+        stars.forEach(star => {
+            star.classList.remove('selected');
+        });
+        for (let i = 1; i <= starId; i++) {
+            const star = document.getElementById(`star${i}`);
+            star.classList.add('selected');
+            star.classList.add('fill');
+            star.classList.remove('bi-star');
+            star.classList.add('bi-star-fill');
+        }
+    }
+});
+
+</script>

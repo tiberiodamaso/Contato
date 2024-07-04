@@ -312,6 +312,17 @@
                 <span style="color: {{cor_da_fonte}} !important;">compartilhar cartão</span>
             </div>
         </a>
+
+        <!--AVALIACAO-->
+        {% if user.is_authenticated and card.usuario_do_card != user %}
+            <p class="mt-5" style="color: {{cor_da_fonte}}">Avaliar</p>
+            {% include 'cards/avaliar.html' %}
+        {% else %}
+            <p class="mt-5" style="color: {{cor_da_fonte}}">Avaliação</p>
+            {% include 'cards/avaliacao.html' %}
+            <!--AVALIACAO-->
+        {% endif %}
+        
     </div>
 
 </div>

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Card, Categoria, Subcategoria, Anuncio, Estado, Municipio, TipoAnuncio, CodigoPais, Empresa
+from .models import Card, Categoria, Subcategoria, Anuncio, Estado, Municipio, TipoAnuncio, CodigoPais, Empresa, Avaliacao
 
 
 class CategoriaAdmin(admin.ModelAdmin):
@@ -58,6 +58,10 @@ class AnuncioAdmin(admin.ModelAdmin):
     list_display = ['id', 'empresa', 'img', 'tipo', 'link', 'nome', 'ativo']
 
 
+class AvaliacaoAdmin(admin.ModelAdmin):
+    list_display = ['id', 'valor', 'card', 'usuario']
+
+
 admin.site.register(Categoria, CategoriaAdmin)
 admin.site.register(Subcategoria, SubcategoriaAdmin)
 admin.site.register(Estado, EstadoAdmin)
@@ -67,3 +71,4 @@ admin.site.register(Empresa, EmpresaAdmin)
 admin.site.register(Card, CardAdmin)
 admin.site.register(TipoAnuncio, TipoAnuncioAdmin)
 admin.site.register(Anuncio, AnuncioAdmin)
+admin.site.register(Avaliacao, AvaliacaoAdmin)

@@ -3,7 +3,7 @@ from .views import HomeView
 from cards.views import EditarCardPF, ListarCardPF, RelatorioPF, DetalharCardPF, Todos, \
         CriarCardPF, Modelos, RelatorioPJ, CriarAnuncioPF, ListarAnuncioPF, ExcluirCardPF, Pesquisar, ExcluirAnuncioPF, \
         EditarAnuncioPF, TrocarModelo, ListarCardPJ, CriarCardPJ, DetalharCardPJ, ListarAnuncioPJ, EditarCardPJ, ExcluirCardPJ, CriarAnuncioPJ, EditarAnuncioPJ, \
-        ExcluirAnuncioPJ
+        ExcluirAnuncioPJ, AvaliarCardPF
 from core.views import GetMunicipios, GetSubcategorias, PoliticaDePrivacidade, TermosDeUso
 
 
@@ -24,6 +24,7 @@ urlpatterns = [
     path('<slug:empresa>/card-pf/<slug:slug>/', DetalharCardPF.as_view(), name='detalhar-card-pf'),
     path('<slug:empresa>/card-pf/editar/<slug:slug>/', EditarCardPF.as_view(), name='editar-card-pf'),
     path('<slug:empresa>/card-pf/excluir/<slug:slug>/', ExcluirCardPF.as_view(), name='excluir-card-pf'),
+    path('<slug:empresa>/card-pf/avaliar/<slug:slug>/', AvaliarCardPF.as_view(), name='avaliar-card-pf'),
     path('<slug:empresa>/relatorio-pf/<slug:slug>/', RelatorioPF.as_view(), name='relatorio-pf'),
     path('<slug:empresa>/card-pf/anuncio/criar/', CriarAnuncioPF.as_view(), name='criar-anuncio-pf'),
     path('<slug:empresa>/card-pf/anuncio/listar/', ListarAnuncioPF.as_view(), name='listar-anuncio-pf'),

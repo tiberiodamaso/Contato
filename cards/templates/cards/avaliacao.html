@@ -1,0 +1,25 @@
+<div>
+    <i class="bi bi-star fs-1 mx-2 star text-warning" id="star1"></i>
+    <i class="bi bi-star fs-1 mx-2 star text-warning" id="star2"></i>
+    <i class="bi bi-star fs-1 mx-2 star text-warning" id="star3"></i>
+    <i class="bi bi-star fs-1 mx-2 star text-warning" id="star4"></i>
+    <i class="bi bi-star fs-1 mx-2 star text-warning" id="star5"></i>
+</div>
+
+<script>
+    let avaliacao = '{{avaliacao|safe}}'
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const initialRating = avaliacao;
+        const stars = document.querySelectorAll('.star');
+
+        function setInitialRating(rating) {
+            for (let i = 1; i <= rating; i++) {
+                const star = document.getElementById(`star${i}`);
+                star.classList.remove('bi-star');
+                star.classList.add('bi-star-fill');
+            }
+        }
+
+        setInitialRating(initialRating);
+    });
+</script>
