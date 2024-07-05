@@ -130,28 +130,37 @@ class TrocarModelo(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     template_name = 'cards/trocar-modelo.html'
 
     def test_func(self):
-        cartoes_pf_comprados = self.request.user.cartoespf.all()
-        cartoes_pj_comprados = self.request.user.cartoespj.all()
-        autorizado_cartao_pf = False
-        autorizado_cartao_pj = False
-        
-        for cartao in cartoes_pf_comprados:
-            if cartao.status == 'paid':
-                autorizado_cartao_pf = True
-        
-        for cartao in cartoes_pj_comprados:
-            if cartao.status == 'paid':
-                autorizado_cartao_pj = True
+        usuario = self.request.user
+        self.comprou_cartao_pj = False
+        self.comprou_cartao_pf = False
 
-        if autorizado_cartao_pf or autorizado_cartao_pj:
+        if usuario.perfil.is_pj:
+            cartoes_pj_comprados = usuario.cartoespj.all()
+            for cartao in cartoes_pj_comprados:
+                if cartao.status == 'paid':
+                    self.comprou_cartao_pj = True
+        else:
+            cartoes_pf_comprados = usuario.cartoespf.all()
+            for cartao in cartoes_pf_comprados:
+                if cartao.status == 'paid':
+                    self.comprou_cartao_pf = True
+
+        if self.comprou_cartao_pj or self.comprou_cartao_pf:
             return True
 
     def handle_no_permission(self):
-        return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pf.html', status=403)
+        if not self.comprou_cartao_pf:
+            return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pf.html', status=403)
+        if not self.comprou_cartao_pj:
+            return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
+        
 
     def get_success_url(self, card):
         empresa = self.request.user.empresas.first()
-        return reverse('core:detalhar-card-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        if self.request.user.perfil.is_pj:
+            return reverse('core:detalhar-card-pj', kwargs={'empresa': empresa.slug, 'slug': card.slug})
+        else:
+            return reverse('core:detalhar-card-pf', kwargs={'empresa': empresa.slug, 'slug': card.slug})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -188,6 +197,25 @@ class Todos(LoginRequiredMixin, ListView):
         context['cards_por_empresa'] = cards_por_empresa
         return context
 
+
+class AvaliarCard(LoginRequiredMixin, View):
+    
+    def post(self, request, *args, **kwargs):
+        card = Card.objects.get(slug=kwargs['slug'])
+        usuario = request.user
+        valor = request.POST.get('avaliacao')
+        try:
+            Avaliacao.objects.create(
+                valor=valor,
+                card=card,
+                usuario=usuario
+            )
+            messages.success(request, 'Avaliação salva com sucesso.')
+        except IntegrityError as e:
+            messages.error(request, 'Erro ao salvar a avaliação.')
+            print("Ocorreu um erro ao tentar salvar o objeto Avaliação:", e)
+
+        return redirect('core:pesquisar')
 
 
 # CARDS PF
@@ -735,25 +763,6 @@ class ExcluirCardPF(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
         return super().post(request, *args, **kwargs)
 
-
-class AvaliarCardPF(LoginRequiredMixin, View):
-    
-    def post(self, request, *args, **kwargs):
-        card = Card.objects.get(slug=kwargs['slug'])
-        usuario = request.user
-        valor = request.POST.get('avaliacao')
-        try:
-            Avaliacao.objects.create(
-                valor=valor,
-                card=card,
-                usuario=usuario
-            )
-            messages.success(request, 'Avaliação salva com sucesso.')
-        except IntegrityError as e:
-            messages.error(request, 'Erro ao salvar a avaliação.')
-            print("Ocorreu um erro ao tentar salvar o objeto Avaliação:", e)
-
-        return redirect('core:pesquisar')
 
 
 # ANUNCIOS PF
@@ -1373,10 +1382,13 @@ class DetalharCardPJ(DetailView):
         context = super().get_context_data(**kwargs)
         card = self.get_object()
         empresa = card.empresa
+        avaliacoes = card.avaliacoes.all()
         cor_de_fundo = card.cor
         luminosidade = self.luminosidade(cor_de_fundo)
         card_atributos = card.__dict__
         anuncios = empresa.anuncios.all()
+        avaliacao_valor = 0
+        avaliacoes_qtd = 0
         produtos = []
         servicos = []
         portfolios = []
@@ -1412,6 +1424,14 @@ class DetalharCardPJ(DetailView):
             atributos.append('catalogo')
         linhas = self.chunk_list(atributos)
 
+        if avaliacoes:
+            for avaliacao in avaliacoes:
+                avaliacao_valor += avaliacao.valor
+                avaliacoes_qtd += 1
+        else:
+            avaliacoes_qtd = 1
+
+        context['avaliacao'] = math.ceil(avaliacao_valor / avaliacoes_qtd) 
         context['produtos'] = produtos
         context['servicos'] = servicos
         context['portfolios'] = portfolios

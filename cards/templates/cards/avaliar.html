@@ -1,5 +1,5 @@
 <div>
-    <form id="id-form-avaliacao" method="POST" action="{% url 'core:avaliar-card-pf' card.empresa.slug card.slug %}">
+    <form id="id-form-avaliacao" method="POST" action="{% url 'core:avaliar-card' card.empresa.slug card.slug %}">
         {% csrf_token %}
         <input type="hidden" name="avaliacao" id="id-avaliacao-valor">
         <a href="#" id="id-avaliacao" class="text-decoration-none">
