@@ -7,6 +7,12 @@
 {% include 'core/menu.html' %}
 {% include 'core/mensagens.html' %}
 
+<style>
+    .star {
+        font-size: 25px !important;
+    }
+</style>
+
 <div class="my-5 text-center">
     <h2>Pesquise cartões de negócios e encontre o profissional para o seu serviço</h2>
 </div>
@@ -61,6 +67,9 @@
 {% if cards %}
 <!--CARDS-->
 <div class="row text-center justify-content-center flex-column flex-md-row flex-lg-row">
+    {% if termos_pesquisados != None %}
+        <div class="lead fs-3 mb-5">Cartões encontrados para "{{termos_pesquisados}}"</div>
+    {% endif %}
     {% for card in cards %}
         <div class="col col-md-5 col-lg-3 mb-4 mb-md-4 mb-lg-4">
             {% if card.proprietario.perfil.is_pj %}
@@ -81,8 +90,11 @@
                     <h4 class="lead">{{ card.cargo }}</h4>
                     <h4 class="lead">{{ card.empresa }}</h4>
                     {% endif %}
-                    <h6 class="lead">{{ card.subcategoria }} - {{ card.municipio }}</h6>
+                    <h6 class="lead">{{ card.municipio }} / {{ card.estado.sigla }}</h6>
                     <div class="d-flex justify-content-center py-3 mx-2">
+                        {% for i in range %}
+                            <i class="bi {% if i <= card.avaliacao %}bi-star-fill{% else %}bi-star{% endif %} fs-1 mx-2 star text-warning"></i>
+                        {% endfor %}
                     </div>
                 </div>
             </a>

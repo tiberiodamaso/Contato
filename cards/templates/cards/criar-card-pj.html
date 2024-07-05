@@ -32,6 +32,20 @@
         <!--MODELO DO CARD-->
         <input type="hidden" value="{{modelo}}" name="modelo"/>
 
+        <!--CARD PUBLICO ?-->
+        <div class="form-check mb-3 d-flex justify-content-between p-0">
+            <div>
+                <label for="id_nome_display">Deseja tornar seu cartão público ?</label>
+                <button type="button" class="btn p-0" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+                data-bs-html="true" data-bs-title="Seu cartão ficará disponível para consulta pública">
+                    <i class="bi bi-info-circle-fill text-warning"></i>
+                </button>
+            </div>
+            <div>
+                {{form.publico}} <span>sim</span>
+            </div>
+        </div>
+
         <!--IMG_PERFIL-->
         <div class="mb-3">
             <div class="d-flex justify-content-between">

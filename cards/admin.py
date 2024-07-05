@@ -38,7 +38,7 @@ class CardAdmin(admin.ModelAdmin):
         'proprietario',
         'cod_pais',
         'whatsapp',
-        'ativo',
+        'publico',
     ]
 
     readonly_fields = ['conteudo_pesquisavel']

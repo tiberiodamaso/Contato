@@ -65,27 +65,59 @@ class Pesquisar(ListView):
         context = super().get_context_data()
         if self.process_request():
             context['mobile'] = True
+        conteudo_pesquisado = self.request.GET.get("pesquisar", "")
+        categoria_pesquisada = self.request.GET.get("categoria", "")
+        subcategoria_pesquisada = self.request.GET.get("subcategoria", "")
         estados = Estado.objects.all()
         categorias = Categoria.objects.all()
+        termos = []
+
+        for card in context['cards']:
+            avaliacoes_qtd = 0
+            avaliacao_valor = 0
+            avaliacoes = card.avaliacoes.all()  # Obtém todas as avaliações relacionadas ao card
+            if avaliacoes.exists():
+                for avaliacao in avaliacoes:
+                    avaliacao_valor += avaliacao.valor
+                    avaliacoes_qtd += 1
+            else:
+                avaliacoes_qtd = 1  # Para evitar divisão por zero
+            
+            avaliacao = math.ceil(avaliacao_valor / avaliacoes_qtd)
+            card.avaliacao = avaliacao
+
+
+        if conteudo_pesquisado:
+            termos.append(conteudo_pesquisado)
+        if categoria_pesquisada and categoria_pesquisada != '0':
+            nome_categoria = Categoria.objects.get(id=categoria_pesquisada).nome
+            termos.append(nome_categoria)
+        if subcategoria_pesquisada and subcategoria_pesquisada != '0':
+            nome_subcategoria = Subcategoria.objects.get(id=subcategoria_pesquisada).nome
+            termos.append(nome_subcategoria)
+
+        context['termos_pesquisados'] = ', em '.join(termos) if termos else None
+
+        
+
+        # context['termos_pesquisados'] = f'{conteudo_pesquisado} em {cat.nome} / {sub.nome}'
+        
+        context['range'] = range(1, 6)
         context['categorias'] = categorias
-        context['subcategorias'] = Subcategoria.objects.filter(
-            categoria=categorias.first())
+        context['subcategorias'] = Subcategoria.objects.filter(categoria=categorias.first())
         context['estados'] = estados
-        context['municipios'] = Municipio.objects.filter(
-            estado=estados.first())
+        context['municipios'] = Municipio.objects.filter(estado=estados.first())
+        context['conteudo_pesquisado'] = conteudo_pesquisado
         return context
 
     def get_queryset(self):
         conteudo_pesquisado = self.request.GET.get("pesquisar")
-        categoria = self.request.GET.get(
-            "categoria") if self.request.GET.get("categoria") != '0' else None
-        subcategoria = self.request.GET.get(
-            "subcategoria") if self.request.GET.get("subcategoria") != '0' else None
-        queryset = Card.objects.filter(ativo=True)
+        categoria = self.request.GET.get("categoria") if self.request.GET.get("categoria") != '0' else None
+        subcategoria = self.request.GET.get("subcategoria") if self.request.GET.get("subcategoria") != '0' else None
+        queryset = Card.objects.filter(publico=True)
         if conteudo_pesquisado and conteudo_pesquisado != 'None':
             conteudo_pesquisado_limpo = cleaner(conteudo_pesquisado)
-            queryset = queryset.filter(
-                conteudo_pesquisavel__contains=conteudo_pesquisado_limpo)
+            queryset = queryset.filter(conteudo_pesquisavel__contains=conteudo_pesquisado_limpo)
         if categoria and categoria != 'None':
             queryset = queryset.filter(categoria=categoria)
         if subcategoria and subcategoria != 'None':
@@ -276,6 +308,7 @@ class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         card.proprietario = proprietario
         card.usuario_do_card = proprietario
         card.empresa = empresa_atual
+        publico = form.cleaned_data['publico']
         pasta_usuario = card.proprietario.id.hex
         modelo = form.cleaned_data['modelo']
         empresa = form.data['empresa']
@@ -469,6 +502,7 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         empresa_atual = proprietario.empresas.first()
         card.proprietario = proprietario
         card.empresa = empresa_atual
+        publico = form.cleaned_data['publico']
         empresa = form.data['empresa']
         modelo = form.cleaned_data['modelo']
         cor = form.cleaned_data['cor']
@@ -607,8 +641,8 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
             except FileNotFoundError as err:
                 print(err)
 
-        # card.empresa = empresa
         card.nome_display = nome_display
+        card.publico = publico
         card.slug = slugify(nome_display)
         card.cor = cor
         card.site = site
@@ -720,8 +754,9 @@ class DetalharCardPF(DetailView):
                 avaliacoes_qtd += 1
         else:
             avaliacoes_qtd = 1
-
-        context['avaliacao'] = math.ceil(avaliacao_valor / avaliacoes_qtd)    
+        
+        context['range'] = range(1, 6)
+        context['avaliacao'] = math.ceil(avaliacao_valor / avaliacoes_qtd)   
         context['produtos'] = produtos
         context['servicos'] = servicos
         context['portfolios'] = portfolios
@@ -774,7 +809,7 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 
     def test_func(self):
         self.comprou_ads = False
-        self.card_criado_ativo = False
+        self.criou_card = False
         usuario = self.request.user
         empresa = usuario.empresas.first()
         cards = empresa.cards.all()
@@ -787,15 +822,13 @@ class CriarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
                     self.comprou_ads = True
 
         if cards:
-            for card in cards:
-                if card.ativo:
-                    self.card_criado_ativo = True
+            self.criou_card = True
 
-        if self.card_criado_ativo and self.comprou_ads and len(anuncios) < 10:
+        if self.criou_card and self.comprou_ads and len(anuncios) < 10:
             return True
 
     def handle_no_permission(self):
-        if not self.card_criado_ativo:
+        if not self.criou_card:
             return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
         if not self.comprou_ads:
             return render(self.request, 'cards/permissao-negada-nao-comprou-anuncio.html', status=403)
@@ -870,7 +903,7 @@ class ListarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
 
     def test_func(self):
         self.comprou_ads = False
-        self.card_criado_ativo = False
+        self.criou_card = False
         usuario = self.request.user
         empresa = usuario.empresas.first()
         cards = empresa.cards.all()
@@ -882,15 +915,13 @@ class ListarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
                     self.comprou_ads = True
 
         if cards:
-            for card in cards:
-                if card.ativo:
-                    self.card_criado_ativo = True
+            self.criou_card = True
 
-        if self.card_criado_ativo and self.comprou_ads:
+        if self.criou_card and self.comprou_ads:
             return True
 
     def handle_no_permission(self):
-        if not self.card_criado_ativo:
+        if not self.criou_card:
             return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
         if not self.comprou_ads:
             return render(self.request, 'cards/permissao-negada-nao-comprou-anuncio.html', status=403)
@@ -916,7 +947,7 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
 
     def test_func(self):
         self.comprou_ads = False
-        self.card_criado_ativo = False
+        self.criou_card = False
         usuario = self.request.user
         empresa = usuario.empresas.first()
         cards = empresa.cards.all()
@@ -928,15 +959,13 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
                     self.comprou_ads = True
 
         if cards:
-            for card in cards:
-                if card.ativo:
-                    self.card_criado_ativo = True
+            self.criou_card = True
 
-        if self.card_criado_ativo and self.comprou_ads:
+        if self.criou_card and self.comprou_ads:
             return True
 
     def handle_no_permission(self):
-        if not self.card_criado_ativo:
+        if not self.criou_card:
             return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
         if not self.comprou_ads:
             return render(self.request, 'cards/permissao-negada-nao-comprou-anuncio.html', status=403)
@@ -1207,6 +1236,7 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         modelo = form.cleaned_data['modelo']
         empresa = self.request.user.empresas.first()
         card.empresa = empresa
+        publico = form.cleaned_data['publico']
         site = form.cleaned_data['site']
         cod_pais = form.cleaned_data['cod_pais']
         cod_pais_vcf = cod_pais.codigo
@@ -1313,7 +1343,7 @@ class ListarCardPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def test_func(self):
         self.comprou_cartao_pj = False
         self.assinatura_ativa = False
-        self.card_criado_ativo = False
+        self.criou_card = False
         usuario = self.request.user
         empresa = usuario.empresas.first()
         cartoes_pj = usuario.cartoespj.all()
@@ -1326,11 +1356,9 @@ class ListarCardPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
                     self.assinatura_ativa = True
                     
         if cards:
-            for card in cards:
-                if card.ativo:
-                    self.card_criado_ativo = True
+            self.criou_card = True
 
-        if self.assinatura_ativa and self.card_criado_ativo:
+        if self.assinatura_ativa and self.criou_card:
             return True
 
     def handle_no_permission(self):
@@ -1431,6 +1459,7 @@ class DetalharCardPJ(DetailView):
         else:
             avaliacoes_qtd = 1
 
+        context['range'] = range(1, 6)
         context['avaliacao'] = math.ceil(avaliacao_valor / avaliacoes_qtd) 
         context['produtos'] = produtos
         context['servicos'] = servicos
@@ -1456,7 +1485,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
     def test_func(self):
         self.comprou_cartao_pj = False
         self.assinatura_ativa = False
-        self.card_criado_ativo = False
+        self.criou_card = False
         usuario = self.request.user
         empresa = usuario.empresas.first()
         cartoes_pj = usuario.cartoespj.all()
@@ -1469,17 +1498,15 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                     self.assinatura_ativa = True
                     
         if cards:
-            for card in cards:
-                if card.ativo:
-                    self.card_criado_ativo = True
+            self.criou_card = True
 
-        if self.assinatura_ativa and self.card_criado_ativo:
+        if self.assinatura_ativa and self.criou_card:
             return True
 
     def handle_no_permission(self):
         if not self.comprou_cartao_pj or not self.assinatura_ativa:
             return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
-        if not self.card_criado_ativo:
+        if not self.criou_card:
             return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
 
     def get_success_url(self, card):
@@ -1538,6 +1565,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         username = slugify(f'{first_name}-{last_name}')
         usuario_do_card = card.usuario_do_card
         empresa = card.empresa
+        publico = form.cleaned_data['publico']
         modelo = form.cleaned_data['modelo']
         cor = form.cleaned_data['cor']
         nome_display = form.cleaned_data['nome_display']
@@ -1681,6 +1709,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         usuario_do_card.username = username
         usuario_do_card.save()
 
+        card.publico = publico
         card.nome_display = nome_display
         card.slug = usuario_do_card.username
         card.cor = cor
@@ -1743,7 +1772,7 @@ class CriarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     def test_func(self):
         self.comprou_ads = False
         self.assinatura_ativa = False
-        self.card_criado_ativo = False
+        self.criou_card = False
         usuario = self.request.user
         empresa = usuario.empresas.first()
         ads = usuario.ads.all()
@@ -1757,17 +1786,15 @@ class CriarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
                     self.assinatura_ativa = True
 
         if cards:
-            for card in cards:
-                if card.ativo:
-                    self.card_criado_ativo = True
+            self.criou_card = True
 
-        if self.assinatura_ativa and len(anuncios) < 10 and self.card_criado_ativo:
+        if self.assinatura_ativa and len(anuncios) < 10 and self.criou_card:
             return True
 
     def handle_no_permission(self):
         if not self.comprou_cartao_pj or not self.assinatura_ativa:
             return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
-        elif not self.card_criado_ativo:
+        elif not self.criou_card:
             return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
         else:
             return render(self.request, 'cards/permissao-negada-anuncios-criados-atingiu-limite.html', status=403)
@@ -1842,7 +1869,7 @@ class ListarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def test_func(self):
         self.comprou_ads = False
         self.assinatura_ativa = False
-        self.card_criado_ativo = False
+        self.criou_card = False
         usuario = self.request.user
         empresa = usuario.empresas.first()
         ads = usuario.ads.all()
@@ -1855,18 +1882,17 @@ class ListarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
                 if ad.status == 'paid':
                     self.assinatura_ativa = True
 
-        for card in cards:
-            if card.ativo:
-                self.card_criado_ativo = True
+        if cards:
+            self.criou_card = True
 
-        if self.assinatura_ativa and len(anuncios) < 10 and self.card_criado_ativo:
+        if self.assinatura_ativa and len(anuncios) < 10 and self.criou_card:
             return True
 
 
     def handle_no_permission(self):
         if not self.comprou_cartao_pj or not self.assinatura_ativa:
             return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
-        if not self.card_criado_ativo:
+        if not self.criou_card:
             return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
 
 
@@ -1890,7 +1916,7 @@ class EditarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
     def test_func(self):
         self.comprou_ads = False
         self.assinatura_ativa = False
-        self.card_criado_ativo = False
+        self.criou_card = False
         usuario = self.request.user
         empresa = usuario.empresas.first()
         ads = usuario.ads.all()
@@ -1903,17 +1929,16 @@ class EditarAnuncioPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
                 if ad.status == 'paid':
                     self.assinatura_ativa = True
 
-        for card in cards:
-            if card.ativo:
-                self.card_criado_ativo = True
+        if cards:
+            self.criou_card = True
 
-        if self.assinatura_ativa and len(anuncios) < 10 and self.card_criado_ativo:
+        if self.assinatura_ativa and len(anuncios) < 10 and self.criou_card:
             return True
 
     def handle_no_permission(self):
         if not self.comprou_cartao_pj or not self.assinatura_ativa:
             return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)
-        if not self.card_criado_ativo:
+        if not self.criou_card:
             return render(self.request, 'cards/permissao-negada-nao-criou-cartao.html', status=403)
 
     def get_success_url(self):
@@ -2020,7 +2045,7 @@ class RelatorioPJ(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     def test_func(self):
         self.comprou_relatorio = False
         self.assinatura_ativa = False
-        self.card_criado_ativo = False
+        self.criou_card = False
         usuario = self.request.user
         empresa = usuario.empresas.first()
         relatorios = usuario.relatorios.all()
@@ -2033,11 +2058,9 @@ class RelatorioPJ(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
                     self.assinatura_ativa = True
                     
         if cards:
-            for card in cards:
-                if card.ativo:
-                    self.card_criado_ativo = True
+            self.criou_card = True
 
-        if self.assinatura_ativa and self.card_criado_ativo:
+        if self.assinatura_ativa and self.criou_card:
             return True
 
     def handle_no_permission(self):

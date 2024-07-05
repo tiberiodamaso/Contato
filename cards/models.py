@@ -182,7 +182,7 @@ class Card(models.Model):
     # histórico
     criado = models.DateField(verbose_name='Criado', auto_now_add=True)
     atualizado = models.DateField(verbose_name='Atualizado', auto_now=True)
-    ativo = models.BooleanField(verbose_name='Ativo', default=True)
+    publico = models.BooleanField(verbose_name='Público', default=False)
 
     class Meta:
         verbose_name = 'Card'
@@ -261,12 +261,14 @@ class Anuncio(models.Model):
 class Avaliacao(models.Model):
 
     valor = models.IntegerField(verbose_name='Valor', blank=True, null=True, validators=[MinValueValidator(1), MaxValueValidator(5)])
-    card = models.ForeignKey(Card, verbose_name='Card', on_delete=models.PROTECT, related_name='avaliacoes')
+    card = models.ForeignKey(Card, verbose_name='Card', on_delete=models.CASCADE, related_name='avaliacoes')
     usuario = models.ForeignKey(Usuario, verbose_name='Usuário', on_delete=models.PROTECT, related_name='avaliacoes')
 
     class Meta:
         verbose_name = 'Avaliação'
         verbose_name_plural = 'Avaliações'
+
+    
 
 
 ###### POPULA TABELAS NECESSÁRIAS APÓS MIGRATE ######

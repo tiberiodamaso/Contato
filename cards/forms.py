@@ -5,8 +5,9 @@ class CardEditForm(forms.ModelForm):
 
     class Meta:
         model = Card
-        exclude = ['proprietario', 'vcf', 'qr_code', 'empresa', 'usuario_do_card', 'ativo']
+        exclude = ['proprietario', 'vcf', 'qr_code', 'empresa', 'usuario_do_card']
         widgets = {
+            'publico': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'img_perfil': forms.FileInput(attrs={'class': 'form-control', 'label': 'Foto', 'accept': 'image/jpeg, image/png'}),
             'logotipo': forms.FileInput(attrs={'class': 'form-control', 'label': 'Logotipo', 'accept': 'image/jpeg, image/png'}),
             'cargo': forms.TextInput(attrs={'class': 'form-control'}),

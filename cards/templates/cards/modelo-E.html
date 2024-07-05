@@ -318,8 +318,9 @@
             {% include 'cards/avaliar.html' %}
         {% else %}
             <p class="mt-5" style="color: {{cor_da_fonte}}">Avaliação</p>
-            {% include 'cards/avaliacao.html' %}
-            <!--AVALIACAO-->
+            {% for i in range %}
+                <i class="bi {% if i <= avaliacao %}bi-star-fill{% else %}bi-star{% endif %} fs-1 mx-2 star text-warning"></i>
+            {% endfor %}
         {% endif %}
         
     </div>
