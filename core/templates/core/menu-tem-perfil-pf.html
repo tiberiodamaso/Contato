@@ -1,0 +1,55 @@
+{% if user.is_authenticated %}
+
+    <!--TEM CARTAO CRIADO-->
+    {% if user.cards.first %}
+
+        <!--RELATORIOS-->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'core:relatorio-pf' user.empresas.first.slug user.cards.first.slug %}">Relatórios</a>
+        </li>
+
+        <!--MEU CARTAO-->
+        <li class="nav-item">
+            <a class="nav-link"
+                href="{% url 'core:detalhar-card-pf' user.empresas.first.slug user.cards.first.slug %}">Meu cartão</a>
+        </li>
+
+        <!--ANUNCIOS-->
+        <div class="dropdown">
+            <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Anúncios
+            </a>
+            <ul class="dropdown-menu border-1 p-lg-0 p-2">
+            <li><a class="dropdown-item nav-link" href="{% url 'core:listar-anuncio-pf' user.empresas.first.slug %}">Meus anúncios</a></li>
+            <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pf' user.empresas.first.slug %}">Criar anúncio</a></li>
+            </ul>
+        </div>
+    
+    <!--NAO TEM CARTAO CRIADO-->
+    {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'core:modelos' %}">Criar meu cartão</a>
+        </li>
+    {% endif %}
+
+    <!--MINHA CONTA E SAIR-->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'usuarios:minha-conta-pf' user.username %}">Minha conta</a>
+    </li>
+    <li class="nav-item">
+        <form method="post" action="{% url 'usuarios:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="nav-link">Sair</button>
+        </form>
+    </li>
+
+{% else  %}
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'usuarios:login' %}">Minha conta</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link btn btn-warning active" href="{% url 'usuarios:registrar' %}">Criar conta</a>
+</li>
+
+{% endif %}

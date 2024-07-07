@@ -1,6 +1,7 @@
 from django.urls import path, re_path
 from .views import UsusarioLoginView, RegistrarView, LogoutView, TrocarSenha, EsqueceuSenhaFormView, \
- EsqueceuSenhaLink, ReenviarEmailAtivacao, ativar_conta, MinhaConta, verificar_email, DesativarConta, PerfilPF, PerfilPJ
+    EsqueceuSenhaLink, ReenviarEmailAtivacao, ativar_conta, MinhaConta, verificar_email, DesativarConta, PerfilPF, PerfilPJ, \
+    MinhaContaPF, MinhaContaPJ
 
 app_name = 'usuarios'
 
@@ -14,6 +15,8 @@ urlpatterns = [
     path('ativar-conta/<uidb64>/<token>/', ativar_conta, name="ativar-conta"),
     path('reenviar-email-ativacao/', ReenviarEmailAtivacao.as_view(), name='reenviar-email-ativacao'),
     path('minha-conta/<str:username>/', MinhaConta.as_view(), name='minha-conta'),
+    path('minha-conta-pf/<str:username>/', MinhaContaPF.as_view(), name='minha-conta-pf'),
+    path('minha-conta-pj/<str:username>/', MinhaContaPJ.as_view(), name='minha-conta-pj'),
     path('verificar-email/', verificar_email, name='verificar-email'),
     path('desativar-conta/<str:id>/', DesativarConta.as_view(), name='desativar-conta'),
     path('perfil-pf/', PerfilPF.as_view(), name='perfil-pf'),

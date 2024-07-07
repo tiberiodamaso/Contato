@@ -38,7 +38,16 @@ class UsusarioLoginView(LoginView):
     def get_success_url(self):
         usuario = self.request.user
         card = usuario.cards.first()
-        return reverse('usuarios:minha-conta', kwargs={'username': usuario.username})
+        
+        try:
+            perfil = usuario.perfil
+            if usuario.perfil.is_pj:
+                return reverse('usuarios:minha-conta-pj', kwargs={'username': usuario.username})
+            else:
+                return reverse('usuarios:minha-conta-pf', kwargs={'username': usuario.username})
+        except:
+            return reverse('usuarios:minha-conta', kwargs={'username': usuario.username})
+
 
     def post(self, request, *args, **kwargs):
         # Obtendo os dados do formulário de login
@@ -243,36 +252,82 @@ class ReenviarEmailAtivacao(TemplateView):
         return self.get_success_url()
 
 
-class MinhaConta(LoginRequiredMixin, ListView):
+class MinhaConta(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
     model = Usuario
+    template_name = 'usuarios/minha-conta.html'
 
-    def get_template_names(self):
-        try:
-            perfil = self.request.user.perfil
-            if self.request.user.perfil.is_pj:
-                return 'usuarios/minha-conta-pj.html'
+    def test_func(self, **kwargs):
+        self.usuario_correto = False
+        self.usuario_tem_perfil = False
+        self.usuario_pj = False
+        self.usuario_pf = False
+        usuario = self.request.user
+        username_url = self.kwargs.get('username')
+
+        if usuario.username == username_url:
+            self.usuario_correto = True
+
+        if usuario.perfil:
+            self.usuario_tem_perfil = True
+            if usuario.perfil.is_pj:
+                self.usuario_pj = True
             else:
-                return 'usuarios/minha-conta-pf.html'
-        except:
-            return 'usuarios/minha-conta.html'
+                self.usuario_pf = True
 
+        if self.usuario_correto and not self.usuario_tem_perfil:
+            return True
+
+
+
+    def handle_no_permission(self):
+        username = self.request.user.username
+
+        if not self.usuario_correto:
+            return render(self.request, 'cards/permissao-negada-violacao-perfil.html', status=403)
+        if self.usuario_pj:
+            url = reverse_lazy('usuarios:minha-conta-pj', kwargs={'username': username})
+            return HttpResponseRedirect(url)
+        if self.usuario_pf:
+            url = reverse_lazy('usuarios:minha-conta-pf', kwargs={'username': username})
+            return HttpResponseRedirect(url)
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        usuario = self.request.user
+        context['usuario'] = usuario
+
+        return context
+
+
+class MinhaContaPF(LoginRequiredMixin, UserPassesTestMixin, ListView):
+
+    model = Usuario
+    template_name = 'usuarios/minha-conta-pf.html'
+
+    def test_func(self, **kwargs):
+        usuario = self.request.user
+        username_url = self.kwargs.get('username')
+
+        if usuario.username == username_url:
+            return True
+
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-violacao-perfil.html', status=403)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         usuario = self.request.user
         empresa = usuario.empresas.first()
         comprou_cartao_pf = False
-        comprou_cartao_pj = False
         comprou_relatorio = False
         comprou_ad = False
-        cartoes_pj_ativos = 0
         produtos = []
-
 
         try:
             cartoes_pf = usuario.cartoespf.all() # cartoes comprados pf
-            cartoes_pj = usuario.cartoespj.all() # cartoes comprados pj
             ads = usuario.ads.all() # ads comprados
             relatorios = usuario.relatorios.all() # relatorios comprados
             if empresa:
@@ -286,12 +341,6 @@ class MinhaConta(LoginRequiredMixin, ListView):
                     if cartao_pf.status == 'paid':
                         produtos.append(cartao_pf)
                         comprou_cartao_pf = True
-
-            if cartoes_pj:
-                for cartao_pj in cartoes_pj:
-                    if cartao_pj.status == 'paid':
-                        comprou_cartao_pj = True
-                        cartoes_pj_ativos += 1
 
             if ads:
                 for ad in ads:
@@ -308,11 +357,59 @@ class MinhaConta(LoginRequiredMixin, ListView):
             context['usuario'] = usuario
             context['empresa'] = empresa
             context['comprou_cartao_pf'] = comprou_cartao_pf
-            context['comprou_cartao_pj'] = comprou_cartao_pj
             context['comprou_relatorio'] = comprou_relatorio
             context['comprou_ad'] = comprou_ad
-            context['cartoes_pj'] = cartoes_pj
             context['produtos'] = produtos
+
+        except ObjectDoesNotExist as err:
+            print(err)
+            card = None
+        
+        return context
+
+
+class MinhaContaPJ(LoginRequiredMixin, UserPassesTestMixin,  ListView):
+
+    model = Usuario
+    template_name = 'usuarios/minha-conta-pj.html'
+
+    def test_func(self, **kwargs):
+        usuario = self.request.user
+        username_url = self.kwargs.get('username')
+
+        if usuario.username == username_url:
+            return True
+
+
+    def handle_no_permission(self):
+        return render(self.request, 'cards/permissao-negada-violacao-perfil.html', status=403)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        usuario = self.request.user
+        empresa = usuario.empresas.first()
+        comprou_cartao_pj = False
+        cartoes_pj_ativos = 0
+
+
+        try:
+            cartoes_pj = usuario.cartoespj.all() # cartoes comprados pj
+            if empresa:
+                cards_criados = empresa.cards.all() # cards criados
+                anuncios_criados = empresa.anuncios.all() # anúncios criados
+                context['anuncios_criados'] = anuncios_criados
+                context['cards_criados'] = cards_criados
+
+            if cartoes_pj:
+                for cartao_pj in cartoes_pj:
+                    if cartao_pj.status == 'paid':
+                        comprou_cartao_pj = True
+                        cartoes_pj_ativos += 1
+
+            context['usuario'] = usuario
+            context['empresa'] = empresa
+            context['comprou_cartao_pj'] = comprou_cartao_pj
+            context['cartoes_pj'] = cartoes_pj
             context['cartoes_pj_ativos'] = cartoes_pj_ativos
 
         except ObjectDoesNotExist as err:
@@ -320,7 +417,6 @@ class MinhaConta(LoginRequiredMixin, ListView):
             card = None
         
         return context
-        
 
 class DesativarConta(LoginRequiredMixin, DeleteView):
     model = Usuario
@@ -399,7 +495,7 @@ class PerfilPJ(LoginRequiredMixin, SuccessMessageMixin, CreateView):
             if empresa:
                 perfil = form.save(commit=False)
                 perfil.usuario = usuario
-                perfil.is_pj = False
+                perfil.is_pj = True
                 perfil.nome_fantasia = usuario.get_full_name()
                 perfil.save()
             return super().form_valid(form)

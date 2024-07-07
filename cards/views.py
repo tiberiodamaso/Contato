@@ -1341,25 +1341,15 @@ class ListarCardPJ(LoginRequiredMixin, UserPassesTestMixin, ListView):
     context_object_name = 'cards'
 
     def test_func(self):
-        self.comprou_cartao_pj = False
-        self.assinatura_ativa = False
-        self.criou_card = False
         usuario = self.request.user
         empresa = usuario.empresas.first()
         cartoes_pj = usuario.cartoespj.all()
-        cards = empresa.cards.all()
 
-        if len(cartoes_pj) > 0:
-            self.comprou_cartao_pj = True
+        if cartoes_pj:
             for cartao_pj in cartoes_pj:
                 if cartao_pj.status == 'paid':
-                    self.assinatura_ativa = True
+                    return True
                     
-        if cards:
-            self.criou_card = True
-
-        if self.assinatura_ativa and self.criou_card:
-            return True
 
     def handle_no_permission(self):
         return render(self.request, 'cards/permissao-negada-nao-comprou-cartao-pj.html', status=403)

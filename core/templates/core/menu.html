@@ -124,109 +124,40 @@
                     <a class="nav-link" aria-current="page" href="{% url 'core:pesquisar' %}">Pesquisar</a>
                 </li>
 
-                <!--USUARIO PJ-->
-                {% if user.perfil.is_pj %}
+                <!--USUARIO AUTENTICADO-->
+                {% if user.is_authenticated %}
 
-                    {% if user.is_authenticated %}
+                    <!--USUARIO TEM PERFIL-->
+                    {% if user.perfil %}
+                    
+                        <!--USUARIO PJ-->
+                        {% if user.perfil.is_pj %}
 
-                        <!--TEM CARTAO CRIADO-->
-                        {% if user.cards.first %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'core:relatorio-pj' user.empresas.first.slug %}">Relatórios</a>
-                            </li>
-                            <div class="dropdown">
-                                <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Cartões
-                                </a>
-                                <ul class="dropdown-menu border-1 p-lg-0 p-2">
-                                    <li><a class="dropdown-item nav-link" href="{% url 'core:listar-card-pj' user.empresas.first.slug %}">Meus cartões</a></li>
-                                    <li><a class="dropdown-item nav-link" href="{% url 'core:modelos' %}">Criar cartão</a></li>
-                                    <li><a class="dropdown-item nav-link" href="{% url 'compras:comprar-cartao-pj' %}?nova_compra=True">Comprar mais cartões</a></li>
-                                </ul>
-                            </div>    
-                            <div class="dropdown">
-                                <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Anúncios
-                                </a>
-                                <ul class="dropdown-menu border-1 p-lg-0 p-2">
-                                    <li><a class="dropdown-item nav-link" href="{% url 'core:listar-anuncio-pj' user.empresas.first.slug %}">Meus anúncios</a></li>
-                                    <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pj' user.empresas.first.slug %}">Criar anúncio</a></li>
-                                </ul>
-                            </div>
+                            {% include 'core/menu-tem-perfil-pj.html' %}
 
-                        <!--NAO TEM CARTAO CRIADO-->
+                        <!--USUARIO PF-->
                         {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'core:modelos' %}">Criar cartão</a>
-                            </li>
+
+                            {% include 'core/menu-tem-perfil-pf.html' %}
+
                         {% endif %}
 
-                        <!--MINHA CONTA E SAIR-->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'usuarios:minha-conta' user.username %}">Minha conta</a>
-                        </li>
-                        <li class="nav-item">
-                            <form method="post" action="{% url 'usuarios:logout' %}">
-                                {% csrf_token %}
-                                <button type="submit" class="nav-link">Sair</button>
-                            </form>
-                        </li>
+                    <!--USUARIO NAO TEM PERFIL-->
+                    {% else %}
+
+                        {% include 'core/menu-nao-tem-perfil.html' %}
+
                     {% endif %}
 
-                <!--USUARIO PF-->
                 {% else %}
-
-                    {% if user.is_authenticated %}
-
-                        <!--TEM CARTAO CRIADO-->
-                        {% if user.cards.first %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'core:relatorio-pf' user.empresas.first.slug user.cards.first.slug %}">Relatórios</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                    href="{% url 'core:detalhar-card-pf' user.empresas.first.slug user.cards.first.slug %}">Meu cartão</a>
-                            </li>
-                            <div class="dropdown">
-                                <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Anúncios
-                                </a>
-                                <ul class="dropdown-menu border-1 p-lg-0 p-2">
-                                <li><a class="dropdown-item nav-link" href="{% url 'core:listar-anuncio-pf' user.empresas.first.slug %}">Meus anúncios</a></li>
-                                <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pf' user.empresas.first.slug %}">Criar anúncio</a></li>
-                                </ul>
-                            </div>
-                        
-                        <!--NAO TEM CARTAO CRIADO-->
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'core:modelos' %}">Criar meu cartão</a>
-                            </li>
-                        {% endif %}
-
-                        <!--MINHA CONTA E SAIR-->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'usuarios:minha-conta' user.username %}">Minha conta</a>
-                        </li>
-                        <li class="nav-item">
-                            <form method="post" action="{% url 'usuarios:logout' %}">
-                                {% csrf_token %}
-                                <button type="submit" class="nav-link">Sair</button>
-                            </form>
-                        </li>
-                    {% endif %}
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'usuarios:login' %}">Minha conta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-warning active" href="{% url 'usuarios:registrar' %}">Criar conta</a>
+                    </li>
                 {% endif %}
-
-                {% if not user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'usuarios:login' %}">Minha conta</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-warning active" href="{% url 'usuarios:registrar' %}">Criar conta</a>
-                </li>
             </ul>
-            {% endif %}
         </div>
     </div>
 </nav>

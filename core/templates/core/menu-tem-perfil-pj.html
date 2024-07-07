@@ -1,0 +1,68 @@
+<!--USUARIO TEM PERFIL PJ-->
+
+{% if user.is_authenticated %}
+
+    <!--TEM CARTAO CRIADO-->
+    {% if user.cards.first %}
+
+        <!--RELATORIOS-->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'core:relatorio-pj' user.empresas.first.slug %}">Relatórios</a>
+        </li>
+
+        <!--CARTOES-->
+        <div class="dropdown">
+            <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Cartões
+            </a>
+            <ul class="dropdown-menu border-1 p-lg-0 p-2">
+                <li><a class="dropdown-item nav-link" href="{% url 'core:listar-card-pj' user.empresas.first.slug %}">Meus cartões</a></li>
+                <li><a class="dropdown-item nav-link" href="{% url 'core:modelos' %}">Criar cartão</a></li>
+                <li><a class="dropdown-item nav-link" href="{% url 'compras:comprar-cartao-pj' %}?nova_compra=True">Comprar mais cartões</a></li>
+            </ul>
+        </div>
+        
+        <!--ANUNCIOS-->
+        <div class="dropdown">
+            <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Anúncios
+            </a>
+            <ul class="dropdown-menu border-1 p-lg-0 p-2">
+                <li><a class="dropdown-item nav-link" href="{% url 'core:listar-anuncio-pj' user.empresas.first.slug %}">Meus anúncios</a></li>
+                <li><a class="dropdown-item nav-link" href="{% url 'core:criar-anuncio-pj' user.empresas.first.slug %}">Criar anúncio</a></li>
+            </ul>
+        </div>
+
+    <!--NAO TEM CARTAO CRIADO-->
+    {% else %}
+        <div class="dropdown">
+            <a class="dropdown-toggle text-decoration-none nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Cartões
+            </a>
+            <ul class="dropdown-menu border-1 p-lg-0 p-2">
+                <li><a class="dropdown-item nav-link" href="{% url 'core:listar-card-pj' user.empresas.first.slug %}">Meus cartões</a></li>
+                <li><a class="dropdown-item nav-link" href="{% url 'core:modelos' %}">Criar cartão</a></li>
+                <li><a class="dropdown-item nav-link" href="{% url 'compras:comprar-cartao-pj' %}?nova_compra=True">Comprar mais cartões</a></li>
+            </ul>
+        </div>
+    {% endif %}
+
+    <!--MINHA CONTA E SAIR-->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'usuarios:minha-conta-pj' user.username %}">Minha conta</a>
+    </li>
+    <li class="nav-item">
+        <form method="post" action="{% url 'usuarios:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="nav-link">Sair</button>
+        </form>
+    </li>
+
+{% else %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'usuarios:login' %}">Minha conta</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link btn btn-warning active" href="{% url 'usuarios:registrar' %}">Criar conta</a>
+</li>
+{% endif %}
