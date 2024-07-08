@@ -954,7 +954,7 @@ class EditarAnuncioPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         ads = usuario.ads.all()
 
         if ads:
-            for ad in self.ads:
+            for ad in ads:
                 if ad.status == 'paid':
                     self.comprou_ads = True
 

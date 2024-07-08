@@ -24,14 +24,18 @@
                 </div>
 
                 <!--DESCRICAO-->
+                {% if anuncio.descricao %}
                 <div class="d-flex justify-content-between">
                     <p class="card-text">{{anuncio.descricao}}</p>
                 </div>
+                {% endif }
 
                 <!--LINK-->
+                {% if anuncio.link %}
                 <div class="d-flex justify-content-between">
                     <p class="card-text">{{anuncio.link}}</p>
                 </div>
+                {% endif %}
 
             </div>
 
