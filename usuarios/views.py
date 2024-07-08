@@ -259,7 +259,6 @@ class MinhaConta(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
     def test_func(self, **kwargs):
         self.usuario_correto = False
-        self.usuario_tem_perfil = False
         self.usuario_pj = False
         self.usuario_pf = False
         usuario = self.request.user
@@ -268,12 +267,15 @@ class MinhaConta(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         if usuario.username == username_url:
             self.usuario_correto = True
 
-        if usuario.perfil:
+        try:
+            perfil = usuario.perfil
             self.usuario_tem_perfil = True
             if usuario.perfil.is_pj:
                 self.usuario_pj = True
             else:
                 self.usuario_pf = True
+        except:
+            self.usuario_tem_perfil = False
 
         if self.usuario_correto and not self.usuario_tem_perfil:
             return True
