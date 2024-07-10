@@ -318,14 +318,20 @@
         </a>
 
         <!--AVALIACAO-->
-        {% if user.is_authenticated and card.usuario_do_card != user and card.proprietario != user %}
+        {% if user.is_authenticated and card.usuario_do_card != user and card.proprietario != user and not usuario_avaliou_card %}
             <p class="mt-5" style="color: {{cor_da_fonte}}">Avaliar</p>
             {% include 'cards/avaliar.html' %}
         {% else %}
-            <p class="mt-5" style="color: {{cor_da_fonte}}">Avaliação</p>
-            {% for i in range %}
-                <i class="bi {% if i <= avaliacao %}bi-star-fill{% else %}bi-star{% endif %} fs-1 mx-2 star text-warning"></i>
-            {% endfor %}
+            {% if avaliacao > 0 or card.usuario_do_card == user or card.proprietario == user %}
+                <p class="mt-5" style="color: {{cor_da_fonte}}">Avaliação desse cartão</p>
+                {% for i in range %}
+                    <i class="bi {% if i <= avaliacao %}bi-star-fill{% else %}bi-star{% endif %} fs-1 mx-2 star text-warning"></i>
+                {% endfor %}
+            {% else %}
+                <p class="mt-5" style="color: {{cor_da_fonte}}">Esse cartão ainda não foi avaliado</p>
+                <p style="color: {{cor_da_fonte}}">Faça <span><a class="text-decoration-none" href="{% url 'usuarios:login' %}">login</a></span> ou 
+                    <span><a class="text-decoration-none" href="{% url 'usuarios:registrar' %}">registre-se</a></span> para avaliar</p>
+            {% endif %}
         {% endif %}
         
     </div>

@@ -91,11 +91,17 @@
                     <h4 class="lead">{{ card.empresa }}</h4>
                     {% endif %}
                     <h6 class="lead">{{ card.municipio }} / {{ card.estado.sigla }}</h6>
+                    {% if card.avaliacao > 0 %}
+                        <div class="d-flex justify-content-center py-3 mx-2">
+                            {% for i in range %}
+                                <i class="bi {% if i <= card.avaliacao %}bi-star-fill{% else %}bi-star{% endif %} fs-1 mx-2 star text-warning"></i>
+                            {% endfor %}
+                        </div>
+                    {% else %}
                     <div class="d-flex justify-content-center py-3 mx-2">
-                        {% for i in range %}
-                            <i class="bi {% if i <= card.avaliacao %}bi-star-fill{% else %}bi-star{% endif %} fs-1 mx-2 star text-warning"></i>
-                        {% endfor %}
+                        <p>Ainda sem avaliação</p>
                     </div>
+                    {% endif %}
                 </div>
             </a>
         </div>

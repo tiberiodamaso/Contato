@@ -706,6 +706,7 @@ class DetalharCardPF(DetailView):
         context = super().get_context_data(**kwargs)
         card = self.get_object()
         empresa = card.empresa
+        usuario_avaliou_card = False
         avaliacoes = card.avaliacoes.all()
         cor_de_fundo = card.cor
         luminosidade = self.luminosidade(cor_de_fundo)
@@ -752,6 +753,9 @@ class DetalharCardPF(DetailView):
             for avaliacao in avaliacoes:
                 avaliacao_valor += avaliacao.valor
                 avaliacoes_qtd += 1
+                if avaliacao.usuario == self.request.user:
+                    usuario_avaliou_card = True
+
         else:
             avaliacoes_qtd = 1
         
@@ -764,6 +768,7 @@ class DetalharCardPF(DetailView):
         context['cursos'] = cursos
         context['atributos'] = atributos
         context['linhas'] = linhas
+        context['usuario_avaliou_card'] = usuario_avaliou_card
         if luminosidade == 'escuro':
             context['cor_da_fonte'] = '#fff'
         else:
@@ -1400,6 +1405,7 @@ class DetalharCardPJ(DetailView):
         context = super().get_context_data(**kwargs)
         card = self.get_object()
         empresa = card.empresa
+        usuario_avaliou_card = False
         avaliacoes = card.avaliacoes.all()
         cor_de_fundo = card.cor
         luminosidade = self.luminosidade(cor_de_fundo)
@@ -1446,6 +1452,8 @@ class DetalharCardPJ(DetailView):
             for avaliacao in avaliacoes:
                 avaliacao_valor += avaliacao.valor
                 avaliacoes_qtd += 1
+                if avaliacao.usuario == self.request.user:
+                    usuario_avaliou_card = True
         else:
             avaliacoes_qtd = 1
 
@@ -1458,6 +1466,7 @@ class DetalharCardPJ(DetailView):
         context['cursos'] = cursos
         context['atributos'] = atributos
         context['linhas'] = linhas
+        context['usuario_avaliou_card'] = usuario_avaliou_card
         if luminosidade == 'escuro':
             context['cor_da_fonte'] = '#fff'
         else:
