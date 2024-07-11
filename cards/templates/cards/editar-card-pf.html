@@ -200,9 +200,13 @@
         <div class="mb-3">
             <label for="id_estado">Estado:</label>
             <select name="estado" class="form-select" id="id_estado">
-                {% for estado in estados %}
-                <option value="{{estado.id}}">{{estado.nome}}</option>
-                {% endfor %}
+            {% for estado in estados %}
+                {% if estado == estado_atual %}
+                    <option value="{{estado.id}}" selected="{{estado.id}}">{{estado.nome}}</option>
+                {% else %}
+                    <option value="{{estado.id}}">{{estado.nome}}</option>
+                {% endif %}
+            {% endfor %}
             </select>
         </div>
 
@@ -210,6 +214,13 @@
         <div class="mb-3">
             <label for="id_municipio">Município:</label>
             <select name="municipio" class="form-select" id="id_municipio">
+            {% for municipio in municipios %}
+                {% if municipio == municipio_atual %}
+                    <option value="{{municipio.id}}" selected="{{municipio.id}}">{{municipio.nome}}</option>
+                {% else %}
+                    <option value="{{municipio.id}}">{{municipio.nome}}</option>
+                {% endif %}
+            {% endfor %}
             </select>
         </div>
 

@@ -1,15 +1,36 @@
 <div>
-    <form id="id-form-avaliacao" method="POST" action="{% url 'core:avaliar-card' card.empresa.slug card.slug %}">
-        {% csrf_token %}
-        <input type="hidden" name="avaliacao" id="id-avaliacao-valor">
-        <a href="#" id="id-avaliacao" class="text-decoration-none">
-            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star1"></i>
-            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star2"></i>
-            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star3"></i>
-            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star4"></i>
-            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star5"></i>
-        </a>
-    </form>
+    <button type="button" class="btn btn-warning mx-2 mt-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Avaliar cartão
+    </button>
+
+    <!--MODAL CONFIRMACAO-->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Avaliação</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Como você avalia esse cartão ?</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <form id="id-form-avaliacao" method="POST" action="{% url 'core:avaliar-card' card.empresa.slug card.slug %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="avaliacao" id="id-avaliacao-valor">
+                        <a href="#" id="id-avaliacao" class="text-decoration-none">
+                            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star1"></i>
+                            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star2"></i>
+                            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star3"></i>
+                            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star4"></i>
+                            <i class="bi bi-star fs-1 mx-2 star text-warning" id="star5"></i>
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
