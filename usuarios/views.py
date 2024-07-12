@@ -5,7 +5,6 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import CreateView, TemplateView, View, ListView, DeleteView
 from django.views.generic.base import TemplateResponseMixin
 from django.conf import settings
-from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import PasswordChangeView, LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -13,7 +12,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import auth, messages
 from django.contrib.auth import login as auth_login
 from django.urls import reverse, reverse_lazy
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from .forms import UsuarioAuthenticationForm, UsuarioRegistrationForm, TrocaSenhaForm, EsqueceuSenhaForm, EsqueceuSenhaLinkForm, PerfilFormPF, PerfilFormPJ
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_str
@@ -281,7 +280,6 @@ class MinhaConta(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
             return True
 
 
-
     def handle_no_permission(self):
         username = self.request.user.username
 
@@ -419,6 +417,7 @@ class MinhaContaPJ(LoginRequiredMixin, UserPassesTestMixin,  ListView):
             card = None
         
         return context
+
 
 class DesativarConta(LoginRequiredMixin, DeleteView):
     model = Usuario

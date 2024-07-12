@@ -2,6 +2,8 @@
 {% block content %}
 
 <div class="justify-content-center align-items-center">
+
+    <!--LOGO-->
     <div class="my-4">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200"
             zoomAndPan="magnify" viewBox="0 0 150 37.5" height="50" preserveAspectRatio="xMidYMid meet" version="1.0">
@@ -111,6 +113,8 @@
             </g>
         </svg>
     </div>
+
+    <!--FORM-->
     <div>
         <form method="post" class="col col-md-8 col-lg-10 d-flex flex-column m-auto">
             {% csrf_token %}
@@ -118,19 +122,19 @@
             {% include 'core/mensagens.html' %}
 
             {% for field in form %}
-            <p>
-            {{ field.label_tag }}
-            {{ field }}
-            {% if field.help_text %}
-            <small style="color: grey">{{ field.help_text }}</small>
-            {% endif %}
-            {% for error in field.errors %}
-                <div class="alert alert-danger text-center alert-dismissible" role="alert">
-                {{error}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-            </p>
+                <p>
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <small style="color: grey">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                    {{error}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+                </p>
             {% endfor %}
             <ul class="text-muted small">
                 <li>Sua senha não pode ser similiar a alguma informação pessoal</li>
@@ -141,5 +145,6 @@
             <button type="submit" class="btn btn-warning w-100">Salvar</button>
         </form>
     </div>
+
 </div>
 {% endblock %}

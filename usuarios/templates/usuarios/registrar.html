@@ -4,7 +4,11 @@
 
 {% include 'core/menu.html' %}
 {% include 'core/mensagens.html' %}
+
+<!--RECAPTCHA-->
 <script src="https://www.google.com/recaptcha/api.js?render=6Ldekb4pAAAAAJxIxYU4JW-irGk1bYfEvSk8gRJi"></script>
+
+<!--CONTEUDO-->
 <div class="container">
 
     <form method="post" id="id-form-criar-conta" action="{% url 'usuarios:registrar' %}" class="col col-lg-4 col-md-6 py-5 d-flex flex-column m-auto">
@@ -69,6 +73,7 @@
     </form>
 </div>
 
+<!--JAVASCRITP-->
 <script>
     // PERMITE VISUALIZAR A SENHA
     function togglePasswordVisibility(passwordId) {

@@ -1,7 +1,13 @@
 {% extends 'core/base.html' %}
 {% block content %}
+
+<!--RECAPTCHA-->
 <script src="https://www.google.com/recaptcha/api.js?render=6Ldekb4pAAAAAJxIxYU4JW-irGk1bYfEvSk8gRJi"></script>
+
+<!--CONTEUDO-->
 <div class="container d-flex flex-column h-100 justify-content-center align-items-center">
+
+    <!--LOGO-->
     <div class="my-4">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200"
             zoomAndPan="magnify" viewBox="0 0 150 37.5" height="50" preserveAspectRatio="xMidYMid meet" version="1.0">
@@ -111,6 +117,8 @@
             </g>
         </svg>
     </div>
+
+    <!--FORM-->
     <form method="post" id="id-form-esqueceu-senha" class="col-12 col-md-6 col-lg-4 mb-5" action="{% url 'usuarios:esqueceu-senha-form' %}">
         {% csrf_token %}
         <input type="hidden" id="recaptcha_token" name="recaptcha_token"/> 
@@ -121,20 +129,21 @@
             {{ field.label_tag }}
             {{ field }}
             {% if field.help_text %}
-            <small style="color: grey">{{ field.help_text }}</small>
+                <small style="color: grey">{{ field.help_text }}</small>
             {% endif %}
             {% for error in field.errors %}
-        <div class="alert alert-danger text-center alert-dismissible" role="alert">
-            {{error}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
+                <div class="alert alert-danger text-center alert-dismissible" role="alert">
+                    {{error}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
         </p>
         {% endfor %}
         <button type="submit" class="btn btn-warning w-100" onclick="onClick(event)">Enviar</button>
     </form>
 </div>
 
+<!--JAVASCRIPT-->
 <script>
     // RECAPTCHA
     function onClick(e) {
