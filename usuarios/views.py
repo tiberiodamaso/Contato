@@ -380,7 +380,6 @@ class MinhaContaPJ(LoginRequiredMixin, UserPassesTestMixin,  ListView):
         if usuario.username == username_url:
             return True
 
-
     def handle_no_permission(self):
         return render(self.request, 'cards/permissao-negada-violacao-perfil.html', status=403)
 
@@ -439,12 +438,23 @@ class DesativarConta(LoginRequiredMixin, DeleteView):
         return redirect(reverse_lazy('usuarios:logout'))
 
 # TODO verificar edição do perfil
-class PerfilPF(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class PerfilPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Perfil
     form_class = PerfilFormPF
     template_name = 'usuarios/perfil-pf.html'
     success_url = reverse_lazy('compras:comprar-cartao-pf')
     success_message = "Informações salvas com sucesso."
+
+    def test_func(self, **kwargs):
+        usuario = self.request.user
+        perfil = Perfil.objects.filter(usuario=usuario)
+
+        if not perfil:
+            return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'usuarios/permissao-negada-ja-possui-perfil.html', status=403)
+
 
     def form_valid(self, form):
         usuario = self.request.user
@@ -476,12 +486,22 @@ class PerfilPF(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return super().form_invalid(form)
 
 
-class PerfilPJ(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class PerfilPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Perfil
     form_class = PerfilFormPJ
     template_name = 'usuarios/perfil-pj.html'
     success_url = reverse_lazy('compras:comprar-cartao-pj')
     success_message = "Informações salvas com sucesso."
+
+    def test_func(self, **kwargs):
+        usuario = self.request.user
+        perfil = Perfil.objects.filter(usuario=usuario)
+
+        if not perfil:
+            return True
+
+    def handle_no_permission(self):
+        return render(self.request, 'usuarios/permissao-negada-ja-possui-perfil.html', status=403)
 
     def form_valid(self, form):
         usuario = self.request.user
