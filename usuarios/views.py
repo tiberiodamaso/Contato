@@ -437,7 +437,7 @@ class DesativarConta(LoginRequiredMixin, DeleteView):
         usuario.save()
         return redirect(reverse_lazy('usuarios:logout'))
 
-# TODO verificar edição do perfil
+
 class PerfilPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Perfil
     form_class = PerfilFormPF
