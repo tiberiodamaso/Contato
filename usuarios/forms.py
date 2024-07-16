@@ -61,7 +61,7 @@ class TrocaSenhaForm(PasswordChangeForm):
 
 class EsqueceuSenhaForm(PasswordResetForm):
     email = forms.EmailField(
-        label=('Email'),
+        label=('E-mail'),
         max_length=254,
         widget=forms.EmailInput(
             attrs={"autocomplete": "email", 'class': 'form-control'}),
