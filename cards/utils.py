@@ -9,9 +9,9 @@ def validate_file_extension(value):
     if not ext.lower() in valid_extensions:
         raise ValidationError('Tipo de imagem não suportado. Tente imagens do tipo JPG, JEPG, PNG ou SVG.')
 
-# def make_vcf(first_name, last_name, empresa, telefone, whatsapp, facebook, instagram, linkedin, email, youtube, tik_tok):
 def make_vcf(first_name, last_name, empresa, telefone, site, endereco, estado, municipio, email):
 
+    whatsapp = f'+{telefone}'
     
     return [
         'BEGIN:VCARD',
@@ -19,13 +19,13 @@ def make_vcf(first_name, last_name, empresa, telefone, site, endereco, estado, m
         f'N:{last_name};{first_name}',
         f'FN:{first_name} {last_name}',
         f'ORG:{empresa}',
-        f'TEL;type=WORK;type=VOICE:{telefone}',
+        f'TEL;type=WORK;type=VOICE:{whatsapp}',
         f'item1.URL;type=pref:{site}',
         f'item1.X-ABLabel:Site',
         f'item1.ADR;type=OTHER;type=pref:{endereco} - {municipio}/{estado}',
         f'item1.X-ABADR:br',
         f'item1.URL;type=pref:{site}',
-        f'item1.X-ABLabel:Site',
+        # f'item1.X-ABLabel:Site',
         # f'item1.URL;type=pref:https://api.whatsapp.com/send?phone=55{whatsapp}&text=oi',
         # f'item1.X-ABLabel:Whatsapp',
         # f'item2.URL;type=pref:{instagram}',
@@ -81,41 +81,35 @@ def valida_cnpj(cnpj:str) -> bool:
 
   return True
 
-def resize_image(imagem, largura_desejada, altura_desejada):
+def resize_image(imagem, tamanho_desejado=150):
     try:
         with Image.open(imagem) as imagem:
-
             largura_atual, altura_atual = imagem.size
 
-            if largura_atual <= largura_desejada and altura_atual <= altura_desejada:
-                # Não é necessário redimensionar a imagem
-                buffer = io.BytesIO()
-                imagem.save(buffer, format=imagem.format)
-                buffer.seek(0)
-                return imagem, buffer
+            # Identifica o menor lado da imagem
+            menor_lado = min(largura_atual, altura_atual)
 
-            proporcao_largura = largura_desejada / largura_atual
-            proporcao_altura = altura_desejada / altura_atual
-
-            if proporcao_largura < proporcao_altura:
-                nova_largura = largura_desejada
-                nova_altura = int(altura_atual * proporcao_largura)
-            else:
-                nova_largura = int(largura_atual * proporcao_altura)
-                nova_altura = altura_desejada
-
+            # Redimensiona mantendo a proporção para que o menor lado seja igual ao tamanho desejado
+            proporcao = tamanho_desejado / menor_lado
+            nova_largura = int(largura_atual * proporcao)
+            nova_altura = int(altura_atual * proporcao)
             img_redimensionada = imagem.resize((nova_largura, nova_altura))
 
+            # Recorta a imagem redimensionada para formar um quadrado
+            esquerda = (nova_largura - tamanho_desejado) / 2
+            superior = (nova_altura - tamanho_desejado) / 2
+            direita = (nova_largura + tamanho_desejado) / 2
+            inferior = (nova_altura + tamanho_desejado) / 2
+            img_final = img_redimensionada.crop((esquerda, superior, direita, inferior))
+
             buffer = io.BytesIO()
-            img_redimensionada.save(buffer, format=imagem.format)
+            img_final.save(buffer, format=imagem.format)
             buffer.seek(0)
 
-            return img_redimensionada, buffer
-
-
+            return img_final, buffer
     except Exception as e:
         print(f"Erro ao redimensionar a imagem: {e}")
-        return None
+        return None, None
 
 def cleaner(text: str) -> str:
     """

@@ -257,6 +257,8 @@ class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
     template_name = 'cards/criar-card-pf.html'
     success_message = 'Cartão criado com sucesso.'
 
+    #TODO consertar telefone do vcf para +55 ()....
+
     def test_func(self):
         cartoes_comprados = self.request.user.cartoespf.all()
         for cartao in cartoes_comprados:
@@ -329,8 +331,7 @@ class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         endereco = form.cleaned_data['endereco']
         img_perfil = form.cleaned_data.get('img_perfil')
         logotipo = form.cleaned_data.get('logotipo')
-        largura_desejada = 500
-        altura_desejada = 500
+        tamanho_desejado = 150
         # tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
 
         # VALIDA EXTENSAO E TAMANHO DE ARQUIVOS
@@ -346,7 +347,7 @@ class CriarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
                 extensao = 'jpeg'
 
             # Redimensiona img_perfil se existe
-            img_perfil_redimensionado, buffer_img_perfil = resize_image(img_perfil, largura_desejada, altura_desejada)
+            img_perfil_redimensionado, buffer_img_perfil = resize_image(img_perfil, tamanho_desejado)
 
             # Cria in_memory_file para possibilitar associar ao card.img_perfil antes de salvar
             if img_perfil_redimensionado and buffer_img_perfil:
@@ -525,8 +526,7 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         tik_tok = form.cleaned_data['tik_tok']
         img_perfil = self.request.FILES['img_perfil'] if 'img_perfil' in self.request.FILES else ''
         logotipo = self.request.FILES['logotipo'] if 'logotipo' in self.request.FILES else ''
-        largura_desejada = 500
-        altura_desejada = 500
+        tamanho_desejado = 150
         # tamanho_maximo = 1 * 1024 * 1024
 
         # VALIDA TAMANHO DE ARQUIVOS
@@ -559,7 +559,7 @@ class EditarCardPF(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                 extensao = 'jpeg'
 
             # Redimensiona img_perfil se existe
-            img_perfil_redimensionado, buffer_img_perfil = resize_image(img_perfil, largura_desejada, altura_desejada)
+            img_perfil_redimensionado, buffer_img_perfil = resize_image(img_perfil, tamanho_desejado)
 
             # Cria in_memory_file para possibilitar associar ao card.img_perfil antes de salvar
             if img_perfil_redimensionado and buffer_img_perfil:
@@ -1259,8 +1259,7 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         endereco = form.cleaned_data['endereco']
         img_perfil = form.cleaned_data.get('img_perfil')
         logotipo = form.cleaned_data.get('logotipo')
-        largura_desejada = 500
-        altura_desejada = 500
+        tamanho_desejado = 150
         # tamanho_maximo = 1 * 1024 * 1024  # 1 MB em bytes
 
         if img_perfil:
@@ -1274,7 +1273,7 @@ class CriarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
                 extensao = 'jpeg'
 
             # Redimensiona img_perfil se existe
-            img_perfil_redimensionado, buffer_img_perfil = resize_image(img_perfil, largura_desejada, altura_desejada)
+            img_perfil_redimensionado, buffer_img_perfil = resize_image(img_perfil, tamanho_desejado)
 
             # Cria in_memory_file para possibilitar associar ao card.img_perfil antes de salvar
             if img_perfil_redimensionado and buffer_img_perfil:
@@ -1586,7 +1585,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         tik_tok = form.cleaned_data['tik_tok']
         img_perfil = self.request.FILES['img_perfil'] if 'img_perfil' in self.request.FILES else ''
         logotipo = self.request.FILES['logotipo'] if 'logotipo' in self.request.FILES else ''
-        # tamanho_maximo = 1 * 1024 * 1024
+        tamanho_desejado = 150
 
         if 'email' in form.changed_data:
             email_existente = Usuario.objects.filter(email=email)
@@ -1625,7 +1624,7 @@ class EditarCardPJ(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
                 extensao = 'jpeg'
 
             # Redimensiona img_perfil se existe
-            img_perfil_redimensionado, buffer_img_perfil = resize_image(img_perfil, largura_desejada, altura_desejada)
+            img_perfil_redimensionado, buffer_img_perfil = resize_image(img_perfil, tamanho_desejado)
 
             # Cria in_memory_file para possibilitar associar ao card.img_perfil antes de salvar
             if img_perfil_redimensionado and buffer_img_perfil:
